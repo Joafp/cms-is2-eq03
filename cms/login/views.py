@@ -1,6 +1,9 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render,redirect
+from django.views.decorators.cache import never_cache
+from .forms import RegistroForm
+@never_cache
 def vista_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
@@ -19,3 +22,14 @@ def vista_login(request):
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
+
+@never_cache
+def registro(request):
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('registro')  # Redirigir a la página de inicio de sesión
+    else:
+        form = RegistroForm()
+    return render(request, 'main/registro.html', {'form': form})

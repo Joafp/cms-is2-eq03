@@ -5,5 +5,6 @@ from core import views as menu
 urlpatterns = [
    path('',views.vista_login,name='login'),  
    path('menuprincipal/',menu.vista_MenuPrincipal,name='MenuPrincipal'),
+   path('registro/', views.registro, name='registro'),
 ] 
  
