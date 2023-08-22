@@ -54,24 +54,20 @@
 </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Iniciar sesión</h2>
-    <form>
-      <label for="nickname">Nickname:</label>
-      <input type="text" id="nickname" name="username" required>
-      <label for="password">Contraseña:</label>
-      <input type="password" id="password" name="password" required>
-      <a href="{% url 'MenuPrincipal' %}"><button type="submit">Acceder</button>
-    </form>
-    <div class="forgot-password">
-      <a href="#">Recuperar contraseña</a>
-    </div>
-    <br>
-    <div class="create-account">
-      <a href="{% url 'registro' %}"><button>Crear usuario</button>
-    </div>
-  </div>
+   <div class="container">
+      <h2>Iniciar sesión</h2>
+      <form method="post">
+         {% csrf_token %}
+         {{ form.as_p }}
+         <button type="submit">Acceder</button>
+         <br>
+         <a href="{% url 'registro' %}">Crear una cuenta</a>
+      </form>
+   </div>
+   <br>
+   <br>
+   <div class="create-account">
+    
+ </div>
 </body>
 </html>
-
-
