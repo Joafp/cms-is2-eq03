@@ -8,3 +8,5 @@ def registro(request):
 def vista_login(request):
     return render(request,'./templates/registration/login.html')
 
+
+
