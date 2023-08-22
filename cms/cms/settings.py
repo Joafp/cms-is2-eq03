@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #App login
     'login.apps.LoginConfig',
-    'Administradores', 
-
+    'GestionUsuarios'
 ]
 
 MIDDLEWARE = [
