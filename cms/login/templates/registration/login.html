@@ -61,14 +61,14 @@
       <input type="text" id="nickname" name="username" required>
       <label for="password">Contraseña:</label>
       <input type="password" id="password" name="password" required>
-      <button type="submit">Acceder</button>
+      <a href="{% url 'MenuPrincipal' %}"><button type="submit">Acceder</button>
     </form>
     <div class="forgot-password">
       <a href="#">Recuperar contraseña</a>
     </div>
     <br>
     <div class="create-account">
-      <button>Crear usuario</button>
+      <a href="{% url 'registro' %}"><button>Crear usuario</button>
     </div>
   </div>
 </body>
