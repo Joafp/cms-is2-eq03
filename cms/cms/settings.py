@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #App login
-    'login.apps.LoginConfig'
+    'login.apps.LoginConfig',
+    'Administradores', 
 ]
 
 MIDDLEWARE = [
@@ -82,9 +83,12 @@ DATABASES = {
         'USER': 'equipo3_admin',
         'PASSWORD': '1234',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
+
+
+
 
 
 # Password validation
