@@ -19,7 +19,7 @@ from django.urls import path,include
 
 urlpatterns = [
     #Añado los urls de login
-    path('home/',include('login.urls')),
+    path('',include('login.urls')),
     path('accounts/',include('django.contrib.auth.urls')),
     #
     path('admin/', admin.site.urls),
