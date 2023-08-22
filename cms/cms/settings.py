@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+from django.urls import reverse_lazy
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     #App login
     'login.apps.LoginConfig',
     'Administradores', 
-    #App core
-    'core.apps.CoreConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -122,6 +121,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+LOGIN_REDIRECT_URL=reverse_lazy('registro')
 
 
 # Static files (CSS, JavaScript, Images)

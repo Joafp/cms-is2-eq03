@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -57,7 +55,6 @@
 </head>
 <body>
   <div class="container">
-    <h2>Continuacion</h2>
     <h2>Iniciar sesión</h2>
     <form>
       {% csrf_token %}
@@ -67,6 +64,13 @@
       <input type="password" id="password" name="password" required>
       <button type="submit">Acceder</button>
     </form>
+    <div class="forgot-password">
+      <a href="#">Recuperar contraseña</a>
+    </div>
+    <br>
+    <div class="create-account">
+      <a href="{% url 'registro' %}"><button>Crear usuario</button>
+    </div>
   </div>
 </body>
 </html>
