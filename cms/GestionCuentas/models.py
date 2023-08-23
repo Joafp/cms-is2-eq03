@@ -1,7 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import Permission, User
+class PermisosPer(models.Model):
+    class Meta:
+        permissions=[
+            ("Boton desarrollador","Permite entrar a la vista desarrollador"),
+            ("Vista autor","Permite ingresar a la vista autor"),
+            ("Vista editor","Permite ingresar a la vista editor"),
+        ]
 class Rol(models.Model):
     nombre=models.CharField(max_length=50,unique=True)
+    permisos=models.ManyToManyField(Permission,default=None)
 class UsuarioRol(AbstractBaseUser):
     username=models.CharField('Nombre de usuario',unique=True,max_length=100)
     email=models.EmailField('Correo electronico',max_length=254,unique=True)
@@ -16,7 +27,12 @@ class UsuarioRol(AbstractBaseUser):
     def __str__(self):
         return f'{self.nombres},{self.apellidos}'
     def has_perm(self,perm,ob=None):
-        return True
+        if self.usuario_administrador:
+            return True
+        for rol in self.roles.all():
+            if rol.permisos.filter(codename=perm).exits():
+                return True
+        return False
     def has_module_perms(self,app_label):
         return True
     @property
