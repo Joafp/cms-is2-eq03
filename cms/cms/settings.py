@@ -135,3 +135,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL= '/home'
 LOGIN_REDIRECT_URL= '/login'
+from django.urls import reverse_lazy
+LOGOUT_REDIRECT_URL=reverse_lazy('login')
