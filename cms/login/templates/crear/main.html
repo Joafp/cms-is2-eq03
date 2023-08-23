@@ -35,7 +35,11 @@
                     <ul>
                         {% for permiso in rol.permisos.all %}
                             {% if permiso.codename == 'boton_desarrollador' %}                    
-                                <button class="admin-button">Ingresar como administrador</button>
+                                <button class="admin-button">
+                                    <a href="{% url 'maintrabajador' %}" style="text-decoration: none; color: white;">
+                                        Ingresar como administrador
+                                    </a>
+                                </button>
                             {% endif %}
                         {% endfor %}
                     </ul>

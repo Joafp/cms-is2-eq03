@@ -6,3 +6,7 @@ from django.contrib.auth.models import User
 def vista_MenuPrincipal(request):
     usuario_rol = UsuarioRol.objects.get(username=request.user.username)
     return render(request, 'crear/main.html', {'usuario_rol': usuario_rol})
+@login_required(login_url="/login")
+def vista_trabajador(request):
+    usuario_rol = UsuarioRol.objects.get(username=request.user.username)
+    return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
