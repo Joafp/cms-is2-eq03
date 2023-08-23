@@ -26,10 +26,20 @@
             border-radius: 4px;
             cursor: pointer;
         }
+        .cerrarsesion-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
     <div class="header">
+           <a href="{% url 'CerrarSesion' %}">Cerrar Sesion</a>
             <ul>
                 {% for rol in usuario_rol.roles.all %}
                     <ul>
@@ -41,6 +51,7 @@
                                     </a>
                                 </button>
                             {% endif %}
+
                         {% endfor %}
                     </ul>
                 {% endfor %}

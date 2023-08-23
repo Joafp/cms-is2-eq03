@@ -7,5 +7,6 @@ urlpatterns = [
    path('menuprincipal/',menu.vista_MenuPrincipal,name='MenuPrincipal'),
    path('registro/', views.registro, name='registro'),
    path('main_trabajador/',menu.vista_trabajador,name='maintrabajador'),
+   path('logout/',views.cerrar_sesion,name='CerrarSesion'),
 ] 
  
