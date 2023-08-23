@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #App login
-    'login.apps.LoginConfig',
-    'Administradores', 
-    #App core
+    'login.apps.LoginConfig', \
+    'GestionCuentas',
+          #App core
     'core.apps.CoreConfig',
 ]
 
