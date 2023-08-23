@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render,redirect
 from django.views.decorators.cache import never_cache
 from .forms import RegistroForm
+from GestionCuentas.models import UsuarioRol,Rol
 @never_cache
 def vista_login(request):
     if request.method == 'POST':
@@ -28,6 +29,16 @@ def registro(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
+
+            us_rol=UsuarioRol.objects.create(
+                username=form.cleaned_data.get('username'),
+                email=form.cleaned_data.get('email'),
+                nombres=form.cleaned_data.get('nombres'), 
+                apellidos=form.cleaned_data.get('apellidos'),
+            )
+            rol_suscriptor=Rol.objects.get(nombre='Suscriptor')
+            us_rol.roles.add(rol_suscriptor)
+            us_rol.save()
             form.save()
             return redirect('registro')  # Redirigir a la página de inicio de sesión
     else:
