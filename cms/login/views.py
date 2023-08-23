@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.shortcuts import render,redirect
 from django.views.decorators.cache import never_cache
 from .forms import RegistroForm
@@ -44,3 +44,9 @@ def registro(request):
     else:
         form = RegistroForm()
     return render(request, 'main/registro.html', {'form': form})
+
+#Deslogeo
+@never_cache
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('login')
