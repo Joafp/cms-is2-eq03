@@ -30,7 +30,17 @@
 </head>
 <body>
     <div class="header">
-        <button class="admin-button">Ingresar como administrador</button>
+            <ul>
+                {% for rol in usuario_rol.roles.all %}
+                    <ul>
+                        {% for permiso in rol.permisos.all %}
+                            {% if permiso.codename == 'boton_desarrollador' %}                    
+                                <button class="admin-button">Ingresar como administrador</button>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
     </div>
     <div class="content">
         <!-- Aquí puedes agregar contenido dinámico -->
