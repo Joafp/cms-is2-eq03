@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Trabajadores</title>
+</head>
+<body>
+    <h1>Menu Trabajadores</h1>
+    <div>
+        {% for rol in usuario_rol.roles.all %}
+            {% for permiso in rol.permisos.all %}
+                {% if permiso.codename == 'Vista autor' %}                    
+                    <button>
+                        Entrar como Autor
+                    </button>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        </a>
+    </div>
+    <div>
+        {% for rol in usuario_rol.roles.all %}
+            {% for permiso in rol.permisos.all %}
+                {% if permiso.codename == 'Vista editor' %}                    
+                    <button>
+                        Entrar como editor
+                    </button>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <div>
+            <button>Entrar como publicador</button>
+    </div>
+</body>
+</html>
