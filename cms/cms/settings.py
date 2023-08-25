@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #App login
-    'login.apps.LoginConfig',
-    'Administradores', 
-    #App core
+    'login.apps.LoginConfig', \
+    'GestionCuentas',
+          #App core
     'core.apps.CoreConfig',
 ]
 
@@ -135,3 +135,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL= '/home'
 LOGIN_REDIRECT_URL= '/login'
+from django.urls import reverse_lazy
+LOGOUT_REDIRECT_URL=reverse_lazy('login')

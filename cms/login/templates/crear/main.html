@@ -26,11 +26,36 @@
             border-radius: 4px;
             cursor: pointer;
         }
+        .cerrarsesion-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
     <div class="header">
-        <button class="admin-button">Ingresar como administrador</button>
+           <a href="{% url 'CerrarSesion' %}">Cerrar Sesion</a>
+            <ul>
+                {% for rol in usuario_rol.roles.all %}
+                    <ul>
+                        {% for permiso in rol.permisos.all %}
+                            {% if permiso.codename == 'boton_desarrollador' %}                    
+                                <button class="admin-button">
+                                    <a href="{% url 'maintrabajador' %}" style="text-decoration: none; color: white;">
+                                        Ingresar como administrador
+                                    </a>
+                                </button>
+                            {% endif %}
+
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
     </div>
     <div class="content">
         <!-- Aquí puedes agregar contenido dinámico -->

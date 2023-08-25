@@ -8,6 +8,8 @@ class RegistroForm(UserCreationForm):
     username=forms.CharField(min_length=8,max_length=15,widget= forms.TextInput(attrs={'placeholder':'Minimo 8 caracteres maximo 15'}) )
     password1=forms.CharField(min_length=8,max_length=15,widget= forms.TextInput(attrs={'placeholder':'Minimo 8 caracteres maximo 15'}))
     password2=forms.CharField(min_length=8,max_length=15,widget= forms.TextInput(attrs={'placeholder':'Minimo 8 caracteres maximo 15'}))
+    nombres=forms.CharField(min_length=8,max_length=15,widget= forms.TextInput(attrs={'placeholder':'Minimo 8 caracteres maximo 15'}) )
+    apellidos=forms.CharField(min_length=8,max_length=15,widget= forms.TextInput(attrs={'placeholder':'Minimo 8 caracteres maximo 15'}) )
     class Meta:
         model = User
-        fields = ['username', 'email','telefono', 'password1', 'password2']
+        fields = ['username','nombres','apellidos', 'email','telefono', 'password1', 'password2']
