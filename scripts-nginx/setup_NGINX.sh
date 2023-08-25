@@ -1,10 +1,10 @@
 #! /bin/bash
-carpetaproyecto=/home/mtx/proyectois2/cms-is2-eq03/cms
+carpetaproyecto=/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms
 serverIP=localhost
 
 sudo cat > /etc/nginx/sites-available/cmsis2e03 << EOF
 server {
-    listen 80;
+    listen 8080;
     server_name $serverIP;
     
     location = /favicon.ico { access_log off; log_not_found off; }

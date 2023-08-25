@@ -1,7 +1,7 @@
 #! /bin/bash
-username=mtx
-carpetaproyecto=/home/mtx/proyectois2/cms-is2-eq03/cms
-gunicorn=/home/mtx/.virtualenvs/django_env/bin/gunicorn
+username=joaquin
+carpetaproyecto=/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms
+gunicorn=/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/venv/bin/gunicorn
 
 sudo cat > /etc/systemd/system/gunicorn.socket << EOF
 [Unit]
