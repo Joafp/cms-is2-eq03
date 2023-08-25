@@ -4,10 +4,15 @@ from django.shortcuts import render,redirect
 from django.views.decorators.cache import never_cache
 from .forms import RegistroForm
 from GestionCuentas.models import UsuarioRol,Rol
+class CustomAuthenticationForm(AuthenticationForm):
+    error_messages = {
+        'invalid_login': "Credenciales inválidas. Por favor, verifica tu usuario y contraseña.",
+        'inactive': "Tu cuenta está inactiva. Contacta al administrador para más detalles.",
+    }
 @never_cache
 def vista_login(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
+        form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
