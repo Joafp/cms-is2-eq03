@@ -52,5 +52,5 @@ Este script crea dos archivos
 **setup_NGINX.sh**
 
 Este script crea un archivo:
-1. **/etc/nginx/sites-available/cmsis2e03**, que escucha las conexiones a la IP en el puerto 80, sirve los archivos estaticos y redirecciona las peticiones al gunicorn.
+1. **/etc/nginx/sites-available/cmsis2e03**, que escucha las conexiones a la IP en el puerto 8080, sirve los archivos estaticos y redirecciona las peticiones al gunicorn.
 2. Luego copia el archivo a **/etc/nginx/sites-enabled** y reinicia el servidor de nginx para que se registren los cambios
