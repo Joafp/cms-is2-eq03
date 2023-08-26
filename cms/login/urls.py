@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
 from core import views as menu
 
@@ -8,5 +8,7 @@ urlpatterns = [
    path('registro/', views.registro, name='registro'),
    path('main_trabajador/',menu.vista_trabajador,name='maintrabajador'),
    path('logout/',views.cerrar_sesion,name='CerrarSesion'),
+   path('accounts/',include('django.contrib.auth.urls')),
 ] 
+
  
