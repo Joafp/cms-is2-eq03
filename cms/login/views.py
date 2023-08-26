@@ -36,7 +36,7 @@ def registro(request):
                 nombres=form.cleaned_data.get('nombres'), 
                 apellidos=form.cleaned_data.get('apellidos'),
             )
-            rol_suscriptor=Rol.objects.get(nombre='Suscriptor')
+            rol_suscriptor, created = Rol.objects.get_or_create(nombre='Suscriptor')
             us_rol.roles.add(rol_suscriptor)
             us_rol.save()
             form.save()
