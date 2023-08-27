@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Trabajadores</title>
+    <style>
+         .admin-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h1>Menu Trabajadores</h1>
@@ -31,7 +41,29 @@
         {% endfor %}
     </div>
     <div>
-            <button>Entrar como publicador</button>
+        {% for rol in usuario_rol.roles.all %}
+            {% for permiso in rol.permisos.all %}
+                {% if permiso.codename == 'Vista publicador' %}                    
+                    <button>
+                        Entrar como publicador
+                    </button>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <div>
+        {% for rol in usuario_rol.roles.all %}
+            {% for permiso in rol.permisos.all %}
+                {% if permiso.codename == 'Vista administrador' %}                    
+                    <button>
+                        Entrar como administrador
+                    </button>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <div>
+            <button class='volverbutton'>Volver al Menu Principal</button>
     </div>
 </body>
 </html>
