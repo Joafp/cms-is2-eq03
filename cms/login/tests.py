@@ -106,7 +106,8 @@ class completarRegistroLoginTest(TestCase):
             Permission.objects.get(codename="Vista autor"),
             Permission.objects.get(codename="Vista editor"),
             Permission.objects.get(codename="Vista publicador"),
-            Permission.objects.get(codename="Vista administrador")
+            Permission.objects.get(codename="Vista administrador"),
+            Permission.objects.get(codename="Boton desarrollador")
         ]
         
         rol_suscriptor=Rol.objects.create(nombre='Suscriptor')
@@ -118,7 +119,7 @@ class completarRegistroLoginTest(TestCase):
         rol_autor.permisos.add(permisos[0])
         rol_editor.permisos.add(permisos[1])
         rol_publicador.permisos.add(permisos[2])
-        rol_administrador.permisos.add(permisos[3])
+        rol_administrador.permisos.add(permisos[3], permisos[4])
 
         rol_suscriptor.save()
         rol_autor.save()
@@ -151,16 +152,20 @@ class completarRegistroLoginTest(TestCase):
         login = self.client.login(username='testuser123', password='4L1_khrSri8i')
         usuario_rol = UsuarioRol.objects.get(username='testuser123')
         response = self.client.get(reverse('maintrabajador'), {'usuario_rol': usuario_rol})
-        self.assertInHTML('<button>Entrar como Autor</button>', response.content.decode(), 0)
-        self.assertInHTML('<button>Entrar como editor</button>', response.content.decode(), 0)
-        self.assertInHTML('<button>Entrar como publicador</button>', response.content.decode(), 0)
-        self.assertInHTML('<button>Entrar como administrador</button>', response.content.decode(), 0)
+        self.assertInHTML('<button class="volver-button">Entrar como Autor</button>', response.content.decode(), 0)
+        self.assertInHTML('<button class="volver-button">Entrar como editor</button>', response.content.decode(), 0)
+        self.assertInHTML('<button class="volver-button">Entrar como publicador</button>', response.content.decode(), 0)
+        self.assertInHTML('<button class="volver-button">Entrar como administrador</button>', response.content.decode(), 0)
+        response = self.client.get(reverse('MenuPrincipal'), {'usuario_rol': usuario_rol})
+        self.assertInHTML('Entrar al  modo desarrollador', response.content.decode(), 0)
         
     def test_administrador_ve_botones_de_desarrollador(self):
         login = self.client.login(username='stafftestuser123', password='4L1_khrSri8i')
         usuario_rol = UsuarioRol.objects.get(username='stafftestuser123')
         response = self.client.get(reverse('maintrabajador'), {'usuario_rol': usuario_rol})
-        self.assertInHTML('<button>Entrar como Autor</button>', response.content.decode())
-        self.assertInHTML('<button>Entrar como editor</button>', response.content.decode())
-        self.assertInHTML('<button>Entrar como publicador</button>', response.content.decode())
-        self.assertInHTML('<button>Entrar como administrador</button>', response.content.decode())
+        self.assertInHTML('<button class="volver-button">Entrar como Autor</button>', response.content.decode())
+        self.assertInHTML('<button class="volver-button">Entrar como editor</button>', response.content.decode())
+        self.assertInHTML('<button class="volver-button">Entrar como publicador</button>', response.content.decode())
+        self.assertInHTML('<button class="volver-button">Entrar como administrador</button>', response.content.decode())
+        response = self.client.get(reverse('MenuPrincipal'), {'usuario_rol': usuario_rol})
+        self.assertInHTML('Entrar al  modo desarrollador', response.content.decode())
