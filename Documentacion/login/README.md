@@ -11,3 +11,5 @@ En este documento estaremos viendo la documentacion de nuestra app login, por mo
 - apps.py [ Ver pagina de documentacion ](https://htmlpreview.github.io/?https://github.com/Joafp/cms-is2-eq03/blob/main/Documentacion/login/login.apps.html)
 
 - admin.py [ Ver pagina de documentacio ](https://htmlpreview.github.io/?https://github.com/Joafp/cms-is2-eq03/blob/main/Documentacion/login/login.admin.html)
+
+- tests.py [ Ver pagina de documentacio ](https://htmlpreview.github.io/?https://github.com/Joafp/cms-is2-eq03/blob/main/Documentacion/login/tests.html)
