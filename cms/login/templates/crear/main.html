@@ -6,65 +6,74 @@
     <title>Página de Contenidos</title>
     <style>
         body {
+            background-color: #121212;
+            color: #FFFFFF;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
+        
         .header {
-            background-color: #f2f2f2;
+            background-color: #121212;
             padding: 10px;
-            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .button a {
+            text-decoration: none;
+            color: white;
+        }
+        
         .content {
             padding: 20px;
+            text-align: center;
         }
-        .admin-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+        
         .cerrarsesion-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
+            margin-left: auto;
+            margin-right: -600px;
         }
-
     </style>
 </head>
 <body>
     <div class="header">
-        {% if user.is_authenticated %}
-            <p>Usuario autenticado: Sí</p>
-            <a href="{% url 'CerrarSesion' %}">Cerrar Sesion</a>
-        {% else %}
-            <p>Usuario autenticado: No</p>
-            <a href="{% url 'login' %}">Iniciar Sesion</a>
-        {% endif %}
-            <ul>
-                {% for rol in usuario_rol.roles.all %}
-                    <ul>
-                        {% for permiso in rol.permisos.all %}
-                            {% if permiso.codename == 'boton_desarrollador' %}                    
-                                <button class="admin-button">
-                                    <a href="{% url 'maintrabajador' %}" style="text-decoration: none; color: white;">
-                                        Ingresar como administrador
-                                    </a>
-                                </button>
-                            {% endif %}
-
-                        {% endfor %}
-                    </ul>
-                {% endfor %}
-            </ul>
+        <div class="buttons">
+            <div class="admin-button button">
+                <a href="{% url 'maintrabajador' %}">Ingresar como administrador</a>
+            </div>
+            
+            <div class="cerrarsesion-button button">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Iniciar Sesión</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
+    
     <div class="content">
-        <!-- Aquí puedes agregar contenido dinámico -->
         <h1>Contenidos</h1>
         <p>Este es un ejemplo de página de contenidos.</p>
     </div>

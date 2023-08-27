@@ -4,10 +4,27 @@ from django.shortcuts import render,redirect
 from django.views.decorators.cache import never_cache
 from .forms import RegistroForm
 from GestionCuentas.models import UsuarioRol,Rol
+class CustomAuthenticationForm(AuthenticationForm):
+    """
+    Esta clase es para customizar los mensajes de error a la hora de intentar logearse al sitio con una cuenta
+    que no existe.
+    """
+    error_messages = {
+        'invalid_login': "Credenciales inválidas. Por favor, verifica tu usuario y contraseña.",
+        'inactive': "Tu cuenta está inactiva. Contacta al administrador para más detalles.",
+    }
 @never_cache
 def vista_login(request):
+    """
+    Esta vista nos permite verificar, primero, si el formulario es valido. En caso de ser asi
+    con el metodo cleaned_data.get traemos el username y password ingresado. Luego con el metodo authenticate()
+    auutenticamos el usuario.
+    Si el metodo authenticate devuelve "None" significa que el usuario no esta autenticado en el sistema, en caso
+    de que sea distinto nos autenticamos en el sistema y nos redirige al Menu Principal
+
+    """
     if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
+        form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -26,6 +43,13 @@ def vista_login(request):
 
 @never_cache
 def registro(request):
+    """
+    Este metodo nos permite crear un formulario para que los usuarios se registren en nuestro sistema.
+    Creamos un objeto UsuarioRol con los datos ingresados, siendo este un modelo creado por nosotros, explicado en models.py 
+    de la app GestionCuentas
+    Le asignamos el rol de Suscriptor el nuevo usuario y le registramos en el sistema.
+    
+    """
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
@@ -48,5 +72,9 @@ def registro(request):
 #Deslogeo
 @never_cache
 def cerrar_sesion(request):
+    """
+    Este metodo nos permite cerrar sesion en el sitio.
+
+    """
     logout(request)
     return redirect('MenuPrincipal')

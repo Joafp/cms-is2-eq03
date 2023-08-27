@@ -15,6 +15,8 @@ class PermisosPer(models.Model):
             ("Boton desarrollador","Permite entrar a la vista desarrollador"),
             ("Vista autor","Permite ingresar a la vista autor"),
             ("Vista editor","Permite ingresar a la vista editor"),
+            ("Vista pubicador","Permite ingresar a la vista publicador"),
+            ("Vista administrador","Permite ingresar a la vista administrador")
         ]
 class Rol(models.Model):
     """
