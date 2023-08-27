@@ -54,4 +54,4 @@ def registro(request):
 @never_cache
 def cerrar_sesion(request):
     logout(request)
-    return redirect('login')
+    return redirect('MenuPrincipal')
