@@ -59,8 +59,20 @@
 <body>
     <div class="header">
         <div class="buttons">
-            <div class="admin-button button">
-                <a href="{% url 'maintrabajador' %}">Ingresar como administrador</a>
+            <div>
+                  {% if user.is_authenticated %}
+                        {% for rol in usuario_rol.roles.all %}
+                            {% for permiso in rol.permisos.all %}
+                                {% if permiso.codename == 'Boton desarrollador' %}                    
+                                    <button class="button">
+                                        <a href="{% url 'maintrabajador' %}"> 
+                                        Entrar al  modo desarrollador
+                                        </a>
+                                    </button>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                   {% endif %}     
             </div>
             
             <div class="cerrarsesion-button button">

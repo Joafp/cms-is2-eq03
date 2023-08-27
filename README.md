@@ -41,10 +41,5 @@ Para ejecutar el programa debemos entrar en eldirectorio cms(Proyecto) y ejecuta
 
 Copiar el link del localhost mostrado en un navegador.
 
-# APPS
-
-- cms    [Ver documentacion](Documentacion/cms.md)
-- core    [Ver documentacion](Documentacion/core.md)
-- login     [Ver documentacion](Documentacion/login/login.admin.html)
-- GestionCuentas    [Ver documentacion](Documentacion/GestionCuentas.md)
+# Como congifurar y lanzar scripts para unicorn y nginx
 - Scripts-Nginx y Guunicorn [Ver documentacion](Documentacion/scripts-nginx.md)
