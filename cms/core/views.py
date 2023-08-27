@@ -16,9 +16,17 @@ def vista_MenuPrincipal(request):
     return render(request, 'crear/main.html',context )
     """
     autenticado=User.is_authenticated
-    context={
-        'autenticado':autenticado,
-    }
+    
+    if request.user.is_authenticated:
+        usuario_rol = UsuarioRol.objects.get(username=request.user.username)
+        context={
+            'autenticado':autenticado,
+            'usuario_rol': usuario_rol
+        }
+    else:
+        context={
+            'autenticado': autenticado
+        }    
     print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
 @login_required(login_url="/login")
