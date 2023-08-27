@@ -133,7 +133,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL= '/home'
-LOGIN_REDIRECT_URL= '/login'
+LOGIN_REDIRECT_URL= 'MenuPrincipal'
 from django.urls import reverse_lazy
-LOGOUT_REDIRECT_URL=reverse_lazy('login')
+LOGOUT_REDIRECT_URL=reverse_lazy('MenuPrincipal')
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
