@@ -6,4 +6,3 @@ urlpatterns = [
     path('main_trabajador/',views.vista_trabajador,name='maintrabajador'),
     path('login/',include('login.urls')),
 ]
-  

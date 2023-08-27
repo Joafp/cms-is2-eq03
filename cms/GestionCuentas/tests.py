@@ -1,6 +1,10 @@
 from django.test import TestCase
 from .models import Rol, UsuarioRol
 class RolCrearTestCase(TestCase):
+    """
+    En esta prueba lo que realizamos es la creacion de un rol en nuestro sistema y comprobamos si el nombre que le asigna es el mismo
+    con el cual nosotros deseamos que este
+    """
     def setUp(self):
         self.crear()
     def crear(self):

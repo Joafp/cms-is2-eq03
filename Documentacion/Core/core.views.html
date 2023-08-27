@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module core.views</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="core.html"><font color="#ffffff">core</font></a>.views</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/core/views.py">/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/core/views.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-vista_MenuPrincipal"><strong>vista_MenuPrincipal</strong></a>(request)</dt><dd><tt>Esta&nbsp;vista&nbsp;nos&nbsp;permite&nbsp;ingresar&nbsp;al&nbsp;template&nbsp;del&nbsp;menu&nbsp;principal,&nbsp;le&nbsp;pasamos&nbsp;como&nbsp;contextos&nbsp;<br>
+los&nbsp;datos&nbsp;de&nbsp;usuario&nbsp;y&nbsp;de&nbsp;usuariorol&nbsp;en&nbsp;caso&nbsp;de&nbsp;que&nbsp;ya&nbsp;inicio&nbsp;sesion<br>
+autenticado=User.is_authenticated<br>
+context={<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'autenticado':autenticado,<br>
+}<br>
+print("Usuario:&nbsp;",autenticado)<br>
+return&nbsp;render(request,&nbsp;'crear/main.html',context&nbsp;)</tt></dd></dl>
+ <dl><dt><a name="-vista_trabajador"><strong>vista_trabajador</strong></a>(request)</dt><dd><tt>Nos&nbsp;permite&nbsp;redigir&nbsp;al&nbsp;usuario&nbsp;al&nbsp;template&nbsp;de&nbsp;trabajores,&nbsp;le&nbsp;pasamos&nbsp;como&nbsp;datos&nbsp;<br>
+usuario_rol&nbsp;debido&nbsp;que&nbsp;se&nbsp;utiliza&nbsp;en&nbsp;el&nbsp;html&nbsp;para&nbsp;sbaer&nbsp;que&nbsp;botones&nbsp;mostrar&nbsp;al&nbsp;usuario&nbsp;<br>
+de&nbsp;acuerdo&nbsp;a&nbsp;su&nbsp;rol<br>
+usuario_rol&nbsp;=&nbsp;UsuarioRol.objects.get(username=request.user.username)<br>
+return&nbsp;render(request,'crear/main_trabajadores.html',{'usuario_rol':&nbsp;usuario_rol})</tt></dd></dl>
+</td></tr></table>
+</body></html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module GestionCuentas.models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="GestionCuentas.html"><font color="#ffffff">GestionCuentas</font></a>.models</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/GestionCuentas/models.py">/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/GestionCuentas/models.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="django.db.models.html">django.db.models</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="django.contrib.auth.base_user.html#AbstractBaseUser">django.contrib.auth.base_user.AbstractBaseUser</a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="GestionCuentas.models.html#UsuarioRol">UsuarioRol</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.db.models.base.html#Model">django.db.models.base.Model</a>(<a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="GestionCuentas.models.html#PermisosPer">PermisosPer</a>
+</font></dt><dt><font face="helvetica, arial"><a href="GestionCuentas.models.html#Rol">Rol</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="PermisosPer">class <strong>PermisosPer</strong></a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#PermisosPer">PermisosPer</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Modelo&nbsp;para&nbsp;definir&nbsp;permisos&nbsp;personalizados<br>
+Generamos&nbsp;una&nbsp;clase&nbsp;PermisoPer&nbsp;para&nbsp;diferenciar&nbsp;los&nbsp;permisos&nbsp;que&nbsp;ya&nbsp;cuenta&nbsp;django&nbsp;con&nbsp;los&nbsp;permisos<br>
+que&nbsp;nosotros&nbsp;cargamos&nbsp;en&nbsp;el&nbsp;sistema,&nbsp;debido&nbsp;a&nbsp;esto&nbsp;simplemente&nbsp;heradamos&nbsp;la&nbsp;clase&nbsp;Meta&nbsp;y&nbsp;luego&nbsp;agregar&nbsp;los&nbsp;permisos<br>
+nuevos&nbsp;dentro&nbsp;del&nbsp;mismo,&nbsp;los&nbsp;permisos&nbsp;se&nbsp;definen&nbsp;con&nbsp;un&nbsp;nombre&nbsp;y&nbsp;con&nbsp;la&nbsp;descripcion&nbsp;de&nbsp;que&nbsp;realizara&nbsp;en&nbsp;el&nbsp;sistema<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="GestionCuentas.models.html#PermisosPer">PermisosPer</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'GestionCuentas.models.PermisosPer.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'GestionCuentas.models.PermisosPer.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="PermisosPer-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt><a name="PermisosPer-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<dl><dt>async <a name="PermisosPer-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="PermisosPer-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="PermisosPer-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="PermisosPer-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#PermisosPer-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="PermisosPer-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="PermisosPer-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#PermisosPer-clean_fields">clean_fields</a>(),&nbsp;<a href="#PermisosPer-clean">clean</a>(),&nbsp;<a href="#PermisosPer-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#PermisosPer-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="PermisosPer-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="PermisosPer-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-save"><strong>save</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="PermisosPer-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="PermisosPer-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="PermisosPer-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="PermisosPer-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="PermisosPer-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="PermisosPer-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Rol">class <strong>Rol</strong></a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Rol">Rol</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Modelo&nbsp;para&nbsp;definir&nbsp;roles&nbsp;de&nbsp;usuarios<br>
+nombre:&nbsp;nos&nbsp;sirve&nbsp;para&nbsp;cargar&nbsp;el&nbsp;nombre&nbsp;del&nbsp;rol&nbsp;que&nbsp;creamos<br>
+permisos:&nbsp;como&nbsp;vimos&nbsp;anteriormente&nbsp;se&nbsp;puede&nbsp;agregar&nbsp;permisos&nbsp;a&nbsp;nuestro&nbsp;sistema&nbsp;y&nbsp;un&nbsp;rol&nbsp;puede&nbsp;tener&nbsp;<br>
+mas&nbsp;de&nbsp;un&nbsp;permiso&nbsp;por&nbsp;lo&nbsp;que&nbsp;hicimos&nbsp;que&nbsp;sea&nbsp;manyyomany<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="GestionCuentas.models.html#Rol">Rol</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>nombre</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>permisos</strong></dt>
+</dl>
+<dl><dt><strong>usuariorol_set</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'GestionCuentas.models.Rol.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'GestionCuentas.models.Rol.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Rol-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="Rol-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Rol-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="Rol-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="Rol-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Rol-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="Rol-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt><a name="Rol-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<dl><dt>async <a name="Rol-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="Rol-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="Rol-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="Rol-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#Rol-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="Rol-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Rol-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="Rol-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="Rol-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#Rol-clean_fields">clean_fields</a>(),&nbsp;<a href="#Rol-clean">clean</a>(),&nbsp;<a href="#Rol-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#Rol-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Rol-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Rol-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="Rol-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="Rol-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Rol-save"><strong>save</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="Rol-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="Rol-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Rol-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="Rol-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="Rol-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Rol-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="Rol-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="Rol-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UsuarioRol">class <strong>UsuarioRol</strong></a>(<a href="django.contrib.auth.base_user.html#AbstractBaseUser">django.contrib.auth.base_user.AbstractBaseUser</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UsuarioRol">UsuarioRol</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Modelo&nbsp;personalizado&nbsp;para&nbsp;usuarios&nbsp;con&nbsp;roles<br>
+username:En&nbsp;este&nbsp;apartado&nbsp;guardamos&nbsp;el&nbsp;username&nbsp;que&nbsp;utiliza&nbsp;un&nbsp;nuevo&nbsp;usuario&nbsp;en&nbsp;su&nbsp;registro<br>
+email:nos&nbsp;permite&nbsp;guardar&nbsp;el&nbsp;correo&nbsp;y&nbsp;como&nbsp;vamos&nbsp;a&nbsp;enviar&nbsp;notificaciones&nbsp;por&nbsp;correo&nbsp;pusimos&nbsp;como&nbsp;un&nbsp;atributo<br>
+unico&nbsp;en&nbsp;nuestro&nbsp;sistema&nbsp;y&nbsp;tambien&nbsp;obligatorio<br>
+nombres:guarda&nbsp;los&nbsp;nombres&nbsp;del&nbsp;usuario<br>
+apellidos:Guarda&nbsp;los&nbsp;apellidos&nbsp;de&nbsp;usuario<br>
+numero:guarda&nbsp;el&nbsp;numero&nbsp;de&nbsp;telefono&nbsp;del&nbsp;usuario<br>
+usuario_activo:&nbsp;este&nbsp;atributo&nbsp;nos&nbsp;servira&nbsp;para&nbsp;inactivar&nbsp;cuentas&nbsp;logicamente<br>
+usuario_administrador:&nbsp;nos&nbsp;permite&nbsp;agregar&nbsp;mas&nbsp;permisos&nbsp;a&nbsp;un&nbsp;usuario&nbsp;en&nbsp;caso&nbsp;que&nbsp;sea&nbsp;administrador<br>
+roles:&nbsp;utilizamos&nbsp;la&nbsp;clase&nbsp;anteriormente&nbsp;mencionada&nbsp;para&nbsp;agregar&nbsp;los&nbsp;roles&nbsp;a&nbsp;un&nbsp;usuario,&nbsp;un&nbsp;usuario&nbsp;puede&nbsp;tener&nbsp;mas&nbsp;de&nbsp;un&nbsp;rol<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="GestionCuentas.models.html#UsuarioRol">UsuarioRol</a></dd>
+<dd><a href="django.contrib.auth.base_user.html#AbstractBaseUser">django.contrib.auth.base_user.AbstractBaseUser</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UsuarioRol-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<strong>apellidos</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>email</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<dl><dt><a name="UsuarioRol-has_module_perms"><strong>has_module_perms</strong></a>(self, app_label)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-has_perm"><strong>has_perm</strong></a>(self, perm, ob=None)</dt></dl>
+
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>last_login</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>nombres</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>numero</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>password</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>username</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>usuario_activo</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>usuario_administrador</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<hr>
+Readonly properties defined here:<br>
+<dl><dt><strong>is_staff</strong></dt>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>roles</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'GestionCuentas.models.UsuarioRol.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'GestionCuentas.models.UsuarioRol.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>REQUIRED_FIELDS</strong> = ['email', 'nombres', 'apellidos']</dl>
+
+<dl><dt><strong>USERNAME_FIELD</strong> = 'username'</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.base_user.html#AbstractBaseUser">django.contrib.auth.base_user.AbstractBaseUser</a>:<br>
+<dl><dt><a name="UsuarioRol-check_password"><strong>check_password</strong></a>(self, raw_password)</dt><dd><tt>Return&nbsp;a&nbsp;boolean&nbsp;of&nbsp;whether&nbsp;the&nbsp;raw_password&nbsp;was&nbsp;correct.&nbsp;Handles<br>
+hashing&nbsp;formats&nbsp;behind&nbsp;the&nbsp;scenes.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#UsuarioRol-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-get_session_auth_fallback_hash"><strong>get_session_auth_fallback_hash</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-get_session_auth_hash"><strong>get_session_auth_hash</strong></a>(self)</dt><dd><tt>Return&nbsp;an&nbsp;HMAC&nbsp;of&nbsp;the&nbsp;password&nbsp;field.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-get_username"><strong>get_username</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;username&nbsp;for&nbsp;this&nbsp;User.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-has_usable_password"><strong>has_usable_password</strong></a>(self)</dt><dd><tt>Return&nbsp;False&nbsp;if&nbsp;<a href="#UsuarioRol-set_unusable_password">set_unusable_password</a>()&nbsp;has&nbsp;been&nbsp;called&nbsp;for&nbsp;this&nbsp;user.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-natural_key"><strong>natural_key</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-save"><strong>save</strong></a>(self, *args, **kwargs)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-set_password"><strong>set_password</strong></a>(self, raw_password)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-set_unusable_password"><strong>set_unusable_password</strong></a>(self)</dt></dl>
+
+<hr>
+Class methods inherited from <a href="django.contrib.auth.base_user.html#AbstractBaseUser">django.contrib.auth.base_user.AbstractBaseUser</a>:<br>
+<dl><dt><a name="UsuarioRol-get_email_field_name"><strong>get_email_field_name</strong></a>()<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="UsuarioRol-normalize_username"><strong>normalize_username</strong></a>(username)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Readonly properties inherited from <a href="django.contrib.auth.base_user.html#AbstractBaseUser">django.contrib.auth.base_user.AbstractBaseUser</a>:<br>
+<dl><dt><strong>is_anonymous</strong></dt>
+<dd><tt>Always&nbsp;return&nbsp;False.&nbsp;This&nbsp;is&nbsp;a&nbsp;way&nbsp;of&nbsp;comparing&nbsp;User&nbsp;objects&nbsp;to<br>
+anonymous&nbsp;users.</tt></dd>
+</dl>
+<dl><dt><strong>is_authenticated</strong></dt>
+<dd><tt>Always&nbsp;return&nbsp;True.&nbsp;This&nbsp;is&nbsp;a&nbsp;way&nbsp;to&nbsp;tell&nbsp;if&nbsp;the&nbsp;user&nbsp;has&nbsp;been<br>
+authenticated&nbsp;in&nbsp;templates.</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="django.contrib.auth.base_user.html#AbstractBaseUser">django.contrib.auth.base_user.AbstractBaseUser</a>:<br>
+<dl><dt><strong>Meta</strong> = &lt;class 'django.contrib.auth.base_user.AbstractBaseUser.Meta'&gt;</dl>
+
+<dl><dt><strong>is_active</strong> = True</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="UsuarioRol-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt>async <a name="UsuarioRol-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="UsuarioRol-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="UsuarioRol-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#UsuarioRol-clean_fields">clean_fields</a>(),&nbsp;<a href="#UsuarioRol-clean">clean</a>(),&nbsp;<a href="#UsuarioRol-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#UsuarioRol-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="UsuarioRol-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="UsuarioRol-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="UsuarioRol-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="UsuarioRol-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="UsuarioRol-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>post_save</strong> = &lt;django.db.models.signals.ModelSignal object&gt;</td></tr></table>
+</body></html>
