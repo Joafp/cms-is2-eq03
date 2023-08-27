@@ -1,3 +1,8 @@
+"""Test de las funciones de autenticacion
+Contiene los test relacionados al registro y login de usuarios, incluyendo formularios, vistas y templates
+Tambien revisa el html de las paginas que requieren de login y como interactuan con el rol del usuario logueado
+
+"""
 from django.test import TestCase
 from login.forms import RegistroForm
 from django.urls import reverse
@@ -72,8 +77,8 @@ class loginViewTest(TestCase):
 
 # Prueba de completar formulario de registro y de login
 class completarRegistroLoginTest(TestCase): 
-    # Crea usuarios, roles y permisos para el test
     @classmethod
+    # Crea usuarios, roles y permisos para el test
     def setUpTestData(cls):
         test_user1 = User.objects.create_user(username='testuser123', password='4L1_khrSri8i')
         test_user1.save()
