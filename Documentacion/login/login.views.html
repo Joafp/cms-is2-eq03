@@ -34,7 +34,12 @@
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt><a href="#CustomAuthenticationForm">CustomAuthenticationForm</a>(request=None,&nbsp;*args,&nbsp;**kwargs)<br>
 &nbsp;<br>
-<br>&nbsp;</tt></td></tr>
+Esta&nbsp;clase&nbsp;es&nbsp;para&nbsp;customizar&nbsp;los&nbsp;mensajes&nbsp;de&nbsp;error&nbsp;a&nbsp;la&nbsp;hora&nbsp;de&nbsp;intentar&nbsp;logearse&nbsp;al&nbsp;sitio&nbsp;con&nbsp;una&nbsp;cuenta<br>
+que&nbsp;no&nbsp;existe.<br>
+error_messages&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'invalid_login':&nbsp;"Credenciales&nbsp;inválidas.&nbsp;Por&nbsp;favor,&nbsp;verifica&nbsp;tu&nbsp;usuario&nbsp;y&nbsp;contraseña.",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'inactive':&nbsp;"Tu&nbsp;cuenta&nbsp;está&nbsp;inactiva.&nbsp;Contacta&nbsp;al&nbsp;administrador&nbsp;para&nbsp;más&nbsp;detalles.",<br>
+}<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="login.views.html#CustomAuthenticationForm">CustomAuthenticationForm</a></dd>
@@ -183,8 +188,54 @@ Data and other attributes inherited from <a href="django.forms.forms.html#BaseFo
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-cerrar_sesion"><strong>cerrar_sesion</strong></a>(request)</dt></dl>
- <dl><dt><a name="-registro"><strong>registro</strong></a>(request)</dt></dl>
- <dl><dt><a name="-vista_login"><strong>vista_login</strong></a>(request)</dt></dl>
+<td width="100%"><dl><dt><a name="-cerrar_sesion"><strong>cerrar_sesion</strong></a>(request)</dt><dd><tt>Este&nbsp;metodo&nbsp;nos&nbsp;permite&nbsp;cerrar&nbsp;sesion&nbsp;en&nbsp;el&nbsp;sitio.<br>
+&nbsp;logout(request)<br>
+return&nbsp;redirect('MenuPrincipal')</tt></dd></dl>
+ <dl><dt><a name="-registro"><strong>registro</strong></a>(request)</dt><dd><tt>Este&nbsp;metodo&nbsp;nos&nbsp;permite&nbsp;crear&nbsp;un&nbsp;formulario&nbsp;para&nbsp;que&nbsp;los&nbsp;usuarios&nbsp;se&nbsp;registren&nbsp;en&nbsp;nuestro&nbsp;sistema.<br>
+Creamos&nbsp;un&nbsp;objeto&nbsp;UsuarioRol&nbsp;con&nbsp;los&nbsp;datos&nbsp;ingresados,&nbsp;siendo&nbsp;este&nbsp;un&nbsp;modelo&nbsp;creado&nbsp;por&nbsp;nosotros,&nbsp;explicado&nbsp;en&nbsp;models.py&nbsp;<br>
+de&nbsp;la&nbsp;app&nbsp;GestionCuentas<br>
+Le&nbsp;asignamos&nbsp;el&nbsp;rol&nbsp;de&nbsp;Suscriptor&nbsp;el&nbsp;nuevo&nbsp;usuario&nbsp;y&nbsp;le&nbsp;registramos&nbsp;en&nbsp;el&nbsp;sistema.<br>
+&nbsp;<br>
+if&nbsp;request.method&nbsp;==&nbsp;'POST':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;form&nbsp;=&nbsp;RegistroForm(request.POST)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;form.is_valid():<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;us_rol=UsuarioRol.objects.create(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;username=form.cleaned_data.get('username'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;email=form.cleaned_data.get('email'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nombres=form.cleaned_data.get('nombres'),&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apellidos=form.cleaned_data.get('apellidos'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rol_suscriptor,&nbsp;created&nbsp;=&nbsp;Rol.objects.get_or_create(nombre='Suscriptor')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;us_rol.roles.add(rol_suscriptor)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;us_rol.save()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.save()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;redirect('registro')&nbsp;&nbsp;#&nbsp;Redirigir&nbsp;a&nbsp;la&nbsp;página&nbsp;de&nbsp;inicio&nbsp;de&nbsp;sesión<br>
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;form&nbsp;=&nbsp;RegistroForm()<br>
+return&nbsp;render(request,&nbsp;'main/registro.html',&nbsp;{'form':&nbsp;form})</tt></dd></dl>
+ <dl><dt><a name="-vista_login"><strong>vista_login</strong></a>(request)</dt><dd><tt>Esta&nbsp;vista&nbsp;nos&nbsp;permite&nbsp;verificar,&nbsp;primero,&nbsp;si&nbsp;el&nbsp;formulario&nbsp;es&nbsp;valido.&nbsp;En&nbsp;caso&nbsp;de&nbsp;ser&nbsp;asi<br>
+con&nbsp;el&nbsp;metodo&nbsp;cleaned_data.get&nbsp;traemos&nbsp;el&nbsp;username&nbsp;y&nbsp;password&nbsp;ingresado.&nbsp;Luego&nbsp;con&nbsp;el&nbsp;metodo&nbsp;authenticate()<br>
+auutenticamos&nbsp;el&nbsp;usuario.<br>
+Si&nbsp;el&nbsp;metodo&nbsp;authenticate&nbsp;devuelve&nbsp;"None"&nbsp;significa&nbsp;que&nbsp;el&nbsp;usuario&nbsp;no&nbsp;esta&nbsp;autenticado&nbsp;en&nbsp;el&nbsp;sistema,&nbsp;en&nbsp;caso<br>
+de&nbsp;que&nbsp;sea&nbsp;distinto&nbsp;nos&nbsp;autenticamos&nbsp;en&nbsp;el&nbsp;sistema&nbsp;y&nbsp;nos&nbsp;redirige&nbsp;al&nbsp;Menu&nbsp;Principal<br>
+&nbsp;<br>
+if&nbsp;request.method&nbsp;==&nbsp;'POST':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;form&nbsp;=&nbsp;<a href="#CustomAuthenticationForm">CustomAuthenticationForm</a>(request,&nbsp;request.POST)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;form.is_valid():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;username&nbsp;=&nbsp;form.cleaned_data.get('username')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;password&nbsp;=&nbsp;form.cleaned_data.get('password')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user&nbsp;=&nbsp;authenticate(username=username,&nbsp;password=password)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;user&nbsp;is&nbsp;not&nbsp;None:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;login(request,&nbsp;user)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Usuario&nbsp;autenticado.&nbsp;Redireccionando...")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;redirect('MenuPrincipal')&nbsp;&nbsp;#&nbsp;Redireccionar&nbsp;al&nbsp;menú&nbsp;principal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Usuario&nbsp;no&nbsp;autenticado.")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Formulario&nbsp;no&nbsp;válido.")<br>
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;form&nbsp;=&nbsp;<a href="django.contrib.auth.forms.html#AuthenticationForm">AuthenticationForm</a>()<br>
+return&nbsp;render(request,&nbsp;'registration/login.html',&nbsp;{'form':&nbsp;form})</tt></dd></dl>
 </td></tr></table>
 </body></html>
