@@ -59,10 +59,10 @@
 <body>
     <div class="header">
         <div class="buttons">
+
             <div class="admin-button button">
                 <a href="{% url 'maintrabajador' %}">Ingresar como administrador</a>
             </div>
-            
             <div class="cerrarsesion-button button">
                 {% if user.is_authenticated %}
                     <a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a>
