@@ -39,7 +39,13 @@
 </head>
 <body>
     <div class="header">
-           <a href="{% url 'CerrarSesion' %}">Cerrar Sesion</a>
+        {% if user.is_authenticated %}
+            <p>Usuario autenticado: Sí</p>
+            <a href="{% url 'CerrarSesion' %}">Cerrar Sesion</a>
+        {% else %}
+            <p>Usuario autenticado: No</p>
+            <a href="{% url 'login' %}">Iniciar Sesion</a>
+        {% endif %}
             <ul>
                 {% for rol in usuario_rol.roles.all %}
                     <ul>
