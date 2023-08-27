@@ -116,9 +116,9 @@ class completarRegistroLoginTest(TestCase):
         rol_publicador=Rol.objects.create(nombre='Publicador')
         rol_administrador=Rol.objects.create(nombre='Administrador')
 
-        rol_autor.permisos.add(permisos[0])
-        rol_editor.permisos.add(permisos[1])
-        rol_publicador.permisos.add(permisos[2])
+        rol_autor.permisos.add(permisos[0], permisos[4])
+        rol_editor.permisos.add(permisos[1], permisos[4])
+        rol_publicador.permisos.add(permisos[2], permisos[4])
         rol_administrador.permisos.add(permisos[3], permisos[4])
 
         rol_suscriptor.save()
@@ -168,4 +168,4 @@ class completarRegistroLoginTest(TestCase):
         self.assertInHTML('<button class="volver-button">Entrar como publicador</button>', response.content.decode())
         self.assertInHTML('<button class="volver-button">Entrar como administrador</button>', response.content.decode())
         response = self.client.get(reverse('MenuPrincipal'), {'usuario_rol': usuario_rol})
-        self.assertInHTML('Entrar al  modo desarrollador', response.content.decode())
+        self.assertInHTML('Entrar al  modo desarrollador', response.content.decode(), 1)

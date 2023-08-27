@@ -56,7 +56,7 @@ class UsuarioRol(AbstractBaseUser):
         if self.usuario_administrador:
             return True
         for rol in self.roles.all():
-            if rol.permisos.filter(codename=perm).exits():
+            if rol.permisos.filter(codename=perm).exists():
                 return True
         return False
     def has_module_perms(self,app_label):
