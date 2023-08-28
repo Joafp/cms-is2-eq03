@@ -61,22 +61,14 @@
         <div class="buttons">
             <div>
                 {% if user.is_authenticated %}
-                {% with boton_creado=False %}
-                    {% for rol in usuario_rol.roles.all %}
-                        {% for permiso in rol.permisos.all %}
-                            {% if permiso.codename == 'Boton desarrollador' and not boton_creado %}
-                                <button class="button">
-                                    <a href="{% url 'maintrabajador' %}">
-                                        Entrar al modo desarrollador
-                                    </a>
-                                </button>
-                                {% with boton_creado=True %}
-                                {% endwith %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-                {% endwith %}
-            {% endif %} 
+                    {% if tiene_permiso %}
+                        <button class="button">
+                            <a href="{% url 'maintrabajador' %}">
+                                Entrar al modo  desarrollador
+                            </a>
+                        </button>
+                    {% endif %}
+                {% endif %} 
             </div>
             <div class="cerrarsesion-button button">
                 {% if user.is_authenticated %}

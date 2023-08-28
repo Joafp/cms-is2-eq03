@@ -19,9 +19,10 @@ def vista_MenuPrincipal(request):
     
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
+        tiene_permiso=usuario_rol.has_perm(codename="Boton desarrollador")
         context={
             'autenticado':autenticado,
-            'usuario_rol': usuario_rol
+            'tiene_permiso':tiene_permiso,
         }
     else:
         context={
