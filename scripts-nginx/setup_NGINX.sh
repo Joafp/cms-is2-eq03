@@ -1,5 +1,5 @@
 #! /bin/bash
-carpetaproyecto=/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms
+carpetaproyecto=/home/carlos/Escritorio/cms-is2-eq03/cms-is2-eq03/cms
 serverIP=localhost
 
 sudo cat > /etc/nginx/sites-available/cmsis2e03 << EOF
