@@ -1,7 +1,7 @@
 """Test de las funciones de autenticacion
 Contiene los test relacionados al registro y login de usuarios, incluyendo formularios, vistas y templates
 Tambien revisa el html de las paginas que requieren de login y como interactuan con el rol del usuario logueado
-
+Fecha: 2023-08-28
 """
 from django.test import TestCase
 from login.forms import RegistroForm
@@ -13,7 +13,11 @@ from django.contrib.auth.models import Permission
 
 # Test de las etiquetas mostradas en el formulario de registro
 class registroFormTest(TestCase):
-    
+    """
+    Prueba de la funcionalidad del formulario del registro
+    Fecha: 2023-08-28
+
+    """
     def test_registro_usuario_label(self):
         form = RegistroForm()
         self.assertTrue(form.fields['username'].label is None or form.fields['username'].label == 'username')
@@ -45,7 +49,12 @@ class registroFormTest(TestCase):
 
 # Test de view registro
 class registroViewTest(TestCase):
+    """
+    Prueba de la funcionalidad de existencia del nevo registro, 
+    para no crear duplicados,validacion formato
+    Fecha: 2023-08-28
     
+    """
     def test_registro_url_existe(self):
         response = self.client.get('/login/registro/')
         self.assertEqual(response.status_code, 200)
@@ -61,7 +70,10 @@ class registroViewTest(TestCase):
 
 # Test de view login
 class loginViewTest(TestCase):
-    
+    """
+    Prueba de funcionaiento de la vista login
+    Fecha: 2023/08/28
+    """
     def test_login_url_existe(self):
         response = self.client.get('/login/')
         self.assertEqual(response.status_code, 200)
@@ -134,6 +146,11 @@ class completarRegistroLoginTest(TestCase):
         test_user2_rol.save()
 
     def test_registro_completo_redirige_a_login(self):
+        """
+        Prueba de redireccionamiento al login una vez terminado el registro al sistema
+        Fecha: 2023/08/28
+        """
+
         email = "testuser@test.com"
         telefono = "000"
         username = "testuser123x"
@@ -145,10 +162,19 @@ class completarRegistroLoginTest(TestCase):
         self.assertRedirects(response, reverse('registro'))
 
     def test_login_redirige_a_pagina_principal(self):
+        """
+        Prueba del redireccionamiento al Menu Principal una vez autenticado el usuario.
+        Fecha: 2023/08/28
+        """
         response = self.client.post(reverse('login'), {'username':'testuser123', 'password':'4L1_khrSri8i'})
         self.assertRedirects(response, reverse('MenuPrincipal'))
 
     def test_suscriptor_no_ve_botones_de_desarrollador(self):
+
+        """
+        Prueba de los permisos de vista del boton desarrollador al suscriptor.
+        Fecha: 2023/08/28
+        """
         login = self.client.login(username='testuser123', password='4L1_khrSri8i')
         usuario_rol = UsuarioRol.objects.get(username='testuser123')
         response = self.client.get(reverse('maintrabajador'), {'usuario_rol': usuario_rol})
@@ -160,6 +186,10 @@ class completarRegistroLoginTest(TestCase):
         self.assertInHTML('Entrar al  modo desarrollador', response.content.decode(), 0)
         
     def test_administrador_ve_botones_de_desarrollador(self):
+        """
+        Prueba de los permisos de vista del boton de desarrollador para los roles que si tienen permiso
+        Fecha: 2023/08/28
+        """
         login = self.client.login(username='stafftestuser123', password='4L1_khrSri8i')
         usuario_rol = UsuarioRol.objects.get(username='stafftestuser123')
         response = self.client.get(reverse('maintrabajador'))
