@@ -18,6 +18,10 @@ class RolCrearTestCase(TestCase):
 
 # Esta prueba crea prueba a crear roles y asignar permisos
 class creacionRolPermisosTest(TestCase): 
+    """
+    Prueba de funcionamiento de la creacion de roles y asignacion de permisos
+    Fecha: 2023/08/28
+    """
     @classmethod
     # Crea usuarios, roles y permisos para el test
     def setUpTestData(cls):
@@ -75,6 +79,10 @@ class creacionRolPermisosTest(TestCase):
         test_user2_rol.save()
 
     def test_roles_asignados_correctamente(self):
+        """
+        Probamos que los roles se hayan asignado correctamente
+        Fecha: 2023/08/28
+        """
         # prueba que el rol de suscriptor y los roles de desarrollo se hallan asignado correctamente
         rol_suscriptor=Rol.objects.get(nombre='Suscriptor')
         rol_autor=Rol.objects.get(nombre='Autor')
@@ -94,6 +102,10 @@ class creacionRolPermisosTest(TestCase):
 
     def test_permisos_asignados_correctamente(self):
         # prueba que los roles tengan los permisos correctos
+        """
+        Probamos los roles asignados anteeriormente, con las distintas vistas
+        Fecha: 2023/08/28
+        """
         permisos = [
             Permission.objects.get(codename="Vista autor"),
             Permission.objects.get(codename="Vista editor"),
