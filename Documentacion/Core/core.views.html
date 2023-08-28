@@ -17,15 +17,24 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-vista_MenuPrincipal"><strong>vista_MenuPrincipal</strong></a>(request)</dt><dd><tt>Esta&nbsp;vista&nbsp;nos&nbsp;permite&nbsp;ingresar&nbsp;al&nbsp;template&nbsp;del&nbsp;menu&nbsp;principal,&nbsp;le&nbsp;pasamos&nbsp;como&nbsp;contextos&nbsp;<br>
+<td width="100%"><dl><dt><a name="-vista_MenuPrincipal"><strong>vista_MenuPrincipal</strong></a>(request)</dt><dd><tt>Fecha&nbsp;documentacion:&nbsp;28/08/2023<br>
+Esta&nbsp;vista&nbsp;nos&nbsp;permite&nbsp;ingresar&nbsp;al&nbsp;template&nbsp;del&nbsp;menu&nbsp;principal,&nbsp;le&nbsp;pasamos&nbsp;como&nbsp;contextos&nbsp;<br>
 los&nbsp;datos&nbsp;de&nbsp;usuario&nbsp;y&nbsp;de&nbsp;usuariorol&nbsp;en&nbsp;caso&nbsp;de&nbsp;que&nbsp;ya&nbsp;inicio&nbsp;sesion<br>
 autenticado=User.is_authenticated<br>
-context={<br>
-&nbsp;&nbsp;&nbsp;&nbsp;'autenticado':autenticado,<br>
-}<br>
-print("Usuario:&nbsp;",autenticado)<br>
-return&nbsp;render(request,&nbsp;'crear/main.html',context&nbsp;)</tt></dd></dl>
- <dl><dt><a name="-vista_trabajador"><strong>vista_trabajador</strong></a>(request)</dt><dd><tt>Nos&nbsp;permite&nbsp;redigir&nbsp;al&nbsp;usuario&nbsp;al&nbsp;template&nbsp;de&nbsp;trabajores,&nbsp;le&nbsp;pasamos&nbsp;como&nbsp;datos&nbsp;<br>
+if&nbsp;request.user.is_authenticated:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;usuario_rol&nbsp;=&nbsp;UsuarioRol.objects.get(username=request.user.username)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tiene_permiso=usuario_rol.has_perm("Boton&nbsp;desarrollador")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;context={<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'autenticado':autenticado,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'tiene_permiso':tiene_permiso,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;context={<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'autenticado':&nbsp;autenticado<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;<br>
+print("Usuario:&nbsp;",autenticado)</tt></dd></dl>
+ <dl><dt><a name="-vista_trabajador"><strong>vista_trabajador</strong></a>(request)</dt><dd><tt>Fecha&nbsp;documentacion:&nbsp;28/08/2023<br>
+Nos&nbsp;permite&nbsp;redigir&nbsp;al&nbsp;usuario&nbsp;al&nbsp;template&nbsp;de&nbsp;trabajores,&nbsp;le&nbsp;pasamos&nbsp;como&nbsp;datos&nbsp;<br>
 usuario_rol&nbsp;debido&nbsp;que&nbsp;se&nbsp;utiliza&nbsp;en&nbsp;el&nbsp;html&nbsp;para&nbsp;sbaer&nbsp;que&nbsp;botones&nbsp;mostrar&nbsp;al&nbsp;usuario&nbsp;<br>
 de&nbsp;acuerdo&nbsp;a&nbsp;su&nbsp;rol<br>
 usuario_rol&nbsp;=&nbsp;UsuarioRol.objects.get(username=request.user.username)<br>

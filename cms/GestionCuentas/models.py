@@ -53,7 +53,7 @@ class UsuarioRol(AbstractBaseUser):
     USERNAME_FIELD='username'
     REQUIRED_FIELDS=['email','nombres','apellidos']
     def __str__(self):
-        return f'{self.nombres},{self.apellidos}'
+        return f'{self.username},{self.nombres}'
     def has_perm(self,codename,ob=None):
         if self.usuario_administrador:
             return True
