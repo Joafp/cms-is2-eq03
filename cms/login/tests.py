@@ -162,10 +162,10 @@ class completarRegistroLoginTest(TestCase):
     def test_administrador_ve_botones_de_desarrollador(self):
         login = self.client.login(username='stafftestuser123', password='4L1_khrSri8i')
         usuario_rol = UsuarioRol.objects.get(username='stafftestuser123')
-        response = self.client.get(reverse('maintrabajador'), {'usuario_rol': usuario_rol})
+        response = self.client.get(reverse('maintrabajador'))
         self.assertInHTML('<button class="volver-button">Entrar como Autor</button>', response.content.decode())
         self.assertInHTML('<button class="volver-button">Entrar como editor</button>', response.content.decode())
         self.assertInHTML('<button class="volver-button">Entrar como publicador</button>', response.content.decode())
         self.assertInHTML('<button class="volver-button">Entrar como administrador</button>', response.content.decode())
-        response = self.client.get(reverse('MenuPrincipal'), {'usuario_rol': usuario_rol})
+        response = self.client.get(reverse('MenuPrincipal'))
         self.assertInHTML('Entrar al  modo desarrollador', response.content.decode(), 1)
