@@ -74,9 +74,7 @@
                             </a>
                         </button>
                     {% endif %}
-                {% endif %}  
-            </div>
-            <div class="cerrarsesion-button button"> 
+                {% endif %}    
                 {% if user.is_authenticated %}
                     <button class="button"><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></button>
                 {% else %}
