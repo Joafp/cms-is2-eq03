@@ -1,7 +1,7 @@
 #! /bin/bash
-username=joaquin
-carpetaproyecto=/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms
-gunicorn=/home/joaquin/Escritorio/Proyectois2/venv/bin/gunicorn
+username=carlos
+carpetaproyecto=/home/carlos/Escritorio/cms-is2-eq03/cms-is2-eq03/cms
+gunicorn=/home/carlos/Escritorio/cms-is2-eq03/venv/bin/gunicorn
 
 sudo cat > /etc/systemd/system/gunicorn.socket << EOF
 [Unit]
