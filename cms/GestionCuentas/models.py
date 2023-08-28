@@ -54,7 +54,7 @@ class UsuarioRol(AbstractBaseUser):
     REQUIRED_FIELDS=['email','nombres','apellidos']
     def __str__(self):
         return f'{self.nombres},{self.apellidos}'
-    def has_perm(self,codename):
+    def has_perm(self,codename,ob=None):
         if self.usuario_administrador:
             return True
         for rol in self.roles.all():
