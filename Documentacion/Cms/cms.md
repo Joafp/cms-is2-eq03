@@ -1,3 +1,4 @@
 # Documentacon de proyecto cms
+Fecha : 2023/08/28
 
-- Modulo settings [ Ir a la documentacion ](https://htmlpreview.github.io/?file:///home/carlos/Escritorio/cms-is2-eq03/cms-is2-eq03/cms/cms.settings.html)
+- Modulo settings [ Ir a la documentacion ](https://github.com/Joafp/cms-is2-eq03/blob/main/Documentacion/Cms/cms.settings.html)
