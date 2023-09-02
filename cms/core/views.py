@@ -3,6 +3,13 @@ from django.contrib.auth.decorators import login_required
 from GestionCuentas.models import UsuarioRol
 from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
+from django.views.generic import ListView, DeleteView,CreateView
+from .models import Contenido
+class CrearContenido(CreateView):
+    model= Contenido
+    template_name= 'crear_contenido.html'
+    fields= '__all__'
+
 @never_cache
 def vista_MenuPrincipal(request):
     """
@@ -50,3 +57,5 @@ def vista_trabajador(request):
     """
     usuario_rol = UsuarioRol.objects.get(username=request.user.username)
     return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
+
+

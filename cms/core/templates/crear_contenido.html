@@ -1,0 +1,9 @@
+{% block content %}
+<h1> Crear Contenido </h1>
+
+<form method="Contenido">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p}}
+    <button>
+{% endblock %}
