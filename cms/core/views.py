@@ -1,8 +1,9 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from GestionCuentas.models import UsuarioRol
 from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
+from categoria.models import Categoria
 @never_cache
 def vista_MenuPrincipal(request):
     """
@@ -16,17 +17,19 @@ def vista_MenuPrincipal(request):
     return render(request, 'crear/main.html',context )
     """
     autenticado=User.is_authenticated
-    
+    categorias= Categoria.objects.filter(activo=True)
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm(codename="Boton desarrollador")
         context={
             'autenticado':autenticado,
             'tiene_permiso':tiene_permiso,
+            'categorias': categorias
         }
     else:
         context={
-            'autenticado': autenticado
+            'autenticado': autenticado,
+            'categorias': categorias
         }    
     print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
@@ -41,3 +44,7 @@ def vista_trabajador(request):
     """
     usuario_rol = UsuarioRol.objects.get(username=request.user.username)
     return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
+
+def categoria(request,nombre):
+    categoria= get_object_or_404(Categoria,nombre=nombre)
+    return render(request,'cat/categoria.html',{'categoria':categoria})

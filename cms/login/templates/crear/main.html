@@ -4,92 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Contenidos</title>
-    <style>
+    <style type="text/css">
+        *{
+            padding: 0px;
+            margin: 0px;
+        }
         body {
             background-color: #121212;
             color: #FFFFFF;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
-        
-        .header {
-            background-color: #121212;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
+        #header{
+            margin:auto;
+            width:100%;
+            font-family:Arial,Helvetica,sans-serif;
+        }
+        ul, ol{
+            list-style:none;
+        }
+        .nav li a{
+            background-color:#4CAF50;
+            color:#fff;
+            text-decoration:none;
+            padding:10px 15px;
+            display:block;
+        }
+        .nav li a:hover{
+            background-color:#434343;
+        }
+        .nav > li{
+            float:left;
+
+        }
+
+        .nav li ul{
+            display:none;
+            position:absolute;
+            min-width:140px;
+        }
+
+        .nav li:hover > ul {
+            display: block;
+        }
+
+        .nav li ul li{
+            position:relative;
+        }
+
+        .nav li ul li ul {
+            right: -140px;
+            top:0px;
         }
         
-        .buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            width: 100%;
-        }
-        
-        .button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .button a {
-            text-decoration: none;
-            color: white;
-        }
-        
-        .content {
-            padding: 20px;
-            text-align: center;
-        }
-        
-      
-        .cabecera{
-            display: flex;
-            align-direction: row;
-            justify-content: space-around;
-            width: 100%;
-        }
-    </style>
+    </style>    
 </head>
 <body>
-    <div class="header">
-        <div class="buttons">
-            <div class="cabecera">
-                <div>
-                {% if user.is_authenticated %}
-                    {% if tiene_permiso %}
-                        <button class="button">
-                            <a href="{% url 'maintrabajador' %}">
-                                Entrar al modo  desarrollador
-                            </a>
-                        </button>
-                    {% endif %}
-                {% endif %} 
-               </div>
-                <div>
-                {% if user.is_authenticated %}
-                    <button class="button"><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></button>
-                {% else %}
-                <button class="button"><a href="{% url 'login' %}">Iniciar Sesión</a></button>
-                {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
     
-    <div class="content">
-        <h1>Contenidos</h1>
-        <p>Este es un ejemplo de página de contenidos.</p>
-    </div>
+    <div id="header">
+       <ul class="nav">
+            <li><a>Categorias</a>
+                <ul>
+                {% for categoria in categorias %}
+                <li><a href="{% url 'cat' categoria.nombre %}">{{categoria.nombre}}</a></li>
+                {% endfor %}
+                </ul>
+            </li> 
+            {% if user.is_authenticated %}
+                    {% if tiene_permiso %}
+                          <li>
+                                <a href="{% url 'maintrabajador' %}">
+                                    Entrar al modo  desarrollador
+                                </a>
+                          </li> 
+                      
+                    {% endif %}
+            {% endif %}
+            {% if user.is_authenticated %}
+                    <li><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></li>
+            {% else %}
+               <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+            {% endif %}
+        </ul>
+</div>
+<div class="content">
+    <h1>Contenidos</h1>
+    <p>Este es un ejemplo de página de contenidos.</p>
+</div>
 </body>
 </html>

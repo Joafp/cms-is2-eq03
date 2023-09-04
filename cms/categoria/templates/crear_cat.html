@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear categoría</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 400px;
+            padding: 40px;
+            background-color: #1E1E1E;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #FFFFFF;
+        }
+        .input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #282828;
+            color: #FFFFFF;
+        }
+        .select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #282828;
+            color: #FFFFFF;
+        }
+        .button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1976D2;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+        .create-account {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <h1>Crear categoría</h1>
+    <form action="{% url 'Categoria' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="nombre" placeholder="Nombre de la categoría" class="input">
+        <select name="moderada">
+            <option value="True">Moderada</option>
+            <option value="False">No moderada</option>
+        </select>
+        <input type="submit" value="Crear categoría" class="button">
+    </form>
+</body>
+</html>
