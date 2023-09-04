@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar usuarios</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #121212;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        a.button, button a {
+            display: inline-block; 
+            text-decoration: none;
+            color: white;
+        }
+
+        .content>h1 {
+            padding: 20px;
+            text-align: center;
+        }
+
+
+        .cabecera {
+            display: flex;
+            align-direction: row;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .rightmost {
+            margin-left: auto;
+            margin-right: 1rem;
+        }
+
+        .wrapper {
+            list-style-type: none;
+            padding: 0;
+            border-radius: 3px;
+        }
+
+        .list-row {
+            display: flex;
+            justify-content: flex-end;
+            padding: .5em;
+        }
+
+        .list-row>.userinfo {
+            padding: .5em 1em .5em 0;
+            flex: 1;
+        }
+
+        .list-row>button {
+            padding: .5em;
+        }
+
+        .list-row>button {
+            border: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="buttons">
+            <div class="cabecera">
+                <button class="button rightmost"><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>Usuarios registrados</h1>
+        <ul class="wrapper">
+            {% for user in object_list %}
+            <li class="list-row">
+                <div class="userinfo">{{ user.username }}: {{ user.email }}</div><button class="button edit-button"><a
+                        href="{% url 'editarUsuario' user.id%}">Editar</a></button>
+            </li>
+            {% empty %}
+            <li class="list-row">Sin usuarios registrados</li>
+            {% endfor %}
+        </ul>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a class="button" href="?page=1"><button class="button">&laquo;</button></a>
+                <a class="button" href="?page={{ page_obj.previous_page_number }}"><button class="button">&lt</button></a>
+                {% endif %}
+
+                <span class="current">
+                    Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+               <a class="button" href="?page={{ page_obj.next_page_number }}"> <button class="button">&gt</button></a>
+                <a class="button" href="?page={{ page_obj.paginator.num_pages }}"><button class="button">&raquo;</button></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    <div class="wrapper-busqueda">
+        <h1>Filtrar</h1>
+        <form>
+            <label for="filtro_username">Nombre de usuario</label>
+            <input type="text" name="filtro_username" value="{{ filtro_username }}">
+            <label for="filtro_email">Email</label>
+            <input type="text" name="filtro_email" value="{{ filtro_email }}">
+            <button type="submit">Filtrar</button>
+        </form>
+    </div>
+</body>
+
+</html>

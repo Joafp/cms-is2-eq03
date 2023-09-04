@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar usuarios</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #121212;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button a {
+            text-decoration: none;
+            color: white;
+        }
+
+        p {
+            display: flex;
+            justify-content: flex-start;
+            padding: .5em;
+        }
+        
+        p>label {
+            padding: .5em 1em .5em 0;
+            flex: 2;
+        }
+
+        p>input:not([type=checkbox]) {
+            flex: 2;
+        }
+
+
+        p>input,
+        p>button {
+            padding: .5em;
+        }
+
+        
+
+
+        input {
+            /* width: 100%; */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #282828;
+            color: #FFFFFF;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1976D2;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .content > h1 {
+            padding: 20px;
+            text-align: center;
+        }
+
+
+        .cabecera {
+            display: flex;
+            align-direction: row;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .rightmost {
+            margin-left: auto;
+            margin-right: 1rem;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="buttons">
+            <div class="cabecera">
+                <button class="button rightmost"><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>Editar usuario</h1>
+        <form method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+</body>
+
+</html>
