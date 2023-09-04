@@ -1,0 +1,7 @@
+<h1>Contenidos</h1>
+<ul>
+{% for Contenido in object_list %}
+    <li><a href="{% url 'detalles_articulo' Contenido.pk%}">{{Contenido.titulo}}</a><br/>
+    {{Contenido.cuerpo}}</li>
+{% endfor%}
+</ul>
