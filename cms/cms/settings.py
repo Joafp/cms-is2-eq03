@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'GestionCuentas',
     #App core
     'core',
-    'categoria',
 ]
 
 MIDDLEWARE = [

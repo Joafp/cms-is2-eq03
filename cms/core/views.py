@@ -1,9 +1,9 @@
-from django.shortcuts import render, HttpResponse,get_object_or_404
+from django.shortcuts import render, HttpResponse,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from GestionCuentas.models import UsuarioRol
 from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
-from categoria.models import Categoria
+from .models import Categoria
 @never_cache
 def vista_MenuPrincipal(request):
     """
@@ -48,3 +48,24 @@ def vista_trabajador(request):
 def categoria(request,nombre):
     categoria= get_object_or_404(Categoria,nombre=nombre)
     return render(request,'cat/categoria.html',{'categoria':categoria})
+
+
+def crear_categoria(request):
+    if request.method == 'POST':
+        nombre1=request.POST['nombre']
+        moderado=request.POST['moderada']
+        categoria=Categoria(nombre=nombre1,moderada=moderado)
+        categoria.save()
+        return redirect('Administrador')
+    return render(request,'crear_cat.html')
+
+
+def desactivar_categoria(request):
+    if request.method == 'POST':
+        id_categoria= request.POST['id_categoria']
+        categoria=Categoria.objects.get(id=id_categoria)
+        categoria.activo=False
+        categoria.save()
+        return redirect('Administrador')
+
+    return render(request, 'desactivar_cat.html')

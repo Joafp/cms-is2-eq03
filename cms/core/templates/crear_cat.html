@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <title>Crear categoría</title>
     <style>
+        
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #FFFFFF;
+        }
+
+        .select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #282828;
+            color: #FFFFFF;
+        }
+
+        .create-account {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+
         body {
             background-color: #121212;
             color: #FFFFFF;
@@ -22,12 +46,12 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
-        h1 {
+        label {
+            display: block;
             text-align: center;
-            font-size: 24px;
-            color: #FFFFFF;
+            margin-bottom: 10px;
         }
-        .input {
+        input {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -36,16 +60,7 @@
             background-color: #282828;
             color: #FFFFFF;
         }
-        .select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #333;
-            border-radius: 4px;
-            background-color: #282828;
-            color: #FFFFFF;
-        }
-        .button {
+        button {
             display: block;
             margin: 0 auto;
             padding: 10px 20px;
@@ -55,24 +70,20 @@
             color: #FFFFFF;
             cursor: pointer;
         }
-        .create-account {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #999;
-        }
     </style>
 </head>
 <body>
-    <h1>Crear categoría</h1>
-    <form action="{% url 'Categoria' %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="nombre" placeholder="Nombre de la categoría" class="input">
-        <select name="moderada">
-            <option value="True">Moderada</option>
-            <option value="False">No moderada</option>
-        </select>
-        <input type="submit" value="Crear categoría" class="button">
-    </form>
+    <div class="container">
+        <h1>Crear categoría</h1>
+        <form action="{% url 'Categoria' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="nombre" placeholder="Nombre de la categoría" class="input">
+            <select name="moderada">
+                <option value="True">Moderada</option>
+                <option value="False">No moderada</option>
+            </select>
+            <input type="submit" value="Crear categoría" class="button">
+        </form>
+    </div>    
 </body>
 </html>

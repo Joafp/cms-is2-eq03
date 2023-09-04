@@ -1,31 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Contenidos</title>
-    <style type="text/css">
-        *{
-            padding: 0px;
-            margin: 0px;
+    <title>Mi Página con Barra de Herramientas</title>
+    <style>
+        /* Estilos para el div de la barra de herramientas */
+        #barra-de-herramientas {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
         }
-        body {
-            background-color: #121212;
-            color: #FFFFFF;
-            font-family: Arial, sans-serif;
-            align-items: center;
-            min-height: 100vh;
+
+        /* Estilos para el cuerpo de la página */
+        #cuerpo-de-pagina {
+            padding: 20px;
         }
-        #header{
-            margin:auto;
-            width:100%;
-            font-family:Arial,Helvetica,sans-serif;
-        }
-        ul, ol{
+       ul, ol{
             list-style:none;
         }
         .nav li a{
-            background-color:#4CAF50;
+            background-color:#000;
             color:#fff;
             text-decoration:none;
             padding:10px 15px;
@@ -57,13 +53,19 @@
             right: -140px;
             top:0px;
         }
-        
-    </style>    
+        body {
+            background-color: #121212;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            align-items: center;
+            min-height: 100vh;
+        }
+    </style>
 </head>
 <body>
-    
-    <div id="header">
-       <ul class="nav">
+    <!-- Barra de herramientas -->
+    <div id="barra-de-herramientas">
+        <ul class="nav">
             <li><a>Categorias</a>
                 <ul>
                 {% for categoria in categorias %}
@@ -87,10 +89,12 @@
                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
             {% endif %}
         </ul>
-</div>
-<div class="content">
-    <h1>Contenidos</h1>
-    <p>Este es un ejemplo de página de contenidos.</p>
-</div>
+    </div>
+
+    <!-- Cuerpo de la página -->
+    <div id="cuerpo-de-pagina">
+    	<h1>Contenidos</h1>
+    	<p>Este es un ejemplo de página de contenidos.</p>
+    </div>
 </body>
 </html>

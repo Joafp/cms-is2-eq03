@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect
 from django.views.decorators.cache import never_cache
 from .forms import RegistroForm
 from GestionCuentas.models import UsuarioRol,Rol
-from categoria.models import Categoria
+from core.models import Categoria
 class CustomAuthenticationForm(AuthenticationForm):
     """
     Esta clase es para customizar los mensajes de error a la hora de intentar logearse al sitio con una cuenta
