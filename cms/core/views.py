@@ -4,6 +4,7 @@ from GestionCuentas.models import UsuarioRol
 from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
 from .models import Categoria
+from GestionCuentas.models import Rol,UsuarioRol
 @never_cache
 def vista_MenuPrincipal(request):
     """
@@ -69,3 +70,58 @@ def desactivar_categoria(request):
         return redirect('Administrador')
 
     return render(request, 'desactivar_cat.html')
+
+def vista_roles(request):
+    return render(request,'gestion_roles.html')
+
+
+def asignar_rol(request):
+    if request.method == 'POST':
+        usuario_id = request.POST.get('usuario')
+        rol_id = request.POST.get('rol')
+        usuario = UsuarioRol.objects.get(id=usuario_id)
+        rol = Rol.objects.get(id=rol_id)
+        usuario.roles.add(rol)
+        return redirect('asignacion')
+    else:
+        usuarios = UsuarioRol.objects.filter(usuario_activo=True)
+        roles = Rol.objects.all()
+        usuario_seleccionado = None
+        roles_usuario = []
+        roles_disponibles = []
+        if 'usuario' in request.GET:
+            usuario_id = request.GET.get('usuario')
+            usuario_seleccionado = UsuarioRol.objects.get(id=usuario_id)
+            roles_usuario = usuario_seleccionado.roles.all()
+            roles_disponibles = Rol.objects.exclude(id__in=roles_usuario.values_list('id', flat=True))
+        context = {
+            'usuarios': usuarios,
+            'roles': roles,
+            'usuario_seleccionado': usuario_seleccionado,
+            'roles_usuario': roles_usuario,
+            'roles_disponibles': roles_disponibles
+        }
+        return render(request, 'asignar_rol.html', context)
+    
+def remover_rol(request):
+    if request.method == 'POST':
+        usuario_id = request.POST.get('usuario')
+        rol_id = request.POST.get('rol')
+        usuario = UsuarioRol.objects.get(id=usuario_id)
+        rol = Rol.objects.get(id=rol_id)
+        usuario.roles.remove(rol)
+        return redirect('desasignar')
+    else:
+        usuarios = UsuarioRol.objects.filter(usuario_activo=True)
+        usuario_seleccionado = None
+        roles_usuario = []
+        if 'usuario' in request.GET:
+            usuario_id = request.GET.get('usuario')
+            usuario_seleccionado = UsuarioRol.objects.get(id=usuario_id)
+            roles_usuario = usuario_seleccionado.roles.all()
+        context = {
+            'usuarios': usuarios,
+            'usuario_seleccionado': usuario_seleccionado,
+            'roles_usuario': roles_usuario,
+        }
+        return render(request, 'desasignar_rol.html', context)
