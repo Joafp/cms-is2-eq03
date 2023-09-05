@@ -4,87 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Trabajadores</title>
-    <style>
-         .admin-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
+    <style >
+        /* Estilos para el div de la barra de herramientas */
+        #barra-de-herramientas {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Estilos para el cuerpo de la página */
+        #cuerpo-de-pagina {
+            padding: 20px;
+        }
+       ul, ol{
+            list-style:none;
+        }
+        .nav li a{
+            background-color:#000;
+            color:#fff;
+            text-decoration:none;
+            padding:10px 15px;
+            display:block;
+        }
+        .nav li a:hover{
+            background-color:#434343;
+        }
+        .nav > li{
+            float:left;
+
+        }
+
+        .nav li ul{
+            display:none;
+            position:absolute;
+            min-width:140px;
+        }
+
+        .nav li:hover > ul {
+            display: block;
+        }
+
+        .nav li ul li{
+            position:relative;
+        }
+
+        .nav li ul li ul {
+            right: -140px;
+            top:0px;
         }
         body {
             background-color: #121212;
             color: #FFFFFF;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
             align-items: center;
             min-height: 100vh;
-        }
-        .volver-button {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Menu Trabajadores</h1>
-    <div>
-        {% for rol in usuario_rol.roles.all %}
-            {% for permiso in rol.permisos.all %}
-                {% if permiso.codename == 'Vista autor' %}                    
-                    <button class="volver-button"> 
-                        Entrar como Autor
-                    </button>
-                {% endif %}
+    <div id="barra-de-herramientas">
+        <ul class="nav">
+            {% for rol in usuario_rol.roles.all %}
+                {% for permiso in rol.permisos.all %}
+                    {% if permiso.codename == 'Vista autor' %}                    
+                    <li><a href="#"> Vista Autor</a></li>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </div>
-    <div>
-        {% for rol in usuario_rol.roles.all %}
-            {% for permiso in rol.permisos.all %}
-                {% if permiso.codename == 'Vista editor' %}                    
-                    <button class="volver-button">
-                        Entrar como editor
-                    </button>
-                {% endif %}
+            {% for rol in usuario_rol.roles.all %}
+                {% for permiso in rol.permisos.all %}
+                    {% if permiso.codename == 'Vista editor' %}                    
+                     <li><a href="#"> Vista editor</a></li>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </div>
-    <div>
-        {% for rol in usuario_rol.roles.all %}
-            {% for permiso in rol.permisos.all %}
-                {% if permiso.codename == 'Vista publicador' %}                    
-                    <button class="volver-button">
-                        Entrar como publicador
-                    </button>
-                {% endif %}
+            {% for rol in usuario_rol.roles.all %}
+                {% for permiso in rol.permisos.all %}
+                    {% if permiso.codename == 'Vista publicador' %}                    
+                       <li><a href="#"> Vista Publicador</a></li>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </div>
-    <div>
-        {% for rol in usuario_rol.roles.all %}
-            {% for permiso in rol.permisos.all %}
-                {% if permiso.codename == 'Vista administrador' %}                    
-                    <button class="volver-button">
-                        Entrar como administrador
-                    </button>
-                {% endif %}
+            {% for rol in usuario_rol.roles.all %}
+                {% for permiso in rol.permisos.all %}
+                    {% if permiso.codename == 'Vista administrador' %}                    
+                     <li><a href="{% url 'Administrador' %}"> Vista Administrador</a></li>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
+            <li><a href="{% url 'MenuPrincipal' %}">Volver al Menu Principal</li>
+
+        </ul>    
     </div>
-    <div>
-            <button class='volver-button'><a href={% url 'MenuPrincipal' %}>Volver al Menu Principal</a></button>
+    <!-- Cuerpo de la página -->
+    <div id="cuerpo-de-pagina">
+    	<h1> Vista Desarrollador</h1>
     </div>
 </body>
 </html>

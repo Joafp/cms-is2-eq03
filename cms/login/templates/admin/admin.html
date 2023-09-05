@@ -2,9 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página con Barra de Herramientas</title>
-    <style>
+    <title>Administrador</title>
+    <style type="text/css">
         /* Estilos para el div de la barra de herramientas */
         #barra-de-herramientas {
             background-color: #333;
@@ -63,38 +62,18 @@
     </style>
 </head>
 <body>
-    <!-- Barra de herramientas -->
     <div id="barra-de-herramientas">
         <ul class="nav">
-            <li><a>Categorias</a>
-                <ul>
-                {% for categoria in categorias %}
-                <li><a href="{% url 'cat' categoria.nombre %}">{{categoria.nombre}}</a></li>
-                {% endfor %}
-                </ul>
-            </li> 
-            {% if user.is_authenticated %}
-                    {% if tiene_permiso %}
-                          <li>
-                                <a href="{% url 'maintrabajador' %}">
-                                    Entrar al modo  desarrollador
-                                </a>
-                          </li> 
-                      
-                    {% endif %}
-            {% endif %}
-            {% if user.is_authenticated %}
-                    <li><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></li>
-            {% else %}
-               <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
-            {% endif %}
-        </ul>
+            <li><a href="/crear"> Crear Categorias</a></li>
+            <li><a href="/desactivar"> Desactivar Categorias</a></li>
+            <li><a href="/roles">Gestionar Roles de usuarios </a></li>
+            <li><a href="{% url 'maintrabajador' %}">Volver Menu Desrrollador</li>
+        </ul>    
     </div>
 
     <!-- Cuerpo de la página -->
     <div id="cuerpo-de-pagina">
-    	<h1>Contenidos</h1>
-    	<p>Este es un ejemplo de página de contenidos.</p>
+    	<h1> Vista Administrador</h1>
     </div>
 </body>
 </html>

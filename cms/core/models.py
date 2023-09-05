@@ -9,8 +9,12 @@ class Contenido(models.Model):
     cuerpo=RichTextField(blank=True,null=True)
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
-    
-    
+class Categoria(models.Model):
+    nombre=models.CharField(max_length=200)
+    moderada=models.BooleanField(default=False)
+    activo=models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
 
 
