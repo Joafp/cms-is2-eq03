@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required
 from GestionCuentas.models import UsuarioRol,Rol
 from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
-from django.views.generic import ListView, DeleteView,CreateView
+from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
 from .models import Categoria
 from .models import Contenido
 class CrearContenido(CreateView):
@@ -33,18 +34,21 @@ def vista_MenuPrincipal(request):
     """
     autenticado=User.is_authenticated
     categorias= Categoria.objects.filter(activo=True)
+    primeros_contenidos = Contenido.objects.all()[:5]
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
         context={
             'autenticado':autenticado,
             'tiene_permiso':tiene_permiso,
-            'categorias': categorias
+            'categorias': categorias,
+            'contenido':primeros_contenidos
         }
     else:
         context={
             'autenticado': autenticado,
-            'categorias': categorias
+            'categorias': categorias,
+            'contenido':primeros_contenidos
         }    
     print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
@@ -61,7 +65,6 @@ def vista_trabajador(request):
     usuario_rol = UsuarioRol.objects.get(username=request.user.username)
     return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
 
-<<<<<<< HEAD
 class VistaArticulos(DetailView):
     model = Contenido
     template_name='articulo_detallado.html'
@@ -69,7 +72,6 @@ class VistaContenidos(ListView):
     model= Contenido
     template_name='Contenidos.html'
 
-=======
 def categoria(request,nombre):
     categoria= get_object_or_404(Categoria,nombre=nombre)
     return render(request,'cat/categoria.html',{'categoria':categoria})
@@ -149,4 +151,3 @@ def remover_rol(request):
             'roles_usuario': roles_usuario,
         }
         return render(request, 'desasignar_rol.html', context)
->>>>>>> hito1_carlosayala

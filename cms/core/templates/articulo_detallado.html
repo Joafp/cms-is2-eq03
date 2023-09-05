@@ -1,6 +1,37 @@
-<h1>{{object.titulo}}</h1>
-<small> Autor: {{ object.autor.nombres}}</small><br/>
-<hr>
-<br/>
-{{object.cuerpo|safe}}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Título</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white; /* Cambia el color del texto si es necesario para que sea legible en el fondo oscuro */
+        }
+        .volver-button {
+            position: absolute;
+            top: 10px; /* Ajusta la posición vertical según tus necesidades */
+            right: 10px; /* Ajusta la posición horizontal según tus necesidades */
+            background-color: #007bff; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            padding: 10px 15px; /* Ajusta el espaciado interno del botón */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <h1>{{ object.titulo }}</h1>
+    <a href="{% url 'vistacontenidos' %}" class="volver-button">Volver a contenidos</a>
+    <small> Autor: {{ object.autor.nombres }}</small><br/>
+    <hr>
+    <br/>
+    <p>{{ object.cuerpo|safe }}</p>
+    {% endblock %}
+</body>
+</html>
+
 

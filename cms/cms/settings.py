@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'ckeditor',
     #App core
-    'core',
 ]
 
 MIDDLEWARE = [

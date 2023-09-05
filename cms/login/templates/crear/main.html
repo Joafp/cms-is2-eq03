@@ -88,6 +88,7 @@
             {% else %}
                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
             {% endif %}
+            <li><a href="{% url 'contenidos' %}">Contenidos</a></li>
         </ul>
     </div>
 
@@ -95,6 +96,12 @@
     <div id="cuerpo-de-pagina">
     	<h1>Contenidos</h1>
     	<p>Este es un ejemplo de página de contenidos.</p>
+        <ul>
+            {% for Contenido in contenido %}
+                <li><a href="{% url 'detalles_articulo' Contenido.pk%}">{{Contenido.titulo}}</a><br/>
+                {{Contenido.cuerpo | safe}}</li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 </html>
