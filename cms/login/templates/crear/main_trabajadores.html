@@ -68,7 +68,7 @@
             {% for rol in usuario_rol.roles.all %}
                 {% for permiso in rol.permisos.all %}
                     {% if permiso.codename == 'Vista autor' %}                    
-                    <li><a href="#"> Vista Autor</a></li>
+                    <li><a href="{% url 'crear_contenido' %}"> Vista Autor</a></li>
                     {% endif %}
                 {% endfor %}
             {% endfor %}
@@ -93,8 +93,7 @@
                     {% endif %}
                 {% endfor %}
             {% endfor %}
-            <li><a href="{% url 'MenuPrincipal' %}">Volver al Menu Principal</li>
-
+            <li><a href="{% url 'MenuPrincipal' %}">Volver al Menu Principal</a></li>
         </ul>    
     </div>
     <!-- Cuerpo de la página -->

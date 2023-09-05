@@ -1,42 +1,61 @@
 from django.shortcuts import render, HttpResponse,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
-from GestionCuentas.models import UsuarioRol
+from GestionCuentas.models import UsuarioRol,Rol
 from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
 from .models import Categoria
-from GestionCuentas.models import Rol,UsuarioRol
+from .models import Contenido
+class CrearContenido(CreateView):
+    model= Contenido
+    template_name= 'crear_contenido.html'
+    fields= '__all__'
 @never_cache
 def vista_MenuPrincipal(request):
     """
+    Fecha documentacion: 28/08/2023
     Esta vista nos permite ingresar al template del menu principal, le pasamos como contextos 
     los datos de usuario y de usuariorol en caso de que ya inicio sesion
     autenticado=User.is_authenticated
-    context={
-        'autenticado':autenticado,
-    }
-    print("Usuario: ",autenticado)
-    return render(request, 'crear/main.html',context )
-    """
-    autenticado=User.is_authenticated
-    categorias= Categoria.objects.filter(activo=True)
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
-        tiene_permiso=usuario_rol.has_perm(codename="Boton desarrollador")
+        tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
         context={
             'autenticado':autenticado,
             'tiene_permiso':tiene_permiso,
-            'categorias': categorias
+        }
+    else:
+        context={
+            'autenticado': autenticado
+        }    
+    print("Usuario: ",autenticado)
+    """
+    autenticado=User.is_authenticated
+    categorias= Categoria.objects.filter(activo=True)
+    primeros_contenidos = Contenido.objects.all()[:5]
+    if request.user.is_authenticated:
+        usuario_rol = UsuarioRol.objects.get(username=request.user.username)
+        tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
+        context={
+            'autenticado':autenticado,
+            'tiene_permiso':tiene_permiso,
+            'categorias': categorias,
+            'contenido':primeros_contenidos
         }
     else:
         context={
             'autenticado': autenticado,
-            'categorias': categorias
+            'categorias': categorias,
+            'contenido':primeros_contenidos
         }    
     print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
 @login_required(login_url="/login")
 def vista_trabajador(request):
     """
+    Fecha documentacion: 28/08/2023
     Nos permite redigir al usuario al template de trabajores, le pasamos como datos 
     usuario_rol debido que se utiliza en el html para sbaer que botones mostrar al usuario 
     de acuerdo a su rol
@@ -45,6 +64,13 @@ def vista_trabajador(request):
     """
     usuario_rol = UsuarioRol.objects.get(username=request.user.username)
     return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
+
+class VistaArticulos(DetailView):
+    model = Contenido
+    template_name='articulo_detallado.html'
+class VistaContenidos(ListView):
+    model= Contenido
+    template_name='Contenidos.html'
 
 def categoria(request,nombre):
     categoria= get_object_or_404(Categoria,nombre=nombre)

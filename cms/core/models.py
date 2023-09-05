@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from datetime import datetime,date
 from ckeditor.fields import RichTextField
 from GestionCuentas.models import UsuarioRol
 from django.urls import reverse
@@ -10,7 +12,6 @@ class Contenido(models.Model):
         return self.titulo+ '|'+ str(self.autor)
     def get_absolute_url(self):
         return reverse('crear_contenido')
-
 class Categoria(models.Model):
     nombre=models.CharField(max_length=200)
     moderada=models.BooleanField(default=False)

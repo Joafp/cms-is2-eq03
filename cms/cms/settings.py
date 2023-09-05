@@ -40,9 +40,10 @@ INSTALLED_APPS = [
     #App login
     'login.apps.LoginConfig', \
     'GestionCuentas',
-    #App core
-    'core',
+          #App core
+    'core.apps.CoreConfig',
     'ckeditor',
+    #App core
 ]
 
 MIDDLEWARE = [
