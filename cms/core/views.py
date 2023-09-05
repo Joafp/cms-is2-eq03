@@ -74,7 +74,13 @@ class VistaContenidos(ListView):
 
 def categoria(request,nombre):
     categoria= get_object_or_404(Categoria,nombre=nombre)
-    return render(request,'cat/categoria.html',{'categoria':categoria})
+    contenidos=Contenido.objects.filter(categoria_id=categoria.id)
+    context = {
+        'categoria': categoria,
+        'contenidos': contenidos
+        
+    }
+    return render(request,'cat/categoria.html',context)
 
 
 def crear_categoria(request):
