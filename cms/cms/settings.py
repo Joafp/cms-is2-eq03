@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'GestionCuentas',
     #App core
     'core',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
