@@ -64,9 +64,9 @@
 <body>
     <div id="barra-de-herramientas">
         <ul class="nav">
-            <li><a href="/crear"> Crear Categorias</a></li>
-            <li><a href="/desactivar"> Desactivar Categorias</a></li>
-            <li><a href="/roles">Gestionar Roles de usuarios </a></li>
+            <li><a href="{% url 'Categoria' %}"> Crear Categorias</a></li>
+            <li><a href="{% url 'desc' %}"> Desactivar Categorias</a></li>
+            <li><a href="{% url 'gestion' %}">Gestionar Roles de usuarios </a></li>
             <li><a href="{% url 'maintrabajador' %}">Volver Menu Desrrollador</a></li>
         </ul>    
     </div>

@@ -88,7 +88,7 @@
             {% else %}
                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
             {% endif %}
-            <li><a href="{% url 'contenidos' %}">Contenidos</a></li>
+            <li><a href="{% url 'vistacontenidos' %}">Contenidos</a></li>
         </ul>
     </div>
 
@@ -99,6 +99,7 @@
         <ul>
             {% for Contenido in contenido %}
                 <li><a href="{% url 'detalles_articulo' Contenido.pk%}">{{Contenido.titulo}}</a><br/>
+                    <img src={{Contenido.profile_picture}}>
                 {{Contenido.cuerpo | safe}}</li>
             {% endfor %}
         </ul>
