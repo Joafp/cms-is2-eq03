@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from GestionCuentas.models import UsuarioRol
 from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 @never_cache
 def vista_MenuPrincipal(request):
     """
@@ -50,3 +52,16 @@ def vista_trabajador(request):
     """
     usuario_rol = UsuarioRol.objects.get(username=request.user.username)
     return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
+
+
+
+class CustomPermissionRequiredMixin(PermissionRequiredMixin):
+    """
+    Fecha documentacion: 06/09/2023
+    Permite comprobar permisos personalizados del usuario al ser heredada en vistas basadas en clases
+    """
+    def has_permission(self) -> bool:
+        perms = self.get_permission_required()
+        usuario_rol = UsuarioRol.objects.get(username=self.request.user.username)
+        tiene_permiso=usuario_rol.has_perm(perms)
+        return tiene_permiso
