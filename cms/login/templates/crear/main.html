@@ -1,95 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Contenidos</title>
+    <title>Mi Página con Barra de Herramientas</title>
     <style>
+        /* Estilos para el div de la barra de herramientas */
+        #barra-de-herramientas {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Estilos para el cuerpo de la página */
+        #cuerpo-de-pagina {
+            padding: 20px;
+        }
+       ul, ol{
+            list-style:none;
+        }
+        .nav li a{
+            background-color:#000;
+            color:#fff;
+            text-decoration:none;
+            padding:10px 15px;
+            display:block;
+        }
+        .nav li a:hover{
+            background-color:#434343;
+        }
+        .nav > li{
+            float:left;
+
+        }
+
+        .nav li ul{
+            display:none;
+            position:absolute;
+            min-width:140px;
+        }
+
+        .nav li:hover > ul {
+            display: block;
+        }
+
+        .nav li ul li{
+            position:relative;
+        }
+
+        .nav li ul li ul {
+            right: -140px;
+            top:0px;
+        }
         body {
             background-color: #121212;
             color: #FFFFFF;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
-        
-        .header {
-            background-color: #121212;
-            padding: 10px;
+        .container{
+            width:100%;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
+            max-width: 1100px;
+            flex-wrap: wrap;
+            jsutify-content: space-around;
         }
-        
-        .buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            width: 100%;
+        .card{
+            width: 300px;
+            height: 400px;
+            margin:20px;
+            border-radius: 6px;
+            overflow: hidden;
+            backgrouund: #fff;
+            box-shadow: 0px 1px 10px rgba(0,0,0,0.2);
+            cursor:default;
+            transition: all 400ms ease;
+
         }
-        
-        .button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
+        .card:hover{
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.4);
+            transform: translateY(-3%);
+
         }
-        
-        .button a {
-            text-decoration: none;
-            color: white;
+        .card img{
+            width:100%;
+            height:210px;
         }
-        
-        .content {
-            padding: 20px;
+        .card .contenido{
+            padding: 15px;
             text-align: center;
         }
-        
-      
-        .cabecera{
-            display: flex;
-            align-direction: row;
-            justify-content: space-around;
-            width: 100%;
+        .card .contenido p{
+            line-height: 1.5;
+            color: #6a6a6a;
+
+        }
+        .card . contenido h3{
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+        .card . contenido a{
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px;
+            margin-top: 10px;
+            color: #2fb4cc;
+            border: 1px solid #2fb4cc;
+            border-radius: 4px;
+            transition: all 400ms ease;
+
+        }
+        .card . contenido a:hover{
+            background: #2fb4cc;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="buttons">
-            <div class="cabecera">
-                <div>
-                {% if user.is_authenticated %}
+    <!-- Barra de herramientas -->
+    <div id="barra-de-herramientas">
+        <ul class="nav">
+            <li><a>Categorias</a>
+                <ul>
+                {% for categoria in categorias %}
+                <li><a href="{% url 'cat' categoria.nombre %}">{{categoria.nombre}}</a></li>
+                {% endfor %}
+                </ul>
+            </li> 
+            {% if user.is_authenticated %}
                     {% if tiene_permiso %}
-                        <button class="button">
-                            <a href="{% url 'maintrabajador' %}">
-                                Entrar al modo  desarrollador
-                            </a>
-                        </button>
+                          <li>
+                                <a href="{% url 'maintrabajador' %}">
+                                    Entrar al modo  desarrollador
+                                </a>
+                          </li> 
+                      
                     {% endif %}
-                {% endif %} 
-               </div>
-                <div>
-                {% if user.is_authenticated %}
-                    <button class="button"><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></button>
-                {% else %}
-                <button class="button"><a href="{% url 'login' %}">Iniciar Sesión</a></button>
-                {% endif %}
+            {% endif %}
+            {% if user.is_authenticated %}
+                    <li><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></li>
+            {% else %}
+               <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+            {% endif %}
+            <li><a href="{% url 'vistacontenidos' %}">Contenidos</a></li>
+        </ul>
+    </div>
+
+    <!-- Cuerpo de la página -->
+    <div id="cuerpo-de-pagina">
+    	<h1>Contenidos</h1>
+     <div class="container">   
+          {% for Contenido in contenido %}
+                <div class= "card">
+                    <figure>
+                        <img src={{Contenido.imagen}}>
+                    </figure>
+                    <div class="contenido">
+                        <h3>{{Contenido.titulo}}</h3>
+                        <p>{{Contenido.resumen | safe }}</p>
+                        <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
+                    </div>     
                 </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="content">
-        <h1>Contenidos</h1>
-        <p>Este es un ejemplo de página de contenidos.</p>
-    </div>
+           {% endfor %}    
+     </div>   
+    </div>  
 </body>
 </html>

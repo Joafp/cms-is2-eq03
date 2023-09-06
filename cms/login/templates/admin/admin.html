@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrador</title>
+    <style type="text/css">
+        /* Estilos para el div de la barra de herramientas */
+        #barra-de-herramientas {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Estilos para el cuerpo de la página */
+        #cuerpo-de-pagina {
+            padding: 20px;
+        }
+       ul, ol{
+            list-style:none;
+        }
+        .nav li a{
+            background-color:#000;
+            color:#fff;
+            text-decoration:none;
+            padding:10px 15px;
+            display:block;
+        }
+        .nav li a:hover{
+            background-color:#434343;
+        }
+        .nav > li{
+            float:left;
+
+        }
+
+        .nav li ul{
+            display:none;
+            position:absolute;
+            min-width:140px;
+        }
+
+        .nav li:hover > ul {
+            display: block;
+        }
+
+        .nav li ul li{
+            position:relative;
+        }
+
+        .nav li ul li ul {
+            right: -140px;
+            top:0px;
+        }
+        body {
+            background-color: #121212;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            align-items: center;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="barra-de-herramientas">
+        <ul class="nav">
+            <li><a href="{% url 'Categoria' %}"> Crear Categorias</a></li>
+            <li><a href={% url 'desc' %}> Desactivar Categorias</a></li>
+            <li><a href={% url 'gestion' %}>Gestionar Roles de usuarios </a></li>
+            <li><a href="{% url 'maintrabajador' %}">Volver Menu Desrrollador</a></li>
+        </ul>    
+    </div>
+
+    <!-- Cuerpo de la página -->
+    <div id="cuerpo-de-pagina">
+    	<h1> Vista Administrador</h1>
+    </div>
+</body>
+</html>
