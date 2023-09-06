@@ -99,7 +99,7 @@
         <ul>
             {% for Contenido in contenido %}
                 <li><a href="{% url 'detalles_articulo' Contenido.pk%}">{{Contenido.titulo}}</a><br/>
-                    <img src={{Contenido.profile_picture}}>
+                    <img src={{Contenido.imagen}}>
                 {{Contenido.cuerpo | safe}}</li>
             {% endfor %}
         </ul>

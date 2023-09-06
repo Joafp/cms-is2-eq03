@@ -9,6 +9,10 @@ from django.views.generic.edit import CreateView
 from .models import Categoria
 from .models import Contenido
 class CrearContenido(CreateView):
+    """
+    La clase creacontenido utiliza el view de django CreateView, este view nos permite rellenar datos para un modelo
+    en este caso para el modelo contenido, utilizamos el template crear_contenido
+    """
     model= Contenido
     template_name= 'crear_contenido.html'
     fields= '__all__'

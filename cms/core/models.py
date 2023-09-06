@@ -12,10 +12,21 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
 class Contenido(models.Model):
+    """
+    El modelo contenido nos sirve para guardar los datos del contenido, tenemos los atributos
+    Titulo: guardamos el titulo del contenido
+    Autor: Asignamos un autor al titulo, mediante el codigo podemos ver que usamos limit choices para buscar solo los usuarios con el rol
+    autor
+    Categoria: En nuestro caso usamos el modelo creado anteriormente llamado categoria, como vemos asignamos que 
+    un contenido solo puede pertenecer a una categoria
+    Imagen: utilizamos el modelo default de django que nos ofrece ImageField, en este atributo lo que guardamos es el path
+    de la imagen, en upload asingamos la ubicacion donde se guardara la imagen
+    Cuerpo: Utilizamos la libreria ckeditor, esta libreria nos permite crear field enriquesidos, donde podemos subir tanto imagenes, como textos
+    """
     titulo= models.CharField(max_length=255)
     autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'})
     categoria=models.ForeignKey(Categoria,on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='files/resumen', blank=True, null=True)
+    imagen = models.ImageField(upload_to='files/resumen', blank=True, null=True)
     cuerpo=RichTextField(blank=True,null=True)
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
