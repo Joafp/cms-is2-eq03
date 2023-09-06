@@ -34,7 +34,7 @@ def vista_MenuPrincipal(request):
     """
     autenticado=User.is_authenticated
     categorias= Categoria.objects.filter(activo=True)
-    primeros_contenidos = Contenido.objects.all()[:5]
+    primeros_contenidos = Contenido.objects.all()[:6]
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
@@ -65,13 +65,17 @@ def vista_trabajador(request):
     usuario_rol = UsuarioRol.objects.get(username=request.user.username)
     return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
 
+
 class VistaArticulos(DetailView):
     model = Contenido
     template_name='articulo_detallado.html'
+
+   
 class VistaContenidos(ListView):
     model= Contenido
     template_name='Contenidos.html'
 
+@login_required(login_url="/login")
 def categoria(request,nombre):
     categoria= get_object_or_404(Categoria,nombre=nombre)
     contenidos=Contenido.objects.filter(categoria_id=categoria.id)
@@ -80,9 +84,9 @@ def categoria(request,nombre):
         'contenidos': contenidos
         
     }
-    return render(request,'cat/categoria.html',context)
+    return render(request,'categoria.html',context)
 
-
+@login_required(login_url="/login")
 def crear_categoria(request):
     if request.method == 'POST':
         nombre1=request.POST['nombre']
@@ -92,7 +96,7 @@ def crear_categoria(request):
         return redirect('Administrador')
     return render(request,'crear_cat.html')
 
-
+@login_required(login_url="/login")
 def desactivar_categoria(request):
     if request.method == 'POST':
         id_categoria= request.POST['id_categoria']
@@ -103,10 +107,12 @@ def desactivar_categoria(request):
 
     return render(request, 'desactivar_cat.html')
 
+
+@login_required(login_url="/login")
 def vista_roles(request):
     return render(request,'gestion_roles.html')
 
-
+@login_required(login_url="/login")
 def asignar_rol(request):
     if request.method == 'POST':
         usuario_id = request.POST.get('usuario')
@@ -135,6 +141,7 @@ def asignar_rol(request):
         }
         return render(request, 'asignar_rol.html', context)
     
+@login_required(login_url="/login")    
 def remover_rol(request):
     if request.method == 'POST':
         usuario_id = request.POST.get('usuario')

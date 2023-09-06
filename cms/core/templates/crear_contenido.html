@@ -26,7 +26,7 @@
     {% block content %}
     <a href="{% url 'maintrabajador' %}" class="volver-button">Volver a la vista de desarrollador</a>
     <h1>Crear Contenido</h1>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.media }}
         {{ form.as_p }}

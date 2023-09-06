@@ -1,10 +1,7 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contenidos</title>
+    <title>{{ categoria.nombre }}</title>
     <style>
         body {
             background-color: #121212;
@@ -84,10 +81,11 @@
 </head>
 <body>
     <a href="{% url 'MenuPrincipal' %}" class="volver-button">Volver al menu principal</a>
+    <h1> {{ categoria.nombre }}</h1>
     <div id="cuerpo-de-pagina">
-        <h1>Contenidos</h1>
-    <div class="container">   
-        {% for Contenido in object_list %}
+    	<h1>Contenidos</h1>
+     <div class="container">   
+          {% for Contenido in contenidos %}
                 <div class= "card">
                     <figure>
                         <img src="/{{Contenido.imagen}}"/>
@@ -98,8 +96,8 @@
                         <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
                     </div>     
                 </div>
-        {% endfor %}    
-    </div>   
-    </div> 
+           {% endfor %}    
+     </div>   
+    </div>  
 </body>
 </html>
