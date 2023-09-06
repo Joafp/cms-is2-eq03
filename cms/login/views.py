@@ -1,9 +1,10 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login,logout
 from django.shortcuts import render,redirect
-from django.views.decorators.cache import never_cache
+from django.contrib.auth.decorators import login_required
 from .forms import RegistroForm
 from GestionCuentas.models import UsuarioRol,Rol
+from core.models import Categoria
 class CustomAuthenticationForm(AuthenticationForm):
     """
     Esta clase es para customizar los mensajes de error a la hora de intentar logearse al sitio con una cuenta
@@ -19,7 +20,7 @@ class CustomAuthenticationForm(AuthenticationForm):
         'invalid_login': "Credenciales inválidas. Por favor, verifica tu usuario y contraseña.",
         'inactive': "Tu cuenta está inactiva. Contacta al administrador para más detalles.",
     }
-@never_cache
+
 def vista_login(request):
     """
     Esta vista nos permite verificar, primero, si el formulario es valido. En caso de ser asi
@@ -66,7 +67,7 @@ def vista_login(request):
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
 
-@never_cache
+
 def registro(request):
     """
     Este metodo nos permite crear un formulario para que los usuarios se registren en nuestro sistema.
@@ -114,7 +115,7 @@ def registro(request):
     return render(request, 'main/registro.html', {'form': form})
 
 #Deslogeo
-@never_cache
+@login_required(login_url="/login")
 def cerrar_sesion(request):
     """
     Este metodo nos permite cerrar sesion en el sitio.
@@ -124,3 +125,10 @@ def cerrar_sesion(request):
     """
     logout(request)
     return redirect('MenuPrincipal')
+
+
+def vista_admin(request):
+    return render (request,'admin/admin.html')
+
+
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Título</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white; /* Cambia el color del texto si es necesario para que sea legible en el fondo oscuro */
+        }
+        .volver-button {
+            position: absolute;
+            top: 10px; /* Ajusta la posición vertical según tus necesidades */
+            right: 10px; /* Ajusta la posición horizontal según tus necesidades */
+            background-color: #007bff; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            padding: 10px 15px; /* Ajusta el espaciado interno del botón */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <a href="{% url 'maintrabajador' %}" class="volver-button">Volver a la vista de desarrollador</a>
+    <h1>Crear Contenido</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <button class="btn btn-secondary">Crear</button>
+    </form>
+    {% endblock %}
+</body>
+</html>
+

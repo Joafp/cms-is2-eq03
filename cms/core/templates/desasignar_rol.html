@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remover Rol</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #FFFFFF;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      width: 400px;
+      padding: 40px;
+      background-color: #1E1E1E;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+    label {
+      display: block;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #333;
+      border-radius: 4px;
+      background-color: #282828;
+      color: #FFFFFF;
+    }
+    button {
+      display: block;
+      margin: 0 auto;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #1976D2;
+      color: #FFFFFF;
+      cursor:pointer
+    }
+    .forgot-password {
+       text-align:center; 
+       margin-top :20px
+    }
+    
+    ul {
+       list-style-type:none; 
+       padding-left :0; 
+       text-align:center
+    }
+    
+    li{
+       margin-bottom :5px
+    }
+    
+  </style>
+</head>
+<body>
+   <div class="container">
+     <h1>Remover Rol</h1>
+     <form method="get">
+       <label for="usuario">Usuario:</label>
+       <select name="usuario" id="usuario" onchange="this.form.submit()">
+         <option value="">--Selecciona un usuario--</option>
+         {% for usuario in usuarios %}
+           <option value="{{ usuario.id }}" {% if usuario_seleccionado and usuario.id == usuario_seleccionado.id %}selected{% endif %}>{{ usuario.username }}</option>
+         {% endfor %}
+       </select>
+     </form>
+     {% if usuario_seleccionado %}
+       <h2>Roles actuales:</h2>
+       <ul>
+         {% for rol in roles_usuario %}
+           <li>{{ rol.nombre }}</li>
+         {% endfor %}
+       </ul>
+       <h2>Remover rol:</h2>
+       <form method="post">
+         {% csrf_token %}
+         <input type="hidden" name="usuario" value="{{ usuario_seleccionado.id }}">
+         <label for="rol">Rol:</label>
+         <select name="rol" id="rol">
+           {% for rol in roles_usuario %}
+             <option value="{{ rol.id }}">{{ rol.nombre }}</option>
+           {% endfor %}
+         </select>
+         <br>
+         <input type="submit" value="Remover">
+         <a href="{% url 'gestion' %}">Volver Gestion Roles</a>
+       </form>
+     {% endif %}
+   </div>
+ </body>
+</html>  
