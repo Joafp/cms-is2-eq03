@@ -25,13 +25,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
     #App login
-    'login.apps.LoginConfig', \
+    'login.apps.LoginConfig',
     'GestionCuentas',
-          #App core
-    'core.apps.CoreConfig',
     'ckeditor',
-    #App core
 ]
 
 MIDDLEWARE = [
@@ -122,6 +120,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL= 'MenuPrincipal'
 from django.urls import reverse_lazy
+import os
 LOGOUT_REDIRECT_URL=reverse_lazy('MenuPrincipal')
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 MEDIA_ROOT= ''

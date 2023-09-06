@@ -10,7 +10,7 @@ class Categoria(models.Model):
     activo=models.BooleanField(default=True)
 
     def __str__(self):
-        return self.nombre
+        return self.nombre    
 class Contenido(models.Model):
     """
     El modelo contenido nos sirve para guardar los datos del contenido, tenemos los atributos
@@ -25,14 +25,12 @@ class Contenido(models.Model):
     """
     titulo= models.CharField(max_length=255)
     autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'})
-    categoria=models.ForeignKey(Categoria,on_delete=models.CASCADE)
-    imagen = models.ImageField(upload_to='files/resumen', blank=True, null=True)
+    categoria= models.ForeignKey(Categoria,on_delete=models.CASCADE)
+    resumen=models.CharField(max_length=255,blank=True)
+    imagen = models.ImageField(upload_to='contenido_imagenes/', blank=True, null=True)
     cuerpo=RichTextField(blank=True,null=True)
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
     def get_absolute_url(self):
         return reverse('crear_contenido')
-    
-
-
 
