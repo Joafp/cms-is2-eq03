@@ -88,7 +88,7 @@
           {% for Contenido in contenidos %}
                 <div class= "card">
                     <figure>
-                        <img src="/{{Contenido.imagen}}"/>
+                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
                     </figure>
                     <div class="contenido">
                         <h3>{{Contenido.titulo}}</h3>
