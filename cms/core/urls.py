@@ -21,4 +21,6 @@ urlpatterns = [
     path('asignar/',views.asignar_rol,name='asignacion'),
     path('desasignar/',views.remover_rol,name='desasignar'),
 ]
+"""Nos permite vincular la direccion donde tenemos guardadas nuestras imagenes, en este caso
+tenemos las imagenes en la carpeta raiz y esta esta definida en el archivo settings"""
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

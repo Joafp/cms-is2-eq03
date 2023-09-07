@@ -31,6 +31,8 @@ class Contenido(models.Model):
     cuerpo=RichTextField(blank=True,null=True)
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
+    """Nos permite una vez creado el contenido redireccionar a la misma pagina para pooder seguir creando contenidos
+    en caso de querer redireccionar a otr pagina solo cambiamos reverse()"""
     def get_absolute_url(self):
         return reverse('crear_contenido')
 
