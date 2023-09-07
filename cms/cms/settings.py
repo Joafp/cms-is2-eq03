@@ -13,8 +13,7 @@ SECRET_KEY = 'django-insecure-pa9b5r^4-t15zljy=q8jjdv=zu*2p(ig^)bcf&b!(ba@$thc9f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 # Application definition
 
@@ -31,7 +30,6 @@ INSTALLED_APPS = [
     'GestionCuentas',
     'ckeditor',
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
