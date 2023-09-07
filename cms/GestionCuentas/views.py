@@ -4,12 +4,18 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from GestionCuentas.models import UsuarioRol
 from django.contrib import messages
 from core.views import CustomPermissionRequiredMixin
 from django.shortcuts import render,redirect
 from django.views.decorators.cache import never_cache
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth import logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 class vista_editar_usuario(CustomPermissionRequiredMixin, UpdateView):
     model = UsuarioRol
@@ -52,40 +58,41 @@ class vista_lista_usuarios(CustomPermissionRequiredMixin, ListView):
         context["filtro_email"] = self.request.GET.get('filtro_email') or ''
         return context
 
-@never_cache
-@login_required
-def vista_inactivar_cuenta(request):
-    if (request.method == 'POST'):
-        # Verificar confirmacion
-        verificado = None
-        if (verificado):
-            # desactivar...
-            pass
-            logout(request)
-            return redirect('MenuPrincipal')
-        else:
-            #mostrar mensaje de error
-            pass
-    else: 
-        # Mostrar form
-        form = None
-    return render(request, "usuario/inactivar.html", form)
+class vista_inactivar_cuenta(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = UsuarioRol
+    fields = ["usuario_activo"]
+    template_name = "usuario/inactivar.html"
+    success_url = reverse_lazy("MenuPrincipal")
+    login_url = reverse_lazy('login')
+    redirect_field_name = "redirect_to"
+   
+    def form_valid(self, form):
+        if form.cleaned_data.get('usuario_activo') is True:
+            messages.warning(self.request, "No se ha inactivado la cuenta")
+            return redirect(reverse_lazy('MenuPrincipal'))
+        messages.success(self.request, f"Se ha inactivado la cuenta del usuario {self.request.user.username}.")
+        self.request.user.is_active = False
+        self.request.user.save()
+        logout(self.request)
+        return super(vista_inactivar_cuenta, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['form'].fields['usuario_activo'].label = 'Cuenta activa'
+        return context
+    
+    def test_func(self):
+        loginid = UsuarioRol.objects.get(username=self.request.user.username).id
+        updateid = self.get_object().id
+        return  loginid == updateid
+   
 
-@never_cache
-@login_required
-def vista_recuperar_password(request):
-    if (request.method == 'POST'):
-        # Verificar confirmacion
-        verificado = None
-        if (verificado):
-            # enviar por correo
-            # notificar en pagina
-            # redirigir al login
-            pass
-        else:
-            #mostrar mensaje de error
-            pass
-    else: 
-        # Mostrar form
-        form = None
-    return render(request, "usuario/inactivar.html", form)
+class vista_recuperar_password(SuccessMessageMixin, PasswordResetView):
+    template_name = "usuario/recuperar_password.html"
+    email_template_name = 'usuario/recuperar_password_email.html'
+    subject_template_name = 'usuario/recuperar_password_subject'
+    success_message = "Se enviara un email a la direccion ingresada si esta asociada a una cuenta. Si no recibe el email, revise su carpeta de spam."
+    success_url = reverse_lazy('MenuPrincipal')
+
+def redirgirInactivar(request):
+    return redirect(reverse_lazy('inactivarCuenta', kwargs={'pk':UsuarioRol.objects.get(username=request.user.username).id}))

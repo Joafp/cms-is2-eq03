@@ -92,26 +92,6 @@
         .list-row>button {
             border: 0;
         }
-
-        .alert {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: auto;
-            height: auto;
-            padding: 10px;
-            margin: 10px;
-            line-height: 1.8;
-            border-radius: 5px;
-            font-family: sans-serif;
-            font-weight: 400;
-        }
-
-        .alert-success {
-            background-color: rgba(62, 189, 97);
-            border: 2px solid #3ebd61;
-            color: #333C48;
-        }
     </style>
 </head>
 
@@ -167,15 +147,7 @@
             <button type="submit">Filtrar</button>
         </form>
     </div>
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}" {% endif %}>
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+    {% include 'mensajes/mensajes.html' %}
 </body>
 
 </html>

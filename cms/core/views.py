@@ -40,7 +40,9 @@ def vista_MenuPrincipal(request):
     """
     autenticado=User.is_authenticated
     categorias= Categoria.objects.filter(activo=True)
-    primeros_contenidos = Contenido.objects.all()[:6]
+    autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
+    contenidos=Contenido.objects.filter(autor__in=autores_activos)
+    primeros_contenidos = contenidos[:6]
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
