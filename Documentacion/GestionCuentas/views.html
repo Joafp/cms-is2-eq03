@@ -1,0 +1,912 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module views</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>views</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/mtx/proyectois2/cms-is2-eq03/cms/GestionCuentas/views.py">/home/mtx/proyectois2/cms-is2-eq03/cms/GestionCuentas/views.py</a></font></td></tr></table>
+    <p><tt>Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+Contiene&nbsp;las&nbsp;vistas&nbsp;necesarias&nbsp;para&nbsp;que&nbsp;el&nbsp;administrador&nbsp;edite&nbsp;la&nbsp;informacion&nbsp;de&nbsp;usuarios,<br>
+Tambien&nbsp;las&nbsp;vistas&nbsp;para&nbsp;que&nbsp;un&nbsp;usuario&nbsp;recupere&nbsp;su&nbsp;contraseña&nbsp;y&nbsp;para&nbsp;inactivar&nbsp;su&nbsp;cuenta</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="django.contrib.messages.html">django.contrib.messages</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a>(<a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="views.html#vista_editar_usuario">vista_editar_usuario</a>(<a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a>, <a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="views.html#vista_lista_usuarios">vista_lista_usuarios</a>(<a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a>, <a href="django.views.generic.list.html#ListView">django.views.generic.list.ListView</a>)
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.contrib.auth.mixins.html#LoginRequiredMixin">django.contrib.auth.mixins.LoginRequiredMixin</a>(<a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="views.html#vista_inactivar_cuenta">vista_inactivar_cuenta</a>(<a href="django.contrib.auth.mixins.html#LoginRequiredMixin">django.contrib.auth.mixins.LoginRequiredMixin</a>, <a href="django.contrib.auth.mixins.html#UserPassesTestMixin">django.contrib.auth.mixins.UserPassesTestMixin</a>, <a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>)
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.contrib.auth.mixins.html#UserPassesTestMixin">django.contrib.auth.mixins.UserPassesTestMixin</a>(<a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="views.html#vista_inactivar_cuenta">vista_inactivar_cuenta</a>(<a href="django.contrib.auth.mixins.html#LoginRequiredMixin">django.contrib.auth.mixins.LoginRequiredMixin</a>, <a href="django.contrib.auth.mixins.html#UserPassesTestMixin">django.contrib.auth.mixins.UserPassesTestMixin</a>, <a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>)
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.contrib.auth.views.html#PasswordResetView">django.contrib.auth.views.PasswordResetView</a>(<a href="django.contrib.auth.views.html#PasswordContextMixin">django.contrib.auth.views.PasswordContextMixin</a>, <a href="django.views.generic.edit.html#FormView">django.views.generic.edit.FormView</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="views.html#vista_recuperar_password">vista_recuperar_password</a>(<a href="django.contrib.messages.views.html#SuccessMessageMixin">django.contrib.messages.views.SuccessMessageMixin</a>, <a href="django.contrib.auth.views.html#PasswordResetView">django.contrib.auth.views.PasswordResetView</a>)
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.contrib.messages.views.html#SuccessMessageMixin">django.contrib.messages.views.SuccessMessageMixin</a>(<a href="builtins.html#object">builtins.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="views.html#vista_recuperar_password">vista_recuperar_password</a>(<a href="django.contrib.messages.views.html#SuccessMessageMixin">django.contrib.messages.views.SuccessMessageMixin</a>, <a href="django.contrib.auth.views.html#PasswordResetView">django.contrib.auth.views.PasswordResetView</a>)
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>(<a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>, <a href="django.views.generic.edit.html#BaseUpdateView">django.views.generic.edit.BaseUpdateView</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="views.html#vista_editar_usuario">vista_editar_usuario</a>(<a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a>, <a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="views.html#vista_inactivar_cuenta">vista_inactivar_cuenta</a>(<a href="django.contrib.auth.mixins.html#LoginRequiredMixin">django.contrib.auth.mixins.LoginRequiredMixin</a>, <a href="django.contrib.auth.mixins.html#UserPassesTestMixin">django.contrib.auth.mixins.UserPassesTestMixin</a>, <a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>)
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.views.generic.list.html#ListView">django.views.generic.list.ListView</a>(<a href="django.views.generic.list.html#MultipleObjectTemplateResponseMixin">django.views.generic.list.MultipleObjectTemplateResponseMixin</a>, <a href="django.views.generic.list.html#BaseListView">django.views.generic.list.BaseListView</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="views.html#vista_lista_usuarios">vista_lista_usuarios</a>(<a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a>, <a href="django.views.generic.list.html#ListView">django.views.generic.list.ListView</a>)
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="vista_editar_usuario">class <strong>vista_editar_usuario</strong></a>(<a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a>, <a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#vista_editar_usuario">vista_editar_usuario</a>(**kwargs)<br>
+&nbsp;<br>
+Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+Permite&nbsp;que&nbsp;el&nbsp;administrador&nbsp;edite&nbsp;la&nbsp;informacion&nbsp;de&nbsp;un&nbsp;usuario&nbsp;a&nbsp;traves&nbsp;de&nbsp;un&nbsp;formulario,<br>
+el&nbsp;formulario&nbsp;se&nbsp;crea&nbsp;a&nbsp;partir&nbsp;del&nbsp;modelo&nbsp;GestionCuentas.models.UsuarioRol:<br>
+model&nbsp;=&nbsp;UsuarioRol<br>
+utilizando&nbsp;los&nbsp;campos&nbsp;especificados&nbsp;en&nbsp;fields:<br>
+fields&nbsp;=&nbsp;["username",&nbsp;"email",&nbsp;"nombres",&nbsp;"apellidos",&nbsp;"numero",&nbsp;"usuario_activo",&nbsp;"usuario_administrador",&nbsp;"roles"&nbsp;]<br>
+Ademas&nbsp;se&nbsp;sobreescribio&nbsp;el&nbsp;metodo&nbsp;<a href="#vista_editar_usuario-form_valid">form_valid</a>(self,form)&nbsp;para&nbsp;&nbsp;enviar&nbsp;una&nbsp;notificacion&nbsp;al&nbsp;navegador&nbsp;cuando&nbsp;se&nbsp;completa&nbsp;el&nbsp;proceso&nbsp;correctamente<br>
+Ademas&nbsp;se&nbsp;requiere&nbsp;que&nbsp;el&nbsp;usuario&nbsp;cuente&nbsp;con&nbsp;el&nbsp;permiso&nbsp;especificado&nbsp;en&nbsp;el&nbsp;atributo:<br>
+permission_required&nbsp;=&nbsp;"Editar&nbsp;usuarios"<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="views.html#vista_editar_usuario">vista_editar_usuario</a></dd>
+<dd><a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a></dd>
+<dd><a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a></dd>
+<dd><a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a></dd>
+<dd><a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#BaseUpdateView">django.views.generic.edit.BaseUpdateView</a></dd>
+<dd><a href="django.views.generic.edit.html#ModelFormMixin">django.views.generic.edit.ModelFormMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a></dd>
+<dd><a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a></dd>
+<dd><a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#ProcessFormView">django.views.generic.edit.ProcessFormView</a></dd>
+<dd><a href="django.views.generic.base.html#View">django.views.generic.base.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="vista_editar_usuario-form_valid"><strong>form_valid</strong></a>(self, form)</dt><dd><tt>Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Modificado&nbsp;para&nbsp;enviar&nbsp;un&nbsp;mensaje&nbsp;de&nbsp;finalizacion<br>
+&nbsp;&nbsp;&nbsp;&nbsp;messages.success(self.<strong>request</strong>,&nbsp;f"Actualizacion&nbsp;exitosa&nbsp;del&nbsp;usuario&nbsp;{form.cleaned_data['username']}.")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;super(<a href="#vista_editar_usuario">vista_editar_usuario</a>,&nbsp;self).<a href="#vista_editar_usuario-form_valid">form_valid</a>(form)</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_context_data"><strong>get_context_data</strong></a>(self, **kwargs: Any) -&gt; Dict[str, Any]</dt><dd><tt>Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Modificado&nbsp;para&nbsp;mostrar&nbsp;la&nbsp;etiqueta&nbsp;correcta<br>
+&nbsp;&nbsp;&nbsp;&nbsp;context&nbsp;=&nbsp;super().<a href="#vista_editar_usuario-get_context_data">get_context_data</a>(**kwargs)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;context['form'].fields['numero'].label&nbsp;=&nbsp;'Telefono'</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>fields</strong> = ['username', 'email', 'nombres', 'apellidos', 'numero', 'usuario_activo', 'usuario_administrador', 'roles']</dl>
+
+<dl><dt><strong>model</strong> = &lt;class 'GestionCuentas.models.UsuarioRol'&gt;<dd><tt>Modelo&nbsp;personalizado&nbsp;para&nbsp;usuarios&nbsp;con&nbsp;roles<br>
+username:En&nbsp;este&nbsp;apartado&nbsp;guardamos&nbsp;el&nbsp;username&nbsp;que&nbsp;utiliza&nbsp;un&nbsp;nuevo&nbsp;usuario&nbsp;en&nbsp;su&nbsp;registro<br>
+email:nos&nbsp;permite&nbsp;guardar&nbsp;el&nbsp;correo&nbsp;y&nbsp;como&nbsp;vamos&nbsp;a&nbsp;enviar&nbsp;notificaciones&nbsp;por&nbsp;correo&nbsp;pusimos&nbsp;como&nbsp;un&nbsp;atributo<br>
+unico&nbsp;en&nbsp;nuestro&nbsp;sistema&nbsp;y&nbsp;tambien&nbsp;obligatorio<br>
+nombres:guarda&nbsp;los&nbsp;nombres&nbsp;del&nbsp;usuario<br>
+apellidos:Guarda&nbsp;los&nbsp;apellidos&nbsp;de&nbsp;usuario<br>
+numero:guarda&nbsp;el&nbsp;numero&nbsp;de&nbsp;telefono&nbsp;del&nbsp;usuario<br>
+usuario_activo:&nbsp;este&nbsp;atributo&nbsp;nos&nbsp;servira&nbsp;para&nbsp;inactivar&nbsp;cuentas&nbsp;logicamente<br>
+usuario_administrador:&nbsp;nos&nbsp;permite&nbsp;agregar&nbsp;mas&nbsp;permisos&nbsp;a&nbsp;un&nbsp;usuario&nbsp;en&nbsp;caso&nbsp;que&nbsp;sea&nbsp;administrador<br>
+roles:&nbsp;utilizamos&nbsp;la&nbsp;clase&nbsp;anteriormente&nbsp;mencionada&nbsp;para&nbsp;agregar&nbsp;los&nbsp;roles&nbsp;a&nbsp;un&nbsp;usuario,&nbsp;un&nbsp;usuario&nbsp;puede&nbsp;tener&nbsp;mas&nbsp;de&nbsp;un&nbsp;rol</tt></dl>
+
+<dl><dt><strong>permission_required</strong> = 'Editar usuarios'</dl>
+
+<dl><dt><strong>success_url</strong> = '/gestioncuentas/listaUsuarios/'</dl>
+
+<dl><dt><strong>template_name</strong> = 'administrador/usuariorol_update_form.html'</dl>
+
+<hr>
+Methods inherited from <a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a>:<br>
+<dl><dt><a name="vista_editar_usuario-has_permission"><strong>has_permission</strong></a>(self) -&gt; bool</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;customize&nbsp;the&nbsp;way&nbsp;permissions&nbsp;are&nbsp;checked.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a>:<br>
+<dl><dt><a name="vista_editar_usuario-dispatch"><strong>dispatch</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_permission_required"><strong>get_permission_required</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;permission_required&nbsp;attribute.<br>
+Must&nbsp;return&nbsp;an&nbsp;iterable.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><a name="vista_editar_usuario-get_login_url"><strong>get_login_url</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;login_url&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_permission_denied_message"><strong>get_permission_denied_message</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;permission_denied_message&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_redirect_field_name"><strong>get_redirect_field_name</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;redirect_field_name&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-handle_no_permission"><strong>handle_no_permission</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><strong>login_url</strong> = None</dl>
+
+<dl><dt><strong>permission_denied_message</strong> = ''</dl>
+
+<dl><dt><strong>raise_exception</strong> = False</dl>
+
+<dl><dt><strong>redirect_field_name</strong> = 'next'</dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>:<br>
+<dl><dt><strong>template_name_suffix</strong> = '_form'</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><a name="vista_editar_usuario-get_template_names"><strong>get_template_names</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;template&nbsp;names&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;the&nbsp;request.&nbsp;May&nbsp;not&nbsp;be<br>
+called&nbsp;if&nbsp;<a href="#vista_editar_usuario-render_to_response">render_to_response</a>()&nbsp;is&nbsp;overridden.&nbsp;Return&nbsp;the&nbsp;following&nbsp;list:<br>
+&nbsp;<br>
+*&nbsp;the&nbsp;value&nbsp;of&nbsp;``template_name``&nbsp;on&nbsp;the&nbsp;view&nbsp;(if&nbsp;provided)<br>
+*&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;``template_name_field``&nbsp;field&nbsp;on&nbsp;the<br>
+&nbsp;&nbsp;object&nbsp;instance&nbsp;that&nbsp;the&nbsp;view&nbsp;is&nbsp;operating&nbsp;upon&nbsp;(if&nbsp;available)<br>
+*&nbsp;``&lt;app_label&gt;/&lt;model_name&gt;&lt;template_name_suffix&gt;.html``</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><strong>template_name_field</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><a name="vista_editar_usuario-render_to_response"><strong>render_to_response</strong></a>(self, context, **response_kwargs)</dt><dd><tt>Return&nbsp;a&nbsp;response,&nbsp;using&nbsp;the&nbsp;`response_class`&nbsp;for&nbsp;this&nbsp;view,&nbsp;with&nbsp;a<br>
+template&nbsp;rendered&nbsp;with&nbsp;the&nbsp;given&nbsp;context.<br>
+&nbsp;<br>
+Pass&nbsp;response_kwargs&nbsp;to&nbsp;the&nbsp;constructor&nbsp;of&nbsp;the&nbsp;response&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>content_type</strong> = None</dl>
+
+<dl><dt><strong>response_class</strong> = &lt;class 'django.template.response.TemplateResponse'&gt;</dl>
+
+<dl><dt><strong>template_engine</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#BaseUpdateView">django.views.generic.edit.BaseUpdateView</a>:<br>
+<dl><dt><a name="vista_editar_usuario-get"><strong>get</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;GET&nbsp;requests:&nbsp;instantiate&nbsp;a&nbsp;blank&nbsp;version&nbsp;of&nbsp;the&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-post"><strong>post</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;POST&nbsp;requests:&nbsp;instantiate&nbsp;a&nbsp;form&nbsp;instance&nbsp;with&nbsp;the&nbsp;passed<br>
+POST&nbsp;variables&nbsp;and&nbsp;then&nbsp;check&nbsp;if&nbsp;it's&nbsp;valid.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#ModelFormMixin">django.views.generic.edit.ModelFormMixin</a>:<br>
+<dl><dt><a name="vista_editar_usuario-get_form_class"><strong>get_form_class</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;form&nbsp;class&nbsp;to&nbsp;use&nbsp;in&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_form_kwargs"><strong>get_form_kwargs</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;keyword&nbsp;arguments&nbsp;for&nbsp;instantiating&nbsp;the&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_success_url"><strong>get_success_url</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;URL&nbsp;to&nbsp;redirect&nbsp;to&nbsp;after&nbsp;processing&nbsp;a&nbsp;valid&nbsp;form.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a>:<br>
+<dl><dt><a name="vista_editar_usuario-form_invalid"><strong>form_invalid</strong></a>(self, form)</dt><dd><tt>If&nbsp;the&nbsp;form&nbsp;is&nbsp;invalid,&nbsp;render&nbsp;the&nbsp;invalid&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_form"><strong>get_form</strong></a>(self, form_class=None)</dt><dd><tt>Return&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;form&nbsp;to&nbsp;be&nbsp;used&nbsp;in&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_initial"><strong>get_initial</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;initial&nbsp;data&nbsp;to&nbsp;use&nbsp;for&nbsp;forms&nbsp;on&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_prefix"><strong>get_prefix</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;prefix&nbsp;to&nbsp;use&nbsp;for&nbsp;forms.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a>:<br>
+<dl><dt><strong>form_class</strong> = None</dl>
+
+<dl><dt><strong>initial</strong> = {}</dl>
+
+<dl><dt><strong>prefix</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a>:<br>
+<dl><dt><a name="vista_editar_usuario-get_context_object_name"><strong>get_context_object_name</strong></a>(self, obj)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;to&nbsp;use&nbsp;for&nbsp;the&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_object"><strong>get_object</strong></a>(self, queryset=None)</dt><dd><tt>Return&nbsp;the&nbsp;object&nbsp;the&nbsp;view&nbsp;is&nbsp;displaying.<br>
+&nbsp;<br>
+Require&nbsp;`self.<strong>queryset</strong>`&nbsp;and&nbsp;a&nbsp;`pk`&nbsp;or&nbsp;`slug`&nbsp;argument&nbsp;in&nbsp;the&nbsp;URLconf.<br>
+Subclasses&nbsp;can&nbsp;override&nbsp;this&nbsp;to&nbsp;return&nbsp;any&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_queryset"><strong>get_queryset</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;`QuerySet`&nbsp;that&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;look&nbsp;up&nbsp;the&nbsp;object.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;is&nbsp;called&nbsp;by&nbsp;the&nbsp;default&nbsp;implementation&nbsp;of&nbsp;<a href="#vista_editar_usuario-get_object">get_object</a>()&nbsp;and<br>
+may&nbsp;not&nbsp;be&nbsp;called&nbsp;if&nbsp;<a href="#vista_editar_usuario-get_object">get_object</a>()&nbsp;is&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-get_slug_field"><strong>get_slug_field</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;slug&nbsp;field&nbsp;to&nbsp;be&nbsp;used&nbsp;to&nbsp;look&nbsp;up&nbsp;by&nbsp;slug.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a>:<br>
+<dl><dt><strong>context_object_name</strong> = None</dl>
+
+<dl><dt><strong>pk_url_kwarg</strong> = 'pk'</dl>
+
+<dl><dt><strong>query_pk_and_slug</strong> = False</dl>
+
+<dl><dt><strong>queryset</strong> = None</dl>
+
+<dl><dt><strong>slug_field</strong> = 'slug'</dl>
+
+<dl><dt><strong>slug_url_kwarg</strong> = 'slug'</dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a>:<br>
+<dl><dt><strong>extra_context</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#ProcessFormView">django.views.generic.edit.ProcessFormView</a>:<br>
+<dl><dt><a name="vista_editar_usuario-put"><strong>put</strong></a>(self, *args, **kwargs)</dt><dd><tt>#&nbsp;PUT&nbsp;is&nbsp;a&nbsp;valid&nbsp;HTTP&nbsp;verb&nbsp;for&nbsp;creating&nbsp;(with&nbsp;a&nbsp;known&nbsp;URL)&nbsp;or&nbsp;editing&nbsp;an<br>
+#&nbsp;object,&nbsp;note&nbsp;that&nbsp;browsers&nbsp;only&nbsp;support&nbsp;POST&nbsp;for&nbsp;now.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="vista_editar_usuario-__init__"><strong>__init__</strong></a>(self, **kwargs)</dt><dd><tt>Constructor.&nbsp;Called&nbsp;in&nbsp;the&nbsp;URLconf;&nbsp;can&nbsp;contain&nbsp;helpful&nbsp;extra<br>
+keyword&nbsp;arguments,&nbsp;and&nbsp;other&nbsp;things.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-http_method_not_allowed"><strong>http_method_not_allowed</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="vista_editar_usuario-options"><strong>options</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;responding&nbsp;to&nbsp;requests&nbsp;for&nbsp;the&nbsp;OPTIONS&nbsp;HTTP&nbsp;verb.</tt></dd></dl>
+
+<dl><dt><a name="vista_editar_usuario-setup"><strong>setup</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;attributes&nbsp;shared&nbsp;by&nbsp;all&nbsp;view&nbsp;methods.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="vista_editar_usuario-as_view"><strong>as_view</strong></a>(**initkwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Main&nbsp;entry&nbsp;point&nbsp;for&nbsp;a&nbsp;request-response&nbsp;process.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><strong>http_method_names</strong> = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']</dl>
+
+<dl><dt><strong>view_is_async</strong> = False</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="vista_inactivar_cuenta">class <strong>vista_inactivar_cuenta</strong></a>(<a href="django.contrib.auth.mixins.html#LoginRequiredMixin">django.contrib.auth.mixins.LoginRequiredMixin</a>, <a href="django.contrib.auth.mixins.html#UserPassesTestMixin">django.contrib.auth.mixins.UserPassesTestMixin</a>, <a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#vista_inactivar_cuenta">vista_inactivar_cuenta</a>(**kwargs)<br>
+&nbsp;<br>
+Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Crea&nbsp;la&nbsp;vista&nbsp;para&nbsp;inactivar&nbsp;una&nbsp;cuenta,&nbsp;exige&nbsp;que&nbsp;el&nbsp;usuario&nbsp;este&nbsp;logueado&nbsp;y&nbsp;verifica&nbsp;que&nbsp;sea&nbsp;su&nbsp;cuenta&nbsp;la&nbsp;que&nbsp;se&nbsp;esta&nbsp;inactivando,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Antes&nbsp;de&nbsp;inactivar&nbsp;se&nbsp;verifica&nbsp;que&nbsp;el&nbsp;usuario&nbsp;haya&nbsp;desmarcado&nbsp;una&nbsp;casilla&nbsp;y&nbsp;oprimido&nbsp;el&nbsp;boton&nbsp;de&nbsp;inactivar<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Luego&nbsp;se&nbsp;marca&nbsp;la&nbsp;cuenta&nbsp;como&nbsp;inactivada&nbsp;y&nbsp;se&nbsp;hace&nbsp;logout&nbsp;al&nbsp;usuario<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Finalmente&nbsp;se&nbsp;envia&nbsp;la&nbsp;notificacion&nbsp;de&nbsp;finalizacion&nbsp;y&nbsp;se&nbsp;redirige&nbsp;a&nbsp;la&nbsp;pagina&nbsp;principal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Utiliza&nbsp;el&nbsp;modelo&nbsp;UsuarioRol&nbsp;y&nbsp;su&nbsp;campo:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model&nbsp;=&nbsp;UsuarioRol<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fields&nbsp;=&nbsp;["usuario_activo"]<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="views.html#vista_inactivar_cuenta">vista_inactivar_cuenta</a></dd>
+<dd><a href="django.contrib.auth.mixins.html#LoginRequiredMixin">django.contrib.auth.mixins.LoginRequiredMixin</a></dd>
+<dd><a href="django.contrib.auth.mixins.html#UserPassesTestMixin">django.contrib.auth.mixins.UserPassesTestMixin</a></dd>
+<dd><a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a></dd>
+<dd><a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#BaseUpdateView">django.views.generic.edit.BaseUpdateView</a></dd>
+<dd><a href="django.views.generic.edit.html#ModelFormMixin">django.views.generic.edit.ModelFormMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a></dd>
+<dd><a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a></dd>
+<dd><a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#ProcessFormView">django.views.generic.edit.ProcessFormView</a></dd>
+<dd><a href="django.views.generic.base.html#View">django.views.generic.base.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="vista_inactivar_cuenta-form_valid"><strong>form_valid</strong></a>(self, form)</dt><dd><tt>Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Verifica&nbsp;que&nbsp;se&nbsp;haya&nbsp;desmarcado&nbsp;la&nbsp;casilla&nbsp;de&nbsp;cuenta&nbsp;activa&nbsp;antes&nbsp;de&nbsp;enviar&nbsp;la&nbsp;solicitud<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;el&nbsp;proceso&nbsp;es&nbsp;correcto,&nbsp;envia&nbsp;un&nbsp;mensaje&nbsp;y&nbsp;actualiza&nbsp;el&nbsp;estado&nbsp;del&nbsp;usuario&nbsp;a&nbsp;inactivo&nbsp;antes&nbsp;de&nbsp;cerrar&nbsp;su&nbsp;sesion:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;messages.success(self.<strong>request</strong>,&nbsp;f"Se&nbsp;ha&nbsp;inactivado&nbsp;la&nbsp;cuenta&nbsp;del&nbsp;usuario&nbsp;{self.<strong>request</strong>.user.username}.")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>request</strong>.user.is_active&nbsp;=&nbsp;False<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>request</strong>.user.save()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;logout(self.<strong>request</strong>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Envia&nbsp;un&nbsp;mensaje&nbsp;en&nbsp;caso&nbsp;contrario:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;messages.warning(self.<strong>request</strong>,&nbsp;"No&nbsp;se&nbsp;ha&nbsp;inactivado&nbsp;la&nbsp;cuenta")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;redirect(reverse_lazy('MenuPrincipal'))</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_context_data"><strong>get_context_data</strong></a>(self, **kwargs: Any) -&gt; Dict[str, Any]</dt><dd><tt>Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Modifica&nbsp;el&nbsp;contexto&nbsp;para&nbsp;mostrar&nbsp;una&nbsp;label&nbsp;mas&nbsp;adecuada<br>
+&nbsp;&nbsp;&nbsp;&nbsp;context['form'].fields['usuario_activo'].label&nbsp;=&nbsp;'Cuenta&nbsp;activa'</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-test_func"><strong>test_func</strong></a>(self)</dt><dd><tt>Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Verifica&nbsp;que&nbsp;el&nbsp;usuario&nbsp;que&nbsp;esta&nbsp;intentando&nbsp;inactivar&nbsp;es&nbsp;el&nbsp;que&nbsp;esta&nbsp;logueado&nbsp;comparando&nbsp;el&nbsp;id&nbsp;del&nbsp;usuario&nbsp;logueado&nbsp;con&nbsp;el&nbsp;id&nbsp;del&nbsp;formulario</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>fields</strong> = ['usuario_activo']</dl>
+
+<dl><dt><strong>login_url</strong> = '/login/accounts/login/'</dl>
+
+<dl><dt><strong>model</strong> = &lt;class 'GestionCuentas.models.UsuarioRol'&gt;<dd><tt>Modelo&nbsp;personalizado&nbsp;para&nbsp;usuarios&nbsp;con&nbsp;roles<br>
+username:En&nbsp;este&nbsp;apartado&nbsp;guardamos&nbsp;el&nbsp;username&nbsp;que&nbsp;utiliza&nbsp;un&nbsp;nuevo&nbsp;usuario&nbsp;en&nbsp;su&nbsp;registro<br>
+email:nos&nbsp;permite&nbsp;guardar&nbsp;el&nbsp;correo&nbsp;y&nbsp;como&nbsp;vamos&nbsp;a&nbsp;enviar&nbsp;notificaciones&nbsp;por&nbsp;correo&nbsp;pusimos&nbsp;como&nbsp;un&nbsp;atributo<br>
+unico&nbsp;en&nbsp;nuestro&nbsp;sistema&nbsp;y&nbsp;tambien&nbsp;obligatorio<br>
+nombres:guarda&nbsp;los&nbsp;nombres&nbsp;del&nbsp;usuario<br>
+apellidos:Guarda&nbsp;los&nbsp;apellidos&nbsp;de&nbsp;usuario<br>
+numero:guarda&nbsp;el&nbsp;numero&nbsp;de&nbsp;telefono&nbsp;del&nbsp;usuario<br>
+usuario_activo:&nbsp;este&nbsp;atributo&nbsp;nos&nbsp;servira&nbsp;para&nbsp;inactivar&nbsp;cuentas&nbsp;logicamente<br>
+usuario_administrador:&nbsp;nos&nbsp;permite&nbsp;agregar&nbsp;mas&nbsp;permisos&nbsp;a&nbsp;un&nbsp;usuario&nbsp;en&nbsp;caso&nbsp;que&nbsp;sea&nbsp;administrador<br>
+roles:&nbsp;utilizamos&nbsp;la&nbsp;clase&nbsp;anteriormente&nbsp;mencionada&nbsp;para&nbsp;agregar&nbsp;los&nbsp;roles&nbsp;a&nbsp;un&nbsp;usuario,&nbsp;un&nbsp;usuario&nbsp;puede&nbsp;tener&nbsp;mas&nbsp;de&nbsp;un&nbsp;rol</tt></dl>
+
+<dl><dt><strong>redirect_field_name</strong> = 'redirect_to'</dl>
+
+<dl><dt><strong>success_url</strong> = '/'</dl>
+
+<dl><dt><strong>template_name</strong> = 'usuario/inactivar.html'</dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.mixins.html#LoginRequiredMixin">django.contrib.auth.mixins.LoginRequiredMixin</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-dispatch"><strong>dispatch</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.mixins.html#UserPassesTestMixin">django.contrib.auth.mixins.UserPassesTestMixin</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-get_test_func"><strong>get_test_func</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;use&nbsp;a&nbsp;different&nbsp;test_func&nbsp;method.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-get_login_url"><strong>get_login_url</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;login_url&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_permission_denied_message"><strong>get_permission_denied_message</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;permission_denied_message&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_redirect_field_name"><strong>get_redirect_field_name</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;redirect_field_name&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-handle_no_permission"><strong>handle_no_permission</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><strong>permission_denied_message</strong> = ''</dl>
+
+<dl><dt><strong>raise_exception</strong> = False</dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.edit.html#UpdateView">django.views.generic.edit.UpdateView</a>:<br>
+<dl><dt><strong>template_name_suffix</strong> = '_form'</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-get_template_names"><strong>get_template_names</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;template&nbsp;names&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;the&nbsp;request.&nbsp;May&nbsp;not&nbsp;be<br>
+called&nbsp;if&nbsp;<a href="#vista_inactivar_cuenta-render_to_response">render_to_response</a>()&nbsp;is&nbsp;overridden.&nbsp;Return&nbsp;the&nbsp;following&nbsp;list:<br>
+&nbsp;<br>
+*&nbsp;the&nbsp;value&nbsp;of&nbsp;``template_name``&nbsp;on&nbsp;the&nbsp;view&nbsp;(if&nbsp;provided)<br>
+*&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;``template_name_field``&nbsp;field&nbsp;on&nbsp;the<br>
+&nbsp;&nbsp;object&nbsp;instance&nbsp;that&nbsp;the&nbsp;view&nbsp;is&nbsp;operating&nbsp;upon&nbsp;(if&nbsp;available)<br>
+*&nbsp;``&lt;app_label&gt;/&lt;model_name&gt;&lt;template_name_suffix&gt;.html``</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><strong>template_name_field</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-render_to_response"><strong>render_to_response</strong></a>(self, context, **response_kwargs)</dt><dd><tt>Return&nbsp;a&nbsp;response,&nbsp;using&nbsp;the&nbsp;`response_class`&nbsp;for&nbsp;this&nbsp;view,&nbsp;with&nbsp;a<br>
+template&nbsp;rendered&nbsp;with&nbsp;the&nbsp;given&nbsp;context.<br>
+&nbsp;<br>
+Pass&nbsp;response_kwargs&nbsp;to&nbsp;the&nbsp;constructor&nbsp;of&nbsp;the&nbsp;response&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>content_type</strong> = None</dl>
+
+<dl><dt><strong>response_class</strong> = &lt;class 'django.template.response.TemplateResponse'&gt;</dl>
+
+<dl><dt><strong>template_engine</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#BaseUpdateView">django.views.generic.edit.BaseUpdateView</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-get"><strong>get</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;GET&nbsp;requests:&nbsp;instantiate&nbsp;a&nbsp;blank&nbsp;version&nbsp;of&nbsp;the&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-post"><strong>post</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;POST&nbsp;requests:&nbsp;instantiate&nbsp;a&nbsp;form&nbsp;instance&nbsp;with&nbsp;the&nbsp;passed<br>
+POST&nbsp;variables&nbsp;and&nbsp;then&nbsp;check&nbsp;if&nbsp;it's&nbsp;valid.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#ModelFormMixin">django.views.generic.edit.ModelFormMixin</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-get_form_class"><strong>get_form_class</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;form&nbsp;class&nbsp;to&nbsp;use&nbsp;in&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_form_kwargs"><strong>get_form_kwargs</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;keyword&nbsp;arguments&nbsp;for&nbsp;instantiating&nbsp;the&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_success_url"><strong>get_success_url</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;URL&nbsp;to&nbsp;redirect&nbsp;to&nbsp;after&nbsp;processing&nbsp;a&nbsp;valid&nbsp;form.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-form_invalid"><strong>form_invalid</strong></a>(self, form)</dt><dd><tt>If&nbsp;the&nbsp;form&nbsp;is&nbsp;invalid,&nbsp;render&nbsp;the&nbsp;invalid&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_form"><strong>get_form</strong></a>(self, form_class=None)</dt><dd><tt>Return&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;form&nbsp;to&nbsp;be&nbsp;used&nbsp;in&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_initial"><strong>get_initial</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;initial&nbsp;data&nbsp;to&nbsp;use&nbsp;for&nbsp;forms&nbsp;on&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_prefix"><strong>get_prefix</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;prefix&nbsp;to&nbsp;use&nbsp;for&nbsp;forms.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a>:<br>
+<dl><dt><strong>form_class</strong> = None</dl>
+
+<dl><dt><strong>initial</strong> = {}</dl>
+
+<dl><dt><strong>prefix</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-get_context_object_name"><strong>get_context_object_name</strong></a>(self, obj)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;to&nbsp;use&nbsp;for&nbsp;the&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_object"><strong>get_object</strong></a>(self, queryset=None)</dt><dd><tt>Return&nbsp;the&nbsp;object&nbsp;the&nbsp;view&nbsp;is&nbsp;displaying.<br>
+&nbsp;<br>
+Require&nbsp;`self.<strong>queryset</strong>`&nbsp;and&nbsp;a&nbsp;`pk`&nbsp;or&nbsp;`slug`&nbsp;argument&nbsp;in&nbsp;the&nbsp;URLconf.<br>
+Subclasses&nbsp;can&nbsp;override&nbsp;this&nbsp;to&nbsp;return&nbsp;any&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_queryset"><strong>get_queryset</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;`QuerySet`&nbsp;that&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;look&nbsp;up&nbsp;the&nbsp;object.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;is&nbsp;called&nbsp;by&nbsp;the&nbsp;default&nbsp;implementation&nbsp;of&nbsp;<a href="#vista_inactivar_cuenta-get_object">get_object</a>()&nbsp;and<br>
+may&nbsp;not&nbsp;be&nbsp;called&nbsp;if&nbsp;<a href="#vista_inactivar_cuenta-get_object">get_object</a>()&nbsp;is&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-get_slug_field"><strong>get_slug_field</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;slug&nbsp;field&nbsp;to&nbsp;be&nbsp;used&nbsp;to&nbsp;look&nbsp;up&nbsp;by&nbsp;slug.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a>:<br>
+<dl><dt><strong>context_object_name</strong> = None</dl>
+
+<dl><dt><strong>pk_url_kwarg</strong> = 'pk'</dl>
+
+<dl><dt><strong>query_pk_and_slug</strong> = False</dl>
+
+<dl><dt><strong>queryset</strong> = None</dl>
+
+<dl><dt><strong>slug_field</strong> = 'slug'</dl>
+
+<dl><dt><strong>slug_url_kwarg</strong> = 'slug'</dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a>:<br>
+<dl><dt><strong>extra_context</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#ProcessFormView">django.views.generic.edit.ProcessFormView</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-put"><strong>put</strong></a>(self, *args, **kwargs)</dt><dd><tt>#&nbsp;PUT&nbsp;is&nbsp;a&nbsp;valid&nbsp;HTTP&nbsp;verb&nbsp;for&nbsp;creating&nbsp;(with&nbsp;a&nbsp;known&nbsp;URL)&nbsp;or&nbsp;editing&nbsp;an<br>
+#&nbsp;object,&nbsp;note&nbsp;that&nbsp;browsers&nbsp;only&nbsp;support&nbsp;POST&nbsp;for&nbsp;now.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-__init__"><strong>__init__</strong></a>(self, **kwargs)</dt><dd><tt>Constructor.&nbsp;Called&nbsp;in&nbsp;the&nbsp;URLconf;&nbsp;can&nbsp;contain&nbsp;helpful&nbsp;extra<br>
+keyword&nbsp;arguments,&nbsp;and&nbsp;other&nbsp;things.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-http_method_not_allowed"><strong>http_method_not_allowed</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-options"><strong>options</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;responding&nbsp;to&nbsp;requests&nbsp;for&nbsp;the&nbsp;OPTIONS&nbsp;HTTP&nbsp;verb.</tt></dd></dl>
+
+<dl><dt><a name="vista_inactivar_cuenta-setup"><strong>setup</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;attributes&nbsp;shared&nbsp;by&nbsp;all&nbsp;view&nbsp;methods.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="vista_inactivar_cuenta-as_view"><strong>as_view</strong></a>(**initkwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Main&nbsp;entry&nbsp;point&nbsp;for&nbsp;a&nbsp;request-response&nbsp;process.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><strong>http_method_names</strong> = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']</dl>
+
+<dl><dt><strong>view_is_async</strong> = False</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="vista_lista_usuarios">class <strong>vista_lista_usuarios</strong></a>(<a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a>, <a href="django.views.generic.list.html#ListView">django.views.generic.list.ListView</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#vista_lista_usuarios">vista_lista_usuarios</a>(**kwargs)<br>
+&nbsp;<br>
+Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Permite&nbsp;al&nbsp;administrador&nbsp;ver&nbsp;una&nbsp;lista&nbsp;de&nbsp;los&nbsp;usuarios&nbsp;para&nbsp;editar&nbsp;y&nbsp;filtrar&nbsp;por&nbsp;nombre&nbsp;o&nbsp;email<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Se&nbsp;muestran&nbsp;los&nbsp;usuarios&nbsp;en&nbsp;una&nbsp;vista&nbsp;paginada<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paginate_by&nbsp;=&nbsp;25<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Y&nbsp;se&nbsp;requiere&nbsp;el&nbsp;permiso<br>
+&nbsp;&nbsp;&nbsp;&nbsp;permission_required&nbsp;=&nbsp;"Ver&nbsp;usuarios"<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="views.html#vista_lista_usuarios">vista_lista_usuarios</a></dd>
+<dd><a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a></dd>
+<dd><a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a></dd>
+<dd><a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a></dd>
+<dd><a href="django.views.generic.list.html#ListView">django.views.generic.list.ListView</a></dd>
+<dd><a href="django.views.generic.list.html#MultipleObjectTemplateResponseMixin">django.views.generic.list.MultipleObjectTemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.list.html#BaseListView">django.views.generic.list.BaseListView</a></dd>
+<dd><a href="django.views.generic.list.html#MultipleObjectMixin">django.views.generic.list.MultipleObjectMixin</a></dd>
+<dd><a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a></dd>
+<dd><a href="django.views.generic.base.html#View">django.views.generic.base.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="vista_lista_usuarios-get_context_data"><strong>get_context_data</strong></a>(self, **kwargs)</dt><dd><tt>Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Se&nbsp;sobreescribe&nbsp;para&nbsp;agregar&nbsp;los&nbsp;criterios&nbsp;de&nbsp;busqueda&nbsp;al&nbsp;contexto&nbsp;de&nbsp;la&nbsp;pagina&nbsp;para&nbsp;ser&nbsp;utilizados&nbsp;en&nbsp;templates<br>
+&nbsp;&nbsp;&nbsp;&nbsp;context["filtro_username"]&nbsp;=&nbsp;self.<strong>request</strong>.GET.<a href="#vista_lista_usuarios-get">get</a>('filtro_username')&nbsp;or&nbsp;''<br>
+&nbsp;&nbsp;&nbsp;&nbsp;context["filtro_email"]&nbsp;=&nbsp;self.<strong>request</strong>.GET.<a href="#vista_lista_usuarios-get">get</a>('filtro_email')&nbsp;or&nbsp;''</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-get_queryset"><strong>get_queryset</strong></a>(self)</dt><dd><tt>Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Se&nbsp;modifica&nbsp;la&nbsp;funcion&nbsp;para&nbsp;filtrar&nbsp;los&nbsp;usuarios&nbsp;con&nbsp;el&nbsp;nombre&nbsp;de&nbsp;usuario&nbsp;y&nbsp;contraseña&nbsp;que&nbsp;se&nbsp;especifiquen&nbsp;en&nbsp;la&nbsp;pagina<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Para&nbsp;el&nbsp;filtrado&nbsp;se&nbsp;utilizan&nbsp;los&nbsp;argumentos&nbsp;username__icontains&nbsp;y&nbsp;email__icontains&nbsp;en&nbsp;conjuncion,&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;por&nbsp;lo&nbsp;que&nbsp;solo&nbsp;se&nbsp;mostraran&nbsp;usuarios&nbsp;si&nbsp;su&nbsp;username&nbsp;y&nbsp;email&nbsp;contienen&nbsp;como&nbsp;substring&nbsp;los&nbsp;argumentos,&nbsp;ignorando&nbsp;casing&nbsp;y&nbsp;tambien&nbsp;argumentos&nbsp;nulos</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>model</strong> = &lt;class 'GestionCuentas.models.UsuarioRol'&gt;<dd><tt>Modelo&nbsp;personalizado&nbsp;para&nbsp;usuarios&nbsp;con&nbsp;roles<br>
+username:En&nbsp;este&nbsp;apartado&nbsp;guardamos&nbsp;el&nbsp;username&nbsp;que&nbsp;utiliza&nbsp;un&nbsp;nuevo&nbsp;usuario&nbsp;en&nbsp;su&nbsp;registro<br>
+email:nos&nbsp;permite&nbsp;guardar&nbsp;el&nbsp;correo&nbsp;y&nbsp;como&nbsp;vamos&nbsp;a&nbsp;enviar&nbsp;notificaciones&nbsp;por&nbsp;correo&nbsp;pusimos&nbsp;como&nbsp;un&nbsp;atributo<br>
+unico&nbsp;en&nbsp;nuestro&nbsp;sistema&nbsp;y&nbsp;tambien&nbsp;obligatorio<br>
+nombres:guarda&nbsp;los&nbsp;nombres&nbsp;del&nbsp;usuario<br>
+apellidos:Guarda&nbsp;los&nbsp;apellidos&nbsp;de&nbsp;usuario<br>
+numero:guarda&nbsp;el&nbsp;numero&nbsp;de&nbsp;telefono&nbsp;del&nbsp;usuario<br>
+usuario_activo:&nbsp;este&nbsp;atributo&nbsp;nos&nbsp;servira&nbsp;para&nbsp;inactivar&nbsp;cuentas&nbsp;logicamente<br>
+usuario_administrador:&nbsp;nos&nbsp;permite&nbsp;agregar&nbsp;mas&nbsp;permisos&nbsp;a&nbsp;un&nbsp;usuario&nbsp;en&nbsp;caso&nbsp;que&nbsp;sea&nbsp;administrador<br>
+roles:&nbsp;utilizamos&nbsp;la&nbsp;clase&nbsp;anteriormente&nbsp;mencionada&nbsp;para&nbsp;agregar&nbsp;los&nbsp;roles&nbsp;a&nbsp;un&nbsp;usuario,&nbsp;un&nbsp;usuario&nbsp;puede&nbsp;tener&nbsp;mas&nbsp;de&nbsp;un&nbsp;rol</tt></dl>
+
+<dl><dt><strong>paginate_by</strong> = 25</dl>
+
+<dl><dt><strong>permission_required</strong> = 'Ver usuarios'</dl>
+
+<dl><dt><strong>template_name</strong> = 'administrador/lista_usuarios.html'</dl>
+
+<hr>
+Methods inherited from <a href="core.views.html#CustomPermissionRequiredMixin">core.views.CustomPermissionRequiredMixin</a>:<br>
+<dl><dt><a name="vista_lista_usuarios-has_permission"><strong>has_permission</strong></a>(self) -&gt; bool</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;customize&nbsp;the&nbsp;way&nbsp;permissions&nbsp;are&nbsp;checked.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a>:<br>
+<dl><dt><a name="vista_lista_usuarios-dispatch"><strong>dispatch</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="vista_lista_usuarios-get_permission_required"><strong>get_permission_required</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;permission_required&nbsp;attribute.<br>
+Must&nbsp;return&nbsp;an&nbsp;iterable.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><a name="vista_lista_usuarios-get_login_url"><strong>get_login_url</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;login_url&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-get_permission_denied_message"><strong>get_permission_denied_message</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;permission_denied_message&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-get_redirect_field_name"><strong>get_redirect_field_name</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;redirect_field_name&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-handle_no_permission"><strong>handle_no_permission</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><strong>login_url</strong> = None</dl>
+
+<dl><dt><strong>permission_denied_message</strong> = ''</dl>
+
+<dl><dt><strong>raise_exception</strong> = False</dl>
+
+<dl><dt><strong>redirect_field_name</strong> = 'next'</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.list.html#MultipleObjectTemplateResponseMixin">django.views.generic.list.MultipleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><a name="vista_lista_usuarios-get_template_names"><strong>get_template_names</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;template&nbsp;names&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;the&nbsp;request.&nbsp;Must&nbsp;return<br>
+a&nbsp;list.&nbsp;May&nbsp;not&nbsp;be&nbsp;called&nbsp;if&nbsp;render_to_response&nbsp;is&nbsp;overridden.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.list.html#MultipleObjectTemplateResponseMixin">django.views.generic.list.MultipleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><strong>template_name_suffix</strong> = '_list'</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><a name="vista_lista_usuarios-render_to_response"><strong>render_to_response</strong></a>(self, context, **response_kwargs)</dt><dd><tt>Return&nbsp;a&nbsp;response,&nbsp;using&nbsp;the&nbsp;`response_class`&nbsp;for&nbsp;this&nbsp;view,&nbsp;with&nbsp;a<br>
+template&nbsp;rendered&nbsp;with&nbsp;the&nbsp;given&nbsp;context.<br>
+&nbsp;<br>
+Pass&nbsp;response_kwargs&nbsp;to&nbsp;the&nbsp;constructor&nbsp;of&nbsp;the&nbsp;response&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>content_type</strong> = None</dl>
+
+<dl><dt><strong>response_class</strong> = &lt;class 'django.template.response.TemplateResponse'&gt;</dl>
+
+<dl><dt><strong>template_engine</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.list.html#BaseListView">django.views.generic.list.BaseListView</a>:<br>
+<dl><dt><a name="vista_lista_usuarios-get"><strong>get</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.list.html#MultipleObjectMixin">django.views.generic.list.MultipleObjectMixin</a>:<br>
+<dl><dt><a name="vista_lista_usuarios-get_allow_empty"><strong>get_allow_empty</strong></a>(self)</dt><dd><tt>Return&nbsp;``True``&nbsp;if&nbsp;the&nbsp;view&nbsp;should&nbsp;display&nbsp;empty&nbsp;lists&nbsp;and&nbsp;``False``<br>
+if&nbsp;a&nbsp;404&nbsp;should&nbsp;be&nbsp;raised&nbsp;instead.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-get_context_object_name"><strong>get_context_object_name</strong></a>(self, object_list)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;item&nbsp;to&nbsp;be&nbsp;used&nbsp;in&nbsp;the&nbsp;context.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-get_ordering"><strong>get_ordering</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;field&nbsp;or&nbsp;fields&nbsp;to&nbsp;use&nbsp;for&nbsp;ordering&nbsp;the&nbsp;queryset.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-get_paginate_by"><strong>get_paginate_by</strong></a>(self, queryset)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;items&nbsp;to&nbsp;paginate&nbsp;by,&nbsp;or&nbsp;``None``&nbsp;for&nbsp;no&nbsp;pagination.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-get_paginate_orphans"><strong>get_paginate_orphans</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;maximum&nbsp;number&nbsp;of&nbsp;orphans&nbsp;extend&nbsp;the&nbsp;last&nbsp;page&nbsp;by&nbsp;when<br>
+paginating.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-get_paginator"><strong>get_paginator</strong></a>(self, queryset, per_page, orphans=0, allow_empty_first_page=True, **kwargs)</dt><dd><tt>Return&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;paginator&nbsp;for&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-paginate_queryset"><strong>paginate_queryset</strong></a>(self, queryset, page_size)</dt><dd><tt>Paginate&nbsp;the&nbsp;queryset,&nbsp;if&nbsp;needed.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.list.html#MultipleObjectMixin">django.views.generic.list.MultipleObjectMixin</a>:<br>
+<dl><dt><strong>allow_empty</strong> = True</dl>
+
+<dl><dt><strong>context_object_name</strong> = None</dl>
+
+<dl><dt><strong>ordering</strong> = None</dl>
+
+<dl><dt><strong>page_kwarg</strong> = 'page'</dl>
+
+<dl><dt><strong>paginate_orphans</strong> = 0</dl>
+
+<dl><dt><strong>paginator_class</strong> = &lt;class 'django.core.paginator.Paginator'&gt;</dl>
+
+<dl><dt><strong>queryset</strong> = None</dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a>:<br>
+<dl><dt><strong>extra_context</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="vista_lista_usuarios-__init__"><strong>__init__</strong></a>(self, **kwargs)</dt><dd><tt>Constructor.&nbsp;Called&nbsp;in&nbsp;the&nbsp;URLconf;&nbsp;can&nbsp;contain&nbsp;helpful&nbsp;extra<br>
+keyword&nbsp;arguments,&nbsp;and&nbsp;other&nbsp;things.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-http_method_not_allowed"><strong>http_method_not_allowed</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="vista_lista_usuarios-options"><strong>options</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;responding&nbsp;to&nbsp;requests&nbsp;for&nbsp;the&nbsp;OPTIONS&nbsp;HTTP&nbsp;verb.</tt></dd></dl>
+
+<dl><dt><a name="vista_lista_usuarios-setup"><strong>setup</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;attributes&nbsp;shared&nbsp;by&nbsp;all&nbsp;view&nbsp;methods.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="vista_lista_usuarios-as_view"><strong>as_view</strong></a>(**initkwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Main&nbsp;entry&nbsp;point&nbsp;for&nbsp;a&nbsp;request-response&nbsp;process.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><strong>http_method_names</strong> = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']</dl>
+
+<dl><dt><strong>view_is_async</strong> = False</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="vista_recuperar_password">class <strong>vista_recuperar_password</strong></a>(<a href="django.contrib.messages.views.html#SuccessMessageMixin">django.contrib.messages.views.SuccessMessageMixin</a>, <a href="django.contrib.auth.views.html#PasswordResetView">django.contrib.auth.views.PasswordResetView</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#vista_recuperar_password">vista_recuperar_password</a>(**kwargs)<br>
+&nbsp;<br>
+Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Implementa&nbsp;la&nbsp;vista&nbsp;<a href="django.contrib.auth.views.html#PasswordResetView">PasswordResetView</a>&nbsp;de&nbsp;django<br>
+&nbsp;&nbsp;&nbsp;&nbsp;template_name&nbsp;es&nbsp;el&nbsp;template&nbsp;del&nbsp;formulario&nbsp;de&nbsp;solicitud&nbsp;de&nbsp;recuperacion<br>
+&nbsp;&nbsp;&nbsp;&nbsp;template_name&nbsp;=&nbsp;"usuario/recuperar_password.html"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;email_template_name&nbsp;contiene&nbsp;el&nbsp;template&nbsp;del&nbsp;email&nbsp;a&nbsp;enviar<br>
+&nbsp;&nbsp;&nbsp;&nbsp;email_template_name&nbsp;=&nbsp;'usuario/recuperar_password_email.html'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;subject_template_name&nbsp;contiene&nbsp;el&nbsp;asunto&nbsp;del&nbsp;email<br>
+&nbsp;&nbsp;&nbsp;&nbsp;subject_template_name&nbsp;=&nbsp;'usuario/recuperar_password_subject'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;success&nbsp;message&nbsp;contiene&nbsp;la&nbsp;notificacion&nbsp;que&nbsp;se&nbsp;vera&nbsp;en&nbsp;la&nbsp;pagina<br>
+&nbsp;&nbsp;&nbsp;&nbsp;success_message&nbsp;=&nbsp;"Se&nbsp;enviara&nbsp;un&nbsp;email&nbsp;a&nbsp;la&nbsp;direccion&nbsp;ingresada&nbsp;si&nbsp;esta&nbsp;asociada&nbsp;a&nbsp;una&nbsp;cuenta.&nbsp;Si&nbsp;no&nbsp;recibe&nbsp;el&nbsp;email,&nbsp;revise&nbsp;su&nbsp;carpeta&nbsp;de&nbsp;spam."<br>
+&nbsp;&nbsp;&nbsp;&nbsp;success_url&nbsp;redirige&nbsp;a&nbsp;la&nbsp;pagina&nbsp;principal&nbsp;luego&nbsp;de&nbsp;enviar&nbsp;la&nbsp;solicitud<br>
+&nbsp;&nbsp;&nbsp;&nbsp;success_url&nbsp;=&nbsp;reverse_lazy('MenuPrincipal')<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="views.html#vista_recuperar_password">vista_recuperar_password</a></dd>
+<dd><a href="django.contrib.messages.views.html#SuccessMessageMixin">django.contrib.messages.views.SuccessMessageMixin</a></dd>
+<dd><a href="django.contrib.auth.views.html#PasswordResetView">django.contrib.auth.views.PasswordResetView</a></dd>
+<dd><a href="django.contrib.auth.views.html#PasswordContextMixin">django.contrib.auth.views.PasswordContextMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#FormView">django.views.generic.edit.FormView</a></dd>
+<dd><a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#BaseFormView">django.views.generic.edit.BaseFormView</a></dd>
+<dd><a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a></dd>
+<dd><a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#ProcessFormView">django.views.generic.edit.ProcessFormView</a></dd>
+<dd><a href="django.views.generic.base.html#View">django.views.generic.base.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>email_template_name</strong> = 'usuario/recuperar_password_email.html'</dl>
+
+<dl><dt><strong>subject_template_name</strong> = 'usuario/recuperar_password_subject'</dl>
+
+<dl><dt><strong>success_message</strong> = 'Se enviara un email a la direccion ingresada si ...Si no recibe el email, revise su carpeta de spam.'</dl>
+
+<dl><dt><strong>success_url</strong> = '/'</dl>
+
+<dl><dt><strong>template_name</strong> = 'usuario/recuperar_password.html'</dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.messages.views.html#SuccessMessageMixin">django.contrib.messages.views.SuccessMessageMixin</a>:<br>
+<dl><dt><a name="vista_recuperar_password-form_valid"><strong>form_valid</strong></a>(self, form)</dt></dl>
+
+<dl><dt><a name="vista_recuperar_password-get_success_message"><strong>get_success_message</strong></a>(self, cleaned_data)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.contrib.messages.views.html#SuccessMessageMixin">django.contrib.messages.views.SuccessMessageMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="django.contrib.auth.views.html#PasswordResetView">django.contrib.auth.views.PasswordResetView</a>:<br>
+<dl><dt><a name="vista_recuperar_password-dispatch"><strong>dispatch</strong></a>(self, *args, **kwargs)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.contrib.auth.views.html#PasswordResetView">django.contrib.auth.views.PasswordResetView</a>:<br>
+<dl><dt><strong>extra_email_context</strong> = None</dl>
+
+<dl><dt><strong>form_class</strong> = &lt;class 'django.contrib.auth.forms.PasswordResetForm'&gt;</dl>
+
+<dl><dt><strong>from_email</strong> = None</dl>
+
+<dl><dt><strong>html_email_template_name</strong> = None</dl>
+
+<dl><dt><strong>title</strong> = 'Password reset'</dl>
+
+<dl><dt><strong>token_generator</strong> = &lt;django.contrib.auth.tokens.PasswordResetTokenGenerator object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.views.html#PasswordContextMixin">django.contrib.auth.views.PasswordContextMixin</a>:<br>
+<dl><dt><a name="vista_recuperar_password-get_context_data"><strong>get_context_data</strong></a>(self, **kwargs)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.contrib.auth.views.html#PasswordContextMixin">django.contrib.auth.views.PasswordContextMixin</a>:<br>
+<dl><dt><strong>extra_context</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><a name="vista_recuperar_password-get_template_names"><strong>get_template_names</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;template&nbsp;names&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;the&nbsp;request.&nbsp;Must&nbsp;return<br>
+a&nbsp;list.&nbsp;May&nbsp;not&nbsp;be&nbsp;called&nbsp;if&nbsp;<a href="#vista_recuperar_password-render_to_response">render_to_response</a>()&nbsp;is&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-render_to_response"><strong>render_to_response</strong></a>(self, context, **response_kwargs)</dt><dd><tt>Return&nbsp;a&nbsp;response,&nbsp;using&nbsp;the&nbsp;`response_class`&nbsp;for&nbsp;this&nbsp;view,&nbsp;with&nbsp;a<br>
+template&nbsp;rendered&nbsp;with&nbsp;the&nbsp;given&nbsp;context.<br>
+&nbsp;<br>
+Pass&nbsp;response_kwargs&nbsp;to&nbsp;the&nbsp;constructor&nbsp;of&nbsp;the&nbsp;response&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>content_type</strong> = None</dl>
+
+<dl><dt><strong>response_class</strong> = &lt;class 'django.template.response.TemplateResponse'&gt;</dl>
+
+<dl><dt><strong>template_engine</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a>:<br>
+<dl><dt><a name="vista_recuperar_password-form_invalid"><strong>form_invalid</strong></a>(self, form)</dt><dd><tt>If&nbsp;the&nbsp;form&nbsp;is&nbsp;invalid,&nbsp;render&nbsp;the&nbsp;invalid&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-get_form"><strong>get_form</strong></a>(self, form_class=None)</dt><dd><tt>Return&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;form&nbsp;to&nbsp;be&nbsp;used&nbsp;in&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-get_form_class"><strong>get_form_class</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;form&nbsp;class&nbsp;to&nbsp;use.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-get_form_kwargs"><strong>get_form_kwargs</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;keyword&nbsp;arguments&nbsp;for&nbsp;instantiating&nbsp;the&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-get_initial"><strong>get_initial</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;initial&nbsp;data&nbsp;to&nbsp;use&nbsp;for&nbsp;forms&nbsp;on&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-get_prefix"><strong>get_prefix</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;prefix&nbsp;to&nbsp;use&nbsp;for&nbsp;forms.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-get_success_url"><strong>get_success_url</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;URL&nbsp;to&nbsp;redirect&nbsp;to&nbsp;after&nbsp;processing&nbsp;a&nbsp;valid&nbsp;form.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a>:<br>
+<dl><dt><strong>initial</strong> = {}</dl>
+
+<dl><dt><strong>prefix</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#ProcessFormView">django.views.generic.edit.ProcessFormView</a>:<br>
+<dl><dt><a name="vista_recuperar_password-get"><strong>get</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;GET&nbsp;requests:&nbsp;instantiate&nbsp;a&nbsp;blank&nbsp;version&nbsp;of&nbsp;the&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-post"><strong>post</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;POST&nbsp;requests:&nbsp;instantiate&nbsp;a&nbsp;form&nbsp;instance&nbsp;with&nbsp;the&nbsp;passed<br>
+POST&nbsp;variables&nbsp;and&nbsp;then&nbsp;check&nbsp;if&nbsp;it's&nbsp;valid.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-put"><strong>put</strong></a>(self, *args, **kwargs)</dt><dd><tt>#&nbsp;PUT&nbsp;is&nbsp;a&nbsp;valid&nbsp;HTTP&nbsp;verb&nbsp;for&nbsp;creating&nbsp;(with&nbsp;a&nbsp;known&nbsp;URL)&nbsp;or&nbsp;editing&nbsp;an<br>
+#&nbsp;object,&nbsp;note&nbsp;that&nbsp;browsers&nbsp;only&nbsp;support&nbsp;POST&nbsp;for&nbsp;now.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="vista_recuperar_password-__init__"><strong>__init__</strong></a>(self, **kwargs)</dt><dd><tt>Constructor.&nbsp;Called&nbsp;in&nbsp;the&nbsp;URLconf;&nbsp;can&nbsp;contain&nbsp;helpful&nbsp;extra<br>
+keyword&nbsp;arguments,&nbsp;and&nbsp;other&nbsp;things.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-http_method_not_allowed"><strong>http_method_not_allowed</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="vista_recuperar_password-options"><strong>options</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;responding&nbsp;to&nbsp;requests&nbsp;for&nbsp;the&nbsp;OPTIONS&nbsp;HTTP&nbsp;verb.</tt></dd></dl>
+
+<dl><dt><a name="vista_recuperar_password-setup"><strong>setup</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;attributes&nbsp;shared&nbsp;by&nbsp;all&nbsp;view&nbsp;methods.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="vista_recuperar_password-as_view"><strong>as_view</strong></a>(**initkwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Main&nbsp;entry&nbsp;point&nbsp;for&nbsp;a&nbsp;request-response&nbsp;process.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><strong>http_method_names</strong> = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']</dl>
+
+<dl><dt><strong>view_is_async</strong> = False</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-redirgirInactivar"><strong>redirgirInactivar</strong></a>(request)</dt><dd><tt>Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Obtiene&nbsp;el&nbsp;id&nbsp;del&nbsp;usuario&nbsp;para&nbsp;redirigirlo&nbsp;a&nbsp;la&nbsp;url&nbsp;correcta&nbsp;de&nbsp;inactivacion</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Any</strong> = typing.Any<br>
+<strong>Dict</strong> = typing.Dict<br>
+<strong>Optional</strong> = typing.Optional<br>
+<strong>Type</strong> = typing.Type</td></tr></table>
+</body></html>

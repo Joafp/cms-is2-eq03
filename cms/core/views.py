@@ -37,6 +37,12 @@ def vista_MenuPrincipal(request):
             'autenticado': autenticado
         }    
     print("Usuario: ",autenticado)
+
+    Fecha de documentacion: 07-09-2023
+    Se modifico el fetch de contenidos para ignorar usuarios inactivos
+    autores_activos= UsuarioRol.objects.filter(usuario_activo=True)
+    contenidos=Contenido.objects.filter(autor__in=autores_activos)
+    primeros_contenidos = contenidos[:6]
     """
     autenticado=User.is_authenticated
     categorias= Categoria.objects.filter(activo=True)
