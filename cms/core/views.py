@@ -92,9 +92,15 @@ class CustomPermissionRequiredMixin(PermissionRequiredMixin):
         tiene_permiso=usuario_rol.has_perm(perms)
         return tiene_permiso
 class VistaArticulos(DetailView):
+    """Utilizamos esta vista para ir a un contenido, en la misma nos redirecciona al template de contenidos,\
+    donde se ve el cuerpo del contenido, imagenes, autor etc"""
     model = Contenido
     template_name='articulo_detallado.html'
 class VistaContenidos(ListView):
+    """
+    Esta vista al ser un LisstView utilizamos para listar los contenidos, al pasarle como modelos el contennido, 
+    dentro del html podemos usar un object list para ver todos los contenidos de nuestro sistema
+    """
     model= Contenido
     template_name='Contenidos.html'
 
