@@ -121,5 +121,15 @@ from django.urls import reverse_lazy
 import os
 LOGOUT_REDIRECT_URL=reverse_lazy('MenuPrincipal')
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+LOGIN_URL = reverse_lazy('login')
 MEDIA_ROOT= ''
 MEDIA_URL=''
+
+# Para envio de emails
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Envia email a la consola
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 25
+EMAIL_HOST_USER = str(os.getenv('EMAIL_USER'))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))

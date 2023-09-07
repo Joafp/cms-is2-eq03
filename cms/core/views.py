@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from GestionCuentas.models import UsuarioRol,Rol
 from django.contrib.auth.models import User
 from django.views.decorators.cache import never_cache
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
@@ -35,10 +37,18 @@ def vista_MenuPrincipal(request):
             'autenticado': autenticado
         }    
     print("Usuario: ",autenticado)
+
+    Fecha de documentacion: 07-09-2023
+    Se modifico el fetch de contenidos para ignorar usuarios inactivos
+    autores_activos= UsuarioRol.objects.filter(usuario_activo=True)
+    contenidos=Contenido.objects.filter(autor__in=autores_activos)
+    primeros_contenidos = contenidos[:6]
     """
     autenticado=User.is_authenticated
     categorias= Categoria.objects.filter(activo=True)
-    primeros_contenidos = Contenido.objects.all()[:6]
+    autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
+    contenidos=Contenido.objects.filter(autor__in=autores_activos)
+    primeros_contenidos = contenidos[:6]
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
@@ -68,6 +78,19 @@ def vista_trabajador(request):
     """
     usuario_rol = UsuarioRol.objects.get(username=request.user.username)
     return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
+
+
+
+class CustomPermissionRequiredMixin(PermissionRequiredMixin):
+    """
+    Fecha documentacion: 06/09/2023
+    Permite comprobar permisos personalizados del usuario al ser heredada en vistas basadas en clases
+    """
+    def has_permission(self) -> bool:
+        perms = self.get_permission_required()
+        usuario_rol = UsuarioRol.objects.get(username=self.request.user.username)
+        tiene_permiso=usuario_rol.has_perm(perms)
+        return tiene_permiso
 class VistaArticulos(DetailView):
     model = Contenido
     template_name='articulo_detallado.html'

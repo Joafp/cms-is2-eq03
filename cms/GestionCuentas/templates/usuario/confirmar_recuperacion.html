@@ -1,0 +1,130 @@
+{% block title %} Recuperacion de contraseña {% endblock title%}
+{% block content %}
+<style>
+    body {
+            background-color: #121212;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: center;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button a {
+            text-decoration: none;
+            color: white;
+        }
+
+        p {
+            display: flex;
+            justify-content: flex-start;
+            padding: .5em;
+        }
+
+        p>label {
+            padding: .5em 1em .5em 0;
+            flex: 2;
+        }
+
+        p>input:not([type=checkbox]) {
+            flex: 2;
+        }
+
+
+        p>input,
+        p>button {
+            padding: .5em;
+        }
+
+
+
+
+        input {
+            /* width: 100%; */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #282828;
+            color: #FFFFFF;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1976D2;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .content>h1 {
+            padding: 20px;
+            text-align: center;
+        }
+</style>
+<div class="content">
+
+    
+        {% if validlink %}
+        {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in form.errors.items %}
+                <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <p>
+                <label for="id_new_password1">Nueva contraseña</label>
+                <input type="password" name="new_password1" autocomplete="new-password" required id="id_new_password1"
+                    placeholder="Ingrese su nueva contraseña" />
+                </p>
+                <p>
+                <label for="id_new_password2">Repetir contraseña</label>
+                <input type="password" name="new_password2" autocomplete="new-password" required id="id_new_password2"
+                    placeholder="Confirme la contraseña" />
+                </p>
+                <p><button type="submit" id="reset">Cambiar contraseña</button></p>
+            </form>
+        </div>
+
+        {% else %}
+        <div class="alert alert-warning">
+            El enlace de recuperacion de contraseña no es valido, posiblemente haya expirado.
+            Por favor solicite un nuevo enlace.
+        </div>
+        {% endif %}
+    
+</div>
+
+{% endblock content %}

@@ -1,0 +1,47 @@
+{% if messages %}
+<style>
+    .alert {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: auto;
+        height: auto;
+        padding: 10px;
+        margin: 10px;
+        line-height: 1.8;
+        border-radius: 5px;
+        font-family: sans-serif;
+        font-weight: 400;
+        animation: 2s ease-in 1s 1 normal forwards running desaparecer;
+    }
+
+    .alert-success {
+        background-color: rgba(62, 189, 97);
+        border: 2px solid #3ebd61;
+        color: #333C48;
+    }
+    .alert-warning {
+        background-color: rgb(214, 184, 47);
+        border: 2px solid #e78a10;
+        color: #333C48;
+    }
+
+    @keyframes desaparecer {
+        from {
+            visibility: visible;
+        }
+
+        to {
+            visibility: hidden;
+            opacity: 0;
+        }
+    }
+</style>
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}" {% endif %}>
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}

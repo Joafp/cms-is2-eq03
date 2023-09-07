@@ -55,7 +55,7 @@ def vista_login(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
-            if user is not None:
+            if user is not None: 
                 login(request, user)
                 print("Usuario autenticado. Redireccionando...")
                 return redirect('MenuPrincipal')  # Redireccionar al menú principal
