@@ -93,7 +93,7 @@ class vista_lista_usuarios(CustomPermissionRequiredMixin, ListView):
             f = f | {'email__icontains': t}
         
         qs = super().get_queryset()
-        return qs.filter(**f)
+        return qs.filter(**f).order_by('username')
     
     def get_context_data(self, **kwargs):
         """

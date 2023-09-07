@@ -89,7 +89,9 @@ class CustomPermissionRequiredMixin(PermissionRequiredMixin):
     def has_permission(self) -> bool:
         perms = self.get_permission_required()
         usuario_rol = UsuarioRol.objects.get(username=self.request.user.username)
-        tiene_permiso=usuario_rol.has_perm(perms)
+        tiene_permiso = True
+        for perm in perms:
+            tiene_permiso = tiene_permiso and usuario_rol.has_perm(perm)
         return tiene_permiso
 class VistaArticulos(DetailView):
     model = Contenido
