@@ -108,6 +108,22 @@ class VistaContenidos(ListView):
 
 @login_required(login_url="/login")
 def categoria(request,nombre):
+
+    """
+    Fecha documentacion: 08/09/2023
+    Esta vista nos permite ingresar a una vista personalizada por categorias, es decir ir a un lugar donde todos
+    los contenidos pertenezcan a esa categoria
+    autenticado=User.is_authenticated
+    categoria= get_object_or_404(Categoria,nombre=nombre)
+    contenidos=Contenido.objects.filter(categoria_id=categoria.id)
+    context = {
+        'categoria': categoria,
+        'contenidos': contenidos
+        
+    }
+    return render(request,'categoria.html',context)
+    """
+
     categoria= get_object_or_404(Categoria,nombre=nombre)
     contenidos=Contenido.objects.filter(categoria_id=categoria.id)
     context = {
@@ -119,6 +135,20 @@ def categoria(request,nombre):
 
 @login_required(login_url="/login")
 def crear_categoria(request):
+   """
+    Fecha documentacion: 08/09/2023
+    Esta vista nos permite crear nuevas categorias para nuestro sitio.
+    Una vez creada noe redirige al sitio del administrador
+      if request.method == 'POST':
+        nombre1=request.POST['nombre']
+        moderado=request.POST['moderada']
+        categoria=Categoria(nombre=nombre1,moderada=moderado)
+        categoria.save()
+        return redirect('Administrador')
+        return render(request,'crear_cat.html')
+   """
+
+    
     if request.method == 'POST':
         nombre1=request.POST['nombre']
         moderado=request.POST['moderada']
@@ -128,6 +158,22 @@ def crear_categoria(request):
     return render(request,'crear_cat.html')
 @login_required(login_url="/login")
 def desactivar_categoria(request):
+    
+        """
+        Fecha documentacion: 08/09/2023
+        Esta vista nos permite desactivar  categorias existentes en nuestro sitio.
+        Una vez desactivada ya no aparecera en elmen, pero sus contenidos seguiran siendo visibles en el general
+        if request.method == 'POST':
+        id_categoria= request.POST['id_categoria']
+            categoria=Categoria.objects.get(id=id_categoria)
+            categoria.activo=False
+            categoria.save()
+            return redirect('Administrador')
+
+        return render(request, 'desactivar_cat.html')
+        """
+
+    
     if request.method == 'POST':
         id_categoria= request.POST['id_categoria']
         categoria=Categoria.objects.get(id=id_categoria)
@@ -140,10 +186,49 @@ def desactivar_categoria(request):
 
 @login_required(login_url="/login")
 def vista_roles(request):
+    """
+    Documentado el 08/09/2023
+    Esta vista nos devuelve un template donde podremos gestionarroles de nuestros usuarios activos
+    """
     return render(request,'gestion_roles.html')
 
 @login_required(login_url="/login")
 def asignar_rol(request):
+    """
+    Documentado el 08/09/2023
+
+    Esta vista nos permitira asignar un rol a un usuario activo.
+    La vista desplegara una lista de usuarios y alli al elegir un usuario se desplegara sus roles actuales
+    y en la otra lista de asignacion apareceran todos los roles qe este usuario aun no dispone
+
+    if request.method == 'POST':
+        usuario_id = request.POST.get('usuario')
+        rol_id = request.POST.get('rol')
+        usuario = UsuarioRol.objects.get(id=usuario_id)
+        rol = Rol.objects.get(id=rol_id)
+        usuario.roles.add(rol)
+        return redirect('asignacion')
+    else:
+        usuarios = UsuarioRol.objects.filter(usuario_activo=True)
+        roles = Rol.objects.all()
+        usuario_seleccionado = None
+        roles_usuario = []
+        roles_disponibles = []
+        if 'usuario' in request.GET:
+            usuario_id = request.GET.get('usuario')
+            usuario_seleccionado = UsuarioRol.objects.get(id=usuario_id)
+            roles_usuario = usuario_seleccionado.roles.all()
+            roles_disponibles = Rol.objects.exclude(id__in=roles_usuario.values_list('id', flat=True))
+        context = {
+            'usuarios': usuarios,
+            'roles': roles,
+            'usuario_seleccionado': usuario_seleccionado,
+            'roles_usuario': roles_usuario,
+            'roles_disponibles': roles_disponibles
+        }
+        return render(request, 'asignar_rol.html', context)
+    """
+    
     if request.method == 'POST':
         usuario_id = request.POST.get('usuario')
         rol_id = request.POST.get('rol')
@@ -173,6 +258,34 @@ def asignar_rol(request):
     
 @login_required(login_url="/login")    
 def remover_rol(request):
+    """
+    Documentado el 08/09/2023
+
+    Este metodo es algo parecido al asignar, solo que al escofer un usuario, veremos los roles que podemos quitarle.
+    y al elegir uno le eliminareos ese rol.
+    
+    if request.method == 'POST':
+        usuario_id = request.POST.get('usuario')
+        rol_id = request.POST.get('rol')
+        usuario = UsuarioRol.objects.get(id=usuario_id)
+        rol = Rol.objects.get(id=rol_id)
+        usuario.roles.remove(rol)
+        return redirect('desasignar')
+    else:
+        usuarios = UsuarioRol.objects.filter(usuario_activo=True)
+        usuario_seleccionado = None
+        roles_usuario = []
+        if 'usuario' in request.GET:
+            usuario_id = request.GET.get('usuario')
+            usuario_seleccionado = UsuarioRol.objects.get(id=usuario_id)
+            roles_usuario = usuario_seleccionado.roles.all()
+        context = {
+            'usuarios': usuarios,
+            'usuario_seleccionado': usuario_seleccionado,
+            'roles_usuario': roles_usuario,
+        }
+        return render(request, 'desasignar_rol.html', context)
+      """
     if request.method == 'POST':
         usuario_id = request.POST.get('usuario')
         rol_id = request.POST.get('rol')
