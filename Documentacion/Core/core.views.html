@@ -12,12 +12,574 @@
     <p></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a>(<a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="core.views.html#CustomPermissionRequiredMixin">CustomPermissionRequiredMixin</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.views.generic.detail.html#DetailView">django.views.generic.detail.DetailView</a>(<a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>, <a href="django.views.generic.detail.html#BaseDetailView">django.views.generic.detail.BaseDetailView</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="core.views.html#VistaArticulos">VistaArticulos</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.views.generic.edit.html#CreateView">django.views.generic.edit.CreateView</a>(<a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>, <a href="django.views.generic.edit.html#BaseCreateView">django.views.generic.edit.BaseCreateView</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="core.views.html#CrearContenido">CrearContenido</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="django.views.generic.list.html#ListView">django.views.generic.list.ListView</a>(<a href="django.views.generic.list.html#MultipleObjectTemplateResponseMixin">django.views.generic.list.MultipleObjectTemplateResponseMixin</a>, <a href="django.views.generic.list.html#BaseListView">django.views.generic.list.BaseListView</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="core.views.html#VistaContenidos">VistaContenidos</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CrearContenido">class <strong>CrearContenido</strong></a>(<a href="django.views.generic.edit.html#CreateView">django.views.generic.edit.CreateView</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#CrearContenido">CrearContenido</a>(**kwargs)<br>
+&nbsp;<br>
+La&nbsp;clase&nbsp;creacontenido&nbsp;utiliza&nbsp;el&nbsp;view&nbsp;de&nbsp;django&nbsp;<a href="django.views.generic.edit.html#CreateView">CreateView</a>,&nbsp;este&nbsp;view&nbsp;nos&nbsp;permite&nbsp;rellenar&nbsp;datos&nbsp;para&nbsp;un&nbsp;modelo<br>
+en&nbsp;este&nbsp;caso&nbsp;para&nbsp;el&nbsp;modelo&nbsp;contenido,&nbsp;utilizamos&nbsp;el&nbsp;template&nbsp;crear_contenido<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.views.html#CrearContenido">CrearContenido</a></dd>
+<dd><a href="django.views.generic.edit.html#CreateView">django.views.generic.edit.CreateView</a></dd>
+<dd><a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#BaseCreateView">django.views.generic.edit.BaseCreateView</a></dd>
+<dd><a href="django.views.generic.edit.html#ModelFormMixin">django.views.generic.edit.ModelFormMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a></dd>
+<dd><a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a></dd>
+<dd><a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a></dd>
+<dd><a href="django.views.generic.edit.html#ProcessFormView">django.views.generic.edit.ProcessFormView</a></dd>
+<dd><a href="django.views.generic.base.html#View">django.views.generic.base.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>fields</strong> = '__all__'</dl>
+
+<dl><dt><strong>model</strong> = &lt;class 'core.models.Contenido'&gt;<dd><tt>El&nbsp;modelo&nbsp;contenido&nbsp;nos&nbsp;sirve&nbsp;para&nbsp;guardar&nbsp;los&nbsp;datos&nbsp;del&nbsp;contenido,&nbsp;tenemos&nbsp;los&nbsp;atributos<br>
+Titulo:&nbsp;guardamos&nbsp;el&nbsp;titulo&nbsp;del&nbsp;contenido<br>
+Autor:&nbsp;Asignamos&nbsp;un&nbsp;autor&nbsp;al&nbsp;titulo,&nbsp;mediante&nbsp;el&nbsp;codigo&nbsp;podemos&nbsp;ver&nbsp;que&nbsp;usamos&nbsp;limit&nbsp;choices&nbsp;para&nbsp;buscar&nbsp;solo&nbsp;los&nbsp;usuarios&nbsp;con&nbsp;el&nbsp;rol<br>
+autor<br>
+Categoria:&nbsp;En&nbsp;nuestro&nbsp;caso&nbsp;usamos&nbsp;el&nbsp;modelo&nbsp;creado&nbsp;anteriormente&nbsp;llamado&nbsp;categoria,&nbsp;como&nbsp;vemos&nbsp;asignamos&nbsp;que&nbsp;<br>
+un&nbsp;contenido&nbsp;solo&nbsp;puede&nbsp;pertenecer&nbsp;a&nbsp;una&nbsp;categoria<br>
+Imagen:&nbsp;utilizamos&nbsp;el&nbsp;modelo&nbsp;default&nbsp;de&nbsp;django&nbsp;que&nbsp;nos&nbsp;ofrece&nbsp;ImageField,&nbsp;en&nbsp;este&nbsp;atributo&nbsp;lo&nbsp;que&nbsp;guardamos&nbsp;es&nbsp;el&nbsp;path<br>
+de&nbsp;la&nbsp;imagen,&nbsp;en&nbsp;upload&nbsp;asingamos&nbsp;la&nbsp;ubicacion&nbsp;donde&nbsp;se&nbsp;guardara&nbsp;la&nbsp;imagen<br>
+Cuerpo:&nbsp;Utilizamos&nbsp;la&nbsp;libreria&nbsp;ckeditor,&nbsp;esta&nbsp;libreria&nbsp;nos&nbsp;permite&nbsp;crear&nbsp;field&nbsp;enriquesidos,&nbsp;donde&nbsp;podemos&nbsp;subir&nbsp;tanto&nbsp;imagenes,&nbsp;como&nbsp;textos</tt></dl>
+
+<dl><dt><strong>template_name</strong> = 'crear_contenido.html'</dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.edit.html#CreateView">django.views.generic.edit.CreateView</a>:<br>
+<dl><dt><strong>template_name_suffix</strong> = '_form'</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><a name="CrearContenido-get_template_names"><strong>get_template_names</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;template&nbsp;names&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;the&nbsp;request.&nbsp;May&nbsp;not&nbsp;be<br>
+called&nbsp;if&nbsp;<a href="#CrearContenido-render_to_response">render_to_response</a>()&nbsp;is&nbsp;overridden.&nbsp;Return&nbsp;the&nbsp;following&nbsp;list:<br>
+&nbsp;<br>
+*&nbsp;the&nbsp;value&nbsp;of&nbsp;``template_name``&nbsp;on&nbsp;the&nbsp;view&nbsp;(if&nbsp;provided)<br>
+*&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;``template_name_field``&nbsp;field&nbsp;on&nbsp;the<br>
+&nbsp;&nbsp;object&nbsp;instance&nbsp;that&nbsp;the&nbsp;view&nbsp;is&nbsp;operating&nbsp;upon&nbsp;(if&nbsp;available)<br>
+*&nbsp;``&lt;app_label&gt;/&lt;model_name&gt;&lt;template_name_suffix&gt;.html``</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><strong>template_name_field</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><a name="CrearContenido-render_to_response"><strong>render_to_response</strong></a>(self, context, **response_kwargs)</dt><dd><tt>Return&nbsp;a&nbsp;response,&nbsp;using&nbsp;the&nbsp;`response_class`&nbsp;for&nbsp;this&nbsp;view,&nbsp;with&nbsp;a<br>
+template&nbsp;rendered&nbsp;with&nbsp;the&nbsp;given&nbsp;context.<br>
+&nbsp;<br>
+Pass&nbsp;response_kwargs&nbsp;to&nbsp;the&nbsp;constructor&nbsp;of&nbsp;the&nbsp;response&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>content_type</strong> = None</dl>
+
+<dl><dt><strong>response_class</strong> = &lt;class 'django.template.response.TemplateResponse'&gt;</dl>
+
+<dl><dt><strong>template_engine</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#BaseCreateView">django.views.generic.edit.BaseCreateView</a>:<br>
+<dl><dt><a name="CrearContenido-get"><strong>get</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;GET&nbsp;requests:&nbsp;instantiate&nbsp;a&nbsp;blank&nbsp;version&nbsp;of&nbsp;the&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-post"><strong>post</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;POST&nbsp;requests:&nbsp;instantiate&nbsp;a&nbsp;form&nbsp;instance&nbsp;with&nbsp;the&nbsp;passed<br>
+POST&nbsp;variables&nbsp;and&nbsp;then&nbsp;check&nbsp;if&nbsp;it's&nbsp;valid.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#ModelFormMixin">django.views.generic.edit.ModelFormMixin</a>:<br>
+<dl><dt><a name="CrearContenido-form_valid"><strong>form_valid</strong></a>(self, form)</dt><dd><tt>If&nbsp;the&nbsp;form&nbsp;is&nbsp;valid,&nbsp;save&nbsp;the&nbsp;associated&nbsp;model.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_form_class"><strong>get_form_class</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;form&nbsp;class&nbsp;to&nbsp;use&nbsp;in&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_form_kwargs"><strong>get_form_kwargs</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;keyword&nbsp;arguments&nbsp;for&nbsp;instantiating&nbsp;the&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_success_url"><strong>get_success_url</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;URL&nbsp;to&nbsp;redirect&nbsp;to&nbsp;after&nbsp;processing&nbsp;a&nbsp;valid&nbsp;form.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a>:<br>
+<dl><dt><a name="CrearContenido-form_invalid"><strong>form_invalid</strong></a>(self, form)</dt><dd><tt>If&nbsp;the&nbsp;form&nbsp;is&nbsp;invalid,&nbsp;render&nbsp;the&nbsp;invalid&nbsp;form.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_context_data"><strong>get_context_data</strong></a>(self, **kwargs)</dt><dd><tt>Insert&nbsp;the&nbsp;form&nbsp;into&nbsp;the&nbsp;context&nbsp;dict.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_form"><strong>get_form</strong></a>(self, form_class=None)</dt><dd><tt>Return&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;form&nbsp;to&nbsp;be&nbsp;used&nbsp;in&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_initial"><strong>get_initial</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;initial&nbsp;data&nbsp;to&nbsp;use&nbsp;for&nbsp;forms&nbsp;on&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_prefix"><strong>get_prefix</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;prefix&nbsp;to&nbsp;use&nbsp;for&nbsp;forms.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.edit.html#FormMixin">django.views.generic.edit.FormMixin</a>:<br>
+<dl><dt><strong>form_class</strong> = None</dl>
+
+<dl><dt><strong>initial</strong> = {}</dl>
+
+<dl><dt><strong>prefix</strong> = None</dl>
+
+<dl><dt><strong>success_url</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a>:<br>
+<dl><dt><a name="CrearContenido-get_context_object_name"><strong>get_context_object_name</strong></a>(self, obj)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;to&nbsp;use&nbsp;for&nbsp;the&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_object"><strong>get_object</strong></a>(self, queryset=None)</dt><dd><tt>Return&nbsp;the&nbsp;object&nbsp;the&nbsp;view&nbsp;is&nbsp;displaying.<br>
+&nbsp;<br>
+Require&nbsp;`self.<strong>queryset</strong>`&nbsp;and&nbsp;a&nbsp;`pk`&nbsp;or&nbsp;`slug`&nbsp;argument&nbsp;in&nbsp;the&nbsp;URLconf.<br>
+Subclasses&nbsp;can&nbsp;override&nbsp;this&nbsp;to&nbsp;return&nbsp;any&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_queryset"><strong>get_queryset</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;`QuerySet`&nbsp;that&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;look&nbsp;up&nbsp;the&nbsp;object.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;is&nbsp;called&nbsp;by&nbsp;the&nbsp;default&nbsp;implementation&nbsp;of&nbsp;<a href="#CrearContenido-get_object">get_object</a>()&nbsp;and<br>
+may&nbsp;not&nbsp;be&nbsp;called&nbsp;if&nbsp;<a href="#CrearContenido-get_object">get_object</a>()&nbsp;is&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-get_slug_field"><strong>get_slug_field</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;slug&nbsp;field&nbsp;to&nbsp;be&nbsp;used&nbsp;to&nbsp;look&nbsp;up&nbsp;by&nbsp;slug.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a>:<br>
+<dl><dt><strong>context_object_name</strong> = None</dl>
+
+<dl><dt><strong>pk_url_kwarg</strong> = 'pk'</dl>
+
+<dl><dt><strong>query_pk_and_slug</strong> = False</dl>
+
+<dl><dt><strong>queryset</strong> = None</dl>
+
+<dl><dt><strong>slug_field</strong> = 'slug'</dl>
+
+<dl><dt><strong>slug_url_kwarg</strong> = 'slug'</dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a>:<br>
+<dl><dt><strong>extra_context</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.edit.html#ProcessFormView">django.views.generic.edit.ProcessFormView</a>:<br>
+<dl><dt><a name="CrearContenido-put"><strong>put</strong></a>(self, *args, **kwargs)</dt><dd><tt>#&nbsp;PUT&nbsp;is&nbsp;a&nbsp;valid&nbsp;HTTP&nbsp;verb&nbsp;for&nbsp;creating&nbsp;(with&nbsp;a&nbsp;known&nbsp;URL)&nbsp;or&nbsp;editing&nbsp;an<br>
+#&nbsp;object,&nbsp;note&nbsp;that&nbsp;browsers&nbsp;only&nbsp;support&nbsp;POST&nbsp;for&nbsp;now.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="CrearContenido-__init__"><strong>__init__</strong></a>(self, **kwargs)</dt><dd><tt>Constructor.&nbsp;Called&nbsp;in&nbsp;the&nbsp;URLconf;&nbsp;can&nbsp;contain&nbsp;helpful&nbsp;extra<br>
+keyword&nbsp;arguments,&nbsp;and&nbsp;other&nbsp;things.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-dispatch"><strong>dispatch</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="CrearContenido-http_method_not_allowed"><strong>http_method_not_allowed</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="CrearContenido-options"><strong>options</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;responding&nbsp;to&nbsp;requests&nbsp;for&nbsp;the&nbsp;OPTIONS&nbsp;HTTP&nbsp;verb.</tt></dd></dl>
+
+<dl><dt><a name="CrearContenido-setup"><strong>setup</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;attributes&nbsp;shared&nbsp;by&nbsp;all&nbsp;view&nbsp;methods.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="CrearContenido-as_view"><strong>as_view</strong></a>(**initkwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Main&nbsp;entry&nbsp;point&nbsp;for&nbsp;a&nbsp;request-response&nbsp;process.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><strong>http_method_names</strong> = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']</dl>
+
+<dl><dt><strong>view_is_async</strong> = False</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CustomPermissionRequiredMixin">class <strong>CustomPermissionRequiredMixin</strong></a>(<a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Fecha&nbsp;documentacion:&nbsp;06/09/2023<br>
+Permite&nbsp;comprobar&nbsp;permisos&nbsp;personalizados&nbsp;del&nbsp;usuario&nbsp;al&nbsp;ser&nbsp;heredada&nbsp;en&nbsp;vistas&nbsp;basadas&nbsp;en&nbsp;clases<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.views.html#CustomPermissionRequiredMixin">CustomPermissionRequiredMixin</a></dd>
+<dd><a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a></dd>
+<dd><a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CustomPermissionRequiredMixin-has_permission"><strong>has_permission</strong></a>(self) -&gt; bool</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;customize&nbsp;the&nbsp;way&nbsp;permissions&nbsp;are&nbsp;checked.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a>:<br>
+<dl><dt><a name="CustomPermissionRequiredMixin-dispatch"><strong>dispatch</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="CustomPermissionRequiredMixin-get_permission_required"><strong>get_permission_required</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;permission_required&nbsp;attribute.<br>
+Must&nbsp;return&nbsp;an&nbsp;iterable.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.contrib.auth.mixins.html#PermissionRequiredMixin">django.contrib.auth.mixins.PermissionRequiredMixin</a>:<br>
+<dl><dt><strong>permission_required</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><a name="CustomPermissionRequiredMixin-get_login_url"><strong>get_login_url</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;login_url&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="CustomPermissionRequiredMixin-get_permission_denied_message"><strong>get_permission_denied_message</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;permission_denied_message&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="CustomPermissionRequiredMixin-get_redirect_field_name"><strong>get_redirect_field_name</strong></a>(self)</dt><dd><tt>Override&nbsp;this&nbsp;method&nbsp;to&nbsp;override&nbsp;the&nbsp;redirect_field_name&nbsp;attribute.</tt></dd></dl>
+
+<dl><dt><a name="CustomPermissionRequiredMixin-handle_no_permission"><strong>handle_no_permission</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="django.contrib.auth.mixins.html#AccessMixin">django.contrib.auth.mixins.AccessMixin</a>:<br>
+<dl><dt><strong>login_url</strong> = None</dl>
+
+<dl><dt><strong>permission_denied_message</strong> = ''</dl>
+
+<dl><dt><strong>raise_exception</strong> = False</dl>
+
+<dl><dt><strong>redirect_field_name</strong> = 'next'</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="VistaArticulos">class <strong>VistaArticulos</strong></a>(<a href="django.views.generic.detail.html#DetailView">django.views.generic.detail.DetailView</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#VistaArticulos">VistaArticulos</a>(**kwargs)<br>
+&nbsp;<br>
+Utilizamos&nbsp;esta&nbsp;vista&nbsp;para&nbsp;ir&nbsp;a&nbsp;un&nbsp;contenido,&nbsp;en&nbsp;la&nbsp;misma&nbsp;nos&nbsp;redirecciona&nbsp;al&nbsp;template&nbsp;de&nbsp;contenidos,&nbsp;&nbsp;&nbsp;&nbsp;donde&nbsp;se&nbsp;ve&nbsp;el&nbsp;cuerpo&nbsp;del&nbsp;contenido,&nbsp;imagenes,&nbsp;autor&nbsp;etc<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.views.html#VistaArticulos">VistaArticulos</a></dd>
+<dd><a href="django.views.generic.detail.html#DetailView">django.views.generic.detail.DetailView</a></dd>
+<dd><a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.detail.html#BaseDetailView">django.views.generic.detail.BaseDetailView</a></dd>
+<dd><a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a></dd>
+<dd><a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a></dd>
+<dd><a href="django.views.generic.base.html#View">django.views.generic.base.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>model</strong> = &lt;class 'core.models.Contenido'&gt;<dd><tt>El&nbsp;modelo&nbsp;contenido&nbsp;nos&nbsp;sirve&nbsp;para&nbsp;guardar&nbsp;los&nbsp;datos&nbsp;del&nbsp;contenido,&nbsp;tenemos&nbsp;los&nbsp;atributos<br>
+Titulo:&nbsp;guardamos&nbsp;el&nbsp;titulo&nbsp;del&nbsp;contenido<br>
+Autor:&nbsp;Asignamos&nbsp;un&nbsp;autor&nbsp;al&nbsp;titulo,&nbsp;mediante&nbsp;el&nbsp;codigo&nbsp;podemos&nbsp;ver&nbsp;que&nbsp;usamos&nbsp;limit&nbsp;choices&nbsp;para&nbsp;buscar&nbsp;solo&nbsp;los&nbsp;usuarios&nbsp;con&nbsp;el&nbsp;rol<br>
+autor<br>
+Categoria:&nbsp;En&nbsp;nuestro&nbsp;caso&nbsp;usamos&nbsp;el&nbsp;modelo&nbsp;creado&nbsp;anteriormente&nbsp;llamado&nbsp;categoria,&nbsp;como&nbsp;vemos&nbsp;asignamos&nbsp;que&nbsp;<br>
+un&nbsp;contenido&nbsp;solo&nbsp;puede&nbsp;pertenecer&nbsp;a&nbsp;una&nbsp;categoria<br>
+Imagen:&nbsp;utilizamos&nbsp;el&nbsp;modelo&nbsp;default&nbsp;de&nbsp;django&nbsp;que&nbsp;nos&nbsp;ofrece&nbsp;ImageField,&nbsp;en&nbsp;este&nbsp;atributo&nbsp;lo&nbsp;que&nbsp;guardamos&nbsp;es&nbsp;el&nbsp;path<br>
+de&nbsp;la&nbsp;imagen,&nbsp;en&nbsp;upload&nbsp;asingamos&nbsp;la&nbsp;ubicacion&nbsp;donde&nbsp;se&nbsp;guardara&nbsp;la&nbsp;imagen<br>
+Cuerpo:&nbsp;Utilizamos&nbsp;la&nbsp;libreria&nbsp;ckeditor,&nbsp;esta&nbsp;libreria&nbsp;nos&nbsp;permite&nbsp;crear&nbsp;field&nbsp;enriquesidos,&nbsp;donde&nbsp;podemos&nbsp;subir&nbsp;tanto&nbsp;imagenes,&nbsp;como&nbsp;textos</tt></dl>
+
+<dl><dt><strong>template_name</strong> = 'articulo_detallado.html'</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><a name="VistaArticulos-get_template_names"><strong>get_template_names</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;template&nbsp;names&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;the&nbsp;request.&nbsp;May&nbsp;not&nbsp;be<br>
+called&nbsp;if&nbsp;<a href="#VistaArticulos-render_to_response">render_to_response</a>()&nbsp;is&nbsp;overridden.&nbsp;Return&nbsp;the&nbsp;following&nbsp;list:<br>
+&nbsp;<br>
+*&nbsp;the&nbsp;value&nbsp;of&nbsp;``template_name``&nbsp;on&nbsp;the&nbsp;view&nbsp;(if&nbsp;provided)<br>
+*&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;``template_name_field``&nbsp;field&nbsp;on&nbsp;the<br>
+&nbsp;&nbsp;object&nbsp;instance&nbsp;that&nbsp;the&nbsp;view&nbsp;is&nbsp;operating&nbsp;upon&nbsp;(if&nbsp;available)<br>
+*&nbsp;``&lt;app_label&gt;/&lt;model_name&gt;&lt;template_name_suffix&gt;.html``</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.detail.html#SingleObjectTemplateResponseMixin">django.views.generic.detail.SingleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><strong>template_name_field</strong> = None</dl>
+
+<dl><dt><strong>template_name_suffix</strong> = '_detail'</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><a name="VistaArticulos-render_to_response"><strong>render_to_response</strong></a>(self, context, **response_kwargs)</dt><dd><tt>Return&nbsp;a&nbsp;response,&nbsp;using&nbsp;the&nbsp;`response_class`&nbsp;for&nbsp;this&nbsp;view,&nbsp;with&nbsp;a<br>
+template&nbsp;rendered&nbsp;with&nbsp;the&nbsp;given&nbsp;context.<br>
+&nbsp;<br>
+Pass&nbsp;response_kwargs&nbsp;to&nbsp;the&nbsp;constructor&nbsp;of&nbsp;the&nbsp;response&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>content_type</strong> = None</dl>
+
+<dl><dt><strong>response_class</strong> = &lt;class 'django.template.response.TemplateResponse'&gt;</dl>
+
+<dl><dt><strong>template_engine</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.detail.html#BaseDetailView">django.views.generic.detail.BaseDetailView</a>:<br>
+<dl><dt><a name="VistaArticulos-get"><strong>get</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a>:<br>
+<dl><dt><a name="VistaArticulos-get_context_data"><strong>get_context_data</strong></a>(self, **kwargs)</dt><dd><tt>Insert&nbsp;the&nbsp;single&nbsp;object&nbsp;into&nbsp;the&nbsp;context&nbsp;dict.</tt></dd></dl>
+
+<dl><dt><a name="VistaArticulos-get_context_object_name"><strong>get_context_object_name</strong></a>(self, obj)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;to&nbsp;use&nbsp;for&nbsp;the&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="VistaArticulos-get_object"><strong>get_object</strong></a>(self, queryset=None)</dt><dd><tt>Return&nbsp;the&nbsp;object&nbsp;the&nbsp;view&nbsp;is&nbsp;displaying.<br>
+&nbsp;<br>
+Require&nbsp;`self.<strong>queryset</strong>`&nbsp;and&nbsp;a&nbsp;`pk`&nbsp;or&nbsp;`slug`&nbsp;argument&nbsp;in&nbsp;the&nbsp;URLconf.<br>
+Subclasses&nbsp;can&nbsp;override&nbsp;this&nbsp;to&nbsp;return&nbsp;any&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="VistaArticulos-get_queryset"><strong>get_queryset</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;`QuerySet`&nbsp;that&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;look&nbsp;up&nbsp;the&nbsp;object.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;is&nbsp;called&nbsp;by&nbsp;the&nbsp;default&nbsp;implementation&nbsp;of&nbsp;<a href="#VistaArticulos-get_object">get_object</a>()&nbsp;and<br>
+may&nbsp;not&nbsp;be&nbsp;called&nbsp;if&nbsp;<a href="#VistaArticulos-get_object">get_object</a>()&nbsp;is&nbsp;overridden.</tt></dd></dl>
+
+<dl><dt><a name="VistaArticulos-get_slug_field"><strong>get_slug_field</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;of&nbsp;a&nbsp;slug&nbsp;field&nbsp;to&nbsp;be&nbsp;used&nbsp;to&nbsp;look&nbsp;up&nbsp;by&nbsp;slug.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.detail.html#SingleObjectMixin">django.views.generic.detail.SingleObjectMixin</a>:<br>
+<dl><dt><strong>context_object_name</strong> = None</dl>
+
+<dl><dt><strong>pk_url_kwarg</strong> = 'pk'</dl>
+
+<dl><dt><strong>query_pk_and_slug</strong> = False</dl>
+
+<dl><dt><strong>queryset</strong> = None</dl>
+
+<dl><dt><strong>slug_field</strong> = 'slug'</dl>
+
+<dl><dt><strong>slug_url_kwarg</strong> = 'slug'</dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a>:<br>
+<dl><dt><strong>extra_context</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="VistaArticulos-__init__"><strong>__init__</strong></a>(self, **kwargs)</dt><dd><tt>Constructor.&nbsp;Called&nbsp;in&nbsp;the&nbsp;URLconf;&nbsp;can&nbsp;contain&nbsp;helpful&nbsp;extra<br>
+keyword&nbsp;arguments,&nbsp;and&nbsp;other&nbsp;things.</tt></dd></dl>
+
+<dl><dt><a name="VistaArticulos-dispatch"><strong>dispatch</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="VistaArticulos-http_method_not_allowed"><strong>http_method_not_allowed</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="VistaArticulos-options"><strong>options</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;responding&nbsp;to&nbsp;requests&nbsp;for&nbsp;the&nbsp;OPTIONS&nbsp;HTTP&nbsp;verb.</tt></dd></dl>
+
+<dl><dt><a name="VistaArticulos-setup"><strong>setup</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;attributes&nbsp;shared&nbsp;by&nbsp;all&nbsp;view&nbsp;methods.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="VistaArticulos-as_view"><strong>as_view</strong></a>(**initkwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Main&nbsp;entry&nbsp;point&nbsp;for&nbsp;a&nbsp;request-response&nbsp;process.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><strong>http_method_names</strong> = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']</dl>
+
+<dl><dt><strong>view_is_async</strong> = False</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="VistaContenidos">class <strong>VistaContenidos</strong></a>(<a href="django.views.generic.list.html#ListView">django.views.generic.list.ListView</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#VistaContenidos">VistaContenidos</a>(**kwargs)<br>
+&nbsp;<br>
+Esta&nbsp;vista&nbsp;al&nbsp;ser&nbsp;un&nbsp;LisstView&nbsp;utilizamos&nbsp;para&nbsp;listar&nbsp;los&nbsp;contenidos,&nbsp;al&nbsp;pasarle&nbsp;como&nbsp;modelos&nbsp;el&nbsp;contennido,&nbsp;<br>
+dentro&nbsp;del&nbsp;html&nbsp;podemos&nbsp;usar&nbsp;un&nbsp;object&nbsp;list&nbsp;para&nbsp;ver&nbsp;todos&nbsp;los&nbsp;contenidos&nbsp;de&nbsp;nuestro&nbsp;sistema<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.views.html#VistaContenidos">VistaContenidos</a></dd>
+<dd><a href="django.views.generic.list.html#ListView">django.views.generic.list.ListView</a></dd>
+<dd><a href="django.views.generic.list.html#MultipleObjectTemplateResponseMixin">django.views.generic.list.MultipleObjectTemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a></dd>
+<dd><a href="django.views.generic.list.html#BaseListView">django.views.generic.list.BaseListView</a></dd>
+<dd><a href="django.views.generic.list.html#MultipleObjectMixin">django.views.generic.list.MultipleObjectMixin</a></dd>
+<dd><a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a></dd>
+<dd><a href="django.views.generic.base.html#View">django.views.generic.base.View</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>model</strong> = &lt;class 'core.models.Contenido'&gt;<dd><tt>El&nbsp;modelo&nbsp;contenido&nbsp;nos&nbsp;sirve&nbsp;para&nbsp;guardar&nbsp;los&nbsp;datos&nbsp;del&nbsp;contenido,&nbsp;tenemos&nbsp;los&nbsp;atributos<br>
+Titulo:&nbsp;guardamos&nbsp;el&nbsp;titulo&nbsp;del&nbsp;contenido<br>
+Autor:&nbsp;Asignamos&nbsp;un&nbsp;autor&nbsp;al&nbsp;titulo,&nbsp;mediante&nbsp;el&nbsp;codigo&nbsp;podemos&nbsp;ver&nbsp;que&nbsp;usamos&nbsp;limit&nbsp;choices&nbsp;para&nbsp;buscar&nbsp;solo&nbsp;los&nbsp;usuarios&nbsp;con&nbsp;el&nbsp;rol<br>
+autor<br>
+Categoria:&nbsp;En&nbsp;nuestro&nbsp;caso&nbsp;usamos&nbsp;el&nbsp;modelo&nbsp;creado&nbsp;anteriormente&nbsp;llamado&nbsp;categoria,&nbsp;como&nbsp;vemos&nbsp;asignamos&nbsp;que&nbsp;<br>
+un&nbsp;contenido&nbsp;solo&nbsp;puede&nbsp;pertenecer&nbsp;a&nbsp;una&nbsp;categoria<br>
+Imagen:&nbsp;utilizamos&nbsp;el&nbsp;modelo&nbsp;default&nbsp;de&nbsp;django&nbsp;que&nbsp;nos&nbsp;ofrece&nbsp;ImageField,&nbsp;en&nbsp;este&nbsp;atributo&nbsp;lo&nbsp;que&nbsp;guardamos&nbsp;es&nbsp;el&nbsp;path<br>
+de&nbsp;la&nbsp;imagen,&nbsp;en&nbsp;upload&nbsp;asingamos&nbsp;la&nbsp;ubicacion&nbsp;donde&nbsp;se&nbsp;guardara&nbsp;la&nbsp;imagen<br>
+Cuerpo:&nbsp;Utilizamos&nbsp;la&nbsp;libreria&nbsp;ckeditor,&nbsp;esta&nbsp;libreria&nbsp;nos&nbsp;permite&nbsp;crear&nbsp;field&nbsp;enriquesidos,&nbsp;donde&nbsp;podemos&nbsp;subir&nbsp;tanto&nbsp;imagenes,&nbsp;como&nbsp;textos</tt></dl>
+
+<dl><dt><strong>template_name</strong> = 'Contenidos.html'</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.list.html#MultipleObjectTemplateResponseMixin">django.views.generic.list.MultipleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><a name="VistaContenidos-get_template_names"><strong>get_template_names</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;template&nbsp;names&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;the&nbsp;request.&nbsp;Must&nbsp;return<br>
+a&nbsp;list.&nbsp;May&nbsp;not&nbsp;be&nbsp;called&nbsp;if&nbsp;render_to_response&nbsp;is&nbsp;overridden.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.list.html#MultipleObjectTemplateResponseMixin">django.views.generic.list.MultipleObjectTemplateResponseMixin</a>:<br>
+<dl><dt><strong>template_name_suffix</strong> = '_list'</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><a name="VistaContenidos-render_to_response"><strong>render_to_response</strong></a>(self, context, **response_kwargs)</dt><dd><tt>Return&nbsp;a&nbsp;response,&nbsp;using&nbsp;the&nbsp;`response_class`&nbsp;for&nbsp;this&nbsp;view,&nbsp;with&nbsp;a<br>
+template&nbsp;rendered&nbsp;with&nbsp;the&nbsp;given&nbsp;context.<br>
+&nbsp;<br>
+Pass&nbsp;response_kwargs&nbsp;to&nbsp;the&nbsp;constructor&nbsp;of&nbsp;the&nbsp;response&nbsp;class.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#TemplateResponseMixin">django.views.generic.base.TemplateResponseMixin</a>:<br>
+<dl><dt><strong>content_type</strong> = None</dl>
+
+<dl><dt><strong>response_class</strong> = &lt;class 'django.template.response.TemplateResponse'&gt;</dl>
+
+<dl><dt><strong>template_engine</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.list.html#BaseListView">django.views.generic.list.BaseListView</a>:<br>
+<dl><dt><a name="VistaContenidos-get"><strong>get</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.list.html#MultipleObjectMixin">django.views.generic.list.MultipleObjectMixin</a>:<br>
+<dl><dt><a name="VistaContenidos-get_allow_empty"><strong>get_allow_empty</strong></a>(self)</dt><dd><tt>Return&nbsp;``True``&nbsp;if&nbsp;the&nbsp;view&nbsp;should&nbsp;display&nbsp;empty&nbsp;lists&nbsp;and&nbsp;``False``<br>
+if&nbsp;a&nbsp;404&nbsp;should&nbsp;be&nbsp;raised&nbsp;instead.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-get_context_data"><strong>get_context_data</strong></a>(self, *, object_list=None, **kwargs)</dt><dd><tt>Get&nbsp;the&nbsp;context&nbsp;for&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-get_context_object_name"><strong>get_context_object_name</strong></a>(self, object_list)</dt><dd><tt>Get&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;item&nbsp;to&nbsp;be&nbsp;used&nbsp;in&nbsp;the&nbsp;context.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-get_ordering"><strong>get_ordering</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;field&nbsp;or&nbsp;fields&nbsp;to&nbsp;use&nbsp;for&nbsp;ordering&nbsp;the&nbsp;queryset.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-get_paginate_by"><strong>get_paginate_by</strong></a>(self, queryset)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;items&nbsp;to&nbsp;paginate&nbsp;by,&nbsp;or&nbsp;``None``&nbsp;for&nbsp;no&nbsp;pagination.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-get_paginate_orphans"><strong>get_paginate_orphans</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;maximum&nbsp;number&nbsp;of&nbsp;orphans&nbsp;extend&nbsp;the&nbsp;last&nbsp;page&nbsp;by&nbsp;when<br>
+paginating.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-get_paginator"><strong>get_paginator</strong></a>(self, queryset, per_page, orphans=0, allow_empty_first_page=True, **kwargs)</dt><dd><tt>Return&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;paginator&nbsp;for&nbsp;this&nbsp;view.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-get_queryset"><strong>get_queryset</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;list&nbsp;of&nbsp;items&nbsp;for&nbsp;this&nbsp;view.<br>
+&nbsp;<br>
+The&nbsp;return&nbsp;value&nbsp;must&nbsp;be&nbsp;an&nbsp;iterable&nbsp;and&nbsp;may&nbsp;be&nbsp;an&nbsp;instance&nbsp;of<br>
+`QuerySet`&nbsp;in&nbsp;which&nbsp;case&nbsp;`QuerySet`&nbsp;specific&nbsp;behavior&nbsp;will&nbsp;be&nbsp;enabled.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-paginate_queryset"><strong>paginate_queryset</strong></a>(self, queryset, page_size)</dt><dd><tt>Paginate&nbsp;the&nbsp;queryset,&nbsp;if&nbsp;needed.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.list.html#MultipleObjectMixin">django.views.generic.list.MultipleObjectMixin</a>:<br>
+<dl><dt><strong>allow_empty</strong> = True</dl>
+
+<dl><dt><strong>context_object_name</strong> = None</dl>
+
+<dl><dt><strong>ordering</strong> = None</dl>
+
+<dl><dt><strong>page_kwarg</strong> = 'page'</dl>
+
+<dl><dt><strong>paginate_by</strong> = None</dl>
+
+<dl><dt><strong>paginate_orphans</strong> = 0</dl>
+
+<dl><dt><strong>paginator_class</strong> = &lt;class 'django.core.paginator.Paginator'&gt;</dl>
+
+<dl><dt><strong>queryset</strong> = None</dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#ContextMixin">django.views.generic.base.ContextMixin</a>:<br>
+<dl><dt><strong>extra_context</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="VistaContenidos-__init__"><strong>__init__</strong></a>(self, **kwargs)</dt><dd><tt>Constructor.&nbsp;Called&nbsp;in&nbsp;the&nbsp;URLconf;&nbsp;can&nbsp;contain&nbsp;helpful&nbsp;extra<br>
+keyword&nbsp;arguments,&nbsp;and&nbsp;other&nbsp;things.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-dispatch"><strong>dispatch</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="VistaContenidos-http_method_not_allowed"><strong>http_method_not_allowed</strong></a>(self, request, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="VistaContenidos-options"><strong>options</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Handle&nbsp;responding&nbsp;to&nbsp;requests&nbsp;for&nbsp;the&nbsp;OPTIONS&nbsp;HTTP&nbsp;verb.</tt></dd></dl>
+
+<dl><dt><a name="VistaContenidos-setup"><strong>setup</strong></a>(self, request, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;attributes&nbsp;shared&nbsp;by&nbsp;all&nbsp;view&nbsp;methods.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><a name="VistaContenidos-as_view"><strong>as_view</strong></a>(**initkwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Main&nbsp;entry&nbsp;point&nbsp;for&nbsp;a&nbsp;request-response&nbsp;process.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="django.views.generic.base.html#View">django.views.generic.base.View</a>:<br>
+<dl><dt><strong>http_method_names</strong> = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']</dl>
+
+<dl><dt><strong>view_is_async</strong> = False</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
 <td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-vista_MenuPrincipal"><strong>vista_MenuPrincipal</strong></a>(request)</dt><dd><tt>Fecha&nbsp;documentacion:&nbsp;28/08/2023<br>
+<td width="100%"><dl><dt><a name="-asignar_rol"><strong>asignar_rol</strong></a>(request)</dt></dl>
+ <dl><dt><a name="-categoria"><strong>categoria</strong></a>(request, nombre)</dt></dl>
+ <dl><dt><a name="-crear_categoria"><strong>crear_categoria</strong></a>(request)</dt></dl>
+ <dl><dt><a name="-desactivar_categoria"><strong>desactivar_categoria</strong></a>(request)</dt></dl>
+ <dl><dt><a name="-remover_rol"><strong>remover_rol</strong></a>(request)</dt></dl>
+ <dl><dt><a name="-vista_MenuPrincipal"><strong>vista_MenuPrincipal</strong></a>(request)</dt><dd><tt>Fecha&nbsp;documentacion:&nbsp;28/08/2023<br>
 Esta&nbsp;vista&nbsp;nos&nbsp;permite&nbsp;ingresar&nbsp;al&nbsp;template&nbsp;del&nbsp;menu&nbsp;principal,&nbsp;le&nbsp;pasamos&nbsp;como&nbsp;contextos&nbsp;<br>
 los&nbsp;datos&nbsp;de&nbsp;usuario&nbsp;y&nbsp;de&nbsp;usuariorol&nbsp;en&nbsp;caso&nbsp;de&nbsp;que&nbsp;ya&nbsp;inicio&nbsp;sesion<br>
 autenticado=User.is_authenticated<br>
@@ -32,7 +594,14 @@ else:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;context={<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'autenticado':&nbsp;autenticado<br>
 &nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;<br>
-print("Usuario:&nbsp;",autenticado)</tt></dd></dl>
+print("Usuario:&nbsp;",autenticado)<br>
+&nbsp;<br>
+Fecha&nbsp;de&nbsp;documentacion:&nbsp;07-09-2023<br>
+Se&nbsp;modifico&nbsp;el&nbsp;fetch&nbsp;de&nbsp;contenidos&nbsp;para&nbsp;ignorar&nbsp;usuarios&nbsp;inactivos<br>
+autores_activos=&nbsp;UsuarioRol.objects.filter(usuario_activo=True)<br>
+contenidos=Contenido.objects.filter(autor__in=autores_activos)<br>
+primeros_contenidos&nbsp;=&nbsp;contenidos[:6]</tt></dd></dl>
+ <dl><dt><a name="-vista_roles"><strong>vista_roles</strong></a>(request)</dt></dl>
  <dl><dt><a name="-vista_trabajador"><strong>vista_trabajador</strong></a>(request)</dt><dd><tt>Fecha&nbsp;documentacion:&nbsp;28/08/2023<br>
 Nos&nbsp;permite&nbsp;redigir&nbsp;al&nbsp;usuario&nbsp;al&nbsp;template&nbsp;de&nbsp;trabajores,&nbsp;le&nbsp;pasamos&nbsp;como&nbsp;datos&nbsp;<br>
 usuario_rol&nbsp;debido&nbsp;que&nbsp;se&nbsp;utiliza&nbsp;en&nbsp;el&nbsp;html&nbsp;para&nbsp;sbaer&nbsp;que&nbsp;botones&nbsp;mostrar&nbsp;al&nbsp;usuario&nbsp;<br>

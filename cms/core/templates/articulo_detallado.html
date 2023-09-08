@@ -20,11 +20,6 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .card img{
-            width:100%;
-            height:100px;
-            center;
-        }
     </style>
 </head>
 <body>
@@ -36,7 +31,7 @@
     <br/>
     <div class= "card">
         <figure>
-            <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+            <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}">
         </figure>
     </div>   
     <p>{{ object.cuerpo|safe }}</p>
