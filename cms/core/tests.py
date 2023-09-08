@@ -62,6 +62,7 @@ class AccesoContenidoTestCase(TestCase):
             categoria=self.categoria,
             resumen='Resumen de prueba',
             cuerpo='Cuerpo de prueba',
+            imagen='/contenido_imagenes/6f0c63b0-3a7d-11ee-8996-c34107379e5e.jpg'
         )
 
     def test_acceso_a_contenido(self):
