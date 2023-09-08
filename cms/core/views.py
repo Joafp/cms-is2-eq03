@@ -135,7 +135,7 @@ def categoria(request,nombre):
 
 @login_required(login_url="/login")
 def crear_categoria(request):
-   """
+    """
     Fecha documentacion: 08/09/2023
     Esta vista nos permite crear nuevas categorias para nuestro sitio.
     Una vez creada noe redirige al sitio del administrador
@@ -146,9 +146,7 @@ def crear_categoria(request):
         categoria.save()
         return redirect('Administrador')
         return render(request,'crear_cat.html')
-   """
-
-    
+    """
     if request.method == 'POST':
         nombre1=request.POST['nombre']
         moderado=request.POST['moderada']
@@ -158,8 +156,7 @@ def crear_categoria(request):
     return render(request,'crear_cat.html')
 @login_required(login_url="/login")
 def desactivar_categoria(request):
-    
-        """
+    """
         Fecha documentacion: 08/09/2023
         Esta vista nos permite desactivar  categorias existentes en nuestro sitio.
         Una vez desactivada ya no aparecera en elmen, pero sus contenidos seguiran siendo visibles en el general
@@ -171,9 +168,7 @@ def desactivar_categoria(request):
             return redirect('Administrador')
 
         return render(request, 'desactivar_cat.html')
-        """
-
-    
+    """
     if request.method == 'POST':
         id_categoria= request.POST['id_categoria']
         categoria=Categoria.objects.get(id=id_categoria)

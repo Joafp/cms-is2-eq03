@@ -1,13 +1,10 @@
-from django.test import TestCase
+from django.test import TestCase,Client
 from django.urls import reverse
 from .models import Contenido, Categoria
 from GestionCuentas.models import UsuarioRol, Rol
 from django.contrib.auth.models import Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from ckeditor.fields import RichTextField
-
-
-
 class CategoriaTestCase(TestCase):
     def setUp(self):
         self.client=Client()
