@@ -44,4 +44,40 @@ class CrearContenidoTestCase(TestCase):
         # Limpia los datos de prueba si es necesario
         self.autor.delete()
         self.categoria.delete()
+class AccesoContenidoTestCase(TestCase):
+    def setUp(self):
+        # Crear un contenido de prueba
+        self.user = User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        self.autor.roles.add(Rol.objects.create(nombre='Autor'))
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.contenido = Contenido.objects.create(
+            titulo='Título de Prueba',
+            autor=self.autor,
+            categoria=self.categoria,
+            resumen='Resumen de prueba',
+            cuerpo='Cuerpo de prueba',
+        )
 
+    def test_acceso_a_contenido(self):
+        # Iniciar sesión como el usuario autor
+        self.client.login(username='autor_prueba', password='4L1_khrSri8i')
+        
+        # Obtener la URL del detalle del contenido creado
+        contenido_url = reverse('detalles_articulo', args=[str(self.contenido.id)])
+        
+        # Realizar una solicitud GET para acceder al contenido
+        response = self.client.get(contenido_url)
+        
+        # Verificar que la solicitud sea exitosa (código 200)
+        self.assertEqual(response.status_code, 200)
+        print(f"Contenido con título: 'Título de Prueba' ingresado exitosamente.") 
+    def tearDown(self):
+        # Limpieza de datos de prueba si es necesario
+        self.autor.delete()
+        self.categoria.delete()
