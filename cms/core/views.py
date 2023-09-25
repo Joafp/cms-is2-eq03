@@ -20,8 +20,7 @@ class CrearContenido(CreateView):
     fields= '__all__'
     model = Contenido
     template_name = 'crear_contenido.html'
-    fields = ['titulo', 'categoria', 'resumen', 'imagen', 'cuerpo']  # excluye 'estado'
-
+    fields = ['titulo', 'autor', 'categoria', 'resumen', 'imagen', 'cuerpo']  # excluye 'estado'
     def form_valid(self, form):
         form.instance.estado = 'B'  # establece el estado inicial a 'B'
         form.instance.autor=UsuarioRol.objects.get(username=self.request.user.username)
@@ -437,7 +436,7 @@ def vista_mis_contenidos_borrador(request):
     }
     return render(request,'mis_contenidos_borrador.html',context)
 
-
+  
 
 
 @login_required(login_url="/login")
