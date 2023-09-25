@@ -1,10 +1,7 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contenidos</title>
+    <title>Contenidos en Borrador</title>
     <style>
         body {
             background-color: #121212;
@@ -26,7 +23,7 @@
             margin:20px;
             border-radius: 6px;
             overflow: hidden;
-            background: #fff;
+            background: #000000;
             box-shadow: 0px 1px 10px rgba(0,0,0,0.2);
             cursor:default;
             transition: all 400ms ease;
@@ -83,25 +80,26 @@
     </style>
 </head>
 <body>
-    <a href="{% url 'MenuPrincipal' %}" class="volver-button">Volver al menu principal</a>
+    <a href="{% url 'vista_autor' %}" class="volver-button">Volver al menu Autor</a>
+    <h1>Mis Contenidos en Borrador</h1>
     <div id="cuerpo-de-pagina">
-        <h1>Contenidos</h1>
-    <div class="container">   
-        {% for Contenido in object_list %}
-            {% if Contenido.estado == 'P' %}
-                <div class= "card">
-                    <figure>
-                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
-                    </figure>
-                    <div class="contenido">
-                        <h3>{{Contenido.titulo}}</h3>
-                        <p>{{Contenido.resumen | safe }}</p>
-                        <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
-                    </div>     
-                </div>
-            {% endif %}    
-        {% endfor %}    
-    </div>   
-    </div> 
+    	<h1>Contenidos</h1>
+     <div class="container">   
+          {% for Contenido in contenidos %}
+                {% if  Contenido.autor_id == request.user.id  and Contenido.estado == 'B' %}
+                    <div class= "card">
+                        <figure>
+                            <img src="/{{Contenido.imagen}}"/>
+                        </figure>
+                        <div class="contenido">
+                            <h3>{{Contenido.titulo}}</h3>
+                            <p>{{Contenido.resumen | safe }}</p>
+                            <a href="{% url 'editar_contenido' pk=Contenido.id %}" class="my-button editar">Editar Contenido</a>
+                        </div>     
+                    </div>
+                {% endif %}    
+           {% endfor %}    
+     </div>   
+    </div>  
 </body>
 </html>

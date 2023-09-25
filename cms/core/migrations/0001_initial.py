@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('GestionCuentas', '0009_alter_permisosper_options'),
+        ('GestionCuentas', '0001_initial'),
     ]
 
     operations = [
@@ -27,6 +27,7 @@ class Migration(migrations.Migration):
             name='Contenido',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('estado', models.CharField(choices=[('B', 'Borrador'), ('R', 'En Revisión'), ('P', 'Publicado')], default='B', max_length=1)),
                 ('titulo', models.CharField(max_length=255)),
                 ('resumen', models.CharField(blank=True, max_length=255)),
                 ('imagen', models.ImageField(blank=True, null=True, upload_to='contenido_imagenes/')),

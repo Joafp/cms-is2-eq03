@@ -5,6 +5,31 @@ from GestionCuentas.models import UsuarioRol, Rol
 from django.contrib.auth.models import Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from .models import Categoria,UsuarioRol,Contenido
+from GestionCuentas.models import Rol
+
+class CategoriaTestCase(TestCase):
+    def setUp(self):
+        self.client=Client()
+        self.user = User.objects.create_user(username='Administrador_prueba', password='4L1_khrSri8i')
+        self.admin = UsuarioRol.objects.create(
+            username='Administrador_prueba',
+            email='administrador@prueba.com',
+            nombres='Nombre del Administrador',
+            apellidos='Apellido del Administrador',
+        )
+        self.admin.roles.add(Rol.objects.create(nombre='Administrador'))
+        self.categoria = Categoria.objects.create(nombre='Test')
+        self.contenido = Contenido.objects.create(
+            titulo='Título de Prueba',
+            autor=self.admin,
+            categoria=self.categoria,
+            resumen='Resumen de prueba',
+            cuerpo='Cuerpo de prueba',
+        )
+
+
 class CategoriaTestCase(TestCase):
     def setUp(self):
         self.client=Client()

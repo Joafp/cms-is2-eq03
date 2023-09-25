@@ -12,12 +12,13 @@ def crear_default_roles():
         {"nombre":"Autor"},
         {"nombre":"Editor"},
         {"nombre":"Publicador"},
+        {"nombre":"Administrador"},
     ]
     for roles_data in roles:
         rol,crear=Rol.objects.get_or_create(nombre=roles_data["nombre"])
         if crear:
-            print(f'Rol "{rol["nombre"]}" creado con éxito')
+            print(f'Rol "{rol.nombre}" creado con éxito')
         else:
-            print(f'El rol "{rol["nombre"]}" ya existe')
+            print(f'El rol "{rol.nombre}" ya existe')
 if __name__ == '__main__':
     crear_default_roles()

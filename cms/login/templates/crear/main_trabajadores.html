@@ -68,21 +68,21 @@
             {% for rol in usuario_rol.roles.all %}
                 {% for permiso in rol.permisos.all %}
                     {% if permiso.codename == 'Vista autor' %}                    
-                    <li><a href="{% url 'crear_contenido' %}"> Vista Autor</a></li>
+                    <li><a href="{% url 'vista_autor' %}"> Vista Autor</a></li>
                     {% endif %}
                 {% endfor %}
             {% endfor %}
             {% for rol in usuario_rol.roles.all %}
                 {% for permiso in rol.permisos.all %}
                     {% if permiso.codename == 'Vista editor' %}                    
-                     <li><a href="#"> Vista editor</a></li>
+                     <li><a href="{% url 'Editar' %}"> Vista editor</a></li>
                     {% endif %}
                 {% endfor %}
             {% endfor %}
             {% for rol in usuario_rol.roles.all %}
                 {% for permiso in rol.permisos.all %}
                     {% if permiso.codename == 'Vista publicador' %}                    
-                       <li><a href="#"> Vista Publicador</a></li>
+                       <li><a href="{% url 'Publicador' %}"> Vista Publicador</a></li>
                     {% endif %}
                 {% endfor %}
             {% endfor %}

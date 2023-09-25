@@ -23,6 +23,15 @@ class Contenido(models.Model):
     de la imagen, en upload asingamos la ubicacion donde se guardara la imagen
     Cuerpo: Utilizamos la libreria ckeditor, esta libreria nos permite crear field enriquesidos, donde podemos subir tanto imagenes, como textos
     """
+    ESTADOS = (
+        ('B', 'Borrador'),
+        ('E', 'En Edicion'),
+        ('R', 'En Revisión'),
+        ('P', 'Publicado'),
+        ('r','Rechazado'),
+        ('I','Inactivo'),
+    )
+    estado = models.CharField(max_length=1, choices=ESTADOS, default='B')
     titulo= models.CharField(max_length=255)
     autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'})
     categoria= models.ForeignKey(Categoria,on_delete=models.CASCADE)

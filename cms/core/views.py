@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView,UpdateView
 from .models import Categoria
 from .models import Contenido
 class CrearContenido(CreateView):
@@ -18,6 +18,60 @@ class CrearContenido(CreateView):
     model= Contenido
     template_name= 'crear_contenido.html'
     fields= '__all__'
+    model = Contenido
+    template_name = 'crear_contenido.html'
+    fields = ['titulo', 'autor', 'categoria', 'resumen', 'imagen', 'cuerpo']  # excluye 'estado'
+
+    def form_valid(self, form):
+        form.instance.estado = 'B'  # establece el estado inicial a 'B'
+        response = super().form_valid(form)
+        if "guardar_borrador" in self.request.POST:
+            # si se presionó el botón "Guardar borrador", no cambies nada
+            return redirect('vista_autor')
+        elif "enviar_editor" in self.request.POST:
+            # si se presionó el botón "Enviar a editor", cambia el estado a 'E'
+            self.object.estado = 'E'
+            self.object.save()
+            return redirect('vista_autor')
+        return response
+    
+class EditarContenido(UpdateView):
+    model = Contenido
+    template_name = 'crear_contenido.html'
+    fields = ['titulo', 'autor', 'categoria', 'resumen', 'imagen', 'cuerpo']
+    def form_valid(self, form):
+        form.instance.estado = 'B'  # establece el estado inicial a 'B'
+        response = super().form_valid(form)
+        if "guardar_borrador" in self.request.POST:
+            # si se presionó el botón "Guardar borrador", no cambies nada
+            return redirect('vista_autor')
+        elif "enviar_editor" in self.request.POST:
+            # si se presionó el botón "Enviar a editor", cambia el estado a 'E'
+            self.object.estado = 'E'
+            self.object.save()
+            return redirect('vista_autor')
+        return response
+    
+
+class EditarContenidoEditor(UpdateView):
+    model = Contenido
+    template_name = 'editar_contenido_editor.html'
+    fields = ['titulo', 'categoria', 'resumen', 'imagen', 'cuerpo']
+    def form_valid(self, form):
+        form.instance.estado = 'E'  # establece el estado inicial a 'E'
+        response = super().form_valid(form)
+        if "cancelar" in self.request.POST:
+            return redirect('edicion')
+        elif "enviar_publicador" in self.request.POST:
+            self.object.estado = 'R'
+            self.object.save()
+            return redirect('edicion')
+        elif "enviar_autor" in self.request.POST:  
+            #ACA HAY QUE AGREGARLE EL MENSJE CUANDO TENGAMOS EL SERVIDOR PARA DARLE LA RAZON DEL RECHAZO
+            self.object.estado = 'B'
+            self.object.save()
+            return redirect('edicion')
+        return response    
 @never_cache
 def vista_MenuPrincipal(request):
     """
@@ -98,6 +152,18 @@ class VistaArticulos(DetailView):
     donde se ve el cuerpo del contenido, imagenes, autor etc"""
     model = Contenido
     template_name='articulo_detallado.html'
+
+class VistaArticulosEditor(DetailView):
+    model = Contenido
+    template_name='articulo_detallado_edicion.html'
+
+class VistaArticulosRevision(DetailView):
+    model = Contenido
+    template_name='articulo_detallado_revision.html'
+
+
+
+   
 class VistaContenidos(ListView):
     """
     Esta vista al ser un LisstView utilizamos para listar los contenidos, al pasarle como modelos el contennido, 
@@ -302,3 +368,114 @@ def remover_rol(request):
             'roles_usuario': roles_usuario,
         }
         return render(request, 'desasignar_rol.html', context)
+
+    
+
+    """
+    if request.method == 'POST':
+        usuario_id = request.POST.get('usuario')
+        rol_id = request.POST.get('rol')
+        usuario = UsuarioRol.objects.get(id=usuario_id)
+        rol = Rol.objects.get(id=rol_id)
+        usuario.roles.remove(rol)
+        return redirect('desasignar')
+    else:
+        usuarios = UsuarioRol.objects.filter(usuario_activo=True)
+        usuario_seleccionado = None
+        roles_usuario = []
+        if 'usuario' in request.GET:
+            usuario_id = request.GET.get('usuario')
+            usuario_seleccionado = UsuarioRol.objects.get(id=usuario_id)
+            roles_usuario = usuario_seleccionado.roles.all()
+        context = {
+            'usuarios': usuarios,
+            'usuario_seleccionado': usuario_seleccionado,
+            'roles_usuario': roles_usuario,
+        }
+        return render(request, 'desasignar_rol.html', context)
+    """
+
+@login_required(login_url="/login")
+def vista_editor(request):
+    contenidos=Contenido.objects.filter()
+    context = {
+        'contenidos': contenidos
+    }
+    return render(request,'vista_editor.html',context)
+
+@login_required(login_url="/login")
+def vista_edicion(request):
+    contenidos=Contenido.objects.filter()
+    context = {
+        'contenidos': contenidos
+    }
+    return render(request,'editar_contenidos.html',context)
+
+@login_required(login_url="/login")
+def vista_publicador(request):
+    contenidos=Contenido.objects.filter()
+    context = {
+        'contenidos': contenidos
+    }
+    return render(request,'vista_publicador.html',context)
+
+@login_required(login_url="/login")
+def vista_autor(request):
+    contenidos=Contenido.objects.filter()
+    context = {
+        'contenidos': contenidos
+    }
+    return render(request,'vista_autor.html',context)
+
+@login_required(login_url="/login")
+def vista_mis_contenidos_borrador(request):
+    contenidos=Contenido.objects.filter()
+    context = {
+        'contenidos': contenidos
+    }
+    return render(request,'mis_contenidos_borrador.html',context)
+
+
+
+
+@login_required(login_url="/login")
+def aceptar_contenido(request,contenido_id):
+    # Obtén el objeto de contenido basado en algún criterio, como un ID
+    contenido = Contenido.objects.get(id=contenido_id)
+
+    # Cambia el estado del contenido a 'R'
+    contenido.estado = 'R'
+
+    # Guarda el objeto de contenido
+    contenido.save()
+
+    # Redirige al usuario a la vista del editor
+    return redirect('Editar')
+
+@login_required(login_url="/login")
+def publicar_contenido(request,contenido_id):
+    # Obtén el objeto de contenido basado en algún criterio, como un ID
+    contenido = Contenido.objects.get(id=contenido_id)
+
+    # Cambia el estado del contenido a 'R'
+    contenido.estado = 'P'
+
+    # Guarda el objeto de contenido
+    contenido.save()
+
+    # Redirige al usuario a la vista del editor
+    return redirect('Publicador')
+
+@login_required(login_url="/login")
+def rechazar_contenido(request,contenido_id):
+    # Obtén el objeto de contenido basado en algún criterio, como un ID
+    contenido = Contenido.objects.get(id=contenido_id)
+
+    # Cambia el estado del contenido a 'R'
+    contenido.estado = 'r'
+
+    # Guarda el objeto de contenido
+    contenido.save()
+
+    # Redirige al usuario a la vista del editor
+    return redirect('Publicador')
