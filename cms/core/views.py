@@ -20,13 +20,15 @@ class CrearContenido(CreateView):
     fields= '__all__'
     model = Contenido
     template_name = 'crear_contenido.html'
-    fields = ['titulo', 'autor', 'categoria', 'resumen', 'imagen', 'cuerpo']  # excluye 'estado'
+    fields = ['titulo', 'categoria', 'resumen', 'imagen', 'cuerpo']  # excluye 'estado'
 
     def form_valid(self, form):
         form.instance.estado = 'B'  # establece el estado inicial a 'B'
+        form.instance.autor=UsuarioRol.objects.get(username=self.request.user.username)
         response = super().form_valid(form)
         if "guardar_borrador" in self.request.POST:
             # si se presionó el botón "Guardar borrador", no cambies nada
+            self.object.save()
             return redirect('vista_autor')
         elif "enviar_editor" in self.request.POST:
             # si se presionó el botón "Enviar a editor", cambia el estado a 'E'
