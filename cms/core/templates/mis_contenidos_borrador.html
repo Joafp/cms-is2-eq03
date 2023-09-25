@@ -86,7 +86,7 @@
     	<h1>Contenidos</h1>
      <div class="container">   
           {% for Contenido in contenidos %}
-                {% if  Contenido.autor_id == request.user.id  and Contenido.estado == 'B' %}
+                {% if  Contenido.autor.username == request.user.username  and Contenido.estado == 'B' %}
                     <div class= "card">
                         <figure>
                             <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
