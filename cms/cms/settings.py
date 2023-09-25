@@ -141,3 +141,13 @@ LOGOUT_REDIRECT_URL=reverse_lazy('MenuPrincipal')
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 MEDIA_URL='/contenido_imagenes/'
 MEDIA_ROOT='/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/media'
+
+AWS_ACCESS_KEY_ID = 'AKIA2OAFYJVFS2RPPE45'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'backendcms'
+AWS_S3_SIGNATURE_NAME = 's3v4',
+AWS_S3_REGION_NAME = 'sa-east-1'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL =  None
+AWS_S3_VERITY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
