@@ -13,6 +13,15 @@ class Categoria(models.Model):
         return self.nombre
     
 class Contenido(models.Model):
+    ESTADOS = (
+        ('B', 'Borrador'),
+        ('E', 'En Edicion'),
+        ('R', 'En Revisión'),
+        ('P', 'Publicado'),
+        ('r','Rechazado'),
+        ('I','Inactivo'),
+    )
+    estado = models.CharField(max_length=1, choices=ESTADOS, default='B')
     titulo= models.CharField(max_length=255)
     autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'})
     categoria= models.ForeignKey(Categoria,on_delete=models.CASCADE)

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página con Barra de Herramientas</title>
+    <style>
+        /* Estilos para el div de la barra de herramientas */
+        #barra-de-herramientas {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Estilos para el cuerpo de la página */
+        #cuerpo-de-pagina {
+            padding: 20px;
+        }
+       ul, ol{
+            list-style:none;
+        }
+        .nav li a{
+            background-color:#000;
+            color:#fff;
+            text-decoration:none;
+            padding:10px 15px;
+            display:block;
+        }
+        .nav li a:hover{
+            background-color:#434343;
+        }
+        .nav > li{
+            float:left;
+
+        }
+
+        .nav li ul{
+            display:none;
+            position:absolute;
+            min-width:140px;
+        }
+
+        .nav li:hover > ul {
+            display: block;
+        }
+
+        .nav li ul li{
+            position:relative;
+        }
+
+        .nav li ul li ul {
+            right: -140px;
+            top:0px;
+        }
+        body {
+            background-color: #121212;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container{
+            width:100%;
+            display: flex;
+            max-width: 1100px;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de herramientas -->
+    <div id="barra-de-herramientas">
+        <ul class="nav">
+           <li>
+                <a href="{% url 'ContenidosBorrador' %}">
+                    Mis Contenidos en borrador
+                </a>
+            </li> 
+            <li>
+                <a href="{% url 'crear_contenido' %}">
+                    Crear Contenido
+                </a>
+            </li> 
+            <li>
+                <a href="#">
+                    Tabla kanban 
+                </a>
+            </li> 
+            <li>
+                <a href="{% url 'maintrabajador' %}">
+                    Volver Menu Desarrollador
+                </a>
+            </li> 
+                    
+        </ul>
+    </div>
+</body>
+</html>

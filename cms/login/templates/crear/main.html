@@ -97,11 +97,11 @@
             color: #6a6a6a;
 
         }
-        .card . contenido h3{
+        .card .contenido h3{
             font-weight: 400;
             margin-bottom: 15px;
         }
-        .card . contenido a{
+        .card .contenido a{
             text-decoration: none;
             display: inline-block;
             padding: 10px;
@@ -112,7 +112,7 @@
             transition: all 400ms ease;
 
         }
-        .card . contenido a:hover{
+        .card .contenido a:hover{
             background: #2fb4cc;
             color: #fff;
         }
@@ -153,16 +153,19 @@
     	<h1>Contenidos</h1>
      <div class="container">   
           {% for Contenido in contenido %}
-                <div class= "card">
-                    <figure>
-                        <img src={{Contenido.imagen}}>
-                    </figure>
-                    <div class="contenido">
-                        <h3>{{Contenido.titulo}}</h3>
-                        <p>{{Contenido.resumen | safe }}</p>
-                        <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
-                    </div>     
-                </div>
+                   {% if Contenido.estado == 'P' %} 
+                        <div class= "card">
+                            <figure>
+                                <img src={{Contenido.imagen}}>
+                            </figure>
+                            <div class="contenido">
+                                <h3>{{Contenido.titulo}}</h3>
+                                <p>{{Contenido.resumen | safe }}</p>
+                                <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
+                            </div>     
+                        </div>
+                   {% endif %}    
+
            {% endfor %}    
      </div>   
     </div>  

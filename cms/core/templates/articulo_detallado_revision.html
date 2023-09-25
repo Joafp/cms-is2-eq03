@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Título</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white; /* Cambia el color del texto si es necesario para que sea legible en el fondo oscuro */
+        }
+        .volver-button {
+            position: absolute;
+            top: 10px; /* Ajusta la posición vertical según tus necesidades */
+            right: 10px; /* Ajusta la posición horizontal según tus necesidades */
+            background-color: #007bff; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            padding: 10px 15px; /* Ajusta el espaciado interno del botón */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .my-button {
+            position: relative;
+            background-color: #007bff; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            padding: 10px 15px; /* Ajusta el espaciado interno del botón */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px; /* Agrega margen a la derecha de cada botón */
+        }
+        .footer-buttons {
+            position: absolute;
+            bottom: 10px; /* Ajusta la posición vertical según tus necesidades */
+            right: 10px; /* Ajusta la posición horizontal según tus necesidades */
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <h1>{{ object.titulo }}</h1>
+    <a href="{% url 'Editar' %}" class="volver-button">Volver a vista editor</a>
+    <small> Autor: {{ object.autor.nombres }}</small><br/>
+    <hr>
+    <br/>
+    <p>{{ object.cuerpo|safe }}</p>
+    {% endblock %}
+    <div class="footer-buttons">
+        <a href="{% url 'publicar_contenido' contenido_id=object.id %}" class="my-button publicar">Publicar Contenido</a>
+        <a href="{% url 'rechazar_contenido' contenido_id=object.id %}" class="my-button rechazar">Rechazar Contenido</a>
+    </div>
+</body>
+</html>
