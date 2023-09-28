@@ -1,7 +1,10 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>{{ categoria.nombre }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contenidos en estado "En Revision"</title>
     <style>
         body {
             background-color: #121212;
@@ -80,26 +83,26 @@
     </style>
 </head>
 <body>
-    <a href="{% url 'MenuPrincipal' %}" class="volver-button">Volver al menu principal</a>
-    <h1> {{ categoria.nombre }}</h1>
+    <a href="{% url 'vista_pub' %}" class="volver-button">Volver al menu Publicador</a>
     <div id="cuerpo-de-pagina">
-    	<h1>Contenidos</h1>
-     <div class="container">   
-          {% for Contenido in contenidos %}
-               {% if Contenido.estado == 'P' %}
-                    <div class= "card">
-                        <figure>
-                            <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
-                        </figure>
-                        <div class="contenido">
-                            <h3>{{Contenido.titulo}}</h3>
-                            <p>{{Contenido.resumen | safe }}</p>
-                            <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
-                        </div>     
-                    </div>
-                {% endif %}    
-           {% endfor %}    
-     </div>   
-    </div>  
+        <h1>Contenidos Inactivos</h1>
+    <div class="container">   
+        {% for Contenido in contenidos %}
+            {% if Contenido.estado == 'I' %}        
+                <div class= "card">
+                    <figure>
+                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}"/>
+                    </figure>
+                    <div class="contenido">
+                        <h3>{{Contenido.titulo}}</h3>
+                        <p>{{Contenido.resumen | safe }}</p>
+                        <a href="{% url 'reactivar_contenido' Contenido.pk%}">Reactivar</a>
+                    </div>     
+                </div>
+           {% endif %}  
+       {% endfor %}
+    
+    </div>   
+    </div> 
 </body>
 </html>

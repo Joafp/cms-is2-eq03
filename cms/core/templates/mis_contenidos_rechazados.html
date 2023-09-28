@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ categoria.nombre }}</title>
+    <title>Contenidos en Borrador</title>
     <style>
         body {
             background-color: #121212;
@@ -80,13 +80,13 @@
     </style>
 </head>
 <body>
-    <a href="{% url 'MenuPrincipal' %}" class="volver-button">Volver al menu principal</a>
-    <h1> {{ categoria.nombre }}</h1>
+    <a href="{% url 'vista_autor' %}" class="volver-button">Volver al menu Autor</a>
+    <h1>Mis Contenidos en Borrador</h1>
     <div id="cuerpo-de-pagina">
     	<h1>Contenidos</h1>
      <div class="container">   
           {% for Contenido in contenidos %}
-               {% if Contenido.estado == 'P' %}
+                {% if  Contenido.autor.username == request.user.username  and Contenido.estado == 'r' %}
                     <div class= "card">
                         <figure>
                             <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
@@ -94,7 +94,7 @@
                         <div class="contenido">
                             <h3>{{Contenido.titulo}}</h3>
                             <p>{{Contenido.resumen | safe }}</p>
-                            <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
+                            <a href="{% url 'aceptar-rechazo_contenido' contenido_id=Contenido.id %}" class="my-button editar">Aceptar Rechazo</a>
                         </div>     
                     </div>
                 {% endif %}    

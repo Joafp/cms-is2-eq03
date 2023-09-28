@@ -82,7 +82,7 @@
             {% for rol in usuario_rol.roles.all %}
                 {% for permiso in rol.permisos.all %}
                     {% if permiso.codename == 'Vista publicador' %}                    
-                       <li><a href="{% url 'Publicador' %}"> Vista Publicador</a></li>
+                       <li><a href="{% url 'vista_pub' %}"> Vista Publicador</a></li>
                     {% endif %}
                 {% endfor %}
             {% endfor %}

@@ -20,7 +20,7 @@ class CrearContenido(CreateView):
     fields= '__all__'
     model = Contenido
     template_name = 'crear_contenido.html'
-    fields = ['titulo', 'autor', 'categoria', 'resumen', 'imagen', 'cuerpo']  # excluye 'estado'
+    fields = ['titulo', 'categoria', 'resumen', 'imagen', 'cuerpo']  # excluye 'estado'
     def form_valid(self, form):
         form.instance.estado = 'B'  # establece el estado inicial a 'B'
         form.instance.autor=UsuarioRol.objects.get(username=self.request.user.username)
@@ -69,7 +69,7 @@ class EditarContenidoEditor(UpdateView):
             return redirect('edicion')
         elif "enviar_autor" in self.request.POST:  
             #ACA HAY QUE AGREGARLE EL MENSJE CUANDO TENGAMOS EL SERVIDOR PARA DARLE LA RAZON DEL RECHAZO
-            self.object.estado = 'B'
+            self.object.estado = 'r'
             self.object.save()
             return redirect('edicion')
         return response    
@@ -418,7 +418,7 @@ def vista_publicador(request):
     context = {
         'contenidos': contenidos
     }
-    return render(request,'vista_publicador.html',context)
+    return render(request,'contenidos_revision.html',context)
 
 @login_required(login_url="/login")
 def vista_autor(request):
@@ -437,7 +437,25 @@ def vista_mis_contenidos_borrador(request):
     return render(request,'mis_contenidos_borrador.html',context)
 
   
+@login_required(login_url="/login")
+def vista_mis_contenidos_rechazados(request):
+    contenidos=Contenido.objects.filter()
+    context = {
+        'contenidos': contenidos
+    }
+    return render(request,'mis_contenidos_rechazados.html',context)
 
+  
+
+@login_required(login_url="/login")
+def vista_mis_contenidos_publicados(request):
+    contenidos=Contenido.objects.filter()
+    context = {
+        'contenidos': contenidos
+    }
+    return render(request,'mis_contenidos_publicados.html',context)
+
+    
 
 @login_required(login_url="/login")
 def aceptar_contenido(request,contenido_id):
@@ -468,6 +486,37 @@ def publicar_contenido(request,contenido_id):
     return redirect('Publicador')
 
 @login_required(login_url="/login")
+def inactivar_contenido(request,contenido_id):
+    # Obtén el objeto de contenido basado en algún criterio, como un ID
+    contenido = Contenido.objects.get(id=contenido_id)
+
+    # Cambia el estado del contenido a 'R'
+    contenido.estado = 'I'
+
+    # Guarda el objeto de contenido
+    contenido.save()
+
+    # Redirige al usuario a la vista del editor
+    return redirect('ContenidosPublicados')
+
+
+
+
+@login_required(login_url="/login")
+def aceptar_rechazo_contenido(request,contenido_id):
+    # Obtén el objeto de contenido basado en algún criterio, como un ID
+    contenido = Contenido.objects.get(id=contenido_id)
+
+    # Cambia el estado del contenido a 'R'
+    contenido.estado = 'B'
+
+    # Guarda el objeto de contenido
+    contenido.save()
+
+    # Redirige al usuario a la vista del editor
+    return redirect('ContenidosRechazados')
+
+@login_required(login_url="/login")
 def rechazar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
@@ -480,3 +529,36 @@ def rechazar_contenido(request,contenido_id):
 
     # Redirige al usuario a la vista del editor
     return redirect('Publicador')
+@login_required(login_url="/login")
+def publicador(request):
+   return render(request,'vista_publicador.html')
+
+@login_required(login_url="/login")
+def contenidos_inactivos(request):
+    contenidos=Contenido.objects.filter()
+    context = {
+        'contenidos': contenidos
+    }
+    return render(request,'contenidos_inactivos.html',context)
+
+@login_required(login_url="/login")
+def contenidos_inactivos(request):
+    contenidos=Contenido.objects.filter()
+    context = {
+        'contenidos': contenidos
+    }
+    return render(request,'contenidos_inactivos.html',context)
+
+@login_required(login_url="/login")
+def reactivar_contenido(request,contenido_id):
+    # Obtén el objeto de contenido basado en algún criterio, como un ID
+    contenido = Contenido.objects.get(id=contenido_id)
+
+    # Cambia el estado del contenido a 'R'
+    contenido.estado = 'P'
+
+    # Guarda el objeto de contenido
+    contenido.save()
+
+    # Redirige al usuario a la vista del editor
+    return redirect('contenidos-inactivos')
