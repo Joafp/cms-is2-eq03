@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.shortcuts import render, HttpResponse,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from GestionCuentas.models import UsuarioRol,Rol
@@ -31,7 +32,13 @@ class CrearContenido(CreateView):
             return redirect('vista_autor')
         elif "enviar_editor" in self.request.POST:
             # si se presionó el botón "Enviar a editor", cambia el estado a 'E'
-            self.object.estado = 'E'
+            categoria = form.cleaned_data['categoria']
+            if categoria.moderada:
+                # Si la categoría moderada, cambia el estado a 'P' (publicado)
+                form.instance.estado = 'E'
+            else:
+                # Si la categoría es no moderada, cambia el estado a 'E' (enviado al editor)
+                form.instance.estado = 'P'
             self.object.save()
             return redirect('vista_autor')
         return response

@@ -24,16 +24,18 @@
 </head>
 <body>
     {% block content %}
-    <a href="{% url 'vista_autor' %}" class="volver-button">Volver al menu Autor</a>
-    <h1>Crear Contenido</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.media }}
-        {{ form.as_p }}
-        <button class="btn btn-secondary" name="guardar_borrador">Guardar Borrador</button>
-        <button class="btn btn-secondary" name="enviar_editor">Enviar a Editor</button>
-    </form>
-    {% endblock %}
+        <a href="{% url 'vista_autor' %}" class="volver-button">Volver al menú Autor</a>
+        <h1>Crear Contenido</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <button class="btn btn-secondary" name="guardar_borrador">Guardar Borrador</button>
+            <button class="btn btn-secondary enviar-editor-button" name="enviar_editor">Publicar contenido</button>
+        </form>
+    {% endblock %}    
 </body>
 </html>
+
+    
 
