@@ -10,6 +10,10 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
 from .models import Categoria
 from .models import Contenido
+
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+
 class CrearContenido(CreateView):
     """
     La clase creacontenido utiliza el view de django CreateView, este view nos permite rellenar datos para un modelo
@@ -53,6 +57,8 @@ class EditarContenido(UpdateView):
             return redirect('vista_autor')
         return response
     
+from pathlib import Path
+from lxml.html.diff import htmldiff
 
 class EditarContenidoEditor(UpdateView):
     model = Contenido
@@ -63,15 +69,38 @@ class EditarContenidoEditor(UpdateView):
         response = super().form_valid(form)
         if "cancelar" in self.request.POST:
             return redirect('edicion')
-        elif "enviar_publicador" in self.request.POST:
-            self.object.estado = 'R'
-            self.object.save()
-            return redirect('edicion')
-        elif "enviar_autor" in self.request.POST:  
-            #ACA HAY QUE AGREGARLE EL MENSJE CUANDO TENGAMOS EL SERVIDOR PARA DARLE LA RAZON DEL RECHAZO
-            self.object.estado = 'r'
-            self.object.save()
-            return redirect('edicion')
+        else:
+            cambios = None
+            cambios_cuerpo = None
+            if form.has_changed():
+                cambios = ', '.join(form.changed_data)
+                t1 = form["cuerpo"].initial
+                t2 = self.object.cuerpo
+                if t1 != t2:
+                    cambios_cuerpo = htmldiff(t1, t2) 
+                
+            mensaje_edicion = render_to_string("email-notifs/email_edicion.html",
+                                                    {'nombre_editor': self.request.user.username,
+                                                    'titulo_contenido': form['titulo'].initial,
+                                                    'contenido_cambiado': cambios,
+                                                    'cambios_cuerpo': cambios_cuerpo})
+            
+            # Solo envia el email de edicion si de verdad se modifico el contenido
+            if cambios or cambios_cuerpo:
+                send_mail(subject="Contenido editado", message=f"Su contenido {form['titulo'].initial} fue editado",
+                            from_email=None,
+                                recipient_list=[UsuarioRol.objects.get(id=self.object.autor_id).email, 'is2cmseq03@gmail.com', ],
+                                html_message=mensaje_edicion)
+            
+            if "enviar_publicador" in self.request.POST:
+                self.object.estado = 'R'
+                self.object.save()
+                return redirect('edicion')
+            elif "enviar_autor" in self.request.POST:  
+                #ACA HAY QUE AGREGARLE EL MENSJE CUANDO TENGAMOS EL SERVIDOR PARA DARLE LA RAZON DEL RECHAZO
+                self.object.estado = 'r'
+                self.object.save()
+                return redirect('edicion')
         return response    
 @never_cache
 def vista_MenuPrincipal(request):
