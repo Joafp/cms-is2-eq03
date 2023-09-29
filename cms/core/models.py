@@ -38,6 +38,7 @@ class Contenido(models.Model):
     resumen=models.CharField(max_length=255,blank=True)
     imagen = models.ImageField(upload_to='contenido_imagenes/', blank=True, null=True)
     cuerpo=RichTextField(blank=True,null=True)
+    razon_rechazo = models.CharField(blank=True, null=True)
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
     """Nos permite una vez creado el contenido redireccionar a la misma pagina para pooder seguir creando contenidos

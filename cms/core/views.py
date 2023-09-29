@@ -96,12 +96,61 @@ class EditarContenidoEditor(UpdateView):
                 self.object.estado = 'R'
                 self.object.save()
                 return redirect('edicion')
-            elif "enviar_autor" in self.request.POST:  
-                #ACA HAY QUE AGREGARLE EL MENSJE CUANDO TENGAMOS EL SERVIDOR PARA DARLE LA RAZON DEL RECHAZO
-                self.object.estado = 'r'
-                self.object.save()
-                return redirect('edicion')
         return response    
+
+class RechazarContenidoEditor(UpdateView):
+    model = Contenido
+    template_name = 'rechazo.html'
+    fields = ['razon_rechazo']
+    def form_valid(self, form):
+        form.instance.estado = 'r'  # establece el estado inicial a 'E'
+        response = super().form_valid(form)
+        if "cancelar" in self.request.POST:
+            return redirect('edicion')
+        elif "enviar_autor" in self.request.POST:
+            self.object.estado = 'r'
+            self.object.save()
+            mensaje_edicion = render_to_string("email-notifs/email_rechazo.html",
+                                            {'nombre': self.request.user.username,
+                                            'titulo_contenido': self.object.titulo,
+                                            'razon': self.object.razon_rechazo})
+        
+           
+            send_mail(subject="Contenido rechazado", message=f"Su contenido {self.object.titulo} fue rechazado",
+                        from_email=None,
+                            recipient_list=[UsuarioRol.objects.get(id=self.object.autor_id).email, 'is2cmseq03@gmail.com', ],
+                            html_message=mensaje_edicion)
+            
+            return redirect('edicion')
+            
+        return response    
+    
+
+
+class RechazarContenidoPublicador(UpdateView):
+    model = Contenido
+    template_name = 'rechazo_publicador.html'
+    fields = ['razon_rechazo']
+    def form_valid(self, form):
+        form.instance.estado = 'r'  # establece el estado inicial a 'E'
+        response = super().form_valid(form)
+        if "enviar_autor" in self.request.POST:
+            self.object.estado = 'r'
+            self.object.save()
+            mensaje_edicion = render_to_string("email-notifs/email_rechazo.html",
+                                            {'nombre': self.request.user.username,
+                                            'titulo_contenido': self.object.titulo,
+                                            'razon': self.object.razon_rechazo})
+        
+           
+            send_mail(subject="Contenido rechazado", message=f"Su contenido {self.object.titulo} fue rechazado",
+                        from_email=None,
+                            recipient_list=[UsuarioRol.objects.get(id=self.object.autor_id).email, 'is2cmseq03@gmail.com', ],
+                            html_message=mensaje_edicion)
+            
+            return redirect('Publicador')
+            
+        return response        
 @never_cache
 def vista_MenuPrincipal(request):
     """
@@ -490,8 +539,6 @@ def vista_mis_contenidos_publicados(request):
 def aceptar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
-
-    # Cambia el estado del contenido a 'R'
     contenido.estado = 'R'
 
     # Guarda el objeto de contenido
@@ -504,8 +551,6 @@ def aceptar_contenido(request,contenido_id):
 def publicar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
-
-    # Cambia el estado del contenido a 'R'
     contenido.estado = 'P'
 
     # Guarda el objeto de contenido
@@ -519,7 +564,6 @@ def inactivar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
 
-    # Cambia el estado del contenido a 'R'
     contenido.estado = 'I'
 
     # Guarda el objeto de contenido
@@ -536,9 +580,8 @@ def aceptar_rechazo_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
 
-    # Cambia el estado del contenido a 'R'
     contenido.estado = 'B'
-
+    contenido.razon_rechazo=' '
     # Guarda el objeto de contenido
     contenido.save()
 
@@ -550,7 +593,6 @@ def rechazar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
 
-    # Cambia el estado del contenido a 'R'
     contenido.estado = 'r'
 
     # Guarda el objeto de contenido
@@ -583,7 +625,6 @@ def reactivar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
 
-    # Cambia el estado del contenido a 'R'
     contenido.estado = 'P'
 
     # Guarda el objeto de contenido
