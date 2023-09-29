@@ -128,7 +128,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 import os
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/static'
+# STATIC_ROOT = '/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/static'
+STATIC_ROOT = '/home/mtx/proyectois2/cms-is2-eq03/cms/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -138,9 +139,11 @@ LOGIN_REDIRECT_URL= 'MenuPrincipal'
 from django.urls import reverse_lazy
 
 LOGOUT_REDIRECT_URL=reverse_lazy('MenuPrincipal')
+LOGIN_URL = reverse_lazy('login')
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 MEDIA_URL='/contenido_imagenes/'
-MEDIA_ROOT='/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/media'
+# MEDIA_ROOT='/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/media'
+MEDIA_ROOT='/home/mtx/proyectois2/cms-is2-eq03/cms/media'
 
 AWS_ACCESS_KEY_ID = 'AKIA2OAFYJVFS2RPPE45'
 AWS_SECRET_ACCESS_KEY = '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'
@@ -151,3 +154,15 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL =  None
 AWS_S3_VERITY = True
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# Para envio de emails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Envia email a la consola
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+# EMAIL_PORT = 25 # Para envio por consola
+EMAIL_PORT = 587
+# EMAIL_HOST_USER = str(os.getenv('EMAIL_USER'))
+# EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))
+EMAIL_HOST_USER = 'is2cmseq03@gmail.com'
+EMAIL_HOST_PASSWORD = 'zums pgkc etsa upgx'

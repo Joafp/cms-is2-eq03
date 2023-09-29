@@ -1,0 +1,19 @@
+{% autoescape off %}
+<style>
+  ins{
+    background-color: greenyellow;
+  }
+  del{
+    background-color: pink;
+  }
+</style>
+  <p>Su contenido "{{titulo_contenido}}" ha sido editado por {{nombre_editor}}</p>
+  <p>Se han cambiado los siguientes elementos: {{contenido_cambiado}} </p>
+  {% if cambios_cuerpo != None %}
+    <p>Se incluye una copia de los cambios en el cuerpo del contenido: </p>
+    <div style="width: 100%; border: 2px solid black;">
+      {{cambios_cuerpo}}
+    </div>
+  {% endif %}
+  
+{% endautoescape %}

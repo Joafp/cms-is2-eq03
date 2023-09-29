@@ -40,7 +40,7 @@
 <body>
     {% block content %}
     <h1>{{ object.titulo }}</h1>
-    <a href="{% url 'Editar' %}" class="volver-button">Volver a vista editor</a>
+    <a href="{% url 'Publicador' %}" class="volver-button">Volver a vista publicaciones</a>
     <small> Autor: {{ object.autor.nombres }}</small><br/>
     <hr>
     <br/>
@@ -48,7 +48,7 @@
     {% endblock %}
     <div class="footer-buttons">
         <a href="{% url 'publicar_contenido' contenido_id=object.id %}" class="my-button publicar">Publicar Contenido</a>
-        <a href="{% url 'rechazar_contenido' contenido_id=object.id %}" class="my-button rechazar">Rechazar Contenido</a>
+        <a href="{% url 'rechazar_contenido_publicador' pk=object.id %}" class="my-button rechazar">Rechazar Contenido</a>
     </div>
 </body>
 </html>
