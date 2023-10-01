@@ -578,10 +578,6 @@ def inactivar_contenido(request,contenido_id):
 
     # Redirige al usuario a la vista del editor
     return redirect('ContenidosPublicados')
-
-
-
-
 @login_required(login_url="/login")
 def aceptar_rechazo_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
@@ -617,16 +613,7 @@ def contenidos_inactivos(request):
     context = {
         'contenidos': contenidos
     }
-    return render(request,'contenidos_inactivos.html',context)
-
-@login_required(login_url="/login")
-def contenidos_inactivos(request):
-    contenidos=Contenido.objects.filter()
-    context = {
-        'contenidos': contenidos
-    }
-    return render(request,'contenidos_inactivos.html',context)
-
+    return render(request,'contenidos_inactivos.html',context)     
 @login_required(login_url="/login")
 def reactivar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID

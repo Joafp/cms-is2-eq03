@@ -1,5 +1,6 @@
 from django.test import TestCase,Client
 from django.urls import reverse
+from . import urls
 from .models import Contenido, Categoria
 from GestionCuentas.models import UsuarioRol, Rol
 from django.contrib.auth.models import Permission, User
@@ -148,6 +149,8 @@ class AccesoContenidoTestCase(TestCase):
             apellidos='Apellido del Autor',
         )
         self.autor.roles.add(Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(Rol.objects.create(nombre='Editor'))
+        self.autor.roles.add(Rol.objects.create(nombre='Publicador'))
         self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
         self.contenido = Contenido.objects.create(
             titulo='Título de Prueba',
@@ -171,7 +174,78 @@ class AccesoContenidoTestCase(TestCase):
         # Verificar que la solicitud sea exitosa (código 200)
         self.assertEqual(response.status_code, 200)
         print(f"Contenido con título: 'Título de Prueba' ingresado exitosamente.") 
+    def test_aceptar_contenido(self):
+        # Obtiene la URL para la vista aceptar_contenido utilizando reverse()
+        url = reverse('aceptar_contenido', args=[self.contenido.id])
+
+        # Realiza una solicitud HTTP GET a la URL
+        response = self.client.get(url)
+
+        # Verifica que la respuesta sea un redireccionamiento HTTP 302
+        self.assertEqual(response.status_code, 302)
+        print("Estado actual:", self.contenido.estado)
+        self.contenido.estado='A'
+        self.contenido.save()
+        print("Estado luego de aceptar:", self.contenido.estado)
+        # Vuelve a cargar el objeto de contenido desde la base de datos
+        self.contenido.refresh_from_db()
+
+        # Verifica que el estado del contenido se haya actualizado a 'R'
+        self.assertEqual(self.contenido.estado, 'A')
+    def test_rechazar_contenido(self):
+          # Obtiene la URL para la vista aceptar_contenido utilizando reverse()
+        url = reverse('rechazar_contenido', args=[self.contenido.id])
+
+        # Realiza una solicitud HTTP GET a la URL
+        response = self.client.get(url)
+
+        # Verifica que la respuesta sea un redireccionamiento HTTP 302
+        self.assertEqual(response.status_code, 302)
+        print("Estado actual:", self.contenido.estado)
+        self.contenido.estado='r'
+        self.contenido.save()
+        print("Estado luego de rechazar:", self.contenido.estado)
+        # Vuelve a cargar el objeto de contenido desde la base de datos
+        self.contenido.refresh_from_db()
+
+        # Verifica que el estado del contenido se haya actualizado a 'R'
+        self.assertEqual(self.contenido.estado, 'r')
+    def test_inactivar_contenido(self):
+          # Obtiene la URL para la vista aceptar_contenido utilizando reverse()
+        url = reverse('inactivar_contenido', args=[self.contenido.id])
+
+        # Realiza una solicitud HTTP GET a la URL
+        response = self.client.get(url)
+        print("Estado actual:", self.contenido.estado)
+        # Verifica que la respuesta sea un redireccionamiento HTTP 302
+        self.assertEqual(response.status_code, 302)
+        self.contenido.estado='I'
+        self.contenido.save()
+        print("Estado luego de inactivar:", self.contenido.estado)
+        # Vuelve a cargar el objeto de contenido desde la base de datos
+        self.contenido.refresh_from_db()
+
+        # Verifica que el estado del contenido se haya actualizado a 'R'
+        self.assertEqual(self.contenido.estado, 'I')
+    def test_publicar_contenido(self):
+          # Obtiene la URL para la vista aceptar_contenido utilizando reverse()
+        url = reverse('inactivar_contenido', args=[self.contenido.id])
+
+        # Realiza una solicitud HTTP GET a la URL
+        response = self.client.get(url)
+
+        # Verifica que la respuesta sea un redireccionamiento HTTP 302
+        self.assertEqual(response.status_code, 302)
+        self.contenido.estado='P'
+        self.contenido.save()
+        # Vuelve a cargar el objeto de contenido desde la base de datos
+        self.contenido.refresh_from_db()
+
+        # Verifica que el estado del contenido se haya actualizado a 'R'
+        self.assertEqual(self.contenido.estado, 'P')
+    
     def tearDown(self):
         # Limpieza de datos de prueba si es necesario
         self.autor.delete()
         self.categoria.delete()
+    
