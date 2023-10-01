@@ -8,6 +8,8 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from .models import Categoria,UsuarioRol,Contenido
 from GestionCuentas.models import Rol
+from django.test import override_settings
+from django.core import mail
 
 class CategoriaTestCase(TestCase):
     def setUp(self):
@@ -175,3 +177,59 @@ class AccesoContenidoTestCase(TestCase):
         # Limpieza de datos de prueba si es necesario
         self.autor.delete()
         self.categoria.delete()
+
+class notificacionCorreoTestCase(TestCase):
+    """
+        Verifica que se pueden enviar las notificaciones por correo y que se muestra el mensaje apropiado
+        Fecha: 2023/10/01
+    """
+
+    def setUp(self):
+        self.user = User.objects.create_user(username="TestUser", email='testuseremail@test.com', password="4L1_khrSri8i")
+        self.autor = UsuarioRol.objects.create(username=self.user.username, email=self.user.email)
+        self.autor.roles.add(Rol.objects.create(nombre='Autor'), Rol.objects.create(nombre='Editor'))
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.contenido = Contenido.objects.create(
+            titulo='Título de Prueba',
+            autor=self.autor,
+            categoria=self.categoria,
+            resumen='Resumen de prueba',
+        )
+
+    def testEmailBackend(self):
+        """
+            Verifica que la aplicacion puede conectarse al servicio de correo
+        """
+        backend = mail.get_connection('django.core.mail.backends.smtp.EmailBackend')
+        self.assertIsNotNone(backend, "No se pudo conectar con el servicio de correo")
+
+    @override_settings(EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend')# El correo se mantiene en la memoria para facilitar el test
+    def testEmailEdicion(self):
+        """
+            Verifica que se envia el mensaje correcto en el email de edicion de contenido y al email correcto
+        """
+        login = self.client.login(username="TestUser", password="4L1_khrSri8i")
+        self.assertTrue(login, "No se pudo acceder a la pagina con las credenciales especificadas")
+        response = self.client.get(reverse('editar_contenido_editor', kwargs={'pk': self.contenido.pk}))
+        self.assertEqual(response.status_code, 200, "No se pudo acceder a la pagina para editar el contenido")
+        form = response.context['form']
+        response = self.client.post(reverse('editar_contenido_editor', kwargs={'pk': self.contenido.pk}), data={"enviar_publicador": "enviar_publicador",
+                                                                                                                "titulo": "Nuevo titulo",
+                                                                                                                "categoria":form['categoria'].initial,
+                                                                                                                "resumen":form['resumen'].initial,
+                                                                                                               })
+        self.assertRedirects(response, reverse('edicion'), 302, 200, "Hubo un error al guardar la edicion")
+        self.assertEqual(len(mail.outbox), 1, "No se envio el email o se envio mas de un email")
+        self.assertEqual(mail.outbox[0].subject, 'Contenido editado')
+        self.assertEqual(mail.outbox[0].body, f"Su contenido {form['titulo'].initial} fue editado")
+        self.assertTrue("testuseremail@test.com" in mail.outbox[0].recipients(), "No se envio el email a la direccion de correo del autor")
+
+    def testEmailRecuperacion(self):
+        """
+            Verifica que se envia el email de recuperacion y que es enviado a la direccion correcta
+        """
+        response = self.client.post(reverse('recuperarPassword'), data={'email':"testuseremail@test.com"})
+        self.assertRedirects(response, reverse('MenuPrincipal'), 302, 200, "No se envio la solicitud de recuperacion")
+        self.assertEqual(len(mail.outbox), 1, "No se envio el email o se envio mas de un email")
+        self.assertEqual(mail.outbox[0].subject, 'CMS IS2 EQ03 - Recuperacion de contraseña')
+        self.assertTrue("testuseremail@test.com" in mail.outbox[0].recipients(), "No se envio el email a la direccion correcta")

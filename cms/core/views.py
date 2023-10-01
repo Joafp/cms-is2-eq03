@@ -77,13 +77,16 @@ class EditarContenidoEditor(UpdateView):
         if "cancelar" in self.request.POST:
             return redirect('edicion')
         else:
+            """
+            Comprueba las ediciones realizadas, construye y envia el email de notificacion
+            """
             cambios = None
             cambios_cuerpo = None
             if form.has_changed():
                 cambios = ', '.join(form.changed_data)
                 t1 = form["cuerpo"].initial
                 t2 = self.object.cuerpo
-                if t1 != t2:
+                if t1 and t2 and (t1 != t2):
                     cambios_cuerpo = htmldiff(t1, t2) 
                 
             mensaje_edicion = render_to_string("email-notifs/email_edicion.html",
