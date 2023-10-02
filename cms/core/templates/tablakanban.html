@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Kanban</title>
+    <style>
+        /* Estilos CSS para la tabla Kanban */
+        body {
+            background-color: #000; /* Fondo negro para todo el cuerpo */
+            color: #fff; /* Texto blanco */
+            font-family: Arial, sans-serif;
+        }
+
+        .kanban-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap; /* Añade esta línea para que los elementos se envuelvan en pantallas pequeñas */
+        }
+
+        .kanban-column {
+            flex: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .kanban-card {
+            background-color: #333; /* Fondo gris oscuro para las tarjetas */
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        /* Estilos para el botón */
+        .volver-button {
+        
+            background-color: #007bff; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            padding: 10px 15px; /* Ajusta el espaciado interno del botón */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px; /* Mueve el botón hacia abajo */
+        }
+
+        .volver-button:hover {
+            background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+   
+
+    <!-- Div de abajo para la tabla Kanban -->
+    <div class="kanban-container">
+        <!-- Columna para estado 'Borrador' -->
+        <div class="kanban-column">
+            <h2>Borrador</h2>
+            {% for contenido in contenidos_borrador %}
+                {% if  Contenido.autor.username == request.user.username %}
+                    <div class="kanban-card">
+                        <h3>{{ contenido.titulo }}</h3>
+                        <p>Autor: {{ contenido.autor }}</p>
+                    </div>
+                {% endif %}    
+            {% endfor %}
+        </div>
+
+        <!-- Columna para estado 'En Edición' -->
+        <div class="kanban-column">
+            <h2>En Edición</h2>
+            {% for contenido in contenidos_en_edicion %}
+                {% if  Contenido.autor.username == request.user.username %}
+                    <div class="kanban-card">
+                        <h3>{{ contenido.titulo }}</h3>
+                        <p>Autor: {{ contenido.autor }}</p>
+                    </div>
+                {% endif%}
+            {% endfor %}
+        </div>
+
+        <!-- Columna para estado 'En Revisión' -->
+        <div class="kanban-column">
+            <h2>En Revisión</h2>
+            {% for contenido in contenidos_en_revision %}
+                {% if  Contenido.autor.username == request.user.username %}
+                    <div class="kanban-card">
+                        <h3>{{ contenido.titulo }}</h3>
+                        <p>Autor: {{ contenido.autor }}</p>
+                    </div>
+                {% endif%}
+            {% endfor %}
+        </div>
+
+        <!-- Columna para estado 'Publicado' -->
+        <div class="kanban-column">
+            <h2>Publicado</h2>
+            {% for contenido in contenidos_publicados %}
+                {% if  Contenido.autor.username == request.user.username %}
+                    <div class="kanban-card">
+                        <h3>{{ contenido.titulo }}</h3>
+                        <p>Autor: {{ contenido.autor }}</p>
+                    </div>
+                {% endif%}
+            {% endfor %}
+        </div>
+
+        <!-- Columna para estado 'Inactivo' -->
+        <div class="kanban-column">
+            <h2>Inactivo</h2>
+            {% for contenido in contenidos_inactivos %}
+                {% if  Contenido.autor.username == request.user.username %}        
+                    <div class="kanban-card">
+                        <h3>{{ contenido.titulo }}</h3>
+                        <p>Autor: {{ contenido.autor }}</p>
+                    </div>
+                {% endif%}
+            {% endfor %}
+        </div>
+    </div>
+     <!-- Botón para volver al menú de desarrollador (en el div de encima) -->
+     <a href="{% url 'vista_autor' %}" class="volver-button">Volver al Menú Autor</a>
+</body>
+</html>

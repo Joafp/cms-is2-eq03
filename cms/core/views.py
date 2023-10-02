@@ -629,3 +629,16 @@ def reactivar_contenido(request,contenido_id):
 
     # Redirige al usuario a la vista del editor
     return redirect('contenidos-inactivos')
+@login_required(login_url="/login")
+def tabla_kanban(request):
+    contenidos_inactivos = Contenido.objects.filter(estado='I')
+    contenidos_en_revision = Contenido.objects.filter(estado='R')
+    contenidos_publicados = Contenido.objects.filter(estado='P')
+
+    context = {
+        'contenidos_inactivos': contenidos_inactivos,
+        'contenidos_en_revision': contenidos_en_revision,
+        'contenidos_publicados': contenidos_publicados,
+    }
+
+    return render(request, 'tablakanban.html', context)
