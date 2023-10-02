@@ -57,7 +57,7 @@
         <div class="kanban-column">
             <h2>Borrador</h2>
             {% for contenido in contenidos_borrador %}
-                {% if  Contenido.autor.username == request.user.username %}
+                {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
                         <h3>{{ contenido.titulo }}</h3>
                         <p>Autor: {{ contenido.autor }}</p>
@@ -70,7 +70,7 @@
         <div class="kanban-column">
             <h2>En Edición</h2>
             {% for contenido in contenidos_en_edicion %}
-                {% if  Contenido.autor.username == request.user.username %}
+                {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
                         <h3>{{ contenido.titulo }}</h3>
                         <p>Autor: {{ contenido.autor }}</p>
@@ -83,7 +83,7 @@
         <div class="kanban-column">
             <h2>En Revisión</h2>
             {% for contenido in contenidos_en_revision %}
-                {% if  Contenido.autor.username == request.user.username %}
+                {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
                         <h3>{{ contenido.titulo }}</h3>
                         <p>Autor: {{ contenido.autor }}</p>
@@ -96,7 +96,7 @@
         <div class="kanban-column">
             <h2>Publicado</h2>
             {% for contenido in contenidos_publicados %}
-                {% if  Contenido.autor.username == request.user.username %}
+                {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
                         <h3>{{ contenido.titulo }}</h3>
                         <p>Autor: {{ contenido.autor }}</p>
@@ -109,7 +109,7 @@
         <div class="kanban-column">
             <h2>Inactivo</h2>
             {% for contenido in contenidos_inactivos %}
-                {% if  Contenido.autor.username == request.user.username %}        
+                {% if  contenido.autor.username == request.user.username %}        
                     <div class="kanban-card">
                         <h3>{{ contenido.titulo }}</h3>
                         <p>Autor: {{ contenido.autor }}</p>
