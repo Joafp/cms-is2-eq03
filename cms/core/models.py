@@ -40,6 +40,7 @@ class Contenido(models.Model):
     cuerpo=RichTextField(blank=True,null=True)
     razon = models.CharField(blank=True, null=True)
     ultimo_editor=models.CharField(max_length=255,blank=True)
+    ultimo_publicador=models.CharField(max_length=255,blank=True)
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
     """Nos permite una vez creado el contenido redireccionar a la misma pagina para pooder seguir creando contenidos

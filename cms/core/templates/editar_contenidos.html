@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contenidos</title>
     <style>
-        body {
+       body {
             background-color: #121212;
             color: #FFFFFF;
             font-family: Arial, sans-serif;
@@ -18,15 +18,15 @@
             display: flex;
             max-width: 1100px;
             flex-wrap: wrap;
-            jsutify-content: space-around;
+            justify-content: space-around;
         }
         .card{
-            width: 300px;
-            height: 400px;
+            width: 400px;
+            height: 600px;
             margin:20px;
             border-radius: 6px;
             overflow: hidden;
-            backgrouund: #fff;
+            background: #000000;
             box-shadow: 0px 1px 10px rgba(0,0,0,0.2);
             cursor:default;
             transition: all 400ms ease;
@@ -96,7 +96,8 @@
                     <div class="contenido">
                         <h3>{{Contenido.titulo}}</h3>
                         <p>{{Contenido.resumen | safe }}</p>
-                        <p>OBSV:{{Contenido.razon| safe }}</p>
+                        <p>OBSERVACION:</p>
+                        <p>{{Contenido.razon| safe }}</p>
                         <a href="{% url 'detalles_articulo_edicion' Contenido.pk%}">Editar</a>
                     </div>     
                 </div>

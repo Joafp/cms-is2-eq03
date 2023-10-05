@@ -24,7 +24,7 @@ class CrearContenido(CreateView):
     template_name= 'crear_contenido.html'
     fields= '__all__'
     model = Contenido
-    fields = ['titulo', 'categoria', 'resumen', 'imagen', 'cuerpo']  # excluye 'estado'
+    fields = ['titulo', 'categoria', 'resumen', 'imagen', 'cuerpo','razon']  # excluye 'estado'
     def form_valid(self, form):
         form.instance.estado = 'B'  # establece el estado inicial a 'B'
         form.instance.autor=UsuarioRol.objects.get(username=self.request.user.username)
@@ -38,7 +38,7 @@ class CrearContenido(CreateView):
 class EditarContenido(UpdateView):
     model = Contenido
     template_name = 'edit_cont.html'
-    fields = ['titulo', 'autor', 'categoria', 'resumen', 'imagen', 'cuerpo']
+    fields = ['titulo', 'autor', 'categoria', 'resumen', 'imagen', 'cuerpo','razon']
     def form_valid(self, form):
         form.instance.estado = 'B'  # establece el estado inicial a 'B'
         response = super().form_valid(form)
@@ -53,7 +53,7 @@ class EditarContenido(UpdateView):
 class EditarContenidoEditor(UpdateView):
     model = Contenido
     template_name = 'editar_contenido_editor.html'
-    fields = ['titulo', 'categoria', 'resumen', 'imagen', 'cuerpo']
+    fields = ['titulo', 'categoria', 'resumen', 'imagen', 'cuerpo','razon']
     def form_valid(self, form):
         form.instance.estado = 'E'  # establece el estado inicial a 'E'
         response = super().form_valid(form)
@@ -122,6 +122,7 @@ class RechazarContenidoPublicador(UpdateView):
         response = super().form_valid(form)
         if "enviar_autor" in self.request.POST:
             self.object.estado = 'r'
+            self.object.ultimo_publicador=self.request.user.username
             self.object.save()
             mensaje_edicion = render_to_string("email-notifs/email_rechazo.html",
                                             {'nombre': self.request.user.username,
@@ -133,6 +134,8 @@ class RechazarContenidoPublicador(UpdateView):
                         from_email=None,
                             recipient_list=[UsuarioRol.objects.get(id=self.object.autor_id).email, 'is2cmseq03@gmail.com', ],
                             html_message=mensaje_edicion)
+            
+            
             
             return redirect('Publicador')
             
@@ -590,7 +593,7 @@ def publicar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
     contenido.estado = 'P'
-
+    contenido.ultimo_publicador=request.user.username
     # Guarda el objeto de contenido
     contenido.save()
     mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
@@ -613,7 +616,7 @@ def publicar_contenido(request,contenido_id):
         
     send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
                 from_email=None,
-                    recipient_list=[UsuarioRol.objects.get(username=contenido.ultimo_editor).email, 'is2cmseq03@gmail.com', ],
+                    recipient_list=[UsuarioRol.objects.get(username=contenido.ultimo_publicador).email, 'is2cmseq03@gmail.com', ],
                     html_message=mensaje_edicion)
     # Redirige al usuario a la vista del editor
     return redirect('Publicador')
@@ -624,10 +627,38 @@ def inactivar_contenido(request,contenido_id):
     contenido = Contenido.objects.get(id=contenido_id)
 
     contenido.estado = 'I'
-
+   
     # Guarda el objeto de contenido
     contenido.save()
+    mensaje_edicion = render_to_string("email-notifs/email_notificacion_inactivar_autor.html",
+                                            {
+                                            'nombre_editor':contenido.ultimo_editor,
+                                            'nombre_autor':contenido.autor_id,
+                                            'titulo_contenido': contenido.titulo,
+                                            'razon': contenido.razon})
+    
 
+    send_mail(subject="Contenido ha pasado al estado inactivo", message=f"Su contenido {contenido.titulo} fue bajado del sitio y se encuentra en estado inactivo",
+                from_email=None,
+                    recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
+                    html_message=mensaje_edicion)
+    
+
+    mensaje_edicion = render_to_string("email-notifs/email_notificacion_inactivar_publicador.html",
+                                            {
+                                            'nombre_editor':contenido.ultimo_editor,
+                                            'nombre_autor':contenido.autor.username,
+                                            'titulo_contenido': contenido.titulo,
+                                            'razon': contenido.razon})
+    
+
+    send_mail(subject="El autor de un contenido ha dado de baja su contenido", message=f"El contenido {contenido.titulo} que publicaste, ha sido bajado por su autor {contenido.autor.username}",
+                from_email=None,
+                    recipient_list=[UsuarioRol.objects.get(username=contenido.ultimo_publicador).email, 'is2cmseq03@gmail.com', ],
+                    html_message=mensaje_edicion)
+    
+
+    
     # Redirige al usuario a la vista del editor
     return redirect('ContenidosPublicados')
 
@@ -643,7 +674,22 @@ def aceptar_rechazo_contenido(request,contenido_id):
     contenido.razon_rechazo=' '
     # Guarda el objeto de contenido
     contenido.save()
-
+    mensaje_edicion = render_to_string("email-notifs/email_notificacion_aceptar_rechazo_autor.html",
+                                            {
+                                            'nombre_publicador':contenido.ultimo_publicador,
+                                            'nombre_autor':contenido.autor.username,
+                                            'titulo_contenido': contenido.titulo,
+                                            'razon': contenido.razon})
+    
+    send_mail(subject="Haz aceptado el rechazo de un contenido", message=f"Se acepto el rechazo de  {contenido.titulo}",
+                from_email=None,
+                    recipient_list=[contenido.autor.email, 'is2cmseq03@gmail.com', ],
+                    html_message=mensaje_edicion)
+    
+    
+   
+    
+       
     # Redirige al usuario a la vista del editor
     return redirect('ContenidosRechazados')
 
@@ -651,7 +697,7 @@ def aceptar_rechazo_contenido(request,contenido_id):
 def rechazar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
-
+    contenido.ultimo_publicador=request.user.username
     contenido.estado = 'r'
 
     # Guarda el objeto de contenido
@@ -685,9 +731,32 @@ def reactivar_contenido(request,contenido_id):
     contenido = Contenido.objects.get(id=contenido_id)
 
     contenido.estado = 'P'
-
+    contenido.ultimo_publicador=request.user.username
     # Guarda el objeto de contenido
     contenido.save()
+    mensaje_edicion = render_to_string("email-notifs/email_notificacion_reactivar_contenido_autor.html",
+                                            {
+                                            'nombre_publicador':contenido.ultimo_publicador,
+                                            'nombre_autor':contenido.autor.username,
+                                            'titulo_contenido': contenido.titulo,
+                                            'razon': contenido.razon})
+    
+    send_mail(subject="Se ha republicado  un contenido", message=f"Se reactivo  el contenido {contenido.titulo} de tu autoria, el publicador que realizo esta accion fue{contenido.ultimo_publicador}",
+                from_email=None,
+                    recipient_list=[contenido.autor.email, 'is2cmseq03@gmail.com', ],
+                    html_message=mensaje_edicion)
+    
 
+    mensaje_edicion = render_to_string("email-notifs/email_notificacion_reactivar_contenido_publicador.html",
+                                            {
+                                            'nombre_publicador':contenido.ultimo_publicador,
+                                            'nombre_autor':contenido.autor.username,
+                                            'titulo_contenido': contenido.titulo,
+                                            'razon': contenido.razon})
+    
+    send_mail(subject="Haz republicado  un contenido", message=f"Se reactivo  el contenido {contenido.titulo} de tu autoria, el publicador que realizo esta accion fue{contenido.ultimo_publicador}",
+                from_email=None,
+                    recipient_list=[UsuarioRol.objects.get(username=contenido.ultimo_publicador).email, 'is2cmseq03@gmail.com'],
+                    html_message=mensaje_edicion)
     # Redirige al usuario a la vista del editor
     return redirect('contenidos-inactivos')
