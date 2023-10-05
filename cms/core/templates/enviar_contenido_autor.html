@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edicion</title>
+    <title>Enviar Editor</title>
     <style>
         body {
             background-color: #121212;
@@ -24,17 +24,14 @@
 </head>
 <body>
     {% block content %}
-    <a href="{% url 'Editar' %}" class="volver-button">Volver al menu Editor</a>
-    <h1>Editar Contenido</h1>
+    <a href="{% url 'ContenidosBorrador' %}" class="volver-button">Volver a mis contenidos en Borrador</a>
+    <h1>Dar Un Comentario sobre el contenido a ser enviado para edicion</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.media }}
         {{ form.as_p }}
-        <button class="btn btn-secondary" name="cancelar">Cancelar</button>
-        <button class="btn btn-secondary" name="enviar_autor"><a href="{% url 'rechazar_contenido_editor' pk=object.id %}" >Devolver al autor</a></button>
-        <button class="btn btn-secondary" name="enviar_publicador"><a href="{% url 'enviar_contenido_editor' pk=object.id %}" >Enviar publicador</a></button>
+        <button class="btn btn-secondary" name="enviar_editor">Enviar a Editor</button>
     </form>
     {% endblock %}
 </body>
 </html>
-

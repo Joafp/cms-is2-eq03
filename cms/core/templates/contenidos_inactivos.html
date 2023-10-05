@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contenidos en estado "En Revision"</title>
     <style>
-        body {
+           body {
             background-color: #121212;
             color: #FFFFFF;
             font-family: Arial, sans-serif;
@@ -21,8 +21,8 @@
             justify-content: space-around;
         }
         .card{
-            width: 300px;
-            height: 400px;
+            width: 400px;
+            height: 600px;
             margin:20px;
             border-radius: 6px;
             overflow: hidden;
@@ -96,6 +96,7 @@
                     <div class="contenido">
                         <h3>{{Contenido.titulo}}</h3>
                         <p>{{Contenido.resumen | safe }}</p>
+                        <p>{{Contenido.razon | safe }}</p>
                         <a href="{% url 'reactivar_contenido' Contenido.pk%}">Reactivar</a>
                     </div>     
                 </div>
