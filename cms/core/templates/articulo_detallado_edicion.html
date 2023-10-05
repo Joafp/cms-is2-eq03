@@ -45,9 +45,11 @@
     <hr>
     <br/>
     <p>{{ object.cuerpo|safe }}</p>
+    <p>Observacion</p>
+    <p>{{ object.razon|safe }}</p>
     {% endblock %}
     <div class="footer-buttons">
-        <a href="{% url 'aceptar_contenido' contenido_id=object.id %}" class="my-button aceptt">Aceptar Contenido</a>
+        <a href="{% url 'enviar_contenido_editor' pk=object.id %}" class="my-button aceptt">Aceptar Contenido</a>
         <a href="{% url 'editar_contenido_editor' pk=object.id %}" class="my-button editar">Editar Contenido</a>
     </div>
 </body>

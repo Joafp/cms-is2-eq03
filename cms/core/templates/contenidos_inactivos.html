@@ -96,6 +96,7 @@
                     <div class="contenido">
                         <h3>{{Contenido.titulo}}</h3>
                         <p>{{Contenido.resumen | safe }}</p>
+                        <p>{{Contenido.razon | safe }}</p>
                         <a href="{% url 'reactivar_contenido' Contenido.pk%}">Reactivar</a>
                     </div>     
                 </div>
