@@ -59,8 +59,16 @@
             {% for contenido in contenidos_borrador %}
                 {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <a href="{% url 'detalles_articulo' contenido.pk %}">
+                            <h3>{{ contenido.titulo }}</h3>
+                        </a>
                         <p>Autor: {{ contenido.autor }}</p>
+                        {% if contenido.editor %}
+                            <p>Editor: {{ contenido.editor }}</p>
+                        {% endif %}
+                        {% if contenido.publicador %}
+                            <p>Publicador: {{ contenido.publicador }}</p>
+                        {% endif %}
                     </div>
                 {% endif %}    
             {% endfor %}
@@ -72,8 +80,16 @@
             {% for contenido in contenidos_en_edicion %}
                 {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <a href="{% url 'detalles_articulo' contenido.pk %}">
+                            <h3>{{ contenido.titulo }}</h3>
+                        </a>
                         <p>Autor: {{ contenido.autor }}</p>
+                        {% if contenido.editor %}
+                            <p>Editor: {{ contenido.editor }}</p>
+                        {% endif %}
+                        {% if contenido.publicador %}
+                            <p>Publicador: {{ contenido.publicador }}</p>
+                        {% endif %}
                     </div>
                 {% endif%}
             {% endfor %}
@@ -85,8 +101,16 @@
             {% for contenido in contenidos_en_revision %}
                 {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <a href="{% url 'detalles_articulo' contenido.pk %}">
+                            <h3>{{ contenido.titulo }}</h3>
+                        </a>
                         <p>Autor: {{ contenido.autor }}</p>
+                        {% if contenido.editor %}
+                            <p>Editor: {{ contenido.editor }}</p>
+                        {% endif %}
+                        {% if contenido.publicador %}
+                            <p>Publicador: {{ contenido.publicador }}</p>
+                        {% endif %}
                     </div>
                 {% endif%}
             {% endfor %}
@@ -98,8 +122,16 @@
             {% for contenido in contenidos_publicados %}
                 {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <a href="{% url 'detalles_articulo' contenido.pk %}">
+                            <h3>{{ contenido.titulo }}</h3>
+                        </a>
                         <p>Autor: {{ contenido.autor }}</p>
+                        {% if contenido.editor %}
+                            <p>Editor: {{ contenido.editor }}</p>
+                        {% endif %}
+                        {% if contenido.publicador %}
+                            <p>Publicador: {{ contenido.publicador }}</p>
+                        {% endif %}
                     </div>
                 {% endif%}
             {% endfor %}
@@ -111,8 +143,16 @@
             {% for contenido in contenidos_inactivos %}
                 {% if  contenido.autor.username == request.user.username %}        
                     <div class="kanban-card">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <a href="{% url 'detalles_articulo' contenido.pk %}">
+                            <h3>{{ contenido.titulo }}</h3>
+                        </a>
                         <p>Autor: {{ contenido.autor }}</p>
+                        {% if contenido.editor %}
+                            <p>Editor: {{ contenido.editor }}</p>
+                        {% endif %}
+                        {% if contenido.publicador %}
+                            <p>Publicador: {{ contenido.publicador }}</p>
+                        {% endif %}
                     </div>
                 {% endif%}
             {% endfor %}
