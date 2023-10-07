@@ -93,6 +93,13 @@
                     {% endif %}
                 {% endfor %}
             {% endfor %}
+            {% for rol in usuario_rol.roles.all %}
+                {% for permiso in rol.permisos.all %}
+                    {% if permiso.codename == 'Vista tabla' %}                    
+                    <li><a href="{% url 'tabla_general' %}"> Tabla</a></li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
             <li><a href="{% url 'MenuPrincipal' %}">Volver al Menu Principal</a></li>
         </ul>    
     </div>
