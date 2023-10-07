@@ -33,6 +33,7 @@ urlpatterns = [
     path('miscontenidos-rechazados/',views.vista_mis_contenidos_rechazados,name='ContenidosRechazados'),
     path('miscontenidos-publicados/',views.vista_mis_contenidos_publicados,name='ContenidosPublicados'),
     path('editar-contenido/<int:pk>/', views.EditarContenido.as_view(), name='editar_contenido'),
+    path('historial-contenido/<int:contenido_id>/', views.historial_contenido, name='historial_contenido'),
     path('aceptar-rechazo-contenido/<int:contenido_id>/', views.aceptar_rechazo_contenido, name='aceptar-rechazo_contenido'),
     path('editar-contenido-editor/<int:pk>/', views.EditarContenidoEditor.as_view(), name='editar_contenido_editor'),
     path('enviar-contenido-autor/<int:pk>/', views.EnviarContenidoAutor.as_view(), name='enviar_contenido_autor'),

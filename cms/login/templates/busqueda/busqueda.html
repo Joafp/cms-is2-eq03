@@ -1,12 +1,53 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contenidos</title>
+    <title>Resultado de la busqueda</title>
     <style>
-       body {
+       
+        /* Estilos para el cuerpo de la página */
+        #cuerpo-de-pagina {
+            padding: 20px;
+        }
+       ul, ol{
+            list-style:none;
+        }
+        .nav li a{
+            background-color:#000;
+            color:#fff;
+            text-decoration:none;
+            padding:10px 15px;
+            display:block;
+        }
+        .nav li a:hover{
+            background-color:#434343;
+        }
+        .nav > li{
+            float:left;
+
+        }
+
+        .nav li ul{
+            display:none;
+            position:absolute;
+            min-width:140px;
+        }
+
+        .nav li:hover > ul {
+            display: block;
+        }
+
+        .nav li ul li{
+            position:relative;
+        }
+
+        .nav li ul li ul {
+            right: -140px;
+            top:0px;
+        }
+        body {
             background-color: #121212;
             color: #FFFFFF;
             font-family: Arial, sans-serif;
@@ -83,29 +124,26 @@
     </style>
 </head>
 <body>
-    <a href="{% url 'Editar' %}" class="volver-button">Volver al menu editor</a>
     <div id="cuerpo-de-pagina">
-        <h1>Contenidos en revision</h1>
-    <div class="container">   
-        {% for Contenido in contenidos %}
-            {% if Contenido.estado == 'E' %}        
-                <div class= "card">
-                    <figure>
-                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
-                    </figure>
-                    <div class="contenido">
-                        <h3>{{Contenido.titulo}}</h3>
-                        <p>{{Contenido.resumen | safe }}</p>
-                        <p>OBSERVACION:</p>
-                        <p>{{Contenido.razon| safe }}</p>
-                        <a href="{% url 'detalles_articulo_edicion' Contenido.pk%}">Editar</a>
-                        <a href="{% url 'historial_contenido' contenido_id=Contenido.id %}" class="my-button editar">Historial</a>
-                    </div>     
-                </div>
-           {% endif %}  
-       {% endfor %}
-    
-    </div>   
-    </div> 
+    	<h1>Contenidos</h1>
+     <div class="container">         
+          {% for Contenido in contenidos %}
+                   {% if Contenido.estado == 'P' %} 
+                        <div class= "card">
+                            <figure>
+                                <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                            </figure>
+                            <div class="contenido">
+                                <h3>{{Contenido.titulo}}</h3>
+                                <p>{{Contenido.resumen | safe }}</p>
+                                <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
+                            </div>     
+                        </div>
+                   {% endif %}    
+
+           {% endfor %}    
+     </div>   
+    </div>  
+    {% include 'mensajes/mensajes.html' %}
 </body>
 </html>

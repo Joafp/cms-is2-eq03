@@ -96,6 +96,7 @@
                             <p>{{Contenido.resumen | safe }}</p>
                             <p>OBSV:{{Contenido.razon| safe }}</p>
                             <a href="{% url 'aceptar-rechazo_contenido' contenido_id=Contenido.id %}" class="my-button editar">Aceptar Rechazo</a>
+                            <a href="{% url 'historial_contenido' contenido_id=Contenido.id %}" class="my-button editar">Historial</a>
                         </div>     
                     </div>
                 {% endif %}    

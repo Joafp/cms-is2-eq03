@@ -11,8 +11,8 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
 from .models import Categoria
-from .models import Contenido
-
+from .models import Contenido,HistorialContenido
+from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
@@ -27,18 +27,28 @@ class CrearContenido(CreateView):
     model = Contenido
     fields = ['titulo', 'categoria', 'resumen', 'imagen', 'cuerpo','razon']  # excluye 'estado'
     def form_valid(self, form):
-        form.instance.estado = 'B'  # establece el estado inicial a 'B'
-        form.instance.autor=UsuarioRol.objects.get(username=self.request.user.username)
+        form.instance.estado = 'B'  # Establece el estado inicial a 'B'
+        form.instance.autor = UsuarioRol.objects.get(username=self.request.user.username)
+
         response = super().form_valid(form)
+
         if "guardar_borrador" in self.request.POST:
-            # si se presionó el botón "Guardar borrador", no cambies nada
+            # Si se presionó el botón "Guardar borrador", no cambies nada
             self.object.save()
+
+            # Crea una instancia de HistorialContenido con la instancia de Contenido
+            nuevo_cambio = HistorialContenido(
+                contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"Se Creo el contenido con ID {self.object.id}, Con el Titulo {self.object.titulo} por el autor {self.object.autor.username}."
+            )
+            nuevo_cambio.save()
             return redirect('vista_autor')
         elif "enviar_editor" in self.request.POST:
             # si se presionó el botón "Enviar a editor", cambia el estado a 'E'
             self.object.estado = 'E'
             self.object.save()
             return redirect('vista_autor')
+
         return response
     
 class EditarContenido(UpdateView):
@@ -51,6 +61,11 @@ class EditarContenido(UpdateView):
         if "guardar_borrador" in self.request.POST:
             # si se presionó el botón "Guardar borrador", no cambies nada
             self.object.save()
+            nuevo_cambio = HistorialContenido(
+                contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El Autor con ID {self.object.autor.id},con username {self.object.autor.username},Edito el contenido  Con el Titulo {self.object.titulo}."
+            )
+            nuevo_cambio.save()
             return redirect('vista_autor')
         return response
     
@@ -77,7 +92,7 @@ class EditarContenidoEditor(UpdateView):
                 t2 = self.object.cuerpo
                 if t1 and t2 and (t1 != t2):
                     cambios_cuerpo = htmldiff(t1, t2) 
-                
+             
             mensaje_edicion = render_to_string("email-notifs/email_edicion.html",
                                                     {'nombre_editor': self.request.user.username,
                                                     'titulo_contenido': form['titulo'].initial,
@@ -104,7 +119,13 @@ class RechazarContenidoEditor(UpdateView):
             return redirect('edicion')
         elif "enviar_autor" in self.request.POST:
             self.object.estado = 'r'
+            self.object.ultimo_editor=self.request.user.username
             self.object.save()
+            nuevo_cambio = HistorialContenido(
+                contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El contenido con el Titulo {self.object.titulo} fue rechazado por el editor {self.object.ultimo_editor}. El contenido pasa a estado 'Rechazado(r)'."
+            )
+            nuevo_cambio.save()  
             mensaje_edicion = render_to_string("email-notifs/email_rechazo.html",
                                             {'nombre': self.request.user.username,
                                             'titulo_contenido': self.object.titulo,
@@ -134,6 +155,12 @@ class RechazarContenidoPublicador(UpdateView):
             self.object.publicador= UsuarioRol.objects.get(username=self.request.user.username)
             self.object.ultimo_publicador=self.request.user.username
             self.object.save()
+
+            nuevo_cambio = HistorialContenido(
+                contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El contenido con el Titulo {self.object.titulo} fue rechazado por el publicador {self.object.ultimo_publicador}. El contenido pasa a estado 'Rechazado(r)'."
+            )
+            nuevo_cambio.save()
             mensaje_edicion = render_to_string("email-notifs/email_rechazo.html",
                                             {'nombre': self.request.user.username,
                                             'titulo_contenido': self.object.titulo,
@@ -161,6 +188,11 @@ class EnviarContenidoAutor(UpdateView):
         if "enviar_editor" in self.request.POST:
             self.object.estado = 'E'
             self.object.save()
+            nuevo_cambio = HistorialContenido(
+                contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"Se envio el contenido el con el Titulo {self.object.titulo} por el autor {self.object.autor.username}, a edicion. El contenido pasa a esto 'En Edicion'"
+            )
+            nuevo_cambio.save()
             mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_edicion.html",
                                             {'nombre': self.request.user.username,
                                             'titulo_contenido': self.object.titulo,
@@ -188,6 +220,11 @@ class EnviarContenidoEditor(UpdateView):
             self.object.editor= UsuarioRol.objects.get(username=self.request.user.username)
             self.object.ultimo_editor= self.request.user.username
             self.object.save()
+            nuevo_cambio = HistorialContenido(
+                contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"Se envio el contenido el con el Titulo {self.object.titulo} por el autor {self.object.autor.username}, a publicacion. El contenido pasa a estado 'En Revision'. El Editor que envio a publicacion fue : {self.object.ultimo_editor}"
+            )
+            nuevo_cambio.save()
             mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
                                             {'nombre': self.request.user.username,
                                             'titulo_contenido': self.object.titulo,
@@ -245,7 +282,9 @@ def vista_MenuPrincipal(request):
     categorias= Categoria.objects.filter(activo=True)
     autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
     contenidos=Contenido.objects.filter(autor__in=autores_activos)
-    primeros_contenidos = contenidos[:6]
+    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
+    primeros_contenidos = contenidos.filter(estado='P')[:10]
+
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
@@ -253,13 +292,15 @@ def vista_MenuPrincipal(request):
             'autenticado':autenticado,
             'tiene_permiso':tiene_permiso,
             'categorias': categorias,
-            'contenido':primeros_contenidos
+            'contenido':primeros_contenidos,
+            'autores':autores
         }
     else:
         context={
             'autenticado': autenticado,
             'categorias': categorias,
-            'contenido':primeros_contenidos
+            'contenido':primeros_contenidos,
+            'autores':autores
         }    
     print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
@@ -606,8 +647,14 @@ def publicar_contenido(request,contenido_id):
     contenido.estado = 'P'
     contenido.publicador= UsuarioRol.objects.get(username=request.user.username)
     contenido.ultimo_publicador=request.user.username
+    contenido.fecha_publicacion = timezone.now().date()
     # Guarda el objeto de contenido
     contenido.save()
+    nuevo_cambio = HistorialContenido(
+                contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"Se publico el contenido con el Titulo {contenido.titulo} por el autor {contenido.autor.username}. El contenido pasa a estado 'Publicado'. El Publicador que acepto la publicacion fue : {contenido.ultimo_publicador}"
+            )
+    nuevo_cambio.save()
     mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
                                             {'nombre': request.user.username,
                                             'titulo_contenido': contenido.titulo,
@@ -637,11 +684,16 @@ def publicar_contenido(request,contenido_id):
 def inactivar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
-
+    contenido.fecha_publicacion = None
     contenido.estado = 'I'
    
     # Guarda el objeto de contenido
     contenido.save()
+    nuevo_cambio = HistorialContenido(
+                contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El contenido con el Titulo {contenido.titulo} fue inactivado por su autor {contenido.autor.username}. El contenido pasa a estado 'Inactivo(I)'."
+            )
+    nuevo_cambio.save()
     mensaje_edicion = render_to_string("email-notifs/email_notificacion_inactivar_autor.html",
                                             {
                                             'nombre_editor':contenido.ultimo_editor,
@@ -682,6 +734,13 @@ def aceptar_rechazo_contenido(request,contenido_id):
     contenido.razon_rechazo=' '
     # Guarda el objeto de contenido
     contenido.save()
+    nuevo_cambio = HistorialContenido(
+                contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El autor {contenido.autor.username} Acepto el rechazo del contenido con el Titulo {contenido.titulo} que fue rechazado por el publicador {contenido.ultimo_publicador}. El contenido pasa a estado 'Borrador(B)'."
+    )
+    nuevo_cambio.save()
+
+
     mensaje_edicion = render_to_string("email-notifs/email_notificacion_aceptar_rechazo_autor.html",
                                             {
                                             'nombre_publicador':contenido.publicador.username,
@@ -729,12 +788,16 @@ def contenidos_inactivos(request):
 def reactivar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
-
     contenido.estado = 'P'
     contenido.publicador= UsuarioRol.objects.get(username=request.user.username)
     contenido.ultimo_publicador=request.user.username
     # Guarda el objeto de contenido
     contenido.save()
+    nuevo_cambio = HistorialContenido(
+                contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El contenido con el Titulo {contenido.titulo} fue reactivado por el publicador {contenido.ultimo_publicador}. El contenido pasa a estado 'Publicado(P)'."
+    )
+    nuevo_cambio.save()
     mensaje_edicion = render_to_string("email-notifs/email_notificacion_reactivar_contenido_autor.html",
                                             {
                                             'nombre_publicador':contenido.publicador.username,
@@ -777,3 +840,13 @@ def tabla_kanban(request):
     }
 
     return render(request, 'tablakanban.html', context)
+
+
+def historial_contenido(request, contenido_id):
+    contenido = get_object_or_404(Contenido, id=contenido_id)  # Obtener la instancia de Contenido por su ID
+    historial_prueba = HistorialContenido.objects.filter(contenido=contenido)
+    context = {
+        'historial_prueba': historial_prueba,
+        'contenido': contenido  # Pasar la instancia de Contenido al contexto si es necesario
+    }
+    return render(request, 'historial_contenido.html', context)
