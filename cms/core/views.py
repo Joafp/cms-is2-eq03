@@ -11,7 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
 from .models import Categoria
 from .models import Contenido
-
+from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
@@ -234,7 +234,9 @@ def vista_MenuPrincipal(request):
     categorias= Categoria.objects.filter(activo=True)
     autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
     contenidos=Contenido.objects.filter(autor__in=autores_activos)
-    primeros_contenidos = contenidos[:6]
+    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
+    primeros_contenidos = contenidos.filter(estado='P')[:10]
+
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
@@ -242,13 +244,15 @@ def vista_MenuPrincipal(request):
             'autenticado':autenticado,
             'tiene_permiso':tiene_permiso,
             'categorias': categorias,
-            'contenido':primeros_contenidos
+            'contenido':primeros_contenidos,
+            'autores':autores
         }
     else:
         context={
             'autenticado': autenticado,
             'categorias': categorias,
-            'contenido':primeros_contenidos
+            'contenido':primeros_contenidos,
+            'autores':autores
         }    
     print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
@@ -594,6 +598,7 @@ def publicar_contenido(request,contenido_id):
     contenido = Contenido.objects.get(id=contenido_id)
     contenido.estado = 'P'
     contenido.ultimo_publicador=request.user.username
+    contenido.fecha_publicacion = timezone.now().date()
     # Guarda el objeto de contenido
     contenido.save()
     mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
@@ -625,7 +630,7 @@ def publicar_contenido(request,contenido_id):
 def inactivar_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
     contenido = Contenido.objects.get(id=contenido_id)
-
+    contenido.fecha_publicacion = None
     contenido.estado = 'I'
    
     # Guarda el objeto de contenido

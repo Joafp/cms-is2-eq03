@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import RegistroForm
 from GestionCuentas.models import UsuarioRol,Rol
 from core.models import Categoria
+from core.models import Contenido
 class CustomAuthenticationForm(AuthenticationForm):
     """
     Esta clase es para customizar los mensajes de error a la hora de intentar logearse al sitio con una cuenta
@@ -132,3 +133,40 @@ def vista_admin(request):
 
 
 
+def buscar_contenido(request):
+    # Obtener los valores del formulario
+    q = request.GET.get('q', '')
+    categoria = request.GET.get('categoria')
+    autor = request.GET.get('autor')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+
+    # Inicializar el queryset con todos los contenidos
+    contenidos = Contenido.objects.all()
+
+    # Si hay un término de búsqueda, filtrar por el campo correspondiente
+    if q:
+        contenidos = contenidos.filter(titulo__icontains=q)
+
+    # Si hay una categoría seleccionada, filtrar por el campo categoria
+    if categoria:
+        contenidos = contenidos.filter(categoria__nombre=categoria)
+
+    # Si hay un autor seleccionado, filtrar por el campo autor
+    if autor:
+        contenidos = contenidos.filter(autor__nombre=autor)
+
+    # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
+    if fecha_inicio and not fecha_fin:
+        contenidos = contenidos.filter(fecha_publicacion__gte=fecha_inicio)
+
+    # Si se proporciona fecha de fin pero no fecha de inicio, filtrar por el campo fecha_publicacion hasta la fecha de fin
+    elif fecha_fin and not fecha_inicio:
+        contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
+
+    # Si se proporcionan fechas de inicio y fin, filtrar por el campo fecha_publicacion en el rango de esas fechas
+    elif fecha_inicio and fecha_fin:
+        contenidos = contenidos.filter(fecha_publicacion__range=[fecha_inicio, fecha_fin])
+
+    # Renderizar la plantilla con los resultados
+    return render(request, 'busqueda/busqueda.html', {'contenidos': contenidos})

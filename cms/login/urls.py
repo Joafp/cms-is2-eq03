@@ -10,5 +10,6 @@ urlpatterns = [
    path('logout/',views.cerrar_sesion,name='CerrarSesion'),
    path('accounts/',include('django.contrib.auth.urls')),
    path('administrador/',views.vista_admin,name='Administrador'),
+   path('buscar/', views.buscar_contenido, name='buscar_contenido')
 ] 
 
