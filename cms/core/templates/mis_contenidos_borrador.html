@@ -97,6 +97,7 @@
                             <p>OBSERVACION:</p>
                             <p>{{Contenido.razon | safe }}</p>
                             <a href="{% url 'editar_contenido' pk=Contenido.id %}" class="my-button editar">Editar Contenido</a>
+                            <a href="{% url 'historial_contenido' contenido_id=Contenido.id %}" class="my-button editar">Historial</a>
                         </div>     
                     </div>
                 {% endif %}    

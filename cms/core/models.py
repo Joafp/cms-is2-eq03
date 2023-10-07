@@ -11,6 +11,9 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.nombre    
+    
+
+
 class Contenido(models.Model):
     """
     El modelo contenido nos sirve para guardar los datos del contenido, tenemos los atributos
@@ -49,3 +52,10 @@ class Contenido(models.Model):
     def get_absolute_url(self):
         return reverse('crear_contenido')
 
+class HistorialContenido(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
+    cambio = models.CharField(max_length=255)
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Cambio en {self.contenido.titulo} - {self.fecha}"

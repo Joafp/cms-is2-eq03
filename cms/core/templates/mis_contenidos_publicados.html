@@ -95,6 +95,7 @@
                             <h3>{{Contenido.titulo}}</h3>
                             <p>{{Contenido.resumen | safe }}</p>
                             <a href="{% url 'inactivar_contenido' contenido_id=Contenido.id %}" class="my-button editar">Inactivar Publicacion</a>
+                            <a href="{% url 'historial_contenido' contenido_id=Contenido.id %}" class="my-button editar">Historial</a>
                         </div>     
                     </div>
                 {% endif %}    

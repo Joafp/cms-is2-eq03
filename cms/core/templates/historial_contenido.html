@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Historial de Contenido</title>
+</head>
+<body>
+    <h1>Historial de Contenido</h1>
+    
+    <ul>
+        {% for registro in historial_prueba %}
+            <li>
+                <p>Cambio: {{ registro.cambio }}</p>
+                <p>Fecha: {{ registro.fecha }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="#">Volver</a>
+</body>
+</html>
