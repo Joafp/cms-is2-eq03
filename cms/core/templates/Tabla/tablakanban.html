@@ -129,19 +129,19 @@
             <hr></hr>
             {% for contenido in contenidos_borrador %}
                 {% if  contenido.autor.username == request.user.username %}
-                    <div class="kanban-card">
-                        <div class= "card">
-                            <figure>
-                                <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
-                            </figure>
-                            <div class="contenido">
-                                <h3>{{Contenido.titulo}}</h3>
-                                <p>{{Contenido.resumen | safe }}</p>
-                                <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
-                            </div>     
-                        </div>
-                    </div>
-                {% endif %}    
+                <div class="kanban-card">
+                    <a href="{% url 'detalles_articulo' contenido.pk %}">
+                        <h3>{{ contenido.titulo }}</h3>
+                    </a>
+                    <p>Autor: {{ contenido.autor }}</p>
+                    {% if contenido.editor %}
+                        <p>Editor: {{ contenido.editor }}</p>
+                    {% endif %}
+                    {% if contenido.publicador %}
+                        <p>Publicador: {{ contenido.publicador }}</p>
+                    {% endif %}
+                    {% endif %}    
+                </div>
             {% endfor %}
         </div>
 
