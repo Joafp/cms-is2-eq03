@@ -892,7 +892,7 @@ def buscar_tabla(request):
 
     # Si hay un autor seleccionado, filtrar por el campo autor
     if autor:
-        contenidos = contenidos.filter(autor__nombre=autor)
+        contenidos = contenidos.filter(autor__username=autor)
 
     # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
     if fecha_inicio and not fecha_fin:
@@ -905,12 +905,20 @@ def buscar_tabla(request):
     # Si se proporcionan fechas de inicio y fin, filtrar por el campo fecha_publicacion en el rango de esas fechas
     elif fecha_inicio and fecha_fin:
         contenidos = contenidos.filter(fecha_publicacion__range=[fecha_inicio, fecha_fin])
+    categorias= Categoria.objects.filter(activo=True)
+    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
+    editores= UsuarioRol.objects.filter(roles__nombre__contains='Editor')
+    publicador=UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
     contenido_borrador=contenidos.filter(estado='B')
     contenidos_inactivos = contenidos.filter(estado='I')
     contenidos_en_revision = contenidos.filter(estado='R')
     contenidos_publicados = contenidos.filter(estado='P')
     contenidos_en_edicion = contenidos.filter(estado='E')
     context = {
+        'categorias':categorias,
+        'autores':autores,
+        'editores':editores,
+        'publicadores':publicador,
         'contenidos_borrador': contenido_borrador,
         'contenidos_inactivos': contenidos_inactivos,
         'contenidos_en_revision': contenidos_en_revision,
@@ -918,6 +926,60 @@ def buscar_tabla(request):
         'contenidos_en_edicion':contenidos_en_edicion,
     }
     return render(request, 'Tabla/tablakanbangeneral.html', context)
+def buscar_tabla_autor(request):
+    q = request.GET.get('q', '')
+    categoria = request.GET.get('categoria')
+    autor = request.GET.get('autor')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+
+    # Inicializar el queryset con todos los contenidos
+    contenidos = Contenido.objects.all()
+
+    # Si hay un término de búsqueda, filtrar por el campo correspondiente
+    if q:
+        contenidos = contenidos.filter(titulo__icontains=q)
+
+    # Si hay una categoría seleccionada, filtrar por el campo categoria
+    if categoria:
+        contenidos = contenidos.filter(categoria__nombre=categoria)
+
+    # Si hay un autor seleccionado, filtrar por el campo autor
+    if autor:
+        contenidos = contenidos.filter(autor__username=autor)
+
+    # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
+    if fecha_inicio and not fecha_fin:
+        contenidos = contenidos.filter(fecha_publicacion__gte=fecha_inicio)
+
+    # Si se proporciona fecha de fin pero no fecha de inicio, filtrar por el campo fecha_publicacion hasta la fecha de fin
+    elif fecha_fin and not fecha_inicio:
+        contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
+
+    # Si se proporcionan fechas de inicio y fin, filtrar por el campo fecha_publicacion en el rango de esas fechas
+    elif fecha_inicio and fecha_fin:
+        contenidos = contenidos.filter(fecha_publicacion__range=[fecha_inicio, fecha_fin])
+    categorias= Categoria.objects.filter(activo=True)
+    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
+    editores= UsuarioRol.objects.filter(roles__nombre__contains='Editor')
+    publicador=UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
+    contenido_borrador=contenidos.filter(estado='B')
+    contenidos_inactivos = contenidos.filter(estado='I')
+    contenidos_en_revision = contenidos.filter(estado='R')
+    contenidos_publicados = contenidos.filter(estado='P')
+    contenidos_en_edicion = contenidos.filter(estado='E')
+    context = {
+        'categorias':categorias,
+        'autores':autores,
+        'editores':editores,
+        'publicadores':publicador,
+        'contenidos_borrador': contenido_borrador,
+        'contenidos_inactivos': contenidos_inactivos,
+        'contenidos_en_revision': contenidos_en_revision,
+        'contenidos_publicados': contenidos_publicados,
+        'contenidos_en_edicion':contenidos_en_edicion,
+    }
+    return render(request, 'Tabla/tablakanban.html', context)
 def historial_contenido(request, contenido_id):
     contenido = get_object_or_404(Contenido, id=contenido_id)  # Obtener la instancia de Contenido por su ID
     historial_prueba = HistorialContenido.objects.filter(contenido=contenido)

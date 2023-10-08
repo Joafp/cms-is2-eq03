@@ -22,6 +22,7 @@ urlpatterns = [
     path('vistaautor/',views.vista_autor,name='vista_autor'),
     path('tablageneral/',views.tabla_kanbangeneral,name='tabla_general'),
     path('tablageneralfiltrada/',views.buscar_tabla,name='tabla_general_filtrada'),
+    path('tablaautorfiltrada/',views.buscar_tabla_autor,name='tabla_autor_filtrada'),
     path('contenidos-editables/',views.vista_edicion,name='edicion'),
     path('publicar-contenido/<int:contenido_id>/', views.publicar_contenido, name='publicar_contenido'),
     path('rechazar-contenido/<int:contenido_id>/', views.rechazar_contenido, name='rechazar_contenido'),

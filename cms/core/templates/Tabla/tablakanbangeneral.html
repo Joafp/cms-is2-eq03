@@ -11,7 +11,12 @@
             color: #fff; /* Texto blanco */
             font-family: Arial, sans-serif;
         }
-
+        .contenedor-1 {
+            display: flex;
+        }
+        .contenedor-3 {
+            display: flex;
+        }
         .kanban-container {
             display: flex;
             justify-content: space-between;
@@ -49,33 +54,35 @@
     </style>
 </head>
 <body>
-    <form method="GET" action="{% url 'tabla_general_filtrada' %}">
-        <input type="text" name="q" placeholder="Buscar contenido">
-        <select name="categoria">
-          <option value="">Todas las categorías</option>
-          {% for categoria in categorias %}
-            <option value="{{ categoria.nombre }}">{{ categoria.nombre }}</option>
-          {% endfor %}
-        </select>
-        <select name="autor">
-          <option value="">Todos los autores</option>
-          {% for autor in autores %}
-            <option value="{{ autor.username }}">{{ autor.username }}</option>
-          {% endfor %}
-        </select>
-        <br></br>
-        <label for="fecha_inicio">Fecha de inicio:</label>
-        <input type="date" name="fecha_inicio" id="fecha_inicio">
-        
-        <label for="fecha_fin">Fecha de fin:</label>
-        <input type="date" name="fecha_fin" id="fecha_fin">
-        <button type="submit">Buscar</button>
-    </form>
+    <div class="contenedor-1">
+        <form method="GET" action="{% url 'tabla_general_filtrada' %}">
+            <input type="text" name="q" placeholder="Buscar contenido">
+            <select name="categoria">
+            <option value="">Todas las categorías</option>
+            {% for categoria in categorias %}
+                <option value="{{ categoria.nombre }}">{{ categoria.nombre }}</option>
+            {% endfor %}
+            </select>
+            <select name="autor">
+                <option value="">Todos los autores</option>
+                {% for autor in autores %}
+                    <option value="{{ autor.username }}">{{ autor.username }}</option>
+                {% endfor %}
+            </select>
+            <label for="fecha_inicio">Fecha de inicio:</label>
+            <input type="date" name="fecha_inicio" id="fecha_inicio">
+            <label for="fecha_fin">Fecha de fin:</label>
+            <input type="date" name="fecha_fin" id="fecha_fin">
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+    <hr></hr>
     <!-- Div de abajo para la tabla Kanban -->
     <div class="kanban-container">
         <!-- Columna para estado 'Borrador' -->
         <div class="kanban-column">
             <h2>Borrador</h2>
+            <hr></hr>
             {% for contenido in contenidos_borrador %}
                 <div class="kanban-card">
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
@@ -95,6 +102,7 @@
         <!-- Columna para estado 'En Edición' -->
         <div class="kanban-column">
             <h2>En Edición</h2>
+            <hr></hr>
             {% for contenido in contenidos_en_edicion %}
                 <div class="kanban-card">
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
@@ -110,10 +118,10 @@
                 </div>
             {% endfor %}
         </div>
-
         <!-- Columna para estado 'En Revisión' -->
         <div class="kanban-column">
             <h2>En Revisión</h2>
+            <hr></hr>
             {% for contenido in contenidos_en_revision %}
                 <div class="kanban-card">
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
@@ -133,6 +141,7 @@
         <!-- Columna para estado 'Publicado' -->
         <div class="kanban-column">
             <h2>Publicado</h2>
+            <hr></hr>
             {% for contenido in contenidos_publicados %}
                 <div class="kanban-card">
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
@@ -152,23 +161,30 @@
         <!-- Columna para estado 'Inactivo' -->
         <div class="kanban-column">
             <h2>Inactivo</h2>
+            <hr></hr>
             {% for contenido in contenidos_inactivos %}
                 <div class="kanban-card">
-                    <a href="{% url 'detalles_articulo' contenido.pk %}">
-                        <h3>{{ contenido.titulo }}</h3>
-                    </a>
-                    <p>Autor: {{ contenido.autor }}</p>
-                    {% if contenido.editor %}
-                        <p>Editor: {{ contenido.editor }}</p>
-                    {% endif %}
-                    {% if contenido.publicador %}
-                        <p>Publicador: {{ contenido.publicador }}</p>
-                    {% endif %}
+                    <div class= "card">
+                        <div class="contenido">
+                            <a href="{% url 'detalles_articulo' contenido.pk %}">
+                                <h3>{{ contenido.titulo }}</h3>
+                            </a>
+                            <p>Autor: {{ contenido.autor }}</p>
+                            {% if contenido.editor %}
+                                <p>Editor: {{ contenido.editor }}</p>
+                            {% endif %}
+                            {% if contenido.publicador %}
+                                <p>Publicador: {{ contenido.publicador }}</p>
+                            {% endif %} 
+                        </div>     
+                    </div>
                 </div>
             {% endfor %}
         </div>
     </div>
+    <div class="contenedor-3">
      <!-- Botón para volver al menú de desarrollador (en el div de encima) -->
-     <a href="{% url 'vista_autor' %}" class="volver-button">Volver al Menú Autor</a>
+     <a href="{% url 'maintrabajador' %}" class="volver-button">Volver al menu de trabajador</a>
+    </div>
 </body>
 </html>

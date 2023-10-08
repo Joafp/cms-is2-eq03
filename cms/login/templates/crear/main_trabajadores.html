@@ -96,7 +96,7 @@
             {% for rol in usuario_rol.roles.all %}
                 {% for permiso in rol.permisos.all %}
                     {% if permiso.codename == 'Vista tabla' %}                    
-                    <li><a href="{% url 'tabla_general' %}"> Tabla</a></li>
+                    <li><a href="{% url 'tabla_general' %}"> Tabla kanban</a></li>
                     {% endif %}
                 {% endfor %}
             {% endfor %}
