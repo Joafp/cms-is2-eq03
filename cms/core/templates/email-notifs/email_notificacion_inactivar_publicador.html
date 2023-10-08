@@ -9,4 +9,5 @@
 </style>
   <p>El contenido "{{titulo_contenido}}",que ha sido publicado por usted, ha sido bajado del sitio por su autor "{{nombre_autor}}"</p>
   <p>El contenido paso a estado inactivo,puede ser republicado o redirigido a su autor en el menu de "Contenidos Inactivos"</p>
+  <p>Reactivar contenido: http://{{ urlhost }}{% url 'reactivar_contenido' contenido_id=contenidopk %}</p>
 {% endautoescape %}

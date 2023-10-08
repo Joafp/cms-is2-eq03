@@ -7,5 +7,6 @@
     background-color: pink;
   }
 </style>
-  <p>Haz republicado el contenido "{{titulo_contenido}}",que estaba en estado inactivo, tambien se le notifico al autor del contenido: "{{nombre_autor}}"</p>
-{% endautoescape %}
+  <p>Has republicado el contenido "{{titulo_contenido}}",que estaba en estado inactivo, tambien se le notifico al autor del contenido: "{{nombre_autor}}"</p>
+  {% include 'email-notifs/link_articulo_notificacion.html' %}
+  {% endautoescape %}

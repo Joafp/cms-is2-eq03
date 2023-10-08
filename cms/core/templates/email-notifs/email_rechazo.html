@@ -9,5 +9,6 @@
 </style>
   <p>Su contenido "{{titulo_contenido}}" ha sido rechazado por {{nombre}}</p>
   <p>Se ha dado la siguiente razon de rechazo : {{razon}} </p>
+  <p>Enviar contenido a borradores: http://{{ urlhost }}{% url 'aceptar-rechazo_contenido' contenido_id=contenidopk %}</p>
   
 {% endautoescape %}

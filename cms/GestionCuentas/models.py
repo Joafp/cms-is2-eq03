@@ -19,6 +19,7 @@ class PermisosPer(models.Model):
             ("Vista administrador","Permite ingresar a la vista administrador"),
             ("Editar usuarios", "Permite editar la informacion de usuarios"),
             ("Ver usuarios", "Permite ver la lista de usuarios"),
+            ("Publicacion no moderada", "Permite publicar en categorias no moderadas"),
         ]
 class Rol(models.Model):
     """
