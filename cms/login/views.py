@@ -154,7 +154,7 @@ def buscar_contenido(request):
 
     # Si hay un autor seleccionado, filtrar por el campo autor
     if autor:
-        contenidos = contenidos.filter(autor__nombre=autor)
+        contenidos = contenidos.filter(autor__username=autor)
 
     # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
     if fecha_inicio and not fecha_fin:
