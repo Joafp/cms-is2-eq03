@@ -7,20 +7,15 @@
     <style>
         body {
             background-color: #121212;
-            color: white;
-        }
-        .container {
-            max-width: 600px; /* Ajusta el ancho máximo según tus necesidades */
-            margin: 0 auto; /* Esto centrará el contenido horizontalmente */
-            padding: 20px; /* Añade un espacio alrededor del contenido del formulario */
+            color: white; /* Cambia el color del texto si es necesario para que sea legible en el fondo oscuro */
         }
         .volver-button {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
+            top: 10px; /* Ajusta la posición vertical según tus necesidades */
+            right: 10px; /* Ajusta la posición horizontal según tus necesidades */
+            background-color: #007bff; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            padding: 10px 15px; /* Ajusta el espaciado interno del botón */
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -29,30 +24,17 @@
 </head>
 <body>
     {% block content %}
-    <a href="{% url 'vista_autor' %}" class="volver-button">Volver al menú Autor</a>
+    <a href="{% url 'vista_autor' %}" class="volver-button">Volver al menu Autor</a>
     <h1>Crear Contenido</h1>
-    <hr></hr>
-    <div class="container"> <!-- Agregamos un div container para centrar el formulario -->
-        
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <h3>Título:{{form.titulo}}</h3>
-            <h3>Categoría: {{form.categoria}}</h3>
-            <h3>Resumen:</h3>
-            {{form.resumen}}
-            {{form.media}}
-            <h3>Imagen para la miniatura {{form.imagen}}</h3>
-            <h3>Cuerpo:</h3>
-            {{form.cuerpo}}
-            {{form.media}}
-            <h3>Observación: {{form.razon}}</h3>
-            <button class="btn btn-secondary" name="guardar_borrador">Guardar Borrador</button>
-        </form>
-    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <button class="btn btn-secondary" name="guardar_borrador">Guardar Borrador</button>
+    </form>
     {% endblock %}
 </body>
 </html>
-
 
     
 
