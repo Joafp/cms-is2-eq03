@@ -7,7 +7,8 @@
     background-color: pink;
   }
 </style>
-  <p> Se  Acepto el rechazo del contenido "{{titulo_contenido}}" por el publicador : "{{nombre_publicador}}" , que haz rechazado anteriormente</p>
+  <p>Se acepto el rechazo del contenido "{{titulo_contenido}}" por el publicador : "{{nombre_publicador}}" , que haz rechazado anteriormente</p>
   <p>El contenido esta disponible en la lista de borradores del autor</p>
+  <p>Editar contenido: http://{{ urlhost }}{% url 'editar_contenido' pk=contenidopk %}</p>
   
 {% endautoescape %}

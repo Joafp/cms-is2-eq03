@@ -10,5 +10,7 @@
   <p>Su contenido "{{titulo_contenido}}" ha sido Publicado en el sitio.</p>
   <p>El contenido fue aceptado en Publicacion por el usuario "{{nombre}}"</p>
   <p>Se ha dado el siguiente comentario sobre el contenido : {{razon}} </p>
+
+  {% include 'email-notifs/link_articulo_notificacion.html' %}
   
 {% endautoescape %}

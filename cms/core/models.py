@@ -35,9 +35,14 @@ class Contenido(models.Model):
     )
     estado = models.CharField(max_length=1, choices=ESTADOS, default='B')
     titulo= models.CharField(max_length=255)
+<<<<<<< HEAD
     autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'},related_name='contenidos_autor',null=True)
     editor = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Editor'}, related_name='contenidos_editor',null=True)
     publicador = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Publicador'}, related_name='contenidos_publicador',null=True)
+=======
+    # autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'})
+    autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE)
+>>>>>>> mathias_autores_verificados
     categoria= models.ForeignKey(Categoria,on_delete=models.CASCADE)
     resumen=models.TextField(blank=True,null=True)
     imagen = models.ImageField(upload_to='contenido_imagenes/', blank=True, null=True)
