@@ -46,7 +46,7 @@
 <body>
     <div>
     {% block content %}
-    <h1>{{ object.titulo }}</h1>
+    <h1>{{ object.titulo | safe }}</h1>
     <a href="{% url 'Editar' %}" class="volver-button">Volver a vista editor</a>
     <small> Autor: {{ object.autor.nombres }}</small><br/>
     <hr>

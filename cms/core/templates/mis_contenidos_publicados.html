@@ -89,10 +89,10 @@
                 {% if  Contenido.autor.username == request.user.username  and Contenido.estado == 'P' %}
                     <div class= "card">
                         <figure>
-                            <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                            <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo| safe  }}">
                         </figure>
                         <div class="contenido">
-                            <h3>{{Contenido.titulo}}</h3>
+                            <h3>{{Contenido.titulo| safe }}</h3>
                             <p>{{Contenido.resumen | safe }}</p>
                             <a href="{% url 'inactivar_contenido' contenido_id=Contenido.id %}" class="my-button editar">Inactivar Publicacion</a>
                             <a href="{% url 'historial_contenido' contenido_id=Contenido.id %}" class="my-button editar">Historial</a>

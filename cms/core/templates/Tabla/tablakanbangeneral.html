@@ -86,7 +86,7 @@
             {% for contenido in contenidos_borrador %}
                 <div class="kanban-card">
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <h3>{{ contenido.titulo| safe  }}</h3>
                     </a>
                     <p>Autor: {{ contenido.autor }}</p>
                     {% if contenido.editor %}
@@ -106,7 +106,7 @@
             {% for contenido in contenidos_en_edicion %}
                 <div class="kanban-card">
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <h3>{{ contenido.titulo | safe }}</h3>
                     </a>
                     <p>Autor: {{ contenido.autor }}</p>
                     {% if contenido.editor %}
@@ -125,7 +125,7 @@
             {% for contenido in contenidos_en_revision %}
                 <div class="kanban-card">
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <h3>{{ contenido.titulo | safe }}</h3>
                     </a>
                     <p>Autor: {{ contenido.autor }}</p>
                     {% if contenido.editor %}
@@ -145,7 +145,7 @@
             {% for contenido in contenidos_publicados %}
                 <div class="kanban-card">
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <h3>{{ contenido.titulo | safe }}</h3>
                     </a>
                     <p>Autor: {{ contenido.autor }}</p>
                     {% if contenido.editor %}
@@ -167,7 +167,7 @@
                     <div class= "card">
                         <div class="contenido">
                             <a href="{% url 'detalles_articulo' contenido.pk %}">
-                                <h3>{{ contenido.titulo }}</h3>
+                                <h3>{{ contenido.titulo| safe  }}</h3>
                             </a>
                             <p>Autor: {{ contenido.autor }}</p>
                             {% if contenido.editor %}
