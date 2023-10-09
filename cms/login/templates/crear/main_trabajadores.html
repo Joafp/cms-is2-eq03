@@ -65,21 +65,31 @@
 <body>
     <div id="barra-de-herramientas">
         <ul class="nav">
-            {% if perms.app_label.Vista_autor %}
-                <li><a href="{% url 'vista_autor' %}"> Vista Autor</a></li>
-            {% endif %} 
-            {% if perms.app_label.Vista_editor %}
-                <li><a href="{% url 'Editar' %}"> Vista Editor</a></li>
-            {% endif %} 
-            {% if perms.app_label.Vista_publicador %}
-                <li><a href="{% url 'vista_pub' %}"> Vista Publicador</a></li>
-            {% endif %} 
-            {% if perms.app_label.Vista_administrador %}
-                <li><a href="{% url 'Administrador' %}"> Vista administrador</a></li>
-            {% endif %} 
-            {% if perms.app_label.Vista_tabla %}
-            <li><a href="{% url 'tabla_general' %}"> Tabla kanban</a></li>
-            {% endif %} 
+            {% for permiso in permisos_del_usuario %}
+                {% if permiso.codename == 'Vista_autor' %}
+                    <li><a href="{% url 'vista_autor' %}"> Vista Autor</a></li>
+                {% endif %}
+            {% endfor %}
+            {% for permiso in permisos_del_usuario %}
+                {% if permiso.codename == 'Vista_editor' %}
+                    <li><a href="{% url 'Editar' %}"> Vista editor</a></li>
+                {% endif %}
+            {% endfor %}
+            {% for permiso in permisos_del_usuario %}
+                {% if permiso.codename == 'Vista_publicador' %}
+                    <li><a href="{% url 'vista_pub' %}"> Vista publicador</a></li>
+                {% endif %}
+            {% endfor %}   
+            {% for permiso in permisos_del_usuario %}
+                {% if permiso.codename == 'Vista_administrador' %}
+                    <li><a href="{% url 'Administrador' %}"> Vista administrador</a></li>
+                {% endif %}
+            {% endfor %}
+            {% for permiso in permisos_del_usuario %}
+                {% if permiso.codename == 'Vista_tabla' %}
+                    <li><a href="{% url 'tabla_general' %}"> Tabla Kanban</a></li>
+                {% endif %}
+            {% endfor %}
             <li><a href="{% url 'MenuPrincipal' %}">Volver al Menu Principal</a></li>
         </ul>    
     </div>

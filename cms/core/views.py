@@ -368,7 +368,24 @@ def vista_trabajador(request):
     return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
     """
     usuario_rol = UsuarioRol.objects.get(username=request.user.username)
-    return render(request,'crear/main_trabajadores.html',{'usuario_rol': usuario_rol}) 
+    # Obtén los roles del usuario
+    roles_del_usuario = usuario_rol.roles.all()
+
+    # Inicializa una lista para los permisos únicos
+    permisos_del_usuario = []
+
+    # Itera a través de los roles y agrega los permisos únicos a la lista
+    for rol in roles_del_usuario:
+        permisos_del_rol = rol.permisos.all()
+        permisos_del_usuario.extend(permisos_del_rol)
+
+    # Elimina los duplicados convirtiendo la lista a un conjunto y luego nuevamente a una lista
+    permisos_del_usuario = list(set(permisos_del_usuario))
+
+    return render(request, 'crear/main_trabajadores.html', {
+    'usuario_rol': usuario_rol,
+    'permisos_del_usuario': permisos_del_usuario,
+    })
 
 
 
