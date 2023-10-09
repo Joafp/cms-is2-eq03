@@ -1066,3 +1066,28 @@ def historial_contenido(request, contenido_id):
         'contenido': contenido  # Pasar la instancia de Contenido al contexto si es necesario
     }
     return render(request, 'historial_contenido.html', context)
+
+
+def me_gusta(request, contenido_id):
+    contenido = get_object_or_404(Contenido, pk=contenido_id)
+    contenido.me_gusta += 1
+    contenido.save()
+    return redirect('detalle_contenido', pk=contenido.pk)
+
+def no_me_gusta(request, contenido_id):
+    contenido = get_object_or_404(Contenido, pk=contenido_id)
+    contenido.me_gusta += 1
+    contenido.save()
+    return redirect('detalle_contenido', pk=contenido.pk)
+
+def compartir(request, contenido_id):
+    contenido = get_object_or_404(Contenido, pk=contenido_id)
+
+    if request.method == 'POST':
+        # Realiza la acción de compartir, por ejemplo, incrementa el contador de compartidos
+        contenido.compartido += 1
+        contenido.save()
+
+        # Puedes agregar aquí cualquier lógica adicional relacionada con la acción de compartir
+
+    return redirect('detalle_contenido', pk=contenido.pk)
