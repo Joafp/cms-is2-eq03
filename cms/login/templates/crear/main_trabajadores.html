@@ -65,41 +65,21 @@
 <body>
     <div id="barra-de-herramientas">
         <ul class="nav">
-            {% for rol in usuario_rol.roles.all %}
-                {% for permiso in rol.permisos.all %}
-                    {% if permiso.codename == 'Vista autor' %}                    
-                    <li><a href="{% url 'vista_autor' %}"> Vista Autor</a></li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-            {% for rol in usuario_rol.roles.all %}
-                {% for permiso in rol.permisos.all %}
-                    {% if permiso.codename == 'Vista editor' %}                    
-                     <li><a href="{% url 'Editar' %}"> Vista editor</a></li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-            {% for rol in usuario_rol.roles.all %}
-                {% for permiso in rol.permisos.all %}
-                    {% if permiso.codename == 'Vista publicador' %}                    
-                       <li><a href="{% url 'vista_pub' %}"> Vista Publicador</a></li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-            {% for rol in usuario_rol.roles.all %}
-                {% for permiso in rol.permisos.all %}
-                    {% if permiso.codename == 'Vista administrador' %}                    
-                     <li><a href="{% url 'Administrador' %}"> Vista Administrador</a></li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-            {% for rol in usuario_rol.roles.all %}
-                {% for permiso in rol.permisos.all %}
-                    {% if permiso.codename == 'Vista tabla' %}                    
-                    <li><a href="{% url 'tabla_general' %}"> Tabla kanban</a></li>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
+            {% if perms.app_label.Vista_autor %}
+                <li><a href="{% url 'vista_autor' %}"> Vista Autor</a></li>
+            {% endif %} 
+            {% if perms.app_label.Vista_editor %}
+                <li><a href="{% url 'Editar' %}"> Vista Editor</a></li>
+            {% endif %} 
+            {% if perms.app_label.Vista_publicador %}
+                <li><a href="{% url 'vista_pub' %}"> Vista Publicador</a></li>
+            {% endif %} 
+            {% if perms.app_label.Vista_administrador %}
+                <li><a href="{% url 'Administrador' %}"> Vista administrador</a></li>
+            {% endif %} 
+            {% if perms.app_label.Vista_tabla %}
+            <li><a href="{% url 'tabla_general' %}"> Tabla kanban</a></li>
+            {% endif %} 
             <li><a href="{% url 'MenuPrincipal' %}">Volver al Menu Principal</a></li>
         </ul>    
     </div>

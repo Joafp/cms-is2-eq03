@@ -131,7 +131,7 @@
                 {% if  contenido.autor.username == request.user.username %}
                 <div class="kanban-card">
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
-                        <h3>{{ contenido.titulo }}</h3>
+                        <h3>{{ contenido.titulo | safe }}</h3>
                     </a>
                     <p>Autor: {{ contenido.autor }}</p>
                     {% if contenido.editor %}
@@ -153,7 +153,7 @@
                 {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
                         <a href="{% url 'detalles_articulo' contenido.pk %}">
-                            <h3>{{ contenido.titulo }}</h3>
+                            <h3>{{ contenido.titulo | safe }}</h3>
                         </a>
                         <p>Autor: {{ contenido.autor }}</p>
                         {% if contenido.editor %}
@@ -175,7 +175,7 @@
                 {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
                         <a href="{% url 'detalles_articulo' contenido.pk %}">
-                            <h3>{{ contenido.titulo }}</h3>
+                            <h3>{{ contenido.titulo | safe }}</h3>
                         </a>
                         <p>Autor: {{ contenido.autor }}</p>
                         {% if contenido.editor %}
@@ -197,7 +197,7 @@
                 {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
                         <a href="{% url 'detalles_articulo' contenido.pk %}">
-                            <h3>{{ contenido.titulo }}</h3>
+                            <h3>{{ contenido.titulo| safe  }}</h3>
                         </a>
                         <p>Autor: {{ contenido.autor }}</p>
                         {% if contenido.editor %}
@@ -219,7 +219,7 @@
                 {% if  contenido.autor.username == request.user.username %}        
                     <div class="kanban-card">
                         <a href="{% url 'detalles_articulo' contenido.pk %}">
-                            <h3>{{ contenido.titulo }}</h3>
+                            <h3>{{ contenido.titulo| safe  }}</h3>
                         </a>
                         <p>Autor: {{ contenido.autor }}</p>
                         {% if contenido.editor %}

@@ -166,3 +166,17 @@ EMAIL_PORT = 587
 # EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))
 EMAIL_HOST_USER = 'is2cmseq03@gmail.com'
 EMAIL_HOST_PASSWORD = 'zums pgkc etsa upgx'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+    },
+    'limite_caracteres': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Link', 'Unlink'],
+        ],
+        'maxLength': 200,  # Cambia 200 al número deseado de caracteres máximos
+        'height': 100,
+        'width': 600,
+    },
+}
