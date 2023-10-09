@@ -13,13 +13,13 @@ class PermisosPer(models.Model):
     class Meta:
         permissions=[
             ("Boton desarrollador","Permite entrar a la vista desarrollador"),
-            ("Vista autor","Permite ingresar a la vista autor"),
-            ("Vista editor","Permite ingresar a la vista editor"),
-            ("Vista publicador","Permite ingresar a la vista publicador"),
-            ("Vista administrador","Permite ingresar a la vista administrador"),
+            ("Vista_autor","Permite ingresar a la vista autor"),
+            ("Vista_editor","Permite ingresar a la vista editor"),
+            ("Vista_publicador","Permite ingresar a la vista publicador"),
+            ("Vista_administrador","Permite ingresar a la vista administrador"),
             ("Editar usuarios", "Permite editar la informacion de usuarios"),
             ("Ver usuarios", "Permite ver la lista de usuarios"),
-            ("Vista tabla", "Permite ver la tabla general"),
+            ("Vista_tabla", "Permite ver la tabla general"),
         ]
 class Rol(models.Model):
     """
@@ -57,13 +57,9 @@ class UsuarioRol(AbstractBaseUser):
     REQUIRED_FIELDS=['email','nombres','apellidos']
     def __str__(self):
         return f'{self.nombres},{self.apellidos}'
-    def has_perm(self,perm,ob=None):
-        if self.usuario_administrador:
-            return True
-        for rol in self.roles.all():
-            if rol.permisos.filter(codename=perm).exists():
-                return True
-        return False
+    def has_perm(self, perm, obj=None):
+        # Verifica si el usuario tiene el permiso específico
+        return self.roles.filter(permisos__codename=perm).exists()
     def has_module_perms(self,app_label):
         return True
     @property

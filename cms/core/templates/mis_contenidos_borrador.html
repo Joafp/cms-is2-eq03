@@ -92,7 +92,7 @@
                             <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
                         </figure>
                         <div class="contenido">
-                            <h3>{{Contenido.titulo}}</h3>
+                            <h3>{{Contenido.titulo| safe }}</h3>
                             <p>{{Contenido.resumen | safe }}</p>
                             <p>OBSERVACION:</p>
                             <p>{{Contenido.razon | safe }}</p>

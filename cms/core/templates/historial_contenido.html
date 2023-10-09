@@ -2,6 +2,48 @@
 <html>
 <head>
     <title>Historial de Contenido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 20px 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px;
+        }
+        li {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        p {
+            margin: 0;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h1>Historial de Contenido</h1>
@@ -9,12 +51,13 @@
     <ul>
         {% for registro in historial_prueba %}
             <li>
-                <p>Cambio: {{ registro.cambio }}</p>
-                <p>Fecha: {{ registro.fecha }}</p>
+                <p><strong>Cambio:</strong> {{ registro.cambio| safe  }}</p>
+                <p><strong>Fecha:</strong> {{ registro.fecha }}</p>
             </li>
         {% endfor %}
     </ul>
 
-    <a href="#">Volver</a>
+    <a href="javascript:history.back();">Volver</a>
+
 </body>
 </html>
