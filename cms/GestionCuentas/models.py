@@ -57,21 +57,8 @@ class UsuarioRol(AbstractBaseUser):
     REQUIRED_FIELDS=['email','nombres','apellidos']
     def __str__(self):
         return f'{self.nombres},{self.apellidos}'
-    def has_perm(self, perm):
-        """
-        Verifica si el usuario tiene el permiso especificado.
-
-        Args:
-            perm (str): El nombre del permiso que se desea verificar.
-
-        Returns:
-            bool: True si el usuario tiene el permiso, False en caso contrario.
-        """
-        # Verifica si el usuario es administrador global, en cuyo caso tiene todos los permisos.
-        if self.usuario_administrador:
-            return True
-
-        # Verifica si el usuario tiene el permiso en sus roles asociados.
+    def has_perm(self, perm, obj=None):
+        # Verifica si el usuario tiene el permiso específico
         return self.roles.filter(permisos__codename=perm).exists()
     def has_module_perms(self,app_label):
         return True
