@@ -7,7 +7,8 @@
     background-color: pink;
   }
 </style>
-  <p> Haz Aceptado el rechazo del contenido "{{titulo_contenido}}" por el publicador : "{{nombre_publicador}}" </p>
+  <p>Has Aceptado el rechazo del contenido "{{titulo_contenido}}" por el publicador : "{{nombre_publicador}}" </p>
   <p>El contenido vuelve a estar disponible para su edicion en el menu "Mis contenidos en borrador"</p>
-  
+  <p>Editar contenido: http://{{ urlhost }}{% url 'editar_contenido' pk=contenidopk %}</p>
+
 {% endautoescape %}

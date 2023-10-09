@@ -9,5 +9,5 @@
 </style>
   <p>Su contenido "{{titulo_contenido}}" ha sido enviador a revision </p>
   <p>Se ha dado el siguiente comentario sobre el contenido : {{razon}} </p>
-  
+  {% include 'email-notifs/link_tabla_kanban.html' %}
 {% endautoescape %}

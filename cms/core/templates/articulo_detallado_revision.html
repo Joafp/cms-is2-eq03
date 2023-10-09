@@ -31,9 +31,13 @@
             margin-right: 10px; /* Agrega margen a la derecha de cada botón */
         }
         .footer-buttons {
-            position: absolute;
+            position: relative;
             bottom: 10px; /* Ajusta la posición vertical según tus necesidades */
             right: 10px; /* Ajusta la posición horizontal según tus necesidades */
+        }
+        .content-divider {
+            border-top: 2px solid white; /* Define el estilo de la línea blanca */
+            margin: 20px 0; /* Ajusta el margen superior e inferior según tus preferencias */
         }
     </style>
 </head>
@@ -48,6 +52,7 @@
     <p>Observacion</p>
     <p>{{ object.razon|safe }}</p>
     {% endblock %}
+    <hr class="content-divider">
     <div class="footer-buttons">
         <a href="{% url 'publicar_contenido' contenido_id=object.id %}" class="my-button publicar">Publicar Contenido</a>
         <a href="{% url 'rechazar_contenido_publicador' pk=object.id %}" class="my-button rechazar">Rechazar Contenido</a>

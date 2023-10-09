@@ -10,5 +10,6 @@
   <p>Su contenido "{{titulo_contenido}}" ha sido enviado a un publicador para su revision antes de ser publicado.</p>
   <p>El contenido fue aceptado en Edicion por el usuario "{{nombre}}"</p>
   <p>Se ha dado el siguiente comentario sobre el contenido : {{razon}} </p>
+  {% include 'email-notifs/link_tabla_kanban.html' %}
   
 {% endautoescape %}

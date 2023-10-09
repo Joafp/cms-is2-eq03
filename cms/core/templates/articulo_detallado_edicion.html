@@ -8,6 +8,7 @@
         body {
             background-color: #121212;
             color: white; /* Cambia el color del texto si es necesario para que sea legible en el fondo oscuro */
+            padding-bottom: 60px; /* Agrega margen inferior para dejar espacio a los botones */
         }
         .volver-button {
             position: absolute;
@@ -31,13 +32,19 @@
             margin-right: 10px; /* Agrega margen a la derecha de cada botón */
         }
         .footer-buttons {
-            position: absolute;
+            position: relative;
             bottom: 10px; /* Ajusta la posición vertical según tus necesidades */
             right: 10px; /* Ajusta la posición horizontal según tus necesidades */
         }
+        .content-divider {
+            border-top: 2px solid white; /* Define el estilo de la línea blanca */
+            margin: 20px 0; /* Ajusta el margen superior e inferior según tus preferencias */
+        }
+        
     </style>
 </head>
 <body>
+    <div>
     {% block content %}
     <h1>{{ object.titulo }}</h1>
     <a href="{% url 'Editar' %}" class="volver-button">Volver a vista editor</a>
@@ -48,6 +55,8 @@
     <p>Observacion</p>
     <p>{{ object.razon|safe }}</p>
     {% endblock %}
+    </div>
+    <hr class="content-divider">
     <div class="footer-buttons">
         <a href="{% url 'enviar_contenido_editor' pk=object.id %}" class="my-button aceptt">Aceptar Contenido</a>
         <a href="{% url 'editar_contenido_editor' pk=object.id %}" class="my-button editar">Editar Contenido</a>

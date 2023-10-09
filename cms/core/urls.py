@@ -20,6 +20,9 @@ urlpatterns = [
     path('publicarcontenido/',views.vista_publicador,name='Publicador'),
     path('vistapublicador/',views.publicador,name='vista_pub'),
     path('vistaautor/',views.vista_autor,name='vista_autor'),
+    path('tablageneral/',views.tabla_kanbangeneral,name='tabla_general'),
+    path('tablageneralfiltrada/',views.buscar_tabla,name='tabla_general_filtrada'),
+    path('tablaautorfiltrada/',views.buscar_tabla_autor,name='tabla_autor_filtrada'),
     path('contenidos-editables/',views.vista_edicion,name='edicion'),
     path('publicar-contenido/<int:contenido_id>/', views.publicar_contenido, name='publicar_contenido'),
     path('rechazar-contenido/<int:contenido_id>/', views.rechazar_contenido, name='rechazar_contenido'),
@@ -48,6 +51,7 @@ urlpatterns = [
     path('asignar/',views.asignar_rol,name='asignacion'),
     path('desasignar/',views.remover_rol,name='desasignar'),
     path('admin/', admin.site.urls),
+    path('tabla/',views.tabla_kanban,name='Tabla'),
 ]
 """Nos permite vincular la direccion donde tenemos guardadas nuestras imagenes, en este caso
 tenemos las imagenes en la carpeta raiz y esta esta definida en el archivo settings"""

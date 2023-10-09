@@ -8,7 +8,6 @@ class Categoria(models.Model):
     nombre=models.CharField(max_length=200)
     moderada=models.BooleanField(default=False)
     activo=models.BooleanField(default=True)
-
     def __str__(self):
         return self.nombre    
     
@@ -36,9 +35,11 @@ class Contenido(models.Model):
     )
     estado = models.CharField(max_length=1, choices=ESTADOS, default='B')
     titulo= models.CharField(max_length=255)
-    autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'})
+    autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'},related_name='contenidos_autor',null=True)
+    editor = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Editor'}, related_name='contenidos_editor',null=True)
+    publicador = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Publicador'}, related_name='contenidos_publicador',null=True)
     categoria= models.ForeignKey(Categoria,on_delete=models.CASCADE)
-    resumen=models.CharField(max_length=255,blank=True)
+    resumen=models.TextField(blank=True,null=True)
     imagen = models.ImageField(upload_to='contenido_imagenes/', blank=True, null=True)
     cuerpo=RichTextField(blank=True,null=True)
     razon = models.CharField(blank=True, null=True)
