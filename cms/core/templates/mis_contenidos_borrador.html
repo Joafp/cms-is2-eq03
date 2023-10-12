@@ -98,6 +98,7 @@
                             <p>{{Contenido.razon | safe }}</p>
                             <a href="{% url 'editar_contenido' pk=Contenido.id %}" class="my-button editar">Editar Contenido</a>
                             <a href="{% url 'historial_contenido' contenido_id=Contenido.id %}" class="my-button editar">Historial</a>
+                            <a href="{% url 'cambiar_version' contenido_id=Contenido.id %}" class="my-button editar">Cambiar Version</a>
                         </div>     
                     </div>
                 {% endif %}    

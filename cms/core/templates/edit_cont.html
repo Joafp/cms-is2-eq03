@@ -31,6 +31,7 @@
         {{ form.media }}
         {{ form.as_p }}
         <button class="btn btn-secondary" name="guardar_borrador">Guardar Borrador</button>
+        <button class="btn btn-secondary" name="guardar_version">Guardar Version</button>
         <button class="btn btn-secondary" name="enviar_editor"><a href="{% url 'enviar_contenido_autor' pk=object.id %}" >Enviar a Edicion</a></button>
     </form>
     {% endblock %}

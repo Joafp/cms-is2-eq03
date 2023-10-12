@@ -60,3 +60,17 @@ class HistorialContenido(models.Model):
 
     def __str__(self):
         return f"Cambio en {self.contenido.titulo} - {self.fecha}"
+    
+class VersionesContenido(models.Model):
+    contenido_base = models.ForeignKey(Contenido, on_delete=models.CASCADE)
+    numero_version = models.PositiveIntegerField()
+    fecha_version = models.DateTimeField(auto_now_add=True)
+
+    titulo= RichTextField(blank=True,null=True,config_name='limite_caracteres')
+    categoria= models.ForeignKey(Categoria,on_delete=models.CASCADE)
+    resumen=RichTextField(blank=True,null=True,config_name='limite_caracteres')
+    imagen = models.ImageField(upload_to='contenido_imagenes/', blank=True, null=True)
+    cuerpo=RichTextField(blank=True,null=True)
+    razon = RichTextField(blank=True,null=True,config_name='limite_caracteres')
+    def __str__(self):
+        return self.fecha_version + '| v' + self.numero_version + '|' + self.razon

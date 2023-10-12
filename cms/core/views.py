@@ -13,7 +13,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
 
 from .models import Categoria
-from .models import Contenido,HistorialContenido
+from .models import Contenido,HistorialContenido,VersionesContenido
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -71,6 +71,20 @@ class EditarContenido(UpdateView):
             )
             nuevo_cambio.save()
             return redirect('vista_autor')
+        elif "guardar_version" in self.request.POST:
+            # primero guarda el borrador y luego la version
+            numero_version = 1
+            ultima_version = VersionesContenido.objects.filter(contenido_base=self.object).order_by('-numero_version')
+            if ultima_version.exists():
+                numero_version = 1 + ultima_version[0].numero_version
+            self.object.save()
+            nuevo_cambio = HistorialContenido(
+                contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El Autor con ID {self.object.autor.id},con username {self.object.autor.username},Edito el contenido  Con el Titulo {self.object.titulo}Se creo la version {numero_version} del contenido"
+            )
+            nuevo_cambio.save()
+            guardar_version(self.object, numero_version)
+            return redirect('ContenidosBorrador')
         elif "enviar_editor" in self.request.POST:
             # si se presionó el botón "Enviar a editor" se guardan los cambios 
             self.object.save()
@@ -1072,3 +1086,52 @@ def historial_contenido(request, contenido_id):
         'contenido': contenido  # Pasar la instancia de Contenido al contexto si es necesario
     }
     return render(request, 'historial_contenido.html', context)
+
+
+def cambiar_version(request, contenido_id):
+    contenido = get_object_or_404(Contenido, id=contenido_id)
+    versiones = VersionesContenido.objects.filter(contenido_base=contenido).order_by('-fecha_version')
+    vacio = not versiones.exists()
+    
+    context = {
+        'contenido':contenido,
+        'versiones': versiones,
+        'vacio': vacio
+    }
+    return render(request, 'cambiar_version_contenido.html', context)
+
+def guardar_version(contenido, numero_version):
+    
+    nueva_version = VersionesContenido(
+        numero_version=numero_version,
+        contenido_base= contenido,
+        titulo=contenido.titulo,
+        categoria=contenido.categoria,
+        resumen=contenido.resumen,
+        imagen=contenido.imagen,
+        cuerpo=contenido.cuerpo,
+        razon=contenido.razon,
+    )
+
+    nueva_version.save()
+
+def aplicar_version(request, contenido_id, version_id):
+    contenido = get_object_or_404(Contenido, id=contenido_id)
+    version = get_object_or_404(VersionesContenido, id=version_id)
+
+    contenido.titulo= version.titulo
+    contenido.categoria= version.categoria
+    contenido.resumen= version.resumen
+    contenido.imagen = version.imagen
+    contenido.cuerpo= version.cuerpo
+    contenido.razon = version.razon
+
+    contenido.save()
+
+    nuevo_cambio = HistorialContenido(
+                contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El Autor con ID {contenido.autor.id},con username {contenido.autor.username},Aplico la version {version.numero_version} del contenido Con el Titulo {contenido.titulo}"
+            )
+    nuevo_cambio.save()
+    return redirect('ContenidosBorrador')
+
