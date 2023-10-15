@@ -11,9 +11,6 @@ from django.contrib import admin
 urlpatterns = [
     path('',views.vista_MenuPrincipal,name='MenuPrincipal'),
     path('main_trabajador/',views.vista_trabajador,name='maintrabajador'),
-    path('me_gusta/<int:contenido_id>/', views.me_gusta, name='me_gusta'),
-    path('no_me_gusta/<int:contenido_id>/', views.no_me_gusta, name='no_me_gusta'),
-    path('compartir/<int:contenido_id>/', views.compartir, name='compartir'),
     path('gestioncuentas/',include('GestionCuentas.urls')),
     path('login/',include('login.urls')),
     path('crearcontenido/',login_required(CrearContenido.as_view(),login_url="/login"),name='crear_contenido'),

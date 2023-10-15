@@ -13,7 +13,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from .models import Categoria
-from .models import Contenido,HistorialContenido
+from .models import Contenido,HistorialContenido,Comentario
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -413,10 +413,27 @@ class CustomPermissionRequiredMixin(PermissionRequiredMixin):
             tiene_permiso = tiene_permiso and usuario_rol.has_perm(perm)
         return tiene_permiso
 class VistaArticulos(DetailView):
-    """Utilizamos esta vista para ir a un contenido, en la misma nos redirecciona al template de contenidos,\
-    donde se ve el cuerpo del contenido, imagenes, autor etc"""
     model = Contenido
-    template_name='articulo_detallado.html'
+    template_name = 'articulo_detallado.html'
+
+    def post(self, request, *args, **kwargs):
+        # Procesar el formulario de comentarios aquí
+        contenido = self.get_object()
+        texto = request.POST.get('texto')
+        autor = request.user  # El usuario actual
+
+        if texto:
+            Comentario.objects.create(contenido=contenido, autor=autor, texto=texto)
+
+        # Recargar la página
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        contenido = self.get_object()
+        comentarios = contenido.comentarios.all()
+        context['comentarios'] = comentarios
+        return context
 
 class VistaArticulosEditor(DetailView):
     model = Contenido
@@ -1084,27 +1101,3 @@ def historial_contenido(request, contenido_id):
     }
     return render(request, 'historial_contenido.html', context)
 
-
-def me_gusta(request, contenido_id):
-    contenido = get_object_or_404(Contenido, pk=contenido_id)
-    contenido.me_gusta += 1
-    contenido.save()
-    return redirect('detalle_contenido', pk=contenido.pk)
-
-def no_me_gusta(request, contenido_id):
-    contenido = get_object_or_404(Contenido, pk=contenido_id)
-    contenido.me_gusta += 1
-    contenido.save()
-    return redirect('detalle_contenido', pk=contenido.pk)
-
-def compartir(request, contenido_id):
-    contenido = get_object_or_404(Contenido, pk=contenido_id)
-
-    if request.method == 'POST':
-        # Realiza la acción de compartir, por ejemplo, incrementa el contador de compartidos
-        contenido.compartido += 1
-        contenido.save()
-
-        # Puedes agregar aquí cualquier lógica adicional relacionada con la acción de compartir
-
-    return redirect('detalle_contenido', pk=contenido.pk)
