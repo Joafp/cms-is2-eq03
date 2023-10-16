@@ -11,9 +11,9 @@ from lxml.html.diff import htmldiff
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
-
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from .models import Categoria
-from .models import Contenido,HistorialContenido
+from .models import Contenido,HistorialContenido,Comentario
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -306,7 +306,9 @@ class EnviarContenidoEditor(UpdateView):
             
         return response   
 @never_cache
-def vista_MenuPrincipal(request):
+
+def vista_MenuPrincipal(request, pagina_actual=1):
+    
     """
     Fecha documentacion: 28/08/2023
     Esta vista nos permite ingresar al template del menu principal, le pasamos como contextos 
@@ -331,32 +333,41 @@ def vista_MenuPrincipal(request):
     contenidos=Contenido.objects.filter(autor__in=autores_activos)
     primeros_contenidos = contenidos[:6]
     """
-    autenticado=User.is_authenticated
-    categorias= Categoria.objects.filter(activo=True)
-    autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
-    contenidos=Contenido.objects.filter(autor__in=autores_activos)
+    autenticado = request.user.is_authenticated
+    categorias = Categoria.objects.filter(activo=True)
+    autores_activos = UsuarioRol.objects.filter(usuario_activo=True)
+    contenidos = Contenido.objects.filter(autor__in=autores_activos, estado='P')
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
-    primeros_contenidos = contenidos.filter(estado='P')[:10]
 
-    if request.user.is_authenticated:
+    ELEMENTOS_POR_PAGINA = 10
+
+    # Crear una instancia de Paginator para tu lista de contenidos
+    paginator = Paginator(contenidos, ELEMENTOS_POR_PAGINA)
+
+    # Obtener el número de página de la URL y manejar errores
+    pagina_actual = request.GET.get('pagina_actual')
+    try:
+        pagina = paginator.page(pagina_actual)
+    except PageNotAnInteger:
+        # Si el valor no es un número entero válido, establecer el valor predeterminado a 1
+        pagina = paginator.page(1)
+    except EmptyPage:
+        # Manejar el caso en el que la página solicitada está vacía
+        pagina = paginator.page(1)  # O cualquier otra acción adecuada
+
+    context = {
+        'autenticado': autenticado,
+        'categorias': categorias,
+        'contenido': pagina,
+        'autores': autores,
+    }
+
+    if autenticado:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
-        tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
-        context={
-            'autenticado':autenticado,
-            'tiene_permiso':tiene_permiso,
-            'categorias': categorias,
-            'contenido':primeros_contenidos,
-            'autores':autores
-        }
-    else:
-        context={
-            'autenticado': autenticado,
-            'categorias': categorias,
-            'contenido':primeros_contenidos,
-            'autores':autores
-        }    
-    print("Usuario: ",autenticado)
-    return render(request, 'crear/main.html',context )
+        tiene_permiso = usuario_rol.has_perm("Boton desarrollador")
+        context['tiene_permiso'] = tiene_permiso
+
+    return render(request, 'crear/main.html', context)
 @login_required(login_url="/login")
 def vista_trabajador(request):
     """
@@ -402,10 +413,27 @@ class CustomPermissionRequiredMixin(PermissionRequiredMixin):
             tiene_permiso = tiene_permiso and usuario_rol.has_perm(perm)
         return tiene_permiso
 class VistaArticulos(DetailView):
-    """Utilizamos esta vista para ir a un contenido, en la misma nos redirecciona al template de contenidos,\
-    donde se ve el cuerpo del contenido, imagenes, autor etc"""
     model = Contenido
-    template_name='articulo_detallado.html'
+    template_name = 'articulo_detallado.html'
+
+    def post(self, request, *args, **kwargs):
+        # Procesar el formulario de comentarios aquí
+        contenido = self.get_object()
+        texto = request.POST.get('texto')
+        autor = request.user  # El usuario actual
+
+        if texto:
+            Comentario.objects.create(contenido=contenido, autor=autor, texto=texto)
+
+        # Recargar la página
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        contenido = self.get_object()
+        comentarios = contenido.comentarios.all()
+        context['comentarios'] = comentarios
+        return context
 
 class VistaArticulosEditor(DetailView):
     model = Contenido
@@ -1072,3 +1100,4 @@ def historial_contenido(request, contenido_id):
         'contenido': contenido  # Pasar la instancia de Contenido al contexto si es necesario
     }
     return render(request, 'historial_contenido.html', context)
+

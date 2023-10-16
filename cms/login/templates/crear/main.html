@@ -151,6 +151,76 @@
             right: -140px;
             top:0px;
         }
+
+        /* Estilos para la paginación */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 1px solid #007bff;
+            color: #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .pagination a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .pagination .current-page {
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .pagination .step-links {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Estilos para el botón de primera y última página */
+        .pagination .first-page,
+        .pagination .last-page {
+            background-color: #007bff;
+            color: #fff;
+            border: 1px solid #007bff;
+        }
+
+        .pagination .first-page:hover,
+        .pagination .last-page:hover {
+            background-color: #0056b3;
+        }
+
+        .pagination .first-page {
+            margin-right: 10px;
+        }
+
+        /* Estilos para el botón de página anterior y siguiente */
+        .pagination .previous-page,
+        .pagination .next-page {
+            background-color: #007bff;
+            color: #fff;
+            border: 1px solid #007bff;
+        }
+
+        .pagination .previous-page:hover,
+        .pagination .next-page:hover {
+            background-color: #0056b3;
+        }
+
+        /* Centra los enlaces de página */
+        .pagination a,
+        .pagination .current-page,
+        .pagination .step-links {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -228,6 +298,26 @@
             {% endif %}    
             {% endfor %}    
         </div>
+
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if contenido.has_previous %}
+                    <a class="first-page" href="?pagina_actual=1">&laquo; primero</a>
+                    <a class="previous-page" href="?pagina_actual={{ contenido.previous_page_number }}">anterior</a>
+                {% endif %}
+        
+                <span class="current-page">
+                    Página {{ contenido.number }} de {{ contenido.paginator.num_pages }}.
+                </span>
+        
+                {% if contenido.has_next %}
+                    <a class="next-page" href="?pagina_actual={{ contenido.next_page_number }}">siguiente</a>
+                    <a class="last-page" href="?pagina_actual={{ contenido.paginator.num_pages }}">último &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+            
         
 </body>
 </html>

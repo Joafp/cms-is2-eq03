@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from datetime import datetime,date
 from ckeditor.fields import RichTextField
 from GestionCuentas.models import UsuarioRol
+from django.conf import settings
 from django.urls import reverse
 class Categoria(models.Model):
     nombre=models.CharField(max_length=200)
@@ -36,8 +37,8 @@ class Contenido(models.Model):
     estado = models.CharField(max_length=1, choices=ESTADOS, default='B')
     titulo= RichTextField(blank=True,null=True,config_name='limite_caracteres')
     autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'},related_name='contenidos_autor',null=True)
-    editor = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Editor'}, related_name='contenidos_editor',null=True)
-    publicador = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Publicador'}, related_name='contenidos_publicador',null=True)
+    editor = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Editor'}, related_name='contenidos_editor', null=True)
+    publicador = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Publicador'}, related_name='contenidos_publicador', null=True)
     categoria= models.ForeignKey(Categoria,on_delete=models.CASCADE)
     resumen=RichTextField(blank=True,null=True,config_name='limite_caracteres')
     imagen = models.ImageField(upload_to='contenido_imagenes/', blank=True, null=True)
@@ -46,12 +47,10 @@ class Contenido(models.Model):
     ultimo_editor=models.CharField(max_length=255,blank=True)
     ultimo_publicador=models.CharField(max_length=255,blank=True)
     fecha_publicacion = models.DateField(null=True, blank=True)
+    
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
-    """Nos permite una vez creado el contenido redireccionar a la misma pagina para pooder seguir creando contenidos
-    en caso de querer redireccionar a otr pagina solo cambiamos reverse()"""
-    def get_absolute_url(self):
-        return reverse('crear_contenido')
+
 
 class HistorialContenido(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
@@ -60,3 +59,13 @@ class HistorialContenido(models.Model):
 
     def __str__(self):
         return f"Cambio en {self.contenido.titulo} - {self.fecha}"
+    
+
+class Comentario(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='comentarios')
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    texto = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Comentario de {self.autor} en {self.contenido.titulo}'    
