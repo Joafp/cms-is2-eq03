@@ -97,6 +97,23 @@
                     {% endif %}
                 </div> 
             {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_borrador.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_borrador.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current-page">
+                        Page {{ contenidos_borrador.number }} of {{ contenidos_borrador.paginator.num_pages }}.
+                    </span>
+    
+                    {% if contenidos_borrador.has_next %}
+                        <a href="?page={{ contenidos_borrador.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_borrador.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
 
         <!-- Columna para estado 'En Edición' -->
@@ -117,6 +134,23 @@
                     {% endif %}
                 </div>
             {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_en_edicion.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_en_edicion.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current-page">
+                        Page {{ contenidos_en_edicion.number }} of {{ contenidos_en_edicion.paginator.num_pages }}.
+                    </span>
+    
+                    {% if contenidos_en_edicion.has_next %}
+                        <a href="?page={{ contenidos_en_edicion.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_en_edicion.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
         <!-- Columna para estado 'En Revisión' -->
         <div class="kanban-column">
@@ -136,6 +170,23 @@
                     {% endif %}
                 </div>
             {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_en_revision.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_en_revision.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class="current-page">
+                        Page {{ contenidos_en_revision.number }} of {{ contenidos_en_revision.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_en_revision.has_next %}
+                        <a href="?page={{ contenidos_en_revision.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_en_revision.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
 
         <!-- Columna para estado 'Publicado' -->
@@ -156,6 +207,23 @@
                     {% endif %}
                 </div>
             {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_publicados.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_publicados.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class="current-page">
+                        Page {{ contenidos_publicados.number }} of {{ contenidos_publicados.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_publicados.has_next %}
+                        <a href="?page={{ contenidos_publicados.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_publicados.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
 
         <!-- Columna para estado 'Inactivo' -->
@@ -180,6 +248,23 @@
                     </div>
                 </div>
             {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_inactivos.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_inactivos.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class "current-page">
+                        Page {{ contenidos_inactivos.number }} of {{ contenidos_inactivos.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_inactivos.has_next %}
+                        <a href="?page={{ contenidos_inactivos.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_inactivos.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
     </div>
     <div class="contenedor-3">

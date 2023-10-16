@@ -67,6 +67,105 @@
             flex-wrap: wrap;
             justify-content: space-around;
         }
+        .kanban-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap; /* Añade esta línea para que los elementos se envuelvan en pantallas pequeñas */
+        }
+        .card{
+            width: 300px;
+            height: 500px;
+            margin:20px;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #000000;
+            box-shadow: 0px 1px 10px rgba(0,0,0,0.2);
+            cursor:default;
+            transition: all 400ms ease;
+
+        }
+        .card:hover{
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.4);
+            transform: translateY(-3%);
+
+        }
+        .card img{
+            width:100%;
+            height:210px;
+        }
+        .card .contenido{
+            padding: 15px;
+            text-align: center;
+        }
+        .card .contenido p{
+            line-height: 1.5;
+            color: #6a6a6a;
+
+        }
+        .card .contenido h3{
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+        .card .contenido a{
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px;
+            margin-top: 10px;
+            color: #2fb4cc;
+            border: 1px solid #2fb4cc;
+            border-radius: 4px;
+            transition: all 400ms ease;
+
+        }
+        .card .contenido a:hover{
+            background: #2fb4cc;
+            color: #fff;
+        }
+        .kanban-column {
+            flex: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .kanban-card {
+            background-color: #333; /* Fondo gris oscuro para las tarjetas */
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        /* Estilos para el botón */
+        .volver-button {
+        
+            background-color: #007bff; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            padding: 10px 15px; /* Ajusta el espaciado interno del botón */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px; /* Mueve el botón hacia abajo */
+        }
+
+        .volver-button:hover {
+            background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+        }
+        .contenedor-1{
+            display:flex;
+        }
+        .contenedor-3{
+            display:flex;
+        }
+        .kanban-card a{
+            text-decoration: none;
+            display: inline-block;
+            padding: 5px;
+            margin-top: 5px;
+            color: #2fb4cc;
+            border: 1px solid #2fb4cc;
+            border-radius: 2px;
+            transition: all 400ms ease;
+
+        }
     </style>
 </head>
 <body>
@@ -94,17 +193,226 @@
                 </a>
             </li> 
             <li>
-                <a href="{% url 'Tabla'%}">
-                    Tabla kanban 
-                </a>
-            </li> 
-            <li>
                 <a href="{% url 'maintrabajador' %}">
                     Volver Menu Desarrollador
                 </a>
             </li> 
                     
         </ul>
+    </div>
+    <br></br>
+    <hr></hr>
+    <h1>Tabla Kanban</h1>
+    <div class="contenedor-1">
+        <form method="GET" action="{% url 'tabla_autor_filtrada' %}">
+            <input type="text" name="q" placeholder="Buscar contenido">
+            <select name="categoria">
+            <option value="">Todas las categorías</option>
+            {% for categoria in categorias %}
+                <option value="{{ categoria.nombre }}">{{ categoria.nombre }}</option>
+            {% endfor %}
+            </select>
+            <label for="fecha_inicio">Fecha de inicio:</label>
+            <input type="date" name="fecha_inicio" id="fecha_inicio">
+            <label for="fecha_fin">Fecha de fin:</label>
+            <input type="date" name="fecha_fin" id="fecha_fin">
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+    <hr></hr>
+    <!-- Div de abajo para la tabla Kanban -->
+    <div class="kanban-container">
+        <!-- Columna para estado 'Borrador' -->
+        <div class="kanban-column">
+            <h2>Borrador</h2>
+            <hr></hr>
+            {% for contenido in contenidos_borrador %}
+                {% if  contenido.autor.username == request.user.username %}
+                <div class="kanban-card">
+                    <h3>{{ contenido.titulo | safe }}</h3>
+                    <p>Autor: {{ contenido.autor }}</p>
+                    {% if contenido.editor %}
+                        <p>Editor: {{ contenido.editor }}</p>
+                    {% endif %}
+                    {% if contenido.publicador %}
+                        <p>Publicador: {{ contenido.publicador }}</p>
+                    {% endif %}
+                    {% endif %}    
+                    <a href="{% url 'editar_contenido' pk=contenido.id %}" class="my-button editar">Editar Contenido</a>
+                    <a href="{% url 'historial_contenido' contenido_id=contenido.id %}" class="my-button editar">Historial</a>
+                    <a href="{% url 'cambiar_version' contenido_id=contenido.id %}" class="my-button editar">Cambiar Version</a>
+                </div>
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_borrador.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_borrador.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class="current-page">
+                        Page {{ contenidos_borrador.number }} of {{ contenidos_borrador.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_borrador.has_next %}
+                        <a href="?page={{ contenidos_borrador.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_borrador.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Columna para estado 'En Edición' -->
+        <div class="kanban-column">
+            <h2>En Edición</h2>
+            <hr></hr>
+            {% for contenido in contenidos_en_edicion %}
+                {% if  contenido.autor.username == request.user.username %}
+                    <div class="kanban-card">
+                        <h3>{{ contenido.titulo | safe }}</h3>
+                        <p>Autor: {{ contenido.autor }}</p>
+                        {% if contenido.editor %}
+                            <p>Editor: {{ contenido.editor }}</p>
+                        {% endif %}
+                        {% if contenido.publicador %}
+                            <p>Publicador: {{ contenido.publicador }}</p>
+                        {% endif %}
+                    </div>
+                {% endif%}
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_en_edicion.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_en_edicion.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class="current-page">
+                        Page {{ contenidos_en_edicion.number }} of {{ contenidos_en_edicion.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_en_edicion.has_next %}
+                        <a href="?page={{ contenidos_en_edicion.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_en_edicion.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Columna para estado 'En Revisión' -->
+        <div class="kanban-column">
+            <h2>En Revisión</h2>
+            <hr></hr>
+            {% for contenido in contenidos_en_revision %}
+                {% if  contenido.autor.username == request.user.username %}
+                    <div class="kanban-card">
+                        <h3>{{ contenido.titulo | safe }}</h3>
+                        <p>Autor: {{ contenido.autor }}</p>
+                        {% if contenido.editor %}
+                            <p>Editor: {{ contenido.editor }}</p>
+                        {% endif %}
+                        {% if contenido.publicador %}
+                            <p>Publicador: {{ contenido.publicador }}</p>
+                        {% endif %}
+                    </div>
+                {% endif%}
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_en_revision.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_en_revision.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class="current-page">
+                        Page {{ contenidos_en_revision.number }} of {{ contenidos_en_revision.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_en_revision.has_next %}
+                        <a href="?page={{ contenidos_en_revision.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_en_revision.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Columna para estado 'Publicado' -->
+        <div class="kanban-column">
+            <h2>Publicado</h2>
+            <hr></hr>
+            {% for contenido in contenidos_publicados %}
+                {% if  contenido.autor.username == request.user.username %}
+                    <div class="kanban-card">
+                        <h3>{{ contenido.titulo| safe  }}</h3>
+                        <p>Autor: {{ contenido.autor }}</p>
+                        {% if contenido.editor %}
+                            <p>Editor: {{ contenido.editor }}</p>
+                        {% endif %}
+                        {% if contenido.publicador %}
+                            <p>Publicador: {{ contenido.publicador }}</p>
+                        {% endif %}
+                        <a href="{% url 'inactivar_contenido' contenido_id=contenido.id %}" class="my-button editar">Inactivar Publicacion</a>
+                            <a href="{% url 'historial_contenido' contenido_id=contenido.id %}" class="my-button editar">Historial</a>
+                    </div>
+                {% endif%}
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_publicados.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_publicados.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class="current-page">
+                        Page {{ contenidos_publicados.number }} of {{ contenidos_publicados.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_publicados.has_next %}
+                        <a href="?page={{ contenidos_publicados.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_publicados.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Columna para estado 'Inactivo' -->
+        <div class="kanban-column">
+            <h2>Inactivo</h2>
+            <hr></hr>
+            {% for contenido in contenidos_inactivos %}
+                {% if  contenido.autor.username == request.user.username %}        
+                    <div class="kanban-card">
+                        <a href="{% url 'detalles_articulo' contenido.pk %}">
+                            <h3>{{ contenido.titulo| safe  }}</h3>
+                        </a>
+                        <p>Autor: {{ contenido.autor }}</p>
+                        {% if contenido.editor %}
+                            <p>Editor: {{ contenido.editor }}</p>
+                        {% endif %}
+                        {% if contenido.publicador %}
+                            <p>Publicador: {{ contenido.publicador }}</p>
+                        {% endif %}
+                    </div>
+                {% endif%}
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_inactivos.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_inactivos.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class="current-page">
+                        Page {{ contenidos_inactivos.number }} of {{ contenidos_inactivos.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_inactivos.has_next %}
+                        <a href="?page={{ contenidos_inactivos.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_inactivos.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
     </div>
 </body>
 </html>

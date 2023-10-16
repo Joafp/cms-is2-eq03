@@ -17,7 +17,7 @@ from .models import Contenido,HistorialContenido,VersionesContenido
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-
+from django.core.paginator import Paginator, Page
 from .forms import CrearContenidoForm
 class CrearContenido(CreateView):
     """
@@ -689,11 +689,51 @@ def vista_publicador(request):
 
 @login_required(login_url="/login")
 def vista_autor(request):
-    contenidos=Contenido.objects.filter()
+    # Define la cantidad de contenidos que deseas mostrar por página
+    items_por_pagina = 2
+
+    # Obtén los contenidos de las diferentes columnas
+    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
+    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
+    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
+    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
+    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+
+    # Divide los contenidos en páginas
+    paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
+    paginador_edicion = Paginator(contenidos_en_edicion, items_por_pagina)
+    paginador_revision = Paginator(contenidos_en_revision, items_por_pagina)
+    paginador_publicados = Paginator(contenidos_publicados, items_por_pagina)
+    paginador_inactivos = Paginator(contenidos_inactivos, items_por_pagina)
+
+    # Obtén la página actual a partir del parámetro de la URL
+    page_number = request.GET.get('page', 1)
+
+    # Obtiene los contenidos de la página actual
+    contenidos_borrador = paginador_borrador.get_page(page_number)
+    contenidos_en_edicion = paginador_edicion.get_page(page_number)
+    contenidos_en_revision = paginador_revision.get_page(page_number)
+    contenidos_publicados = paginador_publicados.get_page(page_number)
+    contenidos_inactivos = paginador_inactivos.get_page(page_number)
+
+    # Otras consultas
+    categorias = Categoria.objects.filter(activo=True)
+    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
+    editores = UsuarioRol.objects.filter(roles__nombre__contains='Editor')
+    publicadores = UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
+
     context = {
-        'contenidos': contenidos
+        'categorias': categorias,
+        'autores': autores,
+        'editores': editores,
+        'publicadores': publicadores,
+        'contenidos_borrador': contenidos_borrador,
+        'contenidos_en_edicion': contenidos_en_edicion,
+        'contenidos_en_revision': contenidos_en_revision,
+        'contenidos_publicados': contenidos_publicados,
+        'contenidos_inactivos': contenidos_inactivos,
     }
-    return render(request,'vista_autor.html',context)
+    return render(request, 'vista_autor.html', context)
 
 @login_required(login_url="/login")
 def vista_mis_contenidos_borrador(request):
@@ -948,25 +988,49 @@ def tabla_kanban(request):
     return render(request, 'Tabla/tablakanban.html', context)
 @login_required(login_url="/login")
 def tabla_kanbangeneral(request):
-    categorias= Categoria.objects.filter(activo=True)
-    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
-    editores= UsuarioRol.objects.filter(roles__nombre__contains='Editor')
-    publicador=UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
-    contenido_borrador=Contenido.objects.filter(estado='B')
+    # Define la cantidad de contenidos que deseas mostrar por página
+    items_por_pagina = 3
+
+    # Consulta para obtener los contenidos
+    contenido_borrador = Contenido.objects.filter(estado='B')
     contenidos_inactivos = Contenido.objects.filter(estado='I')
     contenidos_en_revision = Contenido.objects.filter(estado='R')
     contenidos_publicados = Contenido.objects.filter(estado='P')
     contenidos_en_edicion = Contenido.objects.filter(estado='E')
+
+    # Divide los contenidos en páginas
+    paginador_borrador = Paginator(contenido_borrador, items_por_pagina)
+    paginador_inactivos = Paginator(contenidos_inactivos, items_por_pagina)
+    paginador_revision = Paginator(contenidos_en_revision, items_por_pagina)
+    paginador_publicados = Paginator(contenidos_publicados, items_por_pagina)
+    paginador_edicion = Paginator(contenidos_en_edicion, items_por_pagina)
+
+    # Obtén la página actual a partir del parámetro de la URL
+    page_number = request.GET.get('page', 1)
+
+    # Obtiene los contenidos de la página actual
+    contenidos_borrador = paginador_borrador.get_page(page_number)
+    contenidos_inactivos = paginador_inactivos.get_page(page_number)
+    contenidos_en_revision = paginador_revision.get_page(page_number)
+    contenidos_publicados = paginador_publicados.get_page(page_number)
+    contenidos_en_edicion = paginador_edicion.get_page(page_number)
+
+    # Otras consultas
+    categorias = Categoria.objects.filter(activo=True)
+    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
+    editores = UsuarioRol.objects.filter(roles__nombre__contains='Editor')
+    publicadores = UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
+
     context = {
-        'categorias':categorias,
-        'autores':autores,
-        'editores':editores,
-        'publicadores':publicador,
-        'contenidos_borrador': contenido_borrador,
+        'categorias': categorias,
+        'autores': autores,
+        'editores': editores,
+        'publicadores': publicadores,
+        'contenidos_borrador': contenidos_borrador,
         'contenidos_inactivos': contenidos_inactivos,
         'contenidos_en_revision': contenidos_en_revision,
         'contenidos_publicados': contenidos_publicados,
-        'contenidos_en_edicion':contenidos_en_edicion,
+        'contenidos_en_edicion': contenidos_en_edicion,
     }
     return render(request, 'Tabla/tablakanbangeneral.html', context)
 @login_required(login_url="/login")
