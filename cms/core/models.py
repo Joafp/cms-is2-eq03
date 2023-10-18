@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from datetime import datetime,date
 from ckeditor.fields import RichTextField
 from GestionCuentas.models import UsuarioRol
+from django.conf import settings
 from django.urls import reverse
 class Categoria(models.Model):
     nombre=models.CharField(max_length=200)
@@ -74,3 +75,13 @@ class VersionesContenido(models.Model):
     razon = RichTextField(blank=True,null=True,config_name='limite_caracteres')
     def __str__(self):
         return self.fecha_version + '| v' + self.numero_version + '|' + self.razon
+
+
+class Comentario(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='comentarios')
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    texto = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    def str(self):
+        return f'Comentario de {self.autor} en {self.contenido.titulo}'

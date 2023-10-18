@@ -13,7 +13,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
 
 from .models import Categoria
-from .models import Contenido,HistorialContenido,VersionesContenido
+from .models import Contenido,HistorialContenido,VersionesContenido,Comentario
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -509,10 +509,27 @@ class CustomPermissionRequiredMixin(PermissionRequiredMixin):
             tiene_permiso = tiene_permiso and usuario_rol.has_perm(perm)
         return tiene_permiso
 class VistaArticulos(DetailView):
-    """Utilizamos esta vista para ir a un contenido, en la misma nos redirecciona al template de contenidos,\
-    donde se ve el cuerpo del contenido, imagenes, autor etc"""
     model = Contenido
-    template_name='articulo/articulo_detallado.html'
+    template_name = 'articulo/articulo_detallado.html'
+
+    def post(self, request, *args, **kwargs):
+        # Procesar el formulario de comentarios aquí
+        contenido = self.get_object()
+        texto = request.POST.get('texto')
+        autor = request.user  # El usuario actual
+
+        if texto:
+            Comentario.objects.create(contenido=contenido, autor=autor, texto=texto)
+
+        # Recargar la página
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        contenido = self.get_object()
+        comentarios = contenido.comentarios.all()
+        context['comentarios'] = comentarios
+        return context
 
 class VistaArticulosEditor(DetailView):
     model = Contenido
