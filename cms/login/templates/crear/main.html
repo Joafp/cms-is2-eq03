@@ -187,7 +187,6 @@
                 <form method="GET" action="{% url 'buscar_contenido' %}">
                     <input type="text" name="q" placeholder="Buscar contenido" value="{{ q }}">
                     <select name="categoria">
-                        
                         <option value="">Todas las categorías</option>
                         {% for categoria in categorias %}
                             <option value="{{ categoria.nombre }}" {% if categoria.nombre == categoria %}selected{% endif %}>{{ categoria.nombre }}</option>
