@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor</title>
+    <style>
+        /* Estilos para el div de la barra de herramientas */
+        #barra-de-herramientas {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Estilos para el cuerpo de la página */
+        #cuerpo-de-pagina {
+            padding: 20px;
+        }
+       ul, ol{
+            list-style:none;
+        }
+        .nav li a{
+            background-color:#000;
+            color:#fff;
+            text-decoration:none;
+            padding:10px 15px;
+            display:block;
+        }
+        .nav li a:hover{
+            background-color:#434343;
+        }
+        .nav > li{
+            float:left;
+
+        }
+
+        .nav li ul{
+            display:none;
+            position:absolute;
+            min-width:140px;
+        }
+
+        .nav li:hover > ul {
+            display: block;
+        }
+
+        .nav li ul li{
+            position:relative;
+        }
+
+        .nav li ul li ul {
+            right: -140px;
+            top:0px;
+        }
+        body {
+            background-color: #121212;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container{
+            width:100%;
+            display: flex;
+            max-width: 1100px;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .kanban-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap; /* Añade esta línea para que los elementos se envuelvan en pantallas pequeñas */
+        }
+
+        .kanban-column {
+            flex: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .kanban-card {
+            background-color: #333; /* Fondo gris oscuro para las tarjetas */
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .kanban-card a{
+            text-decoration: none;
+            display: inline-block;
+            padding: 5px;
+            margin-top: 5px;
+            color: #2fb4cc;
+            border: 1px solid #2fb4cc;
+            border-radius: 2px;
+            transition: all 400ms ease;
+
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de herramientas -->
+    <div id="barra-de-herramientas">
+        <ul class="nav">
+          
+            <li>
+                <a href="{% url 'Publicador' %}">
+                    Ver Contenidos En Revision
+                </a>
+            </li> 
+            <li>
+                <a href="{% url 'contenidos-inactivos' %}">
+                    Ver Contenidos Inactivos
+                </a>
+            </li> 
+            <li>
+                <a href="#">
+                    Tabla kanban 
+                </a>
+            </li> 
+            <li>
+                <a href="{% url 'maintrabajador' %}">
+                    Volver Menu Desarrollador
+                </a>
+            </li> 
+                    
+        </ul>
+    </div>
+    <br></br>
+    <hr></hr>
+    <div class="kanban-container">
+        <!-- Columna para estado 'Borrador' -->
+        <div class="kanban-column">
+            <h2>Borrador</h2>
+            <hr></hr>
+            {% for contenido in contenidos_borrador %}
+                <div class="kanban-card">
+                    <h3>{{ contenido.titulo| safe  }}</h3>
+                    <p>Autor: {{ contenido.autor }}</p>
+                    {% if contenido.editor %}
+                        <p>Editor: {{ contenido.editor }}</p>
+                    {% endif %}
+                    {% if contenido.publicador %}
+                        <p>Publicador: {{ contenido.publicador }}</p>
+                    {% endif %}
+                    <a href="{% url 'detalles_articulo' contenido.pk %}">Ver contenido</a>
+                </div> 
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_borrador.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_borrador.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current-page">
+                        Page {{ contenidos_borrador.number }} of {{ contenidos_borrador.paginator.num_pages }}.
+                    </span>
+    
+                    {% if contenidos_borrador.has_next %}
+                        <a href="?page={{ contenidos_borrador.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_borrador.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Columna para estado 'En Edición' -->
+        <div class="kanban-column">
+            <h2>En Edición</h2>
+            <hr></hr>
+            {% for contenido in contenidos_en_edicion %}
+                <div class="kanban-card">
+                    <h3>{{ contenido.titulo | safe }}</h3>
+                  
+                    <p>Autor: {{ contenido.autor }}</p>
+                    {% if contenido.editor %}
+                        <p>Editor: {{ contenido.editor }}</p>
+                    {% endif %}
+                    {% if contenido.publicador %}
+                        <p>Publicador: {{ contenido.publicador }}</p>
+                    {% endif %}
+                    <a href="{% url 'detalles_articulo' contenido.pk %}">
+                        Ver contenido
+                     </a>
+                </div>
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_en_edicion.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_en_edicion.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current-page">
+                        Page {{ contenidos_en_edicion.number }} of {{ contenidos_en_edicion.paginator.num_pages }}.
+                    </span>
+    
+                    {% if contenidos_en_edicion.has_next %}
+                        <a href="?page={{ contenidos_en_edicion.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_en_edicion.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <!-- Columna para estado 'En Revisión' -->
+        <div class="kanban-column">
+            <h2>En Revisión</h2>
+            <hr></hr>
+            {% for contenido in contenidos_en_revision %}
+                <div class="kanban-card">
+                    <h3>{{ contenido.titulo | safe }}</h3>
+                    <p>Autor: {{ contenido.autor }}</p>
+                    {% if contenido.editor %}
+                        <p>Editor: {{ contenido.editor }}</p>
+                    {% endif %}
+                    {% if contenido.publicador %}
+                        <p>Publicador: {{ contenido.publicador }}</p>
+                    {% endif %}
+                    <a href="{% url 'detalles_articulo' contenido.pk %}">
+                        Ver contenido
+                     </a>
+                     <a href="{% url 'historial_contenido' contenido_id=contenido.id %}" class="my-button editar">Historial</a>
+                    <a href="{% url 'detalles_articulo_revision' contenido.pk%}">Revisar</a>
+                </div>
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_en_revision.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_en_revision.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class="current-page">
+                        Page {{ contenidos_en_revision.number }} of {{ contenidos_en_revision.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_en_revision.has_next %}
+                        <a href="?page={{ contenidos_en_revision.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_en_revision.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <!-- Columna para estado 'Publicado' -->
+        <div class="kanban-column">
+            <h2>Publicado</h2>
+            <hr></hr>
+            {% for contenido in contenidos_publicados %}
+                <div class="kanban-card">
+                    <h3>{{ contenido.titulo | safe }}</h3>
+                   
+                    <p>Autor: {{ contenido.autor }}</p>
+                    {% if contenido.editor %}
+                        <p>Editor: {{ contenido.editor }}</p>
+                    {% endif %}
+                    {% if contenido.publicador %}
+                        <p>Publicador: {{ contenido.publicador }}</p>
+                    {% endif %}
+                    <a href="{% url 'detalles_articulo' contenido.pk %}">
+                        Ver contenido
+                    </a>
+                </div>
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_publicados.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_publicados.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class="current-page">
+                        Page {{ contenidos_publicados.number }} of {{ contenidos_publicados.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_publicados.has_next %}
+                        <a href="?page={{ contenidos_publicados.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_publicados.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Columna para estado 'Inactivo' -->
+        <div class="kanban-column">
+            <h2>Inactivo</h2>
+            <hr></hr>
+            {% for contenido in contenidos_inactivos %}
+                <div class="kanban-card">
+                    <div class= "card">
+                        <div class="contenido">
+                            <h3>{{ contenido.titulo| safe  }}</h3>
+                            <p>Autor: {{ contenido.autor }}</p>
+                            {% if contenido.editor %}
+                                <p>Editor: {{ contenido.editor }}</p>
+                            {% endif %}
+                            {% if contenido.publicador %}
+                                <p>Publicador: {{ contenido.publicador }}</p>
+                            {% endif %} 
+                            <a href="{% url 'detalles_articulo' contenido.pk %}">
+                               Ver contenido
+                            </a>
+                            <a href="{% url 'reactivar_contenido' contenido.pk%}">Reactivar</a>
+                        </div>     
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if contenidos_inactivos.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ contenidos_inactivos.previous_page_number }}">previous</a>
+                    {% endif %}
+        
+                    <span class "current-page">
+                        Page {{ contenidos_inactivos.number }} of {{ contenidos_inactivos.paginator.num_pages }}.
+                    </span>
+        
+                    {% if contenidos_inactivos.has_next %}
+                        <a href="?page={{ contenidos_inactivos.next_page_number }}">next</a>
+                        <a href="?page={{ contenidos_inactivos.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+</body>
+</html>

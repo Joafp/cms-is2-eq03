@@ -419,15 +419,15 @@ class VistaArticulos(DetailView):
     """Utilizamos esta vista para ir a un contenido, en la misma nos redirecciona al template de contenidos,\
     donde se ve el cuerpo del contenido, imagenes, autor etc"""
     model = Contenido
-    template_name='articulo_detallado.html'
+    template_name='articulo/articulo_detallado.html'
 
 class VistaArticulosEditor(DetailView):
     model = Contenido
-    template_name='articulo_detallado_edicion.html'
+    template_name='articulo/articulo_detallado_edicion.html'
 
 class VistaArticulosRevision(DetailView):
     model = Contenido
-    template_name='articulo_detallado_revision.html'
+    template_name='articulo/articulo_detallado_revision.html'
 
 
 
@@ -665,11 +665,52 @@ def remover_rol(request):
 
 @login_required(login_url="/login")
 def vista_editor(request):
-    contenidos=Contenido.objects.filter()
+    # Define la cantidad de contenidos que deseas mostrar por página
+    items_por_pagina = 2
+
+    # Obtén los contenidos de las diferentes columnas
+    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
+    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
+    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
+    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
+    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+
+    # Divide los contenidos en páginas
+    paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
+    paginador_edicion = Paginator(contenidos_en_edicion, items_por_pagina)
+    paginador_revision = Paginator(contenidos_en_revision, items_por_pagina)
+    paginador_publicados = Paginator(contenidos_publicados, items_por_pagina)
+    paginador_inactivos = Paginator(contenidos_inactivos, items_por_pagina)
+
+    # Obtén la página actual a partir del parámetro de la URL
+    page_number = request.GET.get('page', 1)
+
+    # Obtiene los contenidos de la página actual
+    contenidos_borrador = paginador_borrador.get_page(page_number)
+    contenidos_en_edicion = paginador_edicion.get_page(page_number)
+    contenidos_en_revision = paginador_revision.get_page(page_number)
+    contenidos_publicados = paginador_publicados.get_page(page_number)
+    contenidos_inactivos = paginador_inactivos.get_page(page_number)
+
+    # Otras consultas
+    categorias = Categoria.objects.filter(activo=True)
+    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
+    editores = UsuarioRol.objects.filter(roles__nombre__contains='Editor')
+    publicadores = UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
+
     context = {
-        'contenidos': contenidos
+        'categorias': categorias,
+        'autores': autores,
+        'editores': editores,
+        'publicadores': publicadores,
+        'contenidos_borrador': contenidos_borrador,
+        'contenidos_en_edicion': contenidos_en_edicion,
+        'contenidos_en_revision': contenidos_en_revision,
+        'contenidos_publicados': contenidos_publicados,
+        'contenidos_inactivos': contenidos_inactivos,
     }
-    return render(request,'vista_editor.html',context)
+    return render(request, 'vistas/vista_editor.html', context)
+
 
 @login_required(login_url="/login")
 def vista_edicion(request):
@@ -733,7 +774,7 @@ def vista_autor(request):
         'contenidos_publicados': contenidos_publicados,
         'contenidos_inactivos': contenidos_inactivos,
     }
-    return render(request, 'vista_autor.html', context)
+    return render(request, 'vistas/vista_autor.html', context)
 
 @login_required(login_url="/login")
 def vista_mis_contenidos_borrador(request):
@@ -741,7 +782,7 @@ def vista_mis_contenidos_borrador(request):
     context = {
         'contenidos': contenidos
     }
-    return render(request,'mis_contenidos_borrador.html',context)
+    return render(request,'vistas_autor/mis_contenidos_borrador.html',context)
 
   
 @login_required(login_url="/login")
@@ -750,7 +791,7 @@ def vista_mis_contenidos_rechazados(request):
     context = {
         'contenidos': contenidos
     }
-    return render(request,'mis_contenidos_rechazados.html',context)
+    return render(request,'vistas_autor/mis_contenidos_rechazados.html',context)
 
   
 
@@ -760,7 +801,7 @@ def vista_mis_contenidos_publicados(request):
     context = {
         'contenidos': contenidos
     }
-    return render(request,'mis_contenidos_publicados.html',context)
+    return render(request,'vistas_autor/mis_contenidos_publicados.html',context)
 
     
 
@@ -909,7 +950,51 @@ def rechazar_contenido(request,contenido_id):
     return redirect('Publicador')
 @login_required(login_url="/login")
 def publicador(request):
-   return render(request,'vista_publicador.html')
+       # Define la cantidad de contenidos que deseas mostrar por página
+    items_por_pagina = 2
+
+    # Obtén los contenidos de las diferentes columnas
+    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
+    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
+    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
+    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
+    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+
+    # Divide los contenidos en páginas
+    paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
+    paginador_edicion = Paginator(contenidos_en_edicion, items_por_pagina)
+    paginador_revision = Paginator(contenidos_en_revision, items_por_pagina)
+    paginador_publicados = Paginator(contenidos_publicados, items_por_pagina)
+    paginador_inactivos = Paginator(contenidos_inactivos, items_por_pagina)
+
+    # Obtén la página actual a partir del parámetro de la URL
+    page_number = request.GET.get('page', 1)
+
+    # Obtiene los contenidos de la página actual
+    contenidos_borrador = paginador_borrador.get_page(page_number)
+    contenidos_en_edicion = paginador_edicion.get_page(page_number)
+    contenidos_en_revision = paginador_revision.get_page(page_number)
+    contenidos_publicados = paginador_publicados.get_page(page_number)
+    contenidos_inactivos = paginador_inactivos.get_page(page_number)
+
+    # Otras consultas
+    categorias = Categoria.objects.filter(activo=True)
+    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
+    editores = UsuarioRol.objects.filter(roles__nombre__contains='Editor')
+    publicadores = UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
+
+    context = {
+        'categorias': categorias,
+        'autores': autores,
+        'editores': editores,
+        'publicadores': publicadores,
+        'contenidos_borrador': contenidos_borrador,
+        'contenidos_en_edicion': contenidos_en_edicion,
+        'contenidos_en_revision': contenidos_en_revision,
+        'contenidos_publicados': contenidos_publicados,
+        'contenidos_inactivos': contenidos_inactivos,
+    }
+    return render(request, 'vistas/vista_publicador.html', context)
 
 @login_required(login_url="/login")
 def contenidos_inactivos(request):
