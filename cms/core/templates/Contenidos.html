@@ -91,10 +91,10 @@
             {% if Contenido.estado == 'P' %}
                 <div class= "card">
                     <figure>
-                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo | safe}}">
                     </figure>
                     <div class="contenido">
-                        <h3>{{Contenido.titulo| safe }}</h3>
+                        <h2>{{Contenido.titulo | safe }}</h2>
                         <p>{{Contenido.resumen | safe }}</p>
                         <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
                     </div>     

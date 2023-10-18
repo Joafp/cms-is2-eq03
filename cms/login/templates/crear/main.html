@@ -184,28 +184,44 @@
             </ul>
         </div>
         <div class="div-2">
-            <form method="GET" action="{% url 'buscar_contenido' %}">
-                <input type="text" name="q" placeholder="Buscar contenido">
-                <select name="categoria">
-                  <option value="">Todas las categorías</option>
-                  {% for categoria in categorias %}
-                    <option value="{{ categoria.nombre }}">{{ categoria.nombre }}</option>
-                  {% endfor %}
-                </select>
-                <select name="autor">
-                  <option value="">Todos los autores</option>
-                  {% for autor in autores %}
-                    <option value="{{ autor.username }}">{{ autor.username }}</option>
-                  {% endfor %}
-                </select>
-                <br></br>
-                <label for="fecha_inicio">Fecha de inicio:</label>
-                <input type="date" name="fecha_inicio" id="fecha_inicio">
-                
-                <label for="fecha_fin">Fecha de fin:</label>
-                <input type="date" name="fecha_fin" id="fecha_fin">
-                <button type="submit">Buscar</button>
-            </form>
+                <form method="GET" action="{% url 'buscar_contenido' %}">
+                    <input type="text" name="q" placeholder="Buscar contenido" value="{{ q }}">
+                    <select name="categoria">
+                        
+                        <option value="">Todas las categorías</option>
+                        {% for categoria in categorias %}
+                            <option value="{{ categoria.nombre }}" {% if categoria.nombre == categoria %}selected{% endif %}>{{ categoria.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="autor">
+                    <option value="">Todos los autores</option>
+                    {% for autor in autores %}
+                        <option value="{{ autor.username }}" {% if autor.username == autor %}selected{% endif %}>{{ autor.username }}</option>
+                    {% endfor %}
+                    </select>
+                    <br></br>
+                    <label for="fecha_inicio">Fecha de inicio:</label>
+                    <input type="date" name="fecha_inicio" id="fecha_inicio">
+                    
+                    <label for="fecha_fin">Fecha de fin:</label>
+                    <input type="date" name="fecha_fin" id="fecha_fin">
+                    <button type="submit">Buscar</button>
+                </form>
+                {% if q %}
+                <p>Filtrar por término de búsqueda: {{ q }}</p>
+              {% endif %}
+              {% if categoria %}
+                <p>Filtrar por categoría: {{ categoria }}</p>
+              {% endif %}
+              {% if autor %}
+                <p>Filtrar por autor: {{ autor }}</p>
+              {% endif %}
+              {% if fecha_inicio %}
+                <p>Filtrar desde la fecha: {{ fecha_inicio }}</p>
+              {% endif %}
+              {% if fecha_fin %}
+                <p>Filtrar hasta la fecha: {{ fecha_fin }}</p>
+              {% endif %}
         </div>
         <hr></hr>
     </div>

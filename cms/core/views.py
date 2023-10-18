@@ -370,6 +370,99 @@ def vista_MenuPrincipal(request):
             'autores':autores
         }    
     print("Usuario: ",autenticado)
+    
+    return render(request, 'crear/main.html',context )
+from datetime import datetime
+def vista_MenuPrincipal_filtrado(request):
+    """
+    Fecha documentacion: 28/08/2023
+    Esta vista nos permite ingresar al template del menu principal, le pasamos como contextos 
+    los datos de usuario y de usuariorol en caso de que ya inicio sesion
+    autenticado=User.is_authenticated
+    if request.user.is_authenticated:
+        usuario_rol = UsuarioRol.objects.get(username=request.user.username)
+        tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
+        context={
+            'autenticado':autenticado,
+            'tiene_permiso':tiene_permiso,
+        }
+    else:
+        context={
+            'autenticado': autenticado
+        }    
+    print("Usuario: ",autenticado)
+
+    Fecha de documentacion: 07-09-2023
+    Se modifico el fetch de contenidos para ignorar usuarios inactivos
+    autores_activos= UsuarioRol.objects.filter(usuario_activo=True)
+    contenidos=Contenido.objects.filter(autor__in=autores_activos)
+    primeros_contenidos = contenidos[:6]
+    """
+    autenticado=User.is_authenticated
+    categorias= Categoria.objects.filter(activo=True)
+    autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
+    contenidos=Contenido.objects.filter(autor__in=autores_activos)
+    autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
+    primeros_contenidos = contenidos.filter(estado='P')[:10]
+      # Obtiene los parámetros de búsqueda del formulario
+    q = request.GET.get('q', '')
+    categoria = request.GET.get('categoria', '')  # Establecer valor predeterminado
+    autor = request.GET.get('autor', '')  # Establecer valor predeterminado
+    fecha_inicio = request.GET.get('fecha_inicio', '')  # Establecer valor predeterminado
+    fecha_fin = request.GET.get('fecha_fin', '')  # Establecer valor predeterminado
+
+    # Inicializar el queryset con todos los contenidos
+    contenidos = Contenido.objects.all()
+
+    # Si hay un término de búsqueda, filtrar por el campo correspondiente
+    if q:
+        contenidos = contenidos.filter(titulo__icontains=q)
+
+    # Si hay una categoría seleccionada, filtrar por el campo categoria
+    if categoria:
+        contenidos = contenidos.filter(categoria__nombre=categoria)
+
+    # Si hay un autor seleccionado, filtrar por el campo autor
+    if autor:
+        contenidos = contenidos.filter(autor__username=autor)
+
+    # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
+    if fecha_inicio:
+        contenidos = contenidos.filter(fecha_publicacion__gte=fecha_inicio)
+
+    # Si se proporciona fecha de fin pero no fecha de inicio, filtrar por el campo fecha_publicacion hasta la fecha de fin
+    if fecha_fin:
+        contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
+    primeros_contenidos=contenidos.filter(estado='P')[:10]  
+    # Renderizar la plantilla con los resultados y los valores de los filtros
+    if request.user.is_authenticated:
+        usuario_rol = UsuarioRol.objects.get(username=request.user.username)
+        tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
+        context={
+            'autenticado':autenticado,
+            'tiene_permiso':tiene_permiso,
+            'categorias': categorias,
+            'contenido':primeros_contenidos,
+            'autores':autores,
+            'q': q,  # Pasar el valor de búsqueda
+            'categoria': categoria,  # Pasar el valor de categoría
+            'autor': autor,  # Pasar el valor de autor
+            'fecha_inicio': fecha_inicio,  # Pasar el valor de fecha de inicio
+            'fecha_fin': fecha_fin  # Pasar el valor de fecha de fin
+        }
+    else:
+        context={
+            'autenticado': autenticado,
+            'categorias': categorias,
+            'contenido':primeros_contenidos,
+            'autores':autores,
+            'q': q,  # Pasar el valor de búsqueda
+            'categoria_filtro': categoria,  # Pasar el valor de categoría
+            'autor': autor,  # Pasar el valor de autor
+            'fecha_inicio': fecha_inicio,  # Pasar el valor de fecha de inicio
+            'fecha_fin': fecha_fin  # Pasar el valor de fecha de fin
+        }    
+    print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
 @login_required(login_url="/login")
 def vista_trabajador(request):

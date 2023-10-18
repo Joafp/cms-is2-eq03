@@ -131,15 +131,13 @@ def cerrar_sesion(request):
 def vista_admin(request):
     return render (request,'admin/admin.html')
 
-
-
 def buscar_contenido(request):
     # Obtener los valores del formulario
     q = request.GET.get('q', '')
-    categoria = request.GET.get('categoria')
-    autor = request.GET.get('autor')
-    fecha_inicio = request.GET.get('fecha_inicio')
-    fecha_fin = request.GET.get('fecha_fin')
+    categoria = request.GET.get('categoria', '')  # Establecer valor predeterminado
+    autor = request.GET.get('autor', '')  # Establecer valor predeterminado
+    fecha_inicio = request.GET.get('fecha_inicio', '')  # Establecer valor predeterminado
+    fecha_fin = request.GET.get('fecha_fin', '')  # Establecer valor predeterminado
 
     # Inicializar el queryset con todos los contenidos
     contenidos = Contenido.objects.all()
@@ -157,16 +155,19 @@ def buscar_contenido(request):
         contenidos = contenidos.filter(autor__username=autor)
 
     # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
-    if fecha_inicio and not fecha_fin:
+    if fecha_inicio:
         contenidos = contenidos.filter(fecha_publicacion__gte=fecha_inicio)
 
     # Si se proporciona fecha de fin pero no fecha de inicio, filtrar por el campo fecha_publicacion hasta la fecha de fin
-    elif fecha_fin and not fecha_inicio:
+    if fecha_fin:
         contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
 
-    # Si se proporcionan fechas de inicio y fin, filtrar por el campo fecha_publicacion en el rango de esas fechas
-    elif fecha_inicio and fecha_fin:
-        contenidos = contenidos.filter(fecha_publicacion__range=[fecha_inicio, fecha_fin])
-
-    # Renderizar la plantilla con los resultados
-    return render(request, 'busqueda/busqueda.html', {'contenidos': contenidos})
+    # Renderizar la plantilla con los resultados y los valores de los filtros
+    return render(request, 'crear/main.html', {
+        'contenidos': contenidos,
+        'q': q,  # Pasar el valor de búsqueda
+        'categoria': categoria,  # Pasar el valor de categoría
+        'autor': autor,  # Pasar el valor de autor
+        'fecha_inicio': fecha_inicio,  # Pasar el valor de fecha de inicio
+        'fecha_fin': fecha_fin  # Pasar el valor de fecha de fin
+    })
