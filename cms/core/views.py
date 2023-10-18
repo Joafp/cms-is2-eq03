@@ -987,7 +987,7 @@ def publicador(request):
         'categorias': categorias,
         'autores': autores,
         'editores': editores,
-        'publicadores': publicadores,
+        'publicadores': publicadores, 
         'contenidos_borrador': contenidos_borrador,
         'contenidos_en_edicion': contenidos_en_edicion,
         'contenidos_en_revision': contenidos_en_revision,

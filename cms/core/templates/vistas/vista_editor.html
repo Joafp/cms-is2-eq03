@@ -137,7 +137,6 @@
                     {% if contenido.publicador %}
                         <p>Publicador: {{ contenido.publicador }}</p>
                     {% endif %}
-                    <a href="{% url 'detalles_articulo' contenido.pk %}">Ver contenido</a>
                 </div> 
             {% endfor %}
             <div class="pagination">
@@ -177,7 +176,7 @@
                     <a href="{% url 'detalles_articulo' contenido.pk %}">
                         Ver contenido
                      </a>
-                     <a href="{% url 'detalles_articulo_edicion' contenido.pk%}">Editar</a>
+                    <a href="{% url 'detalles_articulo_edicion' contenido.pk %}">Editar</a>
                      <a href="{% url 'historial_contenido' contenido_id=contenido.id %}" class="my-button editar">Historial</a>
                 </div>
             {% endfor %}
