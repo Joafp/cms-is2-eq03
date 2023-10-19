@@ -940,7 +940,7 @@ def publicar_contenido(request,contenido_id):
         
     send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
                 from_email=None,
-                    recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
+                    recipient_list=[UsuariofRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
                     html_message=mensaje_edicion)
     
 
@@ -1302,10 +1302,6 @@ def buscar_tabla_autor(request):
     if categoria:
         contenidos = contenidos.filter(categoria__nombre=categoria)
 
-    # Si hay un autor seleccionado, filtrar por el campo autor
-    if autor:
-        contenidos = contenidos.filter(autor__username=autor)
-
     # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
     if fecha_inicio and not fecha_fin:
         contenidos = contenidos.filter(fecha_publicacion__gte=fecha_inicio)
@@ -1317,27 +1313,51 @@ def buscar_tabla_autor(request):
     # Si se proporcionan fechas de inicio y fin, filtrar por el campo fecha_publicacion en el rango de esas fechas
     elif fecha_inicio and fecha_fin:
         contenidos = contenidos.filter(fecha_publicacion__range=[fecha_inicio, fecha_fin])
-    categorias= Categoria.objects.filter(activo=True)
+     # Define la cantidad de contenidos que deseas mostrar por página
+    items_por_pagina = 2
+
+    # Obtén los contenidos de las diferentes columnas
+    contenidos_borrador = contenidos.filter(estado='B', autor__username=request.user.username)
+    contenidos_en_edicion = contenidos.filter(estado='E', autor__username=request.user.username)
+    contenidos_en_revision = contenidos.filter(estado='R', autor__username=request.user.username)
+    contenidos_publicados = contenidos.filter(estado='P', autor__username=request.user.username)
+    contenidos_inactivos = contenidos.filter(estado='I', autor__username=request.user.username)
+
+    # Divide los contenidos en páginas
+    paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
+    paginador_edicion = Paginator(contenidos_en_edicion, items_por_pagina)
+    paginador_revision = Paginator(contenidos_en_revision, items_por_pagina)
+    paginador_publicados = Paginator(contenidos_publicados, items_por_pagina)
+    paginador_inactivos = Paginator(contenidos_inactivos, items_por_pagina)
+
+    # Obtén la página actual a partir del parámetro de la URL
+    page_number = request.GET.get('page', 1)
+
+    # Obtiene los contenidos de la página actual
+    contenidos_borrador = paginador_borrador.get_page(page_number)
+    contenidos_en_edicion = paginador_edicion.get_page(page_number)
+    contenidos_en_revision = paginador_revision.get_page(page_number)
+    contenidos_publicados = paginador_publicados.get_page(page_number)
+    contenidos_inactivos = paginador_inactivos.get_page(page_number)
+
+    # Otras consultas
+    categorias = Categoria.objects.filter(activo=True)
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
-    editores= UsuarioRol.objects.filter(roles__nombre__contains='Editor')
-    publicador=UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
-    contenido_borrador=contenidos.filter(estado='B')
-    contenidos_inactivos = contenidos.filter(estado='I')
-    contenidos_en_revision = contenidos.filter(estado='R')
-    contenidos_publicados = contenidos.filter(estado='P')
-    contenidos_en_edicion = contenidos.filter(estado='E')
+    editores = UsuarioRol.objects.filter(roles__nombre__contains='Editor')
+    publicadores = UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
+
     context = {
         'categorias':categorias,
         'autores':autores,
         'editores':editores,
         'publicadores':publicador,
-        'contenidos_borrador': contenido_borrador,
+        'contenidos_borrador': contenidos_borrador,
         'contenidos_inactivos': contenidos_inactivos,
         'contenidos_en_revision': contenidos_en_revision,
         'contenidos_publicados': contenidos_publicados,
         'contenidos_en_edicion':contenidos_en_edicion,
     }
-    return render(request, 'Tabla/tablakanban.html', context)
+    return render(request, 'vistas/vista_autor.html', context)
 def historial_contenido(request, contenido_id):
     contenido = get_object_or_404(Contenido, id=contenido_id)  # Obtener la instancia de Contenido por su ID
     historial_prueba = HistorialContenido.objects.filter(contenido=contenido)
