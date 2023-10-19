@@ -62,16 +62,17 @@ class EditarContenido(UpdateView):
     def form_valid(self, form):
         form.instance.estado = 'B'  # establece el estado inicial a 'B'
         response = super().form_valid(form)
+        # if "guardar_borrador" in self.request.POST:
+        #     # si se presionó el botón "Guardar borrador", no cambies nada
+        #     self.object.save()
+        #     nuevo_cambio = HistorialContenido(
+        #         contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+        #         cambio=f"El Autor con ID {self.object.autor.id},con username {self.object.autor.username},Edito el contenido  Con el Titulo {self.object.titulo}."
+        #     )
+        #     nuevo_cambio.save()
+        #     return redirect('vista_autor')
+        # elif "guardar_version" in self.request.POST:
         if "guardar_borrador" in self.request.POST:
-            # si se presionó el botón "Guardar borrador", no cambies nada
-            self.object.save()
-            nuevo_cambio = HistorialContenido(
-                contenido=self.object,  # Asigna la instancia de Contenido, no el ID
-                cambio=f"El Autor con ID {self.object.autor.id},con username {self.object.autor.username},Edito el contenido  Con el Titulo {self.object.titulo}."
-            )
-            nuevo_cambio.save()
-            return redirect('vista_autor')
-        elif "guardar_version" in self.request.POST:
             # primero guarda el borrador y luego la version
             numero_version = 1
             ultima_version = VersionesContenido.objects.filter(contenido_base=self.object).order_by('-numero_version')
