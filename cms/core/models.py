@@ -63,6 +63,10 @@ class HistorialContenido(models.Model):
         return f"Cambio en {self.contenido.titulo} - {self.fecha}"
     
 class VersionesContenido(models.Model):
+    """
+    Guarda una copia de los campos de un contenido. Tambien guarda el numero de version y la fecha en que se guardo la copia.
+    Contiene una referencia al contenido al que pertenece la version para facilitar la restauracion de una version.
+    """
     contenido_base = models.ForeignKey(Contenido, on_delete=models.CASCADE)
     numero_version = models.PositiveIntegerField()
     fecha_version = models.DateTimeField(auto_now_add=True)
