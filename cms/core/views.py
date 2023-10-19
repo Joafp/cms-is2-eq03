@@ -1349,6 +1349,9 @@ def historial_contenido(request, contenido_id):
 
 
 def cambiar_version(request, contenido_id):
+    """
+    Muestra las versiones guardadas de un contenido empezando por las mas recientes. Muestra botones para restaurar las versiones.
+    """
     contenido = get_object_or_404(Contenido, id=contenido_id)
     versiones = VersionesContenido.objects.filter(contenido_base=contenido).order_by('-fecha_version')
     vacio = not versiones.exists()
@@ -1361,7 +1364,9 @@ def cambiar_version(request, contenido_id):
     return render(request, 'cambiar_version_contenido.html', context)
 
 def guardar_version(contenido, numero_version):
-    
+    """
+    Copia el contenido en un nuevo registro que se guarda con el numero de version proveido como argumento.
+    """
     nueva_version = VersionesContenido(
         numero_version=numero_version,
         contenido_base= contenido,
@@ -1376,6 +1381,9 @@ def guardar_version(contenido, numero_version):
     nueva_version.save()
 
 def aplicar_version(request, contenido_id, version_id):
+    """
+    Sobreescribe los campos de un contenido con los de una version previa. Agrega el cambio al historial del contenido.
+    """
     contenido = get_object_or_404(Contenido, id=contenido_id)
     version = get_object_or_404(VersionesContenido, id=version_id)
 

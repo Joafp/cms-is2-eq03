@@ -1,7 +1,7 @@
 from django.test import TestCase,Client
 from django.urls import reverse
 from . import urls
-from .models import Contenido, Categoria
+from .models import Contenido, Categoria, VersionesContenido
 from GestionCuentas.models import UsuarioRol, Rol
 from django.contrib.auth.models import Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -306,3 +306,142 @@ class notificacionCorreoTestCase(TestCase):
         self.assertEqual(len(mail.outbox), 1, "No se envio el email o se envio mas de un email")
         self.assertEqual(mail.outbox[0].subject, 'CMS IS2 EQ03 - Recuperacion de contraseña')
         self.assertTrue("testuseremail@test.com" in mail.outbox[0].recipients(), "No se envio el email a la direccion correcta")
+
+class CategoriaNoModeradaTest(TestCase):
+    """
+        Verifica que el autor con permiso para categorias no moderadas puede publicar su contenido directamente
+        Fecha: 2023/10/19
+    """
+    def setUp(self):
+        self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        # Agrega el permiso para categorias no moderadas
+        perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+
+        # Crea una categoría no moderada de prueba
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.categoria.moderada = False
+        
+        # Crea un contenido de ejemplo  
+        self.contenido_ejemplo = Contenido.objects.create(
+            titulo='Título de Prueba',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'B'
+        )
+
+    def test_publicar_contenido_no_moderado(self):
+        """
+        Verifica que el contenido pasa de borrador a publicado directamente
+        """
+        # Iniciar sesión como el usuario autor
+        login = self.client.login(username='autor_prueba', password='4L1_khrSri8i')
+        self.assertTrue(login, "No se pudo loguear al autor de prueba")
+
+        # Intenta enviar el contenido
+        response = self.client.post(reverse('enviar_contenido_autor', kwargs={'pk': self.contenido_ejemplo.pk}), data={'enviar_editor':'enviar_editor'}, follow=True)
+
+        # Verifica que se haya redirigido luego enviar el contenido correctamente
+        self.assertRedirects(response, reverse('vista_autor'), 302, 200, "Error al enviar el contenido")
+
+        # Verifica que el contenido se ha publicado
+        self.assertTrue(Contenido.objects.filter(titulo='Título de Prueba', estado="P").exists(), "El contenido no fue publicado")
+
+class VersionesTest(TestCase):
+    """
+        Verifica que se guarden las versiones de un contenido y que se puedan restaurar
+        Fecha: 2023/10/19
+    """
+    def setUp(self):
+        self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        # Agrega el permiso para categorias no moderadas
+        perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+
+        # Crea una categoría no moderada de prueba
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.categoria.moderada = False
+        
+        # Crea un contenido de ejemplo  
+        self.contenido_ejemplo = Contenido.objects.create(
+            titulo='Ver1',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'B',
+            imagen= "contenido_imagenes/Octagon_delete.png"
+        )
+
+    def test_guardar_restaurar_version(self):
+        """
+        Guarda y restaura diferentes versiones de un contenido
+        """
+        # Iniciar sesión como el usuario autor
+        login = self.client.login(username='autor_prueba', password='4L1_khrSri8i')
+        self.assertTrue(login, "No se pudo loguear al autor de prueba")
+
+        response = self.client.get(reverse('editar_contenido', kwargs={"pk": self.contenido_ejemplo.pk}))
+        self.assertEqual(response.status_code, 200, "No se puede acceder al borrador del contenido")
+
+        # Carga los datos iniciales del formulario
+        form = response.context['form']
+        data = {'guardar_borrador':'guardar_borrador'}
+
+        for field in form.fields:
+            t = form[field].initial
+            if not t:
+                t = ""
+            data[field]=t
+
+        # Intenta guardar el borrador
+        response = self.client.post(reverse('editar_contenido', kwargs={'pk': self.contenido_ejemplo.pk}),
+                                    data=data)
+
+        # Verifica que se haya guardado la version 1
+        self.assertTrue(VersionesContenido.objects.filter(contenido_base=self.contenido_ejemplo, numero_version=1).exists(), "No se guardo la version 1")
+
+        # Hace y restaura varias versiones
+        for i in range(2, 5):
+            # Carga los datos iniciales del formulario
+            response = self.client.get(reverse('editar_contenido', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 200, "No se puede acceder al borrador del contenido")
+            form = response.context['form']
+            data = {'guardar_borrador':'guardar_borrador'}
+
+            for field in form.fields:
+                t = form[field].initial
+                if not t:
+                    t = ""
+                data[field]=t
+            data['titulo'] = f'Ver{i}'
+
+            # Intenta guardar el borrador con un nuevo titulo
+            response = self.client.post(reverse('editar_contenido', kwargs={'pk': self.contenido_ejemplo.pk}),
+                                        data=data)
+            
+            # Verifica que se haya guardado la version i
+            self.assertTrue(VersionesContenido.objects.filter(contenido_base=self.contenido_ejemplo, numero_version=i).exists(), f"No se guardo la version {i}")
+            self.assertEqual(Contenido.objects.get(id=self.contenido_ejemplo.pk).titulo, f"Ver{i}", f"No se guardo correctamente la version {i} del contenido")
+
+            # Restaura la version i - 1
+            response = self.client.get(reverse('aplicar_version', kwargs={"contenido_id": self.contenido_ejemplo.pk, "version_id": i-1}))
+            
+            # Verifica que se haya restaurado la version i - 1
+            self.assertEqual(Contenido.objects.get(id=self.contenido_ejemplo.pk).titulo, f"Ver{i-1}", f"No se aplico la version {i-1} al contenido")
