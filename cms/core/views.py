@@ -1284,6 +1284,7 @@ def buscar_tabla(request):
         'contenidos_en_edicion':contenidos_en_edicion,
     }
     return render(request, 'Tabla/tablakanbangeneral.html', context)
+@login_required(login_url="/login")
 def buscar_tabla_autor(request):
     q = request.GET.get('q', '')
     categoria = request.GET.get('categoria')

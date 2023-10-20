@@ -120,7 +120,7 @@
 </head>
 <body>
 {% block content %}
-<h1>{{ object.titulo }}</h1>
+<h1>{{ object.titulo|safe }}</h1>
 <a href="{% url 'vistacontenidos' %}" class="volver-button">Volver a contenidos</a>
 <small> Autor: {{ object.autor.nombres }}</small><br/>
 <hr>
