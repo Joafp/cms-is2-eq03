@@ -18,7 +18,8 @@
             display: flex;
             max-width: 1100px;
             flex-wrap: wrap;
-            justify-content: space-around;
+            justify-content: center;
+            aling-items:center;
         }
         .card{
             width: 400px;
@@ -123,6 +124,7 @@
         {% if fecha_fin %}
             <p>Filtrar hasta la fecha: {{ fecha_fin }}</p>
         {% endif %}
+        <hr></hr>
         <div class="container">   
             {% for Contenido in contenidos %}
                     <div class= "card">
