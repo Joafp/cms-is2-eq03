@@ -125,11 +125,12 @@
 <small> Autor: {{ object.autor.nombres }}</small><br/>
 <hr>
 <br/>
-<div class= "card">
+<div class="card">
     <figure>
-        <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}">
+        <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}" style="width: 300px; height: 200px;">
     </figure>
-</div>   
+</div>
+ 
 <p>{{ object.cuerpo|safe }}</p>
 <form method="post" action="{% url 'detalles_articulo' pk=contenido.id %}">
     {% csrf_token %}

@@ -124,8 +124,7 @@
             <p>Filtrar hasta la fecha: {{ fecha_fin }}</p>
         {% endif %}
         <div class="container">   
-            {% for Contenido in object_list %}
-                {% if Contenido.estado == 'P' %}
+            {% for Contenido in contenidos %}
                     <div class= "card">
                         <figure>
                             <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo | safe}}">
@@ -135,8 +134,7 @@
                             <p>{{Contenido.resumen | safe }}</p>
                             <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
                         </div>     
-                    </div>
-                {% endif %}    
+                    </div>  
             {% endfor %}    
         </div>   
         <div class="pagination">

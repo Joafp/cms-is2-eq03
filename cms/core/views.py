@@ -573,10 +573,10 @@ class VistaContenidos(ListView):
     model = Contenido
     template_name = 'Contenidos.html'
     context_object_name = 'contenidos'  # Nombre del objeto que se utilizará en la plantilla
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        paginator = Paginator(self.object_list, 10)  # Cambia '10' por la cantidad de elementos por página que desees
+        c=self.object_list.filter(estado='P')
+        paginator = Paginator(c, 4)  # Cambia '10' por la cantidad de elementos por página que desees
         page = self.request.GET.get('page')
         context['contenidos'] = paginator.get_page(page)
         context['categorias'] =Categoria.objects.filter(activo=True) # Reemplaza 'Categoria' con tu modelo de categorías
@@ -612,6 +612,7 @@ class VistaContenidos(ListView):
         if fecha_fin:
             contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
         return contenidos
+    
 
 @login_required(login_url="/login")
 def categoria(request,nombre):
@@ -1002,7 +1003,7 @@ def publicar_contenido(request,contenido_id):
         
     send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
                 from_email=None,
-                    recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
+                    recipient_list=[UsuariofRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
                     html_message=mensaje_edicion)
     
 
