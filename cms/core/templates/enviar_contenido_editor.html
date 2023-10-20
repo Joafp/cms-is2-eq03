@@ -3,36 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enviar  a Publicador</title>
+    <title>Enviar a Publicador</title>
     <style>
         body {
             background-color: #121212;
-            color: white; /* Cambia el color del texto si es necesario para que sea legible en el fondo oscuro */
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
         .volver-button {
             position: absolute;
-            top: 10px; /* Ajusta la posición vertical según tus necesidades */
-            right: 10px; /* Ajusta la posición horizontal según tus necesidades */
-            background-color: #007bff; /* Color de fondo del botón */
-            color: white; /* Color del texto del botón */
-            padding: 10px 15px; /* Ajusta el espaciado interno del botón */
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            text-decoration: none; /* Agregamos esto para que el enlace no parezca un enlace */
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    {% block content %}
     <a href="{% url 'edicion' %}" class="volver-button">Volver a los contenidos a editar</a>
-    <br></br>
-    <h1>Dar Un Comentario sobre el contenido a ser enviado para su revision antes de ser publicado</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.media }}
-        {{ form.as_p }}
-        <button class="btn btn-secondary" name="enviar_publicador">Enviar a Publicador</button>
-    </form>
-    {% endblock %}
+    <div class="container">
+        {% block content %}
+        <h1>Dar un Comentario sobre el contenido a ser enviado para su revisión antes de ser publicado</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <button class="btn btn-secondary" name="enviar_publicador">Enviar a Publicador</button>
+        </form>
+        {% endblock %}
+    </div>
 </body>
 </html>
+

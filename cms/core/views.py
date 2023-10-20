@@ -1003,7 +1003,7 @@ def publicar_contenido(request,contenido_id):
         
     send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
                 from_email=None,
-                    recipient_list=[UsuariofRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
+                    recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
                     html_message=mensaje_edicion)
     
 
