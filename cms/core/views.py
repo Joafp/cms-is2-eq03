@@ -55,6 +55,12 @@ class CrearContenido(CreateView):
         return initial
     
 class EditarContenido(UpdateView):
+    """
+    La clase EditarContenido utiliza el view de django UpdateView, este view nos permite updatear los datos para un modelo
+    en este caso para el modelo contenido, utilizamos el template crear_contenido.
+    Modificamos lo anteriormente cargado cuando creqamos el contenido, nos da la opcion de guardar comom borrador y este crea una nueva version del contenido.
+    La opcion de enviar al editor cambia el estado a ´En revision´ y manda a los editores para que estos lo revise
+    """
     model=Contenido
     form_class= CrearContenidoForm
     template_name = 'edit_cont.html'
@@ -94,6 +100,11 @@ class EditarContenido(UpdateView):
 
 
 class EditarContenidoEditor(UpdateView):
+    """
+    La clase EditarContenidoEditor utiliza el view de django UpdateView, este view nos permite updatear los datos para un modelo
+    en este caso para el modelo contenido, utilizamos el template editar_contenido_editor.html.
+    Modificamos lo anteriormente cargado cuando el autor creo el contenido, basicamente psi un editor quiere cambiar algo que hizo un autor. Luego si aceptamos enviamos a un publicador
+    """
     model=Contenido
     form_class= CrearContenidoForm
     template_name = 'editar_contenido_editor.html'
@@ -134,6 +145,11 @@ class EditarContenidoEditor(UpdateView):
         return response    
 
 class RechazarContenidoEditor(UpdateView):
+    """
+        La clase RechazarContenidoEditor utiliza el view de django UpdateViewo, utilizamos el template rechazo.html.
+        esta clase nos permite cambiar el estado de un contenido en caso de ser rechazado , asi poner ene stado rechazado y que se le notifique al autor de esto.
+    
+    """
     model = Contenido
     template_name = 'rechazo.html'
     fields = ['razon']
@@ -171,6 +187,11 @@ class RechazarContenidoEditor(UpdateView):
 
 
 class RechazarContenidoPublicador(UpdateView):
+    """
+        La clase RechazarContenidoPublicador utiliza el view de django UpdateViewo, utilizamos el template rechazo_publicador.html.
+        esta clase nos permite cambiar el estado de un contenido en caso de ser rechazado , asi poner en estado rechazado y que se le notifique al autor de esto.
+    
+    """
     model = Contenido
     template_name = 'rechazo_publicador.html'
     fields = ['razon']
@@ -208,6 +229,9 @@ class RechazarContenidoPublicador(UpdateView):
         return response 
 
 class EnviarContenidoAutor(UpdateView):
+    """
+        ESTA VISTA PERMITE EL AUTOR REMITIR SU CONTENIDO A UN EDITOR. O PUBLICAR DIRECTAMENTE EN CASO DE SER UN AUTOR CHECKEADO PARA PUBLICAR EN  CATEGORIAS NO MODERADAS
+    """
     model = Contenido
     template_name = 'enviar_contenido_autor.html'
     fields = ['razon']
@@ -273,6 +297,9 @@ class EnviarContenidoAutor(UpdateView):
         return response     
     
 class EnviarContenidoEditor(UpdateView):
+    """
+    Esta vista permite  que un editor remita sun contenido a un publicador para su revision y posterior publicacion, se envian mensajes en el correo electronico al autor para decirle que su contenido ha sido pasado a revision de publicadores.
+    """
     model = Contenido
     template_name = 'enviar_contenido_editor.html'
     fields = ['razon']
@@ -1360,6 +1387,10 @@ def buscar_tabla_autor(request):
     }
     return render(request, 'vistas/vista_autor.html', context)
 def historial_contenido(request, contenido_id):
+    """
+    Esta vista nos permite mantenernos al tanto de lso cambios que ha sufrido el contenido desde su creacion hasta su fin de ciclo. Detallando operaciones , personas responsables y fecha.
+    Lo desplegamos en html historial_contenido.html pasandole como contexto el historial de el contenido y el contenido en si.
+    """
     contenido = get_object_or_404(Contenido, id=contenido_id)  # Obtener la instancia de Contenido por su ID
     historial_prueba = HistorialContenido.objects.filter(contenido=contenido)
     context = {
@@ -1370,6 +1401,9 @@ def historial_contenido(request, contenido_id):
 
 
 def cambiar_version(request, contenido_id):
+    """
+    Muestra las versiones guardadas de un contenido empezando por las mas recientes. Muestra botones para restaurar las versiones.
+    """
     contenido = get_object_or_404(Contenido, id=contenido_id)
     versiones = VersionesContenido.objects.filter(contenido_base=contenido).order_by('-fecha_version')
     vacio = not versiones.exists()
@@ -1382,7 +1416,9 @@ def cambiar_version(request, contenido_id):
     return render(request, 'cambiar_version_contenido.html', context)
 
 def guardar_version(contenido, numero_version):
-    
+    """
+    Copia el contenido en un nuevo registro que se guarda con el numero de version proveido como argumento.
+    """
     nueva_version = VersionesContenido(
         numero_version=numero_version,
         contenido_base= contenido,
@@ -1397,6 +1433,9 @@ def guardar_version(contenido, numero_version):
     nueva_version.save()
 
 def aplicar_version(request, contenido_id, version_id):
+    """
+    Sobreescribe los campos de un contenido con los de una version previa. Agrega el cambio al historial del contenido.
+    """
     contenido = get_object_or_404(Contenido, id=contenido_id)
     version = get_object_or_404(VersionesContenido, id=version_id)
 
