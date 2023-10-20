@@ -379,7 +379,6 @@ def vista_MenuPrincipal(request):
     contenidos=Contenido.objects.filter(autor__in=autores_activos)
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
     primeros_contenidos = contenidos.filter(estado='P')[:10]
-
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
@@ -398,7 +397,7 @@ def vista_MenuPrincipal(request):
             'autores':autores
         }    
     print("Usuario: ",autenticado)
-    
+
     return render(request, 'crear/main.html',context )
 from datetime import datetime
 def vista_MenuPrincipal_filtrado(request):
@@ -571,12 +570,48 @@ class VistaArticulosRevision(DetailView):
 
    
 class VistaContenidos(ListView):
-    """
-    Esta vista al ser un LisstView utilizamos para listar los contenidos, al pasarle como modelos el contennido, 
-    dentro del html podemos usar un object list para ver todos los contenidos de nuestro sistema
-    """
-    model= Contenido
-    template_name='Contenidos.html'
+    model = Contenido
+    template_name = 'Contenidos.html'
+    context_object_name = 'contenidos'  # Nombre del objeto que se utilizará en la plantilla
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paginator = Paginator(self.object_list, 10)  # Cambia '10' por la cantidad de elementos por página que desees
+        page = self.request.GET.get('page')
+        context['contenidos'] = paginator.get_page(page)
+        context['categorias'] =Categoria.objects.filter(activo=True) # Reemplaza 'Categoria' con tu modelo de categorías
+        context['autores'] = UsuarioRol.objects.filter(roles__nombre__contains='Autor')  # Reemplaza 'Autor' con tu modelo de autores
+        return context
+    def get_queryset(self):
+        q = self.request.GET.get('q', '')
+        categoria = self.request.GET.get('categoria', '')
+        autor = self.request.GET.get('autor', '')
+        fecha_inicio = self.request.GET.get('fecha_inicio', '')
+        fecha_fin = self.request.GET.get('fecha_fin', '')
+
+       # Inicializar el queryset con todos los contenidos
+        contenidos = Contenido.objects.all()
+
+        # Si hay un término de búsqueda, filtrar por el campo correspondiente
+        if q:
+            contenidos = contenidos.filter(titulo__icontains=q)
+
+        # Si hay una categoría seleccionada, filtrar por el campo categoria
+        if categoria:
+            contenidos = contenidos.filter(categoria__nombre=categoria)
+
+        # Si hay un autor seleccionado, filtrar por el campo autor
+        if autor:
+            contenidos = contenidos.filter(autor__username=autor)
+
+        # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
+        if fecha_inicio:
+            contenidos = contenidos.filter(fecha_publicacion__gte=fecha_inicio)
+
+        # Si se proporciona fecha de fin pero no fecha de inicio, filtrar por el campo fecha_publicacion hasta la fecha de fin
+        if fecha_fin:
+            contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
+        return contenidos
 
 @login_required(login_url="/login")
 def categoria(request,nombre):

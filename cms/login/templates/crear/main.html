@@ -226,23 +226,21 @@
     </div>
     <h1>Contenidos</h1>
     <hr></hr>
-    
-        <div class="contenedor-2">
-            {% for Contenido in contenido %}
-            {% if Contenido.estado == 'P' %} 
-                 <div class= "card">
-                     <figure>
-                         <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
-                     </figure>
-                     <div class="contenido">
-                         <h3>{{Contenido.titulo| safe }}</h3>
-                         <p>{{Contenido.resumen | safe }}</p>
-                         <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
-                     </div>     
-                 </div>
-            {% endif %}    
-            {% endfor %}    
-        </div>
-        
+    <div class="contenedor-2">
+        {% for Contenido in contenido %}
+        {% if Contenido.estado == 'P' %} 
+                <div class= "card">
+                    <figure>
+                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                    </figure>
+                    <div class="contenido">
+                        <h3>{{Contenido.titulo| safe }}</h3>
+                        <p>{{Contenido.resumen | safe }}</p>
+                        <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
+                    </div>     
+                </div>
+        {% endif %}    
+        {% endfor %}    
+    </div>
 </body>
 </html>

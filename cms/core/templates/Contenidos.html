@@ -86,22 +86,76 @@
     <a href="{% url 'MenuPrincipal' %}" class="volver-button">Volver al menu principal</a>
     <div id="cuerpo-de-pagina">
         <h1>Contenidos</h1>
-    <div class="container">   
-        {% for Contenido in object_list %}
-            {% if Contenido.estado == 'P' %}
-                <div class= "card">
-                    <figure>
-                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo | safe}}">
-                    </figure>
-                    <div class="contenido">
-                        <h2>{{Contenido.titulo | safe }}</h2>
-                        <p>{{Contenido.resumen | safe }}</p>
-                        <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
-                    </div>     
-                </div>
-            {% endif %}    
-        {% endfor %}    
-    </div>   
+        <form method="GET" action="{% url 'vistacontenidos' %}">
+            <input type="text" name="q" placeholder="Buscar contenido" value="{{ q }}">
+            <select name="categoria">
+                <option value="">Todas las categorías</option>
+                {% for categoria in categorias %}
+                    <option value="{{ categoria.nombre }}" {% if categoria.nombre == categoria %}selected{% endif %}>{{ categoria.nombre }}</option>
+                {% endfor %}
+            </select>
+            <select name="autor">
+            <option value="">Todos los autores</option>
+            {% for autor in autores %}
+                <option value="{{ autor.username }}" {% if autor.username == autor %}selected{% endif %}>{{ autor.username }}</option>
+            {% endfor %}
+            </select>
+            <br></br>
+            <label for="fecha_inicio">Fecha de inicio:</label>
+            <input type="date" name="fecha_inicio" id="fecha_inicio">
+            
+            <label for="fecha_fin">Fecha de fin:</label>
+            <input type="date" name="fecha_fin" id="fecha_fin">
+            <button type="submit">Buscar</button>
+        </form>
+        {% if q %}
+            <p>Filtrar por término de búsqueda: {{ q }}</p>
+        {% endif %}
+        {% if categoria %}
+            <p>Filtrar por categoría: {{ categoria }}</p>
+        {% endif %}
+        {% if autor %}
+            <p>Filtrar por autor: {{ autor }}</p>
+        {% endif %}
+        {% if fecha_inicio %}
+            <p>Filtrar desde la fecha: {{ fecha_inicio }}</p>
+        {% endif %}
+        {% if fecha_fin %}
+            <p>Filtrar hasta la fecha: {{ fecha_fin }}</p>
+        {% endif %}
+        <div class="container">   
+            {% for Contenido in object_list %}
+                {% if Contenido.estado == 'P' %}
+                    <div class= "card">
+                        <figure>
+                            <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo | safe}}">
+                        </figure>
+                        <div class="contenido">
+                            <h2>{{Contenido.titulo | safe }}</h2>
+                            <p>{{Contenido.resumen | safe }}</p>
+                            <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
+                        </div>     
+                    </div>
+                {% endif %}    
+            {% endfor %}    
+        </div>   
+        <div class="pagination">
+            <span class="step-links">
+                {% if contenidos.has_previous %}
+                    <a href="?page=1">&laquo; primera</a>
+                    <a href="?page={{ contenidos.previous_page_number }}">anterior</a>
+                {% endif %}
+        
+                <span class="current-page">
+                    Página {{ contenidos.number }} de {{ contenidos.paginator.num_pages }}.
+                </span>
+        
+                {% if contenidos.has_next %}
+                    <a href="?page={{ contenidos.next_page_number }}">siguiente</a>
+                    <a href="?page={{ contenidos.paginator.num_pages }}">última &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div> 
 </body>
 </html>
