@@ -25,6 +25,7 @@
 <body>
     {% block content %}
     <a href="{% url 'edicion' %}" class="volver-button">Volver a los contenidos a editar</a>
+    <br></br>
     <h1>Dar Un Comentario sobre el contenido a ser enviado para su revision antes de ser publicado</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
