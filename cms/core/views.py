@@ -779,11 +779,11 @@ def vista_editor(request):
     items_por_pagina = 2
 
     # Obtén los contenidos de las diferentes columnas
-    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
-    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
-    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
-    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
-    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+    contenidos_borrador = Contenido.objects.filter(estado='B')
+    contenidos_en_edicion = Contenido.objects.filter(estado='E')
+    contenidos_en_revision = Contenido.objects.filter(estado='R')
+    contenidos_publicados = Contenido.objects.filter(estado='P')
+    contenidos_inactivos = Contenido.objects.filter(estado='I')
 
     # Divide los contenidos en páginas
     paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
@@ -1064,11 +1064,11 @@ def publicador(request):
     items_por_pagina = 2
 
     # Obtén los contenidos de las diferentes columnas
-    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
-    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
-    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
-    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
-    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+    contenidos_borrador = Contenido.objects.filter(estado='B')
+    contenidos_en_edicion = Contenido.objects.filter(estado='E')
+    contenidos_en_revision = Contenido.objects.filter(estado='R')
+    contenidos_publicados = Contenido.objects.filter(estado='P')
+    contenidos_inactivos = Contenido.objects.filter(estado='I')
 
     # Divide los contenidos en páginas
     paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
