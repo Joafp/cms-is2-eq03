@@ -132,6 +132,9 @@
 </div>
  
 <p>{{ object.cuerpo|safe }}</p>
+
+<p>{% include 'articulo/likes.html' %}</p>
+
 <form method="post" action="{% url 'detalles_articulo' pk=contenido.id %}">
     {% csrf_token %}
     <label for="id_texto">Comentario:</label>

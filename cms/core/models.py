@@ -89,3 +89,20 @@ class Comentario(models.Model):
 
     def str(self):
         return f'Comentario de {self.autor} en {self.contenido.titulo}'
+    
+class Likes(models.Model):
+    """
+    Guarda que usuarios indicaron like/dislike en un contenido
+    """
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE, related_name='contenido')
+    user_likes = models.ManyToManyField(UsuarioRol, related_name='likes')
+    user_dislikes = models.ManyToManyField(UsuarioRol, related_name='dislikes')
+
+    def str(self):
+        return f'Numero de likes:dislikes en {self.contenido.titulo}: {self.user_likes_count}:{self.user_dislikes_count}'
+    
+    def user_likes_count(self):
+        return self.user_likes.all().count()
+
+    def user_dislikes_count(self):
+        return self.user_dislikes.all().count()

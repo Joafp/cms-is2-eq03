@@ -13,6 +13,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
 
 from .models import Categoria
+from .models import Likes
 from .models import Contenido,HistorialContenido,VersionesContenido,Comentario
 from django.utils import timezone
 from django.core.mail import send_mail
@@ -556,6 +557,20 @@ class VistaArticulos(DetailView):
         contenido = self.get_object()
         comentarios = contenido.comentarios.all()
         context['comentarios'] = comentarios
+
+        #Agrega contador de likes a la pagina
+        likes = Likes.objects.get_or_create(contenido=contenido)[0]
+        context['nro_likes'] = likes.user_likes_count()
+        context['nro_dislikes'] = likes.user_dislikes_count()
+
+        #Da una clase especial a los botones si el usuario ya dio like/dislike al contenido
+        context['liked'] = 'notliked'
+        context['disliked'] = 'notdisliked'
+        if likes.user_likes.filter(username=self.request.user.username).exists():
+            context['liked'] = 'liked'
+        elif likes.user_dislikes.filter(username=self.request.user.username).exists():
+            context['disliked'] = 'disliked'
+        
         return context
 
 class VistaArticulosEditor(DetailView):
@@ -1491,3 +1506,47 @@ def aplicar_version(request, contenido_id, version_id):
     nuevo_cambio.save()
     return redirect('ContenidosBorrador')
 
+@login_required
+def dar_like(request, pk):
+    """
+    Guarda el like de un usuario a un contenido
+    """
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    # Buscar si el usuario ya dio like o dislike
+    likes = Likes.objects.filter(contenido__id=pk, user_likes=usuario)
+    dislikes = Likes.objects.filter(contenido__id=pk, user_dislikes=usuario)
+
+    # Si existe el like, quitarlo y salir (el usuario quito su like)
+    if(likes.exists()):
+        likes[0].user_likes.remove(usuario)
+        return redirect('detalles_articulo', pk=pk)
+    # Si existe el dislike quitalo, agregar el usuario a los likes y salir
+    elif(dislikes.exists()):
+        dislikes[0].user_dislikes.remove(usuario)
+    
+    # Agregar usuario a los likes del contenido y salir
+    Likes.objects.get(contenido__id=pk).user_likes.add(usuario)
+    return redirect('detalles_articulo', pk=pk)
+
+@login_required
+def dar_dislike(request, pk):
+    """
+    Guarda el dislike de un usuario a un contenido
+    """
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    # Buscar si el usuario ya dio like o dislike
+    likes = Likes.objects.filter(contenido__id=pk, user_likes=usuario)
+    dislikes = Likes.objects.filter(contenido__id=pk, user_dislikes=usuario)
+    
+    # Si existe el dislike quitalo y salir (el usuario quito su dislike)
+    if(dislikes.exists()):
+        dislikes[0].user_dislikes.remove(usuario)
+        return redirect('detalles_articulo', pk=pk)
+
+    # Si existe el like, quitarlo y continuar
+    elif(likes.exists()):
+        likes[0].user_likes.remove(usuario)
+
+    # Agregar usuario a los dislikes del contenido y salir
+    Likes.objects.get(contenido__id=pk).user_dislikes.add(usuario)
+    return redirect('detalles_articulo', pk=pk)

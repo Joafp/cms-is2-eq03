@@ -1,0 +1,36 @@
+<style>
+    button.liked,
+    button.disliked{
+        /* Estilo especial para los botones cuando el usuario ya ha dado like/dislike */
+        background-color: blue;
+    }
+
+    div.like_wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    div.like_wrapper form{
+        display: flex;
+        flex-grow: 0.15; /* Ancho de los botones */
+        margin: auto 1rem;
+        align-self: stretch;
+    }
+
+    div.like_wrapper form button{
+        width: 100%;
+    }
+
+</style>
+<div class="like_wrapper">
+    <form method="post" action="{% url 'dar_like' pk=contenido.id %}">
+        {% csrf_token %}
+        <button type="submit" class="{{liked}}">Like {{nro_likes}}</button>
+    </form>
+
+    <form method="post" action="{% url 'dar_dislike' pk=contenido.id %}">
+        {% csrf_token %}
+        <button type="submit" class="{{disliked}}">Dislike {{nro_dislikes}} </button>
+    </form>
+</div>
