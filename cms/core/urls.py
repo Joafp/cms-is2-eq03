@@ -18,6 +18,7 @@ urlpatterns = [
     path('crearcontenido/',CrearContenido.as_view(),name='crear_contenido'),
     path('editarcontenido/',views.vista_editor,name='Editar'),
     path('publicarcontenido/',views.vista_publicador,name='Publicador'),
+    path('contenido/<int:contenido_id>/calificar/', views.calificar_contenido, name='calificar_contenido'),
     path('vistapublicador/',views.publicador,name='vista_pub'),
     path('vistaautor/',views.vista_autor,name='vista_autor'),
     path('tablageneral/',views.tabla_kanbangeneral,name='tabla_general'),
