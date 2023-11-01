@@ -5,6 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu Título</title>
     <style>
+        .stars {
+            font-size: 24px;
+            color: #ccc; /* Cambia el color a gris para estrellas no marcadas */
+        }
+
+        .star {
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 5px; /* Espacio entre estrellas */
+        }
+
+        .star.active {
+            color: #FFD700; /* Cambia el color a amarillo para estrellas marcadas */
+        }
+        .star-rating {
+            display: inline-block;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 1.5em; /* Tamaño de fuente más pequeño */
+            padding: 0.1em; /* Espaciado más pequeño */
+            cursor: pointer;
+            color: #ddd;
+        }
+
+        .star-rating label:before {
+            content: "\2605"; /* Código Unicode para una estrella */
+        }
+
+        .star-rating input:checked + label {
+            color: #FFD700; /* Color de estrella seleccionada (amarillo) */
+        }
         body {
             background-color: #121212;
             color: white;
@@ -42,17 +78,16 @@
         }
         .icono {
             font-size: 20px; 
-            margin-right: 10px;
+            margin right: 10px;
         }
         .contenido {
             margin-top: 20px;
         }
         .comment-list {
-        max-height: 400px; /* Altura máxima de la lista de comentarios visible inicialmente */
-        overflow-y: auto; /* Agregar barra de desplazamiento vertical si se supera la altura máxima */
-        transition: max-height 0.3s ease;
+            max-height: 400px; /* Altura máxima de la lista de comentarios visible inicialmente */
+            overflow-y: auto; /* Agregar barra de desplazamiento vertical si se supera la altura máxima */
+            transition: max-height 0.3s ease;
         }
-
         .show-more-button {
             flex: 1;
             text-align: center;
@@ -68,7 +103,6 @@
             margin-top: 20px;
             margin-bottom: 20px;
         }
-
         .comment-form {
             flex: 2;
         }
@@ -108,54 +142,97 @@
             font-size: 0.8em;
             color: #6c757d;
         }
-        
-</style>
-<script>
-    // Función que cambia la clase de la lista de comentarios a "expanded"
-    function showMoreComments() {
-      var commentList = document.querySelector(".comment-list");
-      commentList.classList.add("expanded");
-    }
-</script>
+    </style>
 </head>
 <body>
-{% block content %}
-<h1>{{ object.titulo|safe }}</h1>
-<a href="{% url 'vistacontenidos' %}" class="volver-button">Volver a contenidos</a>
-<small> Autor: {{ object.autor.nombres }}</small><br/>
-<hr>
-<br/>
-<div class="card">
-    <figure>
-        <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}" style="width: 300px; height: 200px;">
-    </figure>
-</div>
- 
-<p>{{ object.cuerpo|safe }}</p>
-<form method="post" action="{% url 'detalles_articulo' pk=contenido.id %}">
-    {% csrf_token %}
-    <label for="id_texto">Comentario:</label>
-    <textarea name="texto" id="id_texto" rows="4" style="width: 100%; resize: none;"></textarea>
-    <button type="submit">Agregar comentario</button>
-</form>
-<h2>Comentarios</h2>
-<!-- Lista de comentarios visible inicialmente -->
-<ul class="comment-list">
-    {% for comentario in comentarios %}
-        <li class="comment-card">
-            <div class="comment-body">
-                <div class="comment-author">{{ comentario.autor }}</div>
-                <div class="comment-date">{{ comentario.fecha_creacion }}</div>
-                <div class="comment-text">{{ comentario.texto }}</div>
-            </div>
-        </li>
-    {% empty %}
-        <li>No hay comentarios todavía.</li>
-    {% endfor %}
-</ul>
+    {% block content %}
+    <h1>{{ object.titulo|safe }}</h1>
+    <a href="{% url 'vistacontenidos' %}" class="volver-button">Volver a contenidos</a>
+    <small> Autor: {{ object.autor.nombres }}</small><br/>
+    <hr>
+    <br/>
+    <div class="card">
+        <figure>
+            <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}" style="width: 300px; height: 200px;">
+        </figure>
+    </div>
+    <p>{{ object.cuerpo|safe }}</p>
+    <form method="post" action="{% url 'calificar_contenido' contenido.id %}">
+        {% csrf_token %}
+        <label for="calificacion">Calificación:</label>
+        <div class="star-rating">
+            <input type="checkbox" name="calificacion" id="star1" value="1">
+            <label for="star1"></label>
+            <input type="checkbox" name="calificacion" id="star2" value="2">
+            <label for="star2"></label>
+            <input type="checkbox" name="calificacion" id="star3" value="3">
+            <label for="star3"></label>
+            <input type="checkbox" name="calificacion" id="star4" value="4">
+            <label for="star4"></label>
+            <input type="checkbox" name="calificacion" id="star5" value="5">
+            <label for="star5"></label>
+        </div>
+        <button type="submit">Calificar</button>
+    </form>
+    
+    <form method="post" action="{% url 'detalles_articulo' pk=contenido.id %}">
+        {% csrf_token %}
+        <label for="id_texto">Comentario:</label>
+        <textarea name="texto" id="id_texto" rows="4" style="width: 100%; resize: none;"></textarea>
+        <button type="submit">Agregar comentario</button>
+    </form>
+    
+    <!-- Muestra la calificación media en forma de estrellas -->
+    <p>Calificación Media: {{ object.promedio_calificaciones }}</p>
+    <div class="stars">
+        {% for i in "12345" %}
+            <span class="star{% if i|add:0 <= contenido.promedio_calificaciones %} active{% endif %}">&#9733;</span>
+        {% endfor %}
+    </div>
+    
+    <h2>Comentarios</h2>
+    <!-- Lista de comentarios visible inicialmente -->
+    <ul class="comment-list">
+        {% for comentario in comentarios %}
+            <li class="comment-card">
+                <div class="comment-body">
+                    <div class="comment-author">{{ comentario.autor }}</div>
+                    <div class="comment-date">{{ comentario.fecha_creacion }}</div>
+                    <div class="comment-text">{{ comentario.texto }}</div>
+                </div>
+            </li>
+        {% empty %}
+            <li>No hay comentarios todavía.</li>
+        {% endfor %}
+    </ul>
+    {% endblock %}
 
-
-{% endblock %}
+    <script>
+        // Espera a que el documento esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            const starRating = document.querySelector('.star-rating');
+            const starInputs = starRating.querySelectorAll('input');
+    
+            let lastChecked = null;
+    
+            starInputs.forEach((input, index) => {
+                input.addEventListener('click', () => {
+                    if (input === lastChecked) {
+                        // Si se hizo clic en la misma estrella, desmarca todas las estrellas
+                        starInputs.forEach(star => {
+                            star.checked = false;
+                        });
+                        lastChecked = null;
+                    } else {
+                        // Marca las estrellas hasta la que se hizo clic
+                        for (let i = 0; i <= index; i++) {
+                            starInputs[i].checked = true;
+                        }
+                        lastChecked = input;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
-
