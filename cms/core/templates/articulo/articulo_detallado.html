@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu Título</title>
     <style>
+        .share-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Estilo para el menú desplegable */
+        .share-menu {
+            display: none;
+            position: absolute;
+            background-color: rgb(24, 12, 12);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        /* Estilo para las opciones del menú */
+        .share-option {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Estilo para las opciones de redes sociales (puedes personalizar esto) */
+        .social-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
         .stars {
             font-size: 24px;
             color: #ccc; /* Cambia el color a gris para estrellas no marcadas */
@@ -174,7 +204,16 @@
         </div>
         <button type="submit">Calificar</button>
     </form>
-    
+    <div>
+        <!-- Botón de compartir -->
+        <button class="share-button" id="shareButton">Compartir</button>
+
+        <div class="share-menu" id="shareMenu">
+            <div class="share-option" id="copyLink"><a href="{% url 'aumentar_veces_compartido' contenido.id %}">Copiar enlace</a></div>
+            <div class="share-option" id="shareTwitter"><a href="{% url 'aumentar_veces_compartido' contenido.id %}">Compartir en Twitter</a></div>
+            <div class="share-option" id="shareFacebook"><a href="{% url 'aumentar_veces_compartido' contenido.id %}">Compartir en Facebook</a></div>
+        </div>
+    </div>
     <form method="post" action="{% url 'detalles_articulo' pk=contenido.id %}">
         {% csrf_token %}
         <label for="id_texto">Comentario:</label>
@@ -189,7 +228,8 @@
             <span class="star{% if i|add:0 <= contenido.promedio_calificaciones %} active{% endif %}">&#9733;</span>
         {% endfor %}
     </div>
-    
+    <p>La publicacion se compartio : {{ object.veces_compartido }} veces</p>
+    <p>La publicacion fue vista : {{ object.veces_visto }} veces</p>
     <h2>Comentarios</h2>
     <!-- Lista de comentarios visible inicialmente -->
     <ul class="comment-list">
@@ -233,6 +273,100 @@
                 });
             });
         });
+        const shareButton = document.getElementById('shareButton');
+        const shareMenu = document.getElementById('shareMenu');
+        const copyLink = document.getElementById('copyLink');
+        const shareTwitter = document.getElementById('shareTwitter');
+        const shareFacebook = document.getElementById('shareFacebook');
+        // Mostrar/ocultar el menú de compartir al hacer clic en el botón de compartir
+        shareButton.addEventListener('click', () => {
+            if (shareMenu.style.display === 'block') {
+                shareMenu.style.display = 'none';
+            } else {
+                shareMenu.style.display = 'block';
+            }
+        });
+        copyLink.addEventListener('click', () => {
+            // Obtiene la URL actual
+            const currentURL = window.location.href;
+
+            // Crea un elemento de texto temporal para copiar la URL al portapapeles
+            const tempInput = document.createElement('input');
+            tempInput.value = currentURL;
+
+            // Agrega el elemento temporal al DOM (debes hacerlo para poder copiarlo)
+            document.body.appendChild(tempInput);
+
+            // Selecciona y copia el contenido del input al portapapeles
+            tempInput.select();
+            document.execCommand('copy');
+
+            // Elimina el elemento temporal del DOM
+            document.body.removeChild(tempInput);
+
+            // Notifica al usuario que el enlace se ha copiado al portapapeles (puedes personalizar este mensaje)
+            alert('Enlace copiado al portapapeles: ' + currentURL);
+        });
+
+       
+
+        // Acción al hacer clic en "Compartir en Twitter" (reemplaza 'URL' y 'Título' con la URL y el título de tu contenido)
+        shareTwitter.addEventListener('click', () => {
+            const currentURL = window.location.href;
+            const tituloHTML = "{{ object.titulo|safe|default:'' }}"; // Obtén el título en formato HTML
+            const resumenHTML = "{{ object.resumen|safe|default:'' }}"; // Obtén el resumen en formato HTML
+
+            // Función para eliminar etiquetas HTML
+            function stripHTML(html) {
+                const temporal = document.createElement("div");
+                temporal.innerHTML = html;
+                return temporal.textContent || temporal.innerText || "";
+            }
+
+            // Elimina etiquetas HTML del título y resumen
+            const titulo = stripHTML(tituloHTML);
+            const resumen = stripHTML(resumenHTML);
+
+            // Construye el mensaje personalizado
+            const mensaje = `Visita el contenido: ${titulo} en el siguiente link:`;
+
+            // Codifica el mensaje para que sea parte de la URL
+            const mensajeCodificado = encodeURIComponent(mensaje);
+
+            // Construye la URL para compartir en Twitter con el mensaje personalizado
+            const twitterURL = `https://twitter.com/intent/tweet?text=${mensajeCodificado}&url=${encodeURIComponent(currentURL)}`;
+
+            // Abre la ventana emergente para compartir en Twitter
+            window.open(twitterURL, '_blank');
+        });
+        shareFacebook.addEventListener('click', () => {
+            const currentURL = window.location.href;
+            const tituloHTML = "{{ object.titulo|safe|default:'' }}"; // Obtén el título en formato HTML
+            const resumenHTML = "{{ object.resumen|safe|default:'' }}"; // Obtén el resumen en formato HTML
+
+            // Función para eliminar etiquetas HTML
+            function stripHTML(html) {
+                const temporal = document.createElement("div");
+                temporal.innerHTML = html;
+                return temporal.textContent || temporal.innerText || "";
+            }
+
+            // Elimina etiquetas HTML del título y resumen
+            const titulo = stripHTML(tituloHTML);
+            const resumen = stripHTML(resumenHTML);
+
+            // Construye el mensaje personalizado
+            const mensaje = `Visita el contenido: ${titulo} en el siguiente link: ${currentURL}`;
+
+            // Codifica el mensaje para que sea parte de la URL
+            const mensajeCodificado = encodeURIComponent(mensaje);
+
+            // Construye la URL para compartir en Facebook con el mensaje personalizado
+            const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentURL)}&quote=${mensajeCodificado}`;
+
+            // Abre la ventana emergente para compartir en Facebook
+            window.open(facebookURL, '_blank');
+        });
     </script>
 </body>
-</html>
+</html> 

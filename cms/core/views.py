@@ -21,6 +21,7 @@ from django.template.loader import render_to_string
 from django.core.paginator import Paginator, Page
 from .forms import CrearContenidoForm
 from django.db.models import Avg
+from django.http import JsonResponse
 
 class CrearContenido(CreateView):
     """
@@ -541,22 +542,23 @@ class CustomPermissionRequiredMixin(PermissionRequiredMixin):
 class VistaArticulos(DetailView):
     model = Contenido
     template_name = 'articulo/articulo_detallado.html'
-
+    
     def post(self, request, *args, **kwargs):
         # Procesar el formulario de comentarios aquí
         contenido = self.get_object()
         texto = request.POST.get('texto')
         autor = request.user  # El usuario actual
-
         if texto:
             Comentario.objects.create(contenido=contenido, autor=autor, texto=texto)
 
         # Recargar la página
         return self.get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
         contenido = self.get_object()
+        contenido.veces_visto += 1
+        contenido.save()
         comentarios = contenido.comentarios.all()
         context['comentarios'] = comentarios
         return context
@@ -1538,3 +1540,12 @@ def actualizar_calificacion_estrellas(contenido):
         setattr(contenido, f'stars_{i}', estrella_active)
 
     contenido.save()
+
+def aumentar_veces_compartido(request, contenido_id):
+    contenido = Contenido.objects.get(id=contenido_id)
+    contenido.veces_compartido += 1
+    contenido.save()
+    return redirect('detalles_articulo', pk=contenido.id)
+
+
+  

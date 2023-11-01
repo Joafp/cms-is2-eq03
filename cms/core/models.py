@@ -34,6 +34,8 @@ class Contenido(models.Model):
         ('r','Rechazado'),
         ('I','Inactivo'),
     )
+    veces_visto= models.PositiveIntegerField(default=0)
+    veces_compartido = models.PositiveIntegerField(default=0)
     stars = models.PositiveIntegerField(default=0)
     estado = models.CharField(max_length=1, choices=ESTADOS, default='B')
     titulo= RichTextField(blank=True,null=True,config_name='limite_caracteres')
