@@ -34,6 +34,9 @@ class Contenido(models.Model):
         ('r','Rechazado'),
         ('I','Inactivo'),
     )
+    veces_visto= models.PositiveIntegerField(default=0)
+    veces_compartido = models.PositiveIntegerField(default=0)
+    stars = models.PositiveIntegerField(default=0)
     estado = models.CharField(max_length=1, choices=ESTADOS, default='B')
     titulo= RichTextField(blank=True,null=True,config_name='limite_caracteres')
     autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'},related_name='contenidos_autor',null=True)
@@ -47,12 +50,23 @@ class Contenido(models.Model):
     ultimo_editor=models.CharField(max_length=255,blank=True)
     ultimo_publicador=models.CharField(max_length=255,blank=True)
     fecha_publicacion = models.DateField(null=True, blank=True)
+    promedio_calificaciones = models.DecimalField(max_digits=3, decimal_places=2, default=0)
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
     """Nos permite una vez creado el contenido redireccionar a la misma pagina para pooder seguir creando contenidos
     en caso de querer redireccionar a otr pagina solo cambiamos reverse()"""
     def get_absolute_url(self):
         return reverse('crear_contenido')
+    
+
+
+class Calificacion(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    calificacion = models.DecimalField(max_digits=3, decimal_places=2)
+
+    def __str__(self):
+        return f'Calificación de {self.usuario.username} en {self.contenido.titulo}'    
 
 class HistorialContenido(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)

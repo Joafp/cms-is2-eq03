@@ -11,15 +11,20 @@ from lxml.html.diff import htmldiff
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
-
+from decimal import Decimal
+from django.db.models import Sum
 from .models import Categoria
 from .models import Likes
 from .models import Contenido,HistorialContenido,VersionesContenido,Comentario
+from .models import Contenido,HistorialContenido,VersionesContenido,Comentario,Calificacion
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator, Page
 from .forms import CrearContenidoForm
+from django.db.models import Avg
+from django.http import JsonResponse
+
 class CrearContenido(CreateView):
     """
     La clase creacontenido utiliza el view de django CreateView, este view nos permite rellenar datos para un modelo
@@ -539,22 +544,23 @@ class CustomPermissionRequiredMixin(PermissionRequiredMixin):
 class VistaArticulos(DetailView):
     model = Contenido
     template_name = 'articulo/articulo_detallado.html'
-
+    
     def post(self, request, *args, **kwargs):
         # Procesar el formulario de comentarios aquí
         contenido = self.get_object()
         texto = request.POST.get('texto')
         autor = request.user  # El usuario actual
-
         if texto:
             Comentario.objects.create(contenido=contenido, autor=autor, texto=texto)
 
         # Recargar la página
         return self.get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
         contenido = self.get_object()
+        contenido.veces_visto += 1
+        contenido.save()
         comentarios = contenido.comentarios.all()
         context['comentarios'] = comentarios
 
@@ -594,8 +600,14 @@ class VistaContenidos(ListView):
         paginator = Paginator(c, 4)  # Cambia '10' por la cantidad de elementos por página que desees
         page = self.request.GET.get('page')
         context['contenidos'] = paginator.get_page(page)
-        context['categorias'] =Categoria.objects.filter(activo=True) # Reemplaza 'Categoria' con tu modelo de categorías
-        context['autores'] = UsuarioRol.objects.filter(roles__nombre__contains='Autor')  # Reemplaza 'Autor' con tu modelo de autores
+        context['categorias'] =Categoria.objects.filter(activo=True)
+        context['autores'] = UsuarioRol.objects.filter(roles__nombre__contains='Autor') 
+        context['promedio_calificaciones']=Contenido.objects.filter()
+        # Calcula el promedio de calificaciones para todos los contenidos
+        promedio_calificaciones = Contenido.objects.filter(estado='P').annotate(
+            avg_calificacion=Avg('calificacion')
+        )
+        context['promedio_calificaciones'] = promedio_calificaciones.aggregate(Avg('avg_calificacion'))['avg_calificacion__avg']
         return context
     def get_queryset(self):
         q = self.request.GET.get('q', '')
@@ -858,11 +870,11 @@ def vista_editor(request):
     items_por_pagina = 2
 
     # Obtén los contenidos de las diferentes columnas
-    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
-    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
-    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
-    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
-    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+    contenidos_borrador = Contenido.objects.filter(estado='B')
+    contenidos_en_edicion = Contenido.objects.filter(estado='E')
+    contenidos_en_revision = Contenido.objects.filter(estado='R')
+    contenidos_publicados = Contenido.objects.filter(estado='P')
+    contenidos_inactivos = Contenido.objects.filter(estado='I')
 
     # Divide los contenidos en páginas
     paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
@@ -1143,11 +1155,11 @@ def publicador(request):
     items_por_pagina = 2
 
     # Obtén los contenidos de las diferentes columnas
-    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
-    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
-    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
-    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
-    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+    contenidos_borrador = Contenido.objects.filter(estado='B')
+    contenidos_en_edicion = Contenido.objects.filter(estado='E')
+    contenidos_en_revision = Contenido.objects.filter(estado='R')
+    contenidos_publicados = Contenido.objects.filter(estado='P')
+    contenidos_inactivos = Contenido.objects.filter(estado='I')
 
     # Divide los contenidos en páginas
     paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
@@ -1550,3 +1562,50 @@ def dar_dislike(request, pk):
     # Agregar usuario a los dislikes del contenido y salir
     Likes.objects.get(contenido__id=pk).user_dislikes.add(usuario)
     return redirect('detalles_articulo', pk=pk)
+def calificar_contenido(request, contenido_id):
+    contenido = get_object_or_404(Contenido, id=contenido_id)
+    usuario = request.user
+    calificacion = Decimal(request.POST.get('calificacion',0))
+
+    # Verificar si el usuario ya ha calificado el contenido
+    calificacion_existente, created = Calificacion.objects.get_or_create(contenido=contenido, usuario=usuario, defaults={'calificacion': calificacion})
+
+    if not created:
+        # Actualizar la calificación existente
+        calificacion_existente.calificacion = calificacion
+        calificacion_existente.save()
+
+    # Recalcular la calificación media del contenido
+    calificaciones = Calificacion.objects.filter(contenido=contenido)
+    promedio_calificaciones = calificaciones.aggregate(Avg('calificacion'))['calificacion__avg'] or 0
+    contenido.promedio_calificaciones = promedio_calificaciones
+    contenido.save()
+
+    # Llama a la función para actualizar la calificación de estrellas
+    actualizar_calificacion_estrellas(contenido)
+
+    return redirect('detalles_articulo', pk=contenido.id)
+
+def actualizar_calificacion_estrellas(contenido):
+    """Actualiza la calificación de estrellas de un contenido."""
+
+    promedio_calificaciones = contenido.promedio_calificaciones
+    num_estrellas = round(promedio_calificaciones)  # Redondeamos al número entero más cercano
+
+    # Establecer la clase de cada estrella en función del número de estrellas
+    for i in range(1, 6):
+        estrella_active = i <= num_estrellas
+
+        # Guardar el estado de la estrella en tu modelo Contenido
+        setattr(contenido, f'stars_{i}', estrella_active)
+
+    contenido.save()
+
+def aumentar_veces_compartido(request, contenido_id):
+    contenido = Contenido.objects.get(id=contenido_id)
+    contenido.veces_compartido += 1
+    contenido.save()
+    return redirect('detalles_articulo', pk=contenido.id)
+
+
+  

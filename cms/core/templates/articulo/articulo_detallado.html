@@ -5,6 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu Título</title>
     <style>
+        .share-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Estilo para el menú desplegable */
+        .share-menu {
+            display: none;
+            position: absolute;
+            background-color: rgb(24, 12, 12);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        /* Estilo para las opciones del menú */
+        .share-option {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Estilo para las opciones de redes sociales (puedes personalizar esto) */
+        .social-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .stars {
+            font-size: 24px;
+            color: #ccc; /* Cambia el color a gris para estrellas no marcadas */
+        }
+
+        .star {
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 5px; /* Espacio entre estrellas */
+        }
+
+        .star.active {
+            color: #FFD700; /* Cambia el color a amarillo para estrellas marcadas */
+        }
+        .star-rating {
+            display: inline-block;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 1.5em; /* Tamaño de fuente más pequeño */
+            padding: 0.1em; /* Espaciado más pequeño */
+            cursor: pointer;
+            color: #ddd;
+        }
+
+        .star-rating label:before {
+            content: "\2605"; /* Código Unicode para una estrella */
+        }
+
+        .star-rating input:checked + label {
+            color: #FFD700; /* Color de estrella seleccionada (amarillo) */
+        }
         body {
             background-color: #121212;
             color: white;
@@ -42,17 +108,16 @@
         }
         .icono {
             font-size: 20px; 
-            margin-right: 10px;
+            margin right: 10px;
         }
         .contenido {
             margin-top: 20px;
         }
         .comment-list {
-        max-height: 400px; /* Altura máxima de la lista de comentarios visible inicialmente */
-        overflow-y: auto; /* Agregar barra de desplazamiento vertical si se supera la altura máxima */
-        transition: max-height 0.3s ease;
+            max-height: 400px; /* Altura máxima de la lista de comentarios visible inicialmente */
+            overflow-y: auto; /* Agregar barra de desplazamiento vertical si se supera la altura máxima */
+            transition: max-height 0.3s ease;
         }
-
         .show-more-button {
             flex: 1;
             text-align: center;
@@ -68,7 +133,6 @@
             margin-top: 20px;
             margin-bottom: 20px;
         }
-
         .comment-form {
             flex: 2;
         }
@@ -108,57 +172,202 @@
             font-size: 0.8em;
             color: #6c757d;
         }
-        
-</style>
-<script>
-    // Función que cambia la clase de la lista de comentarios a "expanded"
-    function showMoreComments() {
-      var commentList = document.querySelector(".comment-list");
-      commentList.classList.add("expanded");
-    }
-</script>
+    </style>
 </head>
 <body>
-{% block content %}
-<h1>{{ object.titulo|safe }}</h1>
-<a href="{% url 'vistacontenidos' %}" class="volver-button">Volver a contenidos</a>
-<small> Autor: {{ object.autor.nombres }}</small><br/>
-<hr>
-<br/>
-<div class="card">
-    <figure>
-        <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}" style="width: 300px; height: 200px;">
-    </figure>
-</div>
- 
-<p>{{ object.cuerpo|safe }}</p>
+    {% block content %}
+    <h1>{{ object.titulo|safe }}</h1>
+    <a href="{% url 'vistacontenidos' %}" class="volver-button">Volver a contenidos</a>
+    <small> Autor: {{ object.autor.nombres }}</small><br/>
+    <hr>
+    <br/>
+    <div class="card">
+        <figure>
+            <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}" style="width: 300px; height: 200px;">
+        </figure>
+    </div>
+    <p>{{ object.cuerpo|safe }}</p>
+    <p>{% include 'articulo/likes.html' %}</p>
+    <form method="post" action="{% url 'calificar_contenido' contenido.id %}">
+        {% csrf_token %}
+        <label for="calificacion">Calificación:</label>
+        <div class="star-rating">
+            <input type="checkbox" name="calificacion" id="star1" value="1">
+            <label for="star1"></label>
+            <input type="checkbox" name="calificacion" id="star2" value="2">
+            <label for="star2"></label>
+            <input type="checkbox" name="calificacion" id="star3" value="3">
+            <label for="star3"></label>
+            <input type="checkbox" name="calificacion" id="star4" value="4">
+            <label for="star4"></label>
+            <input type="checkbox" name="calificacion" id="star5" value="5">
+            <label for="star5"></label>
+        </div>
+        <button type="submit">Calificar</button>
+    </form>
+    <div>
+        <!-- Botón de compartir -->
+        <button class="share-button" id="shareButton">Compartir</button>
 
-<p>{% include 'articulo/likes.html' %}</p>
+        <div class="share-menu" id="shareMenu">
+            <div class="share-option" id="copyLink"><a href="{% url 'aumentar_veces_compartido' contenido.id %}">Copiar enlace</a></div>
+            <div class="share-option" id="shareTwitter"><a href="{% url 'aumentar_veces_compartido' contenido.id %}">Compartir en Twitter</a></div>
+            <div class="share-option" id="shareFacebook"><a href="{% url 'aumentar_veces_compartido' contenido.id %}">Compartir en Facebook</a></div>
+        </div>
+    </div>
+    <form method="post" action="{% url 'detalles_articulo' pk=contenido.id %}">
+        {% csrf_token %}
+        <label for="id_texto">Comentario:</label>
+        <textarea name="texto" id="id_texto" rows="4" style="width: 100%; resize: none;"></textarea>
+        <button type="submit">Agregar comentario</button>
+    </form>
+    
+    <!-- Muestra la calificación media en forma de estrellas -->
+    <p>Calificación Media: {{ object.promedio_calificaciones }}</p>
+    <div class="stars">
+        {% for i in "12345" %}
+            <span class="star{% if i|add:0 <= contenido.promedio_calificaciones %} active{% endif %}">&#9733;</span>
+        {% endfor %}
+    </div>
+    <p>La publicacion se compartio : {{ object.veces_compartido }} veces</p>
+    <p>La publicacion fue vista : {{ object.veces_visto }} veces</p>
+    <h2>Comentarios</h2>
+    <!-- Lista de comentarios visible inicialmente -->
+    <ul class="comment-list">
+        {% for comentario in comentarios %}
+            <li class="comment-card">
+                <div class="comment-body">
+                    <div class="comment-author">{{ comentario.autor }}</div>
+                    <div class="comment-date">{{ comentario.fecha_creacion }}</div>
+                    <div class="comment-text">{{ comentario.texto }}</div>
+                </div>
+            </li>
+        {% empty %}
+            <li>No hay comentarios todavía.</li>
+        {% endfor %}
+    </ul>
+    {% endblock %}
 
-<form method="post" action="{% url 'detalles_articulo' pk=contenido.id %}">
-    {% csrf_token %}
-    <label for="id_texto">Comentario:</label>
-    <textarea name="texto" id="id_texto" rows="4" style="width: 100%; resize: none;"></textarea>
-    <button type="submit">Agregar comentario</button>
-</form>
-<h2>Comentarios</h2>
-<!-- Lista de comentarios visible inicialmente -->
-<ul class="comment-list">
-    {% for comentario in comentarios %}
-        <li class="comment-card">
-            <div class="comment-body">
-                <div class="comment-author">{{ comentario.autor }}</div>
-                <div class="comment-date">{{ comentario.fecha_creacion }}</div>
-                <div class="comment-text">{{ comentario.texto }}</div>
-            </div>
-        </li>
-    {% empty %}
-        <li>No hay comentarios todavía.</li>
-    {% endfor %}
-</ul>
+    <script>
+        // Espera a que el documento esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            const starRating = document.querySelector('.star-rating');
+            const starInputs = starRating.querySelectorAll('input');
+    
+            let lastChecked = null;
+    
+            starInputs.forEach((input, index) => {
+                input.addEventListener('click', () => {
+                    if (input === lastChecked) {
+                        // Si se hizo clic en la misma estrella, desmarca todas las estrellas
+                        starInputs.forEach(star => {
+                            star.checked = false;
+                        });
+                        lastChecked = null;
+                    } else {
+                        // Marca las estrellas hasta la que se hizo clic
+                        for (let i = 0; i <= index; i++) {
+                            starInputs[i].checked = true;
+                        }
+                        lastChecked = input;
+                    }
+                });
+            });
+        });
+        const shareButton = document.getElementById('shareButton');
+        const shareMenu = document.getElementById('shareMenu');
+        const copyLink = document.getElementById('copyLink');
+        const shareTwitter = document.getElementById('shareTwitter');
+        const shareFacebook = document.getElementById('shareFacebook');
+        // Mostrar/ocultar el menú de compartir al hacer clic en el botón de compartir
+        shareButton.addEventListener('click', () => {
+            if (shareMenu.style.display === 'block') {
+                shareMenu.style.display = 'none';
+            } else {
+                shareMenu.style.display = 'block';
+            }
+        });
+        copyLink.addEventListener('click', () => {
+            // Obtiene la URL actual
+            const currentURL = window.location.href;
 
+            // Crea un elemento de texto temporal para copiar la URL al portapapeles
+            const tempInput = document.createElement('input');
+            tempInput.value = currentURL;
 
-{% endblock %}
+            // Agrega el elemento temporal al DOM (debes hacerlo para poder copiarlo)
+            document.body.appendChild(tempInput);
+
+            // Selecciona y copia el contenido del input al portapapeles
+            tempInput.select();
+            document.execCommand('copy');
+
+            // Elimina el elemento temporal del DOM
+            document.body.removeChild(tempInput);
+
+            // Notifica al usuario que el enlace se ha copiado al portapapeles (puedes personalizar este mensaje)
+            alert('Enlace copiado al portapapeles: ' + currentURL);
+        });
+
+       
+
+        // Acción al hacer clic en "Compartir en Twitter" (reemplaza 'URL' y 'Título' con la URL y el título de tu contenido)
+        shareTwitter.addEventListener('click', () => {
+            const currentURL = window.location.href;
+            const tituloHTML = "{{ object.titulo|safe|default:'' }}"; // Obtén el título en formato HTML
+            const resumenHTML = "{{ object.resumen|safe|default:'' }}"; // Obtén el resumen en formato HTML
+
+            // Función para eliminar etiquetas HTML
+            function stripHTML(html) {
+                const temporal = document.createElement("div");
+                temporal.innerHTML = html;
+                return temporal.textContent || temporal.innerText || "";
+            }
+
+            // Elimina etiquetas HTML del título y resumen
+            const titulo = stripHTML(tituloHTML);
+            const resumen = stripHTML(resumenHTML);
+
+            // Construye el mensaje personalizado
+            const mensaje = `Visita el contenido: ${titulo} en el siguiente link:`;
+
+            // Codifica el mensaje para que sea parte de la URL
+            const mensajeCodificado = encodeURIComponent(mensaje);
+
+            // Construye la URL para compartir en Twitter con el mensaje personalizado
+            const twitterURL = `https://twitter.com/intent/tweet?text=${mensajeCodificado}&url=${encodeURIComponent(currentURL)}`;
+
+            // Abre la ventana emergente para compartir en Twitter
+            window.open(twitterURL, '_blank');
+        });
+        shareFacebook.addEventListener('click', () => {
+            const currentURL = window.location.href;
+            const tituloHTML = "{{ object.titulo|safe|default:'' }}"; // Obtén el título en formato HTML
+            const resumenHTML = "{{ object.resumen|safe|default:'' }}"; // Obtén el resumen en formato HTML
+
+            // Función para eliminar etiquetas HTML
+            function stripHTML(html) {
+                const temporal = document.createElement("div");
+                temporal.innerHTML = html;
+                return temporal.textContent || temporal.innerText || "";
+            }
+
+            // Elimina etiquetas HTML del título y resumen
+            const titulo = stripHTML(tituloHTML);
+            const resumen = stripHTML(resumenHTML);
+
+            // Construye el mensaje personalizado
+            const mensaje = `Visita el contenido: ${titulo} en el siguiente link: ${currentURL}`;
+
+            // Codifica el mensaje para que sea parte de la URL
+            const mensajeCodificado = encodeURIComponent(mensaje);
+
+            // Construye la URL para compartir en Facebook con el mensaje personalizado
+            const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentURL)}&quote=${mensajeCodificado}`;
+
+            // Abre la ventana emergente para compartir en Facebook
+            window.open(facebookURL, '_blank');
+        });
+    </script>
 </body>
-</html>
-
+</html> 
