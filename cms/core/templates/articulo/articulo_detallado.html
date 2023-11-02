@@ -75,10 +75,17 @@
             background-color: #121212;
             color: white;
         }
+        .boton-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding: 10px; /* Ajusta el espaciado entre los botones y el borde superior derecho */
+        }
         .volver-button {
-            position: absolute;
+            position: relative;
             top: 10px;
-            right: 10px;
+            right: 50px;
             background-color: #007bff;
             color: white;
             padding: 10px 15px;
@@ -177,7 +184,10 @@
 <body>
     {% block content %}
     <h1>{{ object.titulo|safe }}</h1>
-    <a href="{% url 'vistacontenidos' %}" class="volver-button">Volver a contenidos</a>
+    <div class="boton-container">
+        <a href="{% url 'vistacontenidos' %}" class="volver-button">Volver a contenidos</a>
+        <a href="javascript:history.back();" class="volver-button">Volver</a>
+    </div>
     <small> Autor: {{ object.autor.nombres }}</small><br/>
     <hr>
     <br/>
@@ -187,7 +197,9 @@
         </figure>
     </div>
     <p>{{ object.cuerpo|safe }}</p>
+    <hr></hr>
     <p>{% include 'articulo/likes.html' %}</p>
+    <hr></hr>
     <form method="post" action="{% url 'calificar_contenido' contenido.id %}">
         {% csrf_token %}
         <label for="calificacion">Calificación:</label>
@@ -205,6 +217,7 @@
         </div>
         <button type="submit">Calificar</button>
     </form>
+    <hr></hr>
     <div>
         <!-- Botón de compartir -->
         <button class="share-button" id="shareButton">Compartir</button>
@@ -215,6 +228,7 @@
             <div class="share-option" id="shareFacebook"><a href="{% url 'aumentar_veces_compartido' contenido.id %}">Compartir en Facebook</a></div>
         </div>
     </div>
+    <hr></hr>
     <form method="post" action="{% url 'detalles_articulo' pk=contenido.id %}">
         {% csrf_token %}
         <label for="id_texto">Comentario:</label>

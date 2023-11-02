@@ -350,7 +350,7 @@ class EnviarContenidoEditor(UpdateView):
                             recipient_list=[UsuarioRol.objects.get(username=self.request.user.username).email, 'is2cmseq03@gmail.com', ],
                             html_message=mensaje_edicion)
             
-            return redirect('edicion')
+            return redirect('Editar')
             
         return response   
 @never_cache
