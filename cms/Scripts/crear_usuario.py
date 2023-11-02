@@ -1,5 +1,13 @@
+import os
+import django
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cms.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cms.settings')
+django.setup()
 from django.contrib.auth.models import User
 from GestionCuentas.models import UsuarioRol, Rol 
+
 
 def crear_usuario(username, email, nombres, apellidos):
     # Crea un nuevo objeto UsuarioRol
@@ -16,7 +24,7 @@ def crear_usuario(username, email, nombres, apellidos):
     us_rol.save()
 
     # Crea un usuario en el sistema
-    user = User.objects.create_user(username, email, 'tu_contraseña_aqui')
+    user = User.objects.create_user(username, email, '12345678joa')
     
     # Asigna el usuario al UsuarioRol
     us_rol.user = user
@@ -24,10 +32,10 @@ def crear_usuario(username, email, nombres, apellidos):
 
 if __name__ == "__main__":
     # Define los datos del usuario que deseas crear
-    username = "nuevo_usuario"
-    email = "nuevo_usuario@example.com"
-    nombres = "Nombre"
-    apellidos = "Apellido"
+    username = "Joadmin"
+    email = "joad.d@hotmail.com"
+    nombres = "Joaquin"
+    apellidos = "Delgado"
     
     # Llama a la función para crear el usuario
     crear_usuario(username, email, nombres, apellidos)

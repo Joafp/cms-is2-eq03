@@ -110,7 +110,7 @@ def registro(request):
             us_rol.roles.add(rol_suscriptor)
             us_rol.save()
             form.save()
-            return redirect('registro')  # Redirigir a la página de inicio de sesión
+            return redirect('login')  # Redirigir a la página de inicio de sesión
     else:
         form = RegistroForm()
     return render(request, 'main/registro.html', {'form': form})
