@@ -18,8 +18,8 @@ def create_admin_role():
 def asignar_rol():
     try:
         admin_rol=Rol.objects.get(nombre='Administrador')
-        usuario=UsuarioRol.objects.get(username='Joaadmin')
-        user=User.objects.get(username='Joaadmin')
+        usuario=UsuarioRol.objects.get(username='Joadmin')
+        user=User.objects.get(username='Joadmin')
         usuario.roles.add(admin_rol)
         user.is_superuser=True
         user.is_staff=True
