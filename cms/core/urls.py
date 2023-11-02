@@ -13,7 +13,7 @@ urlpatterns = [
     path('main_trabajador/',views.vista_trabajador,name='maintrabajador'),
     path('gestioncuentas/',include('GestionCuentas.urls')),
     path('login/',include('login.urls')),
-    path('crearcontenido/',login_required(CrearContenido.as_view(),login_url="/login"),name='crear_contenido'),
+    #path('crearcontenido/',login_required(CrearContenido.as_view(),login_url="/login"),name='crear_contenido'),
     path('articulo/<int:pk>', login_required(VistaArticulos.as_view(),login_url="/login"),name='detalles_articulo'),
     path('crearcontenido/',CrearContenido.as_view(),name='crear_contenido'),
     path('editarcontenido/',views.vista_editor,name='Editar'),
@@ -21,6 +21,7 @@ urlpatterns = [
     path('contenido/<int:contenido_id>/calificar/', views.calificar_contenido, name='calificar_contenido'),
     path('vistapublicador/',views.publicador,name='vista_pub'),
     path('vistaautor/',views.vista_autor,name='vista_autor'),
+    path('aumentar_veces_compartido/<int:contenido_id>/', views.aumentar_veces_compartido, name='aumentar_veces_compartido'),
     path('tablageneral/',views.tabla_kanbangeneral,name='tabla_general'),
     path('tablageneralfiltrada/',views.buscar_tabla,name='tabla_general_filtrada'),
     path('tablaautorfiltrada/',views.buscar_tabla_autor,name='tabla_autor_filtrada'),
@@ -55,6 +56,8 @@ urlpatterns = [
     path('desasignar/',views.remover_rol,name='desasignar'),
     path('admin/', admin.site.urls),
     path('tabla/',views.tabla_kanban,name='Tabla'),
+    path('articulo/<int:pk>/like', views.dar_like, name='dar_like'),
+    path('articulo/<int:pk>/dislike', views.dar_dislike, name='dar_dislike'),
 ]
 """Nos permite vincular la direccion donde tenemos guardadas nuestras imagenes, en este caso
 tenemos las imagenes en la carpeta raiz y esta esta definida en el archivo settings"""

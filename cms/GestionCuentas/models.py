@@ -20,6 +20,7 @@ class PermisosPer(models.Model):
             ("Editar usuarios", "Permite editar la informacion de usuarios"),
             ("Ver usuarios", "Permite ver la lista de usuarios"),
             ("Vista_tabla", "Permite ver la tabla general"),
+            ("Publicacion no moderada", "Permite la publicacion en categorias no moderadas"),
         ]
 class Rol(models.Model):
     """

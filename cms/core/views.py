@@ -14,6 +14,8 @@ from django.views.generic.edit import CreateView,UpdateView
 from decimal import Decimal
 from django.db.models import Sum
 from .models import Categoria
+from .models import Likes
+from .models import Contenido,HistorialContenido,VersionesContenido,Comentario
 from .models import Contenido,HistorialContenido,VersionesContenido,Comentario,Calificacion
 from django.utils import timezone
 from django.core.mail import send_mail
@@ -21,6 +23,7 @@ from django.template.loader import render_to_string
 from django.core.paginator import Paginator, Page
 from .forms import CrearContenidoForm
 from django.db.models import Avg
+from django.http import JsonResponse
 
 class CrearContenido(CreateView):
     """
@@ -347,7 +350,7 @@ class EnviarContenidoEditor(UpdateView):
                             recipient_list=[UsuarioRol.objects.get(username=self.request.user.username).email, 'is2cmseq03@gmail.com', ],
                             html_message=mensaje_edicion)
             
-            return redirect('edicion')
+            return redirect('Editar')
             
         return response   
 @never_cache
@@ -541,24 +544,39 @@ class CustomPermissionRequiredMixin(PermissionRequiredMixin):
 class VistaArticulos(DetailView):
     model = Contenido
     template_name = 'articulo/articulo_detallado.html'
-
+    
     def post(self, request, *args, **kwargs):
         # Procesar el formulario de comentarios aquí
         contenido = self.get_object()
         texto = request.POST.get('texto')
         autor = request.user  # El usuario actual
-
         if texto:
             Comentario.objects.create(contenido=contenido, autor=autor, texto=texto)
 
         # Recargar la página
         return self.get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
         contenido = self.get_object()
+        contenido.veces_visto += 1
+        contenido.save()
         comentarios = contenido.comentarios.all()
         context['comentarios'] = comentarios
+
+        #Agrega contador de likes a la pagina
+        likes = Likes.objects.get_or_create(contenido=contenido)[0]
+        context['nro_likes'] = likes.user_likes_count()
+        context['nro_dislikes'] = likes.user_dislikes_count()
+
+        #Da una clase especial a los botones si el usuario ya dio like/dislike al contenido
+        context['liked'] = 'notliked'
+        context['disliked'] = 'notdisliked'
+        if likes.user_likes.filter(username=self.request.user.username).exists():
+            context['liked'] = 'liked'
+        elif likes.user_dislikes.filter(username=self.request.user.username).exists():
+            context['disliked'] = 'disliked'
+        
         return context
 
 class VistaArticulosEditor(DetailView):
@@ -917,11 +935,11 @@ def vista_autor(request):
     items_por_pagina = 2
 
     # Obtén los contenidos de las diferentes columnas
-    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
-    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
-    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
-    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
-    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username).order_by('-pk') #ordenar por id, de mayor a menor
+    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username).order_by('-pk')
+    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username).order_by('-pk')
+    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username).order_by('-pk')
+    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username).order_by('-pk')
 
     # Divide los contenidos en páginas
     paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
@@ -1500,6 +1518,50 @@ def aplicar_version(request, contenido_id, version_id):
     nuevo_cambio.save()
     return redirect('ContenidosBorrador')
 
+@login_required
+def dar_like(request, pk):
+    """
+    Guarda el like de un usuario a un contenido
+    """
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    # Buscar si el usuario ya dio like o dislike
+    likes = Likes.objects.filter(contenido__id=pk, user_likes=usuario)
+    dislikes = Likes.objects.filter(contenido__id=pk, user_dislikes=usuario)
+
+    # Si existe el like, quitarlo y salir (el usuario quito su like)
+    if(likes.exists()):
+        likes[0].user_likes.remove(usuario)
+        return redirect('detalles_articulo', pk=pk)
+    # Si existe el dislike quitalo, agregar el usuario a los likes y salir
+    elif(dislikes.exists()):
+        dislikes[0].user_dislikes.remove(usuario)
+    
+    # Agregar usuario a los likes del contenido y salir
+    Likes.objects.get(contenido__id=pk).user_likes.add(usuario)
+    return redirect('detalles_articulo', pk=pk)
+
+@login_required
+def dar_dislike(request, pk):
+    """
+    Guarda el dislike de un usuario a un contenido
+    """
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    # Buscar si el usuario ya dio like o dislike
+    likes = Likes.objects.filter(contenido__id=pk, user_likes=usuario)
+    dislikes = Likes.objects.filter(contenido__id=pk, user_dislikes=usuario)
+    
+    # Si existe el dislike quitalo y salir (el usuario quito su dislike)
+    if(dislikes.exists()):
+        dislikes[0].user_dislikes.remove(usuario)
+        return redirect('detalles_articulo', pk=pk)
+
+    # Si existe el like, quitarlo y continuar
+    elif(likes.exists()):
+        likes[0].user_likes.remove(usuario)
+
+    # Agregar usuario a los dislikes del contenido y salir
+    Likes.objects.get(contenido__id=pk).user_dislikes.add(usuario)
+    return redirect('detalles_articulo', pk=pk)
 def calificar_contenido(request, contenido_id):
     contenido = get_object_or_404(Contenido, id=contenido_id)
     usuario = request.user
@@ -1538,3 +1600,12 @@ def actualizar_calificacion_estrellas(contenido):
         setattr(contenido, f'stars_{i}', estrella_active)
 
     contenido.save()
+
+def aumentar_veces_compartido(request, contenido_id):
+    contenido = Contenido.objects.get(id=contenido_id)
+    contenido.veces_compartido += 1
+    contenido.save()
+    return redirect('detalles_articulo', pk=contenido.id)
+
+
+  

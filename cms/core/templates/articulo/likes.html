@@ -1,0 +1,58 @@
+<style>
+    button.likebutton{
+            all: unset;
+            border-radius: 0.5rem; 
+            font-size: 16px; 
+            cursor: pointer;
+            transition: box-shadow 0.3s ease; 
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px;
+            margin-top: 10px;
+            color: #2fb4cc;
+            border: 1px solid #2fb4cc;
+            transition: all 400ms ease;
+            text-align: center;
+    }
+
+    button.likebutton:hover{
+        background: #2fb4cc;
+            color: #fff; 
+    }
+
+    button.liked,
+    button.disliked{
+        /* Estilo especial para los botones cuando el usuario ya ha dado like/dislike */
+        background-color: #007bff;
+        color: white;
+    }
+
+    div.like_wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    div.like_wrapper form{
+        display: flex;
+        flex-grow: 0.10; /* Ancho de los botones */
+        margin: auto 1rem;
+        align-self: stretch;
+    }
+
+    div.like_wrapper form button{
+        width: 100%;
+    }
+
+</style>
+<div class="like_wrapper">
+    <form method="post" action="{% url 'dar_like' pk=contenido.id %}">
+        {% csrf_token %}
+        <button type="submit" class="likebutton {{liked}}">Like | {{nro_likes}}</button>
+    </form>
+
+    <form method="post" action="{% url 'dar_dislike' pk=contenido.id %}">
+        {% csrf_token %}
+        <button type="submit" class="likebutton {{disliked}}">Dislike | {{nro_dislikes}} </button>
+    </form>
+</div>
