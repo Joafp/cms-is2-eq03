@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'cms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Base_produccion',
+        'NAME': 'usuarios_cms',
         'USER': 'equipo3_admin',
         'PASSWORD': '1234',
         'HOST': 'localhost',
