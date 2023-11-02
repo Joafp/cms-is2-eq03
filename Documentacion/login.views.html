@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module login.views</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="login.html"><font color="#ffffff">login</font></a>.views</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/login/views.py">/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/login/views.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="django.contrib.auth.forms.html#AuthenticationForm">django.contrib.auth.forms.AuthenticationForm</a>(<a href="django.forms.forms.html#Form">django.forms.forms.Form</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="login.views.html#CustomAuthenticationForm">CustomAuthenticationForm</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CustomAuthenticationForm">class <strong>CustomAuthenticationForm</strong></a>(<a href="django.contrib.auth.forms.html#AuthenticationForm">django.contrib.auth.forms.AuthenticationForm</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#CustomAuthenticationForm">CustomAuthenticationForm</a>(request=None,&nbsp;*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Esta&nbsp;clase&nbsp;es&nbsp;para&nbsp;customizar&nbsp;los&nbsp;mensajes&nbsp;de&nbsp;error&nbsp;a&nbsp;la&nbsp;hora&nbsp;de&nbsp;intentar&nbsp;logearse&nbsp;al&nbsp;sitio&nbsp;con&nbsp;una&nbsp;cuenta<br>
+que&nbsp;no&nbsp;existe.<br>
+error_messages&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'invalid_login':&nbsp;"Credenciales&nbsp;inválidas.&nbsp;Por&nbsp;favor,&nbsp;verifica&nbsp;tu&nbsp;usuario&nbsp;y&nbsp;contraseña.",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'inactive':&nbsp;"Tu&nbsp;cuenta&nbsp;está&nbsp;inactiva.&nbsp;Contacta&nbsp;al&nbsp;administrador&nbsp;para&nbsp;más&nbsp;detalles.",<br>
+}<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="login.views.html#CustomAuthenticationForm">CustomAuthenticationForm</a></dd>
+<dd><a href="django.contrib.auth.forms.html#AuthenticationForm">django.contrib.auth.forms.AuthenticationForm</a></dd>
+<dd><a href="django.forms.forms.html#Form">django.forms.forms.Form</a></dd>
+<dd><a href="django.forms.forms.html#BaseForm">django.forms.forms.BaseForm</a></dd>
+<dd><a href="django.forms.utils.html#RenderableFormMixin">django.forms.utils.RenderableFormMixin</a></dd>
+<dd><a href="django.forms.utils.html#RenderableMixin">django.forms.utils.RenderableMixin</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Readonly properties defined here:<br>
+<dl><dt><strong>media</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>base_fields</strong> = {'password': &lt;django.forms.fields.CharField object&gt;, 'username': &lt;django.contrib.auth.forms.UsernameField object&gt;}</dl>
+
+<dl><dt><strong>declared_fields</strong> = {'password': &lt;django.forms.fields.CharField object&gt;, 'username': &lt;django.contrib.auth.forms.UsernameField object&gt;}</dl>
+
+<dl><dt><strong>error_messages</strong> = {'inactive': 'Tu cuenta está inactiva. Contacta al administrador para más detalles.', 'invalid_login': 'Credenciales inválidas. Por favor, verifica tu usuario y contraseña.'}</dl>
+
+<hr>
+Methods inherited from <a href="django.contrib.auth.forms.html#AuthenticationForm">django.contrib.auth.forms.AuthenticationForm</a>:<br>
+<dl><dt><a name="CustomAuthenticationForm-__init__"><strong>__init__</strong></a>(self, request=None, *args, **kwargs)</dt><dd><tt>The&nbsp;'request'&nbsp;parameter&nbsp;is&nbsp;set&nbsp;for&nbsp;custom&nbsp;auth&nbsp;use&nbsp;by&nbsp;subclasses.<br>
+The&nbsp;form&nbsp;data&nbsp;comes&nbsp;in&nbsp;via&nbsp;the&nbsp;standard&nbsp;'data'&nbsp;kwarg.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;form-wide&nbsp;cleaning&nbsp;after&nbsp;Field.<a href="#CustomAuthenticationForm-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field.&nbsp;Any&nbsp;ValidationError&nbsp;raised&nbsp;by&nbsp;this&nbsp;method&nbsp;will<br>
+not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will&nbsp;have&nbsp;a&nbsp;special-case<br>
+association&nbsp;with&nbsp;the&nbsp;field&nbsp;named&nbsp;'__all__'.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-confirm_login_allowed"><strong>confirm_login_allowed</strong></a>(self, user)</dt><dd><tt>Controls&nbsp;whether&nbsp;the&nbsp;given&nbsp;User&nbsp;may&nbsp;log&nbsp;in.&nbsp;This&nbsp;is&nbsp;a&nbsp;policy&nbsp;setting,<br>
+independent&nbsp;of&nbsp;end-user&nbsp;authentication.&nbsp;This&nbsp;default&nbsp;behavior&nbsp;is&nbsp;to<br>
+allow&nbsp;login&nbsp;by&nbsp;active&nbsp;users,&nbsp;and&nbsp;reject&nbsp;login&nbsp;by&nbsp;inactive&nbsp;users.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;given&nbsp;user&nbsp;cannot&nbsp;log&nbsp;in,&nbsp;this&nbsp;method&nbsp;should&nbsp;raise&nbsp;a<br>
+``ValidationError``.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;given&nbsp;user&nbsp;may&nbsp;log&nbsp;in,&nbsp;this&nbsp;method&nbsp;should&nbsp;return&nbsp;None.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-get_invalid_login_error"><strong>get_invalid_login_error</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-get_user"><strong>get_user</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="django.forms.forms.html#BaseForm">django.forms.forms.BaseForm</a>:<br>
+<dl><dt><a name="CustomAuthenticationForm-__getitem__"><strong>__getitem__</strong></a>(self, name)</dt><dd><tt>Return&nbsp;a&nbsp;BoundField&nbsp;with&nbsp;the&nbsp;given&nbsp;name.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-__iter__"><strong>__iter__</strong></a>(self)</dt><dd><tt>Yield&nbsp;the&nbsp;form's&nbsp;fields&nbsp;as&nbsp;BoundField&nbsp;objects.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-add_error"><strong>add_error</strong></a>(self, field, error)</dt><dd><tt>Update&nbsp;the&nbsp;content&nbsp;of&nbsp;`self.<strong>_errors</strong>`.<br>
+&nbsp;<br>
+The&nbsp;`field`&nbsp;argument&nbsp;is&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;field&nbsp;to&nbsp;which&nbsp;the&nbsp;errors<br>
+should&nbsp;be&nbsp;added.&nbsp;If&nbsp;it's&nbsp;None,&nbsp;treat&nbsp;the&nbsp;errors&nbsp;as&nbsp;NON_FIELD_ERRORS.<br>
+&nbsp;<br>
+The&nbsp;`error`&nbsp;argument&nbsp;can&nbsp;be&nbsp;a&nbsp;single&nbsp;error,&nbsp;a&nbsp;list&nbsp;of&nbsp;errors,&nbsp;or&nbsp;a<br>
+dictionary&nbsp;that&nbsp;maps&nbsp;field&nbsp;names&nbsp;to&nbsp;lists&nbsp;of&nbsp;errors.&nbsp;An&nbsp;"error"&nbsp;can&nbsp;be<br>
+either&nbsp;a&nbsp;simple&nbsp;string&nbsp;or&nbsp;an&nbsp;instance&nbsp;of&nbsp;ValidationError&nbsp;with&nbsp;its<br>
+message&nbsp;attribute&nbsp;set&nbsp;and&nbsp;a&nbsp;"list&nbsp;or&nbsp;dictionary"&nbsp;can&nbsp;be&nbsp;an&nbsp;actual<br>
+`list`&nbsp;or&nbsp;`dict`&nbsp;or&nbsp;an&nbsp;instance&nbsp;of&nbsp;ValidationError&nbsp;with&nbsp;its<br>
+`error_list`&nbsp;or&nbsp;`error_dict`&nbsp;attribute&nbsp;set.<br>
+&nbsp;<br>
+If&nbsp;`error`&nbsp;is&nbsp;a&nbsp;dictionary,&nbsp;the&nbsp;`field`&nbsp;argument&nbsp;*must*&nbsp;be&nbsp;None&nbsp;and<br>
+errors&nbsp;will&nbsp;be&nbsp;added&nbsp;to&nbsp;the&nbsp;fields&nbsp;that&nbsp;correspond&nbsp;to&nbsp;the&nbsp;keys&nbsp;of&nbsp;the<br>
+dictionary.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-add_initial_prefix"><strong>add_initial_prefix</strong></a>(self, field_name)</dt><dd><tt>Add&nbsp;an&nbsp;'initial'&nbsp;prefix&nbsp;for&nbsp;checking&nbsp;dynamic&nbsp;initial&nbsp;values.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-add_prefix"><strong>add_prefix</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;field&nbsp;name&nbsp;with&nbsp;a&nbsp;prefix&nbsp;appended,&nbsp;if&nbsp;this&nbsp;Form&nbsp;has&nbsp;a<br>
+prefix&nbsp;set.<br>
+&nbsp;<br>
+Subclasses&nbsp;may&nbsp;wish&nbsp;to&nbsp;override.</tt></dd></dl>
+
+<strong>changed_data</strong> = &lt;django.utils.functional.cached_property object&gt;
+<dl><dt><a name="CustomAuthenticationForm-full_clean"><strong>full_clean</strong></a>(self)</dt><dd><tt>Clean&nbsp;all&nbsp;of&nbsp;self.<strong>data</strong>&nbsp;and&nbsp;populate&nbsp;self.<strong>_errors</strong>&nbsp;and&nbsp;self.<strong>cleaned_data</strong>.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-get_context"><strong>get_context</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-get_initial_for_field"><strong>get_initial_for_field</strong></a>(self, field, field_name)</dt><dd><tt>Return&nbsp;initial&nbsp;data&nbsp;for&nbsp;field&nbsp;on&nbsp;form.&nbsp;Use&nbsp;initial&nbsp;data&nbsp;from&nbsp;the&nbsp;form<br>
+or&nbsp;the&nbsp;field,&nbsp;in&nbsp;that&nbsp;order.&nbsp;Evaluate&nbsp;callable&nbsp;values.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-has_changed"><strong>has_changed</strong></a>(self)</dt><dd><tt>Return&nbsp;True&nbsp;if&nbsp;data&nbsp;differs&nbsp;from&nbsp;initial.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-has_error"><strong>has_error</strong></a>(self, field, code=None)</dt></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-hidden_fields"><strong>hidden_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;the&nbsp;BoundField&nbsp;objects&nbsp;that&nbsp;are&nbsp;hidden&nbsp;fields.<br>
+Useful&nbsp;for&nbsp;manual&nbsp;form&nbsp;layout&nbsp;in&nbsp;templates.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-is_multipart"><strong>is_multipart</strong></a>(self)</dt><dd><tt>Return&nbsp;True&nbsp;if&nbsp;the&nbsp;form&nbsp;needs&nbsp;to&nbsp;be&nbsp;multipart-encoded,&nbsp;i.e.&nbsp;it&nbsp;has<br>
+FileInput,&nbsp;or&nbsp;False&nbsp;otherwise.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-is_valid"><strong>is_valid</strong></a>(self)</dt><dd><tt>Return&nbsp;True&nbsp;if&nbsp;the&nbsp;form&nbsp;has&nbsp;no&nbsp;errors,&nbsp;or&nbsp;False&nbsp;otherwise.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-non_field_errors"><strong>non_field_errors</strong></a>(self)</dt><dd><tt>Return&nbsp;an&nbsp;ErrorList&nbsp;of&nbsp;errors&nbsp;that&nbsp;aren't&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular<br>
+field&nbsp;--&nbsp;i.e.,&nbsp;from&nbsp;Form.<a href="#CustomAuthenticationForm-clean">clean</a>().&nbsp;Return&nbsp;an&nbsp;empty&nbsp;ErrorList&nbsp;if&nbsp;there<br>
+are&nbsp;none.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-order_fields"><strong>order_fields</strong></a>(self, field_order)</dt><dd><tt>Rearrange&nbsp;the&nbsp;fields&nbsp;according&nbsp;to&nbsp;field_order.<br>
+&nbsp;<br>
+field_order&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;field&nbsp;names&nbsp;specifying&nbsp;the&nbsp;order.&nbsp;Append&nbsp;fields<br>
+not&nbsp;included&nbsp;in&nbsp;the&nbsp;list&nbsp;in&nbsp;the&nbsp;default&nbsp;order&nbsp;for&nbsp;backward&nbsp;compatibility<br>
+with&nbsp;subclasses&nbsp;not&nbsp;overriding&nbsp;field_order.&nbsp;If&nbsp;field_order&nbsp;is&nbsp;None,<br>
+keep&nbsp;all&nbsp;fields&nbsp;in&nbsp;the&nbsp;order&nbsp;defined&nbsp;in&nbsp;the&nbsp;class.&nbsp;Ignore&nbsp;unknown<br>
+fields&nbsp;in&nbsp;field_order&nbsp;to&nbsp;allow&nbsp;disabling&nbsp;fields&nbsp;in&nbsp;form&nbsp;subclasses<br>
+without&nbsp;redefining&nbsp;ordering.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-visible_fields"><strong>visible_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;BoundField&nbsp;objects&nbsp;that&nbsp;aren't&nbsp;hidden&nbsp;fields.<br>
+The&nbsp;opposite&nbsp;of&nbsp;the&nbsp;<a href="#CustomAuthenticationForm-hidden_fields">hidden_fields</a>()&nbsp;method.</tt></dd></dl>
+
+<hr>
+Readonly properties inherited from <a href="django.forms.forms.html#BaseForm">django.forms.forms.BaseForm</a>:<br>
+<dl><dt><strong>errors</strong></dt>
+<dd><tt>Return&nbsp;an&nbsp;ErrorDict&nbsp;for&nbsp;the&nbsp;data&nbsp;provided&nbsp;for&nbsp;the&nbsp;form.</tt></dd>
+</dl>
+<dl><dt><strong>template_name</strong></dt>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="django.forms.forms.html#BaseForm">django.forms.forms.BaseForm</a>:<br>
+<dl><dt><strong>default_renderer</strong> = None</dl>
+
+<dl><dt><strong>field_order</strong> = None</dl>
+
+<dl><dt><strong>prefix</strong> = None</dl>
+
+<dl><dt><strong>template_name_div</strong> = 'django/forms/div.html'</dl>
+
+<dl><dt><strong>template_name_label</strong> = 'django/forms/label.html'</dl>
+
+<dl><dt><strong>template_name_p</strong> = 'django/forms/p.html'</dl>
+
+<dl><dt><strong>template_name_table</strong> = 'django/forms/table.html'</dl>
+
+<dl><dt><strong>template_name_ul</strong> = 'django/forms/ul.html'</dl>
+
+<dl><dt><strong>use_required_attribute</strong> = True</dl>
+
+<hr>
+Methods inherited from <a href="django.forms.utils.html#RenderableFormMixin">django.forms.utils.RenderableFormMixin</a>:<br>
+<dl><dt><a name="CustomAuthenticationForm-as_div"><strong>as_div</strong></a>(self)</dt><dd><tt>Render&nbsp;as&nbsp;&lt;div&gt;&nbsp;elements.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-as_p"><strong>as_p</strong></a>(self)</dt><dd><tt>Render&nbsp;as&nbsp;&lt;p&gt;&nbsp;elements.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-as_table"><strong>as_table</strong></a>(self)</dt><dd><tt>Render&nbsp;as&nbsp;&lt;tr&gt;&nbsp;elements&nbsp;excluding&nbsp;the&nbsp;surrounding&nbsp;&lt;table&gt;&nbsp;tag.</tt></dd></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-as_ul"><strong>as_ul</strong></a>(self)</dt><dd><tt>Render&nbsp;as&nbsp;&lt;li&gt;&nbsp;elements&nbsp;excluding&nbsp;the&nbsp;surrounding&nbsp;&lt;ul&gt;&nbsp;tag.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="django.forms.utils.html#RenderableMixin">django.forms.utils.RenderableMixin</a>:<br>
+<dl><dt><a name="CustomAuthenticationForm-__html__"><strong>__html__</strong></a> = <a href="#CustomAuthenticationForm-render">render</a>(self, template_name=None, context=None, renderer=None)</dt></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-__str__"><strong>__str__</strong></a> = <a href="#CustomAuthenticationForm-render">render</a>(self, template_name=None, context=None, renderer=None)</dt></dl>
+
+<dl><dt><a name="CustomAuthenticationForm-render"><strong>render</strong></a>(self, template_name=None, context=None, renderer=None)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.forms.utils.html#RenderableMixin">django.forms.utils.RenderableMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-buscar_contenido"><strong>buscar_contenido</strong></a>(request)</dt></dl>
+ <dl><dt><a name="-cerrar_sesion"><strong>cerrar_sesion</strong></a>(request)</dt><dd><tt>Este&nbsp;metodo&nbsp;nos&nbsp;permite&nbsp;cerrar&nbsp;sesion&nbsp;en&nbsp;el&nbsp;sitio.<br>
+&nbsp;logout(request)<br>
+return&nbsp;redirect('MenuPrincipal')</tt></dd></dl>
+ <dl><dt><a name="-registro"><strong>registro</strong></a>(request)</dt><dd><tt>Este&nbsp;metodo&nbsp;nos&nbsp;permite&nbsp;crear&nbsp;un&nbsp;formulario&nbsp;para&nbsp;que&nbsp;los&nbsp;usuarios&nbsp;se&nbsp;registren&nbsp;en&nbsp;nuestro&nbsp;sistema.<br>
+Creamos&nbsp;un&nbsp;objeto&nbsp;UsuarioRol&nbsp;con&nbsp;los&nbsp;datos&nbsp;ingresados,&nbsp;siendo&nbsp;este&nbsp;un&nbsp;modelo&nbsp;creado&nbsp;por&nbsp;nosotros,&nbsp;explicado&nbsp;en&nbsp;models.py&nbsp;<br>
+de&nbsp;la&nbsp;app&nbsp;GestionCuentas<br>
+Le&nbsp;asignamos&nbsp;el&nbsp;rol&nbsp;de&nbsp;Suscriptor&nbsp;el&nbsp;nuevo&nbsp;usuario&nbsp;y&nbsp;le&nbsp;registramos&nbsp;en&nbsp;el&nbsp;sistema.<br>
+&nbsp;<br>
+if&nbsp;request.method&nbsp;==&nbsp;'POST':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;form&nbsp;=&nbsp;RegistroForm(request.POST)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;form.is_valid():<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;us_rol=UsuarioRol.objects.create(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;username=form.cleaned_data.get('username'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;email=form.cleaned_data.get('email'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nombres=form.cleaned_data.get('nombres'),&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apellidos=form.cleaned_data.get('apellidos'),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rol_suscriptor,&nbsp;created&nbsp;=&nbsp;Rol.objects.get_or_create(nombre='Suscriptor')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;us_rol.roles.add(rol_suscriptor)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;us_rol.save()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.save()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;redirect('registro')&nbsp;&nbsp;#&nbsp;Redirigir&nbsp;a&nbsp;la&nbsp;página&nbsp;de&nbsp;inicio&nbsp;de&nbsp;sesión<br>
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;form&nbsp;=&nbsp;RegistroForm()<br>
+return&nbsp;render(request,&nbsp;'main/registro.html',&nbsp;{'form':&nbsp;form})</tt></dd></dl>
+ <dl><dt><a name="-vista_admin"><strong>vista_admin</strong></a>(request)</dt></dl>
+ <dl><dt><a name="-vista_login"><strong>vista_login</strong></a>(request)</dt><dd><tt>Esta&nbsp;vista&nbsp;nos&nbsp;permite&nbsp;verificar,&nbsp;primero,&nbsp;si&nbsp;el&nbsp;formulario&nbsp;es&nbsp;valido.&nbsp;En&nbsp;caso&nbsp;de&nbsp;ser&nbsp;asi<br>
+con&nbsp;el&nbsp;metodo&nbsp;cleaned_data.get&nbsp;traemos&nbsp;el&nbsp;username&nbsp;y&nbsp;password&nbsp;ingresado.&nbsp;Luego&nbsp;con&nbsp;el&nbsp;metodo&nbsp;authenticate()<br>
+auutenticamos&nbsp;el&nbsp;usuario.<br>
+Si&nbsp;el&nbsp;metodo&nbsp;authenticate&nbsp;devuelve&nbsp;"None"&nbsp;significa&nbsp;que&nbsp;el&nbsp;usuario&nbsp;no&nbsp;esta&nbsp;autenticado&nbsp;en&nbsp;el&nbsp;sistema,&nbsp;en&nbsp;caso<br>
+de&nbsp;que&nbsp;sea&nbsp;distinto&nbsp;nos&nbsp;autenticamos&nbsp;en&nbsp;el&nbsp;sistema&nbsp;y&nbsp;nos&nbsp;redirige&nbsp;al&nbsp;Menu&nbsp;Principal<br>
+&nbsp;<br>
+if&nbsp;request.method&nbsp;==&nbsp;'POST':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;form&nbsp;=&nbsp;<a href="#CustomAuthenticationForm">CustomAuthenticationForm</a>(request,&nbsp;request.POST)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;form.is_valid():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;username&nbsp;=&nbsp;form.cleaned_data.get('username')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;password&nbsp;=&nbsp;form.cleaned_data.get('password')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user&nbsp;=&nbsp;authenticate(username=username,&nbsp;password=password)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;user&nbsp;is&nbsp;not&nbsp;None:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;login(request,&nbsp;user)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Usuario&nbsp;autenticado.&nbsp;Redireccionando...")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;redirect('MenuPrincipal')&nbsp;&nbsp;#&nbsp;Redireccionar&nbsp;al&nbsp;menú&nbsp;principal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Usuario&nbsp;no&nbsp;autenticado.")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("Formulario&nbsp;no&nbsp;válido.")<br>
+else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;form&nbsp;=&nbsp;<a href="django.contrib.auth.forms.html#AuthenticationForm">AuthenticationForm</a>()<br>
+return&nbsp;render(request,&nbsp;'registration/login.html',&nbsp;{'form':&nbsp;form})</tt></dd></dl>
+</td></tr></table>
+</body></html>
