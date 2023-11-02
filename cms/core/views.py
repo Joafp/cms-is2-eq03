@@ -935,11 +935,11 @@ def vista_autor(request):
     items_por_pagina = 2
 
     # Obtén los contenidos de las diferentes columnas
-    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
-    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
-    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
-    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
-    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username).order_by('-pk') #ordenar por id, de mayor a menor
+    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username).order_by('-pk')
+    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username).order_by('-pk')
+    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username).order_by('-pk')
+    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username).order_by('-pk')
 
     # Divide los contenidos en páginas
     paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
