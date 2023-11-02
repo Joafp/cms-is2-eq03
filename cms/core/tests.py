@@ -1,7 +1,7 @@
 from django.test import TestCase,Client
 from django.urls import reverse
 from . import urls
-from .models import Contenido, Categoria, VersionesContenido
+from .models import Contenido, Categoria, Likes, VersionesContenido
 from GestionCuentas.models import UsuarioRol, Rol
 from django.contrib.auth.models import Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -445,3 +445,114 @@ class VersionesTest(TestCase):
             
             # Verifica que se haya restaurado la version i - 1
             self.assertEqual(Contenido.objects.get(id=self.contenido_ejemplo.pk).titulo, f"Ver{i-1}", f"No se aplico la version {i-1} al contenido")
+
+class LikesTest(TestCase):
+    """
+    Verifica que se guarden los likes de usuario
+    Fecha: 2023/11/02
+    """
+
+    def setUp(self):
+        self.num_suscriptores = 3
+        self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        # Agrega el permiso para categorias no moderadas
+        perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+
+        # Crea una categoría no moderada de prueba
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.categoria.moderada = False
+        
+        # Crea un contenido publicado de ejemplo
+        self.contenido_ejemplo = Contenido.objects.create(
+            titulo='Ver1',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'P',
+            imagen= "contenido_imagenes/Octagon_delete.png"
+        )
+
+        self.likes = Likes.objects.get_or_create(contenido=self.contenido_ejemplo)[0]
+
+        # Crea suscriptores de prueba
+        self.suscriptores = [None, None, None, None, None]
+
+        for i in range(0, self.num_suscriptores):
+            self.suscriptores[i] = User.objects.create_user(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            UsuarioRol.objects.create(
+                username=f'sucriptor_{i}',
+                email=f'sucriptor_{i}@prueba.com',
+                nombres=f'Nombre susc{i}',
+                apellidos=f'Apellido susc{i}',
+            )
+
+        
+
+    def test_boton_like(self):
+        """
+        Da like al contenido de prueba y verifica que se guarde el like del usuario y el contador cuente correctamente el numero
+        """
+
+        for i in range(0, self.num_suscriptores):
+            # Iniciar sesión como el suscriptor
+            login = self.client.login(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            self.assertTrue(login, f"No se pudo loguear al sucriptor_{i}")
+
+            # Da like al contenido
+            response = self.client.get(reverse('dar_like', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 302, "No se pudo dar like al contenido")
+
+            # Verifica el incremento del numero de likes del contenido
+            self.assertEqual(self.likes.user_likes_count(), i+1, "No se contaron los likes correctamente")
+
+        
+        for i in range(0, self.num_suscriptores):
+            # Iniciar sesión como el suscriptor
+            login = self.client.login(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            self.assertTrue(login, f"No se pudo loguear al sucriptor_{i}")
+
+            # Quitar like al contenido
+            response = self.client.get(reverse('dar_like', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 302, "No se pudo quitar el like del contenido")
+
+            # Verifica la reduccion del numero de likes del contenido
+            self.assertEqual(self.likes.user_likes_count(), self.num_suscriptores-1-i, "No se contaron correctamente los likes quitados")
+
+    def test_boton_dislike(self):
+        """
+        Da dislike al contenido de prueba y verifica que se guarde el like del usuario y el contador cuente correctamente el numero
+        """
+
+        for i in range(0, self.num_suscriptores):
+            # Iniciar sesión como el suscriptor
+            login = self.client.login(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            self.assertTrue(login, f"No se pudo loguear al sucriptor_{i}")
+
+            # Da dislike al contenido
+            response = self.client.get(reverse('dar_dislike', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 302, "No se pudo dar dislike al contenido")
+
+            # Verifica el incremento del numero de dislikes del contenido
+            self.assertEqual(self.likes.user_dislikes_count(), i+1, "No se contaron los dislikes correctamente")
+
+        
+        for i in range(0, self.num_suscriptores):
+            # Iniciar sesión como el suscriptor
+            login = self.client.login(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            self.assertTrue(login, f"No se pudo loguear al sucriptor_{i}")
+
+            # Quitar dislike al contenido
+            response = self.client.get(reverse('dar_dislike', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 302, "No se pudo quitar el dislike del contenido")
+
+            # Verifica la reduccion del numero de dislikes del contenido
+            self.assertEqual(self.likes.user_dislikes_count(), self.num_suscriptores-1-i, "No se contaron correctamente los dislikes quitados")
