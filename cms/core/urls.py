@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib import admin
 urlpatterns = [
+    path('qr-code/<int:pk>/', views.qr_code, name='qr_code'),
     path('',views.vista_MenuPrincipal,name='MenuPrincipal'),
     path('main_trabajador/',views.vista_trabajador,name='maintrabajador'),
     path('gestioncuentas/',include('GestionCuentas.urls')),
