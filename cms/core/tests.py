@@ -7,11 +7,11 @@ from django.contrib.auth.models import Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
-from .models import Categoria,UsuarioRol,Contenido
+from .models import Categoria,UsuarioRol,Contenido,Calificacion,Comentario
 from GestionCuentas.models import Rol
 from django.test import override_settings
 from django.core import mail
-
+from .views import actualizar_calificacion_estrellas
 class CategoriaTestCase(TestCase):
     def setUp(self):
         self.client=Client()
@@ -533,3 +533,39 @@ class LikesTest(TestCase):
 
             # Verifica la reduccion del numero de dislikes del contenido
             self.assertEqual(self.likes.user_dislikes_count(), self.num_suscriptores-1-i, "No se contaron correctamente los dislikes quitados")
+
+
+class CalificacionTestCase(TestCase):
+    def setUp(self):
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.contenido = Contenido.objects.create(
+            titulo='Contenido de Prueba',
+            autor=self.autor,
+            categoria=self.categoria,
+            resumen='Resumen de prueba',
+            cuerpo='Cuerpo de prueba',
+            imagen='/contenido_imagenes/imagen.jpg'
+        )
+
+    def test_calificar_contenido(self):
+        self.client.login(username='testuser', password='testpassword')
+        calificacion_data = {'calificacion': 4}  # Calificación de ejemplo
+        response = self.client.post(f'/contenido/{self.contenido.id}/calificar/', calificacion_data)
+        self.assertEqual(response.status_code, 302)  # Comprueba que se redirige correctamente
+
+        # Comprueba que la calificación se ha registrado en la base de datos
+        calificacion = Calificacion.objects.get(contenido=self.contenido, usuario=self.user)
+        self.assertEqual(calificacion.calificacion, 4)
+
+        # Comprueba que la calificación media del contenido se ha actualizado
+        self.contenido.refresh_from_db()
+        self.assertEqual(self.contenido.promedio_calificaciones, 4.0)  # Actualiza esto con el valor esperado
