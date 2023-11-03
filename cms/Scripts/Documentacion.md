@@ -1,5 +1,6 @@
 <datils>
 <sumary>Crear Script "crear_admin.py"</sumary>
+El orden en el cual deben de ejecutarse los scripts es el siguiente, primeramente se debe crear los roles en el sistema esto permitira asignar a cada ususario un rol, luego de esto ejecutar el script crear usuario, esto carga 4 usuarios que serian el administrador, el autor, el editor y un publicador, luedo de estro le damos a crear_admin para darle todos los permisos al administrador y para los contenidos primero ejecutamos el script crear categoria y luego crear contenidos
 Para ejecutar los scripts se utiliza python crear_admin.py, tambien debemos de estar en la carpeta que contiene los scripts
 script: crear_admin.py
 Nos permite asingar el rol de administrador a un usuario que creemos en el sistema, mediante esto
