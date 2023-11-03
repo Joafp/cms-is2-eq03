@@ -16,7 +16,6 @@ class RolCrearTestCase(TestCase):
         item=Rol.objects.get(nombre='Prueba')
         self.assertEqual(item.nombre,"Prueba")
 
-
 # Esta prueba crea prueba a crear roles y asignar permisos
 class creacionRolPermisosTest(TestCase): 
     """
@@ -49,10 +48,10 @@ class creacionRolPermisosTest(TestCase):
         # setup permisos
     
         permisos = [
-            Permission.objects.get(codename="Vista autor"),
-            Permission.objects.get(codename="Vista editor"),
-            Permission.objects.get(codename="Vista publicador"),
-            Permission.objects.get(codename="Vista administrador"),
+            Permission.objects.get(codename="Vista_autor"),
+            Permission.objects.get(codename="Vista_editor"),
+            Permission.objects.get(codename="Vista_publicador"),
+            Permission.objects.get(codename="Vista_administrador"),
             Permission.objects.get(codename="Boton desarrollador")
         ]
         
@@ -108,10 +107,10 @@ class creacionRolPermisosTest(TestCase):
         Fecha: 2023/08/28
         """
         permisos = [
-            Permission.objects.get(codename="Vista autor"),
-            Permission.objects.get(codename="Vista editor"),
-            Permission.objects.get(codename="Vista publicador"),
-            Permission.objects.get(codename="Vista administrador"),
+            Permission.objects.get(codename="Vista_autor"),
+            Permission.objects.get(codename="Vista_editor"),
+            Permission.objects.get(codename="Vista_publicador"),
+            Permission.objects.get(codename="Vista_administrador"),
             Permission.objects.get(codename="Boton desarrollador")
         ]
         usuarioSuscriptor = UsuarioRol.objects.get(username='rolsususer')
@@ -156,10 +155,10 @@ class userAccountTest(TestCase):
         # setup permisos
     
         permisos = [
-            Permission.objects.get(codename="Vista autor"),
-            Permission.objects.get(codename="Vista editor"),
-            Permission.objects.get(codename="Vista publicador"),
-            Permission.objects.get(codename="Vista administrador"),
+            Permission.objects.get(codename="Vista_autor"),
+            Permission.objects.get(codename="Vista_editor"),
+            Permission.objects.get(codename="Vista_publicador"),
+            Permission.objects.get(codename="Vista_administrador"),
             Permission.objects.get(codename="Boton desarrollador"),
             Permission.objects.get(codename="Ver usuarios"),
             Permission.objects.get(codename="Editar usuarios"),
