@@ -40,11 +40,17 @@ class registroFormTest(TestCase):
 
     def test_registro_password1_label(self):
         form = RegistroForm()
-        self.assertTrue(form.fields['password1'].label is None or form.fields['password1'].label == 'Contraseña')
+        try:
+            self.assertIsNone(form.fields['password1'].label)
+        except AssertionError:
+            self.fail("La contraseña es nula")
 
     def test_registro_password2_label(self):
         form = RegistroForm()
-        self.assertTrue(form.fields['password2'].label is None or form.fields['password2'].label == 'Repetir contraseña')
+        try:
+            self.assertEqual(form.fields['password2'].label, 'password1')
+        except AssertionError:
+            self.fail("La contraseña no coincide con la otra contraseña")
 
 
 # Test de view registro

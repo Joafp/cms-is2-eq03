@@ -16,7 +16,6 @@ class RolCrearTestCase(TestCase):
         item=Rol.objects.get(nombre='Prueba')
         self.assertEqual(item.nombre,"Prueba")
 
-
 # Esta prueba crea prueba a crear roles y asignar permisos
 class creacionRolPermisosTest(TestCase): 
     """
