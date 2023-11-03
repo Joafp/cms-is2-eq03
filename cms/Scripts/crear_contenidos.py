@@ -30,6 +30,6 @@ def crear_contenido_borrador(categoria_nombre, autor_username):
 
 # Llama a la función para crear contenido en estado borrador para cada categoría
 categorias_a_crear = ["Fútbol", "Música", "Cine", "Tecnología", "Viajes"]
-autor_username = "Joaadmin"
+autor_username = "Joadmin"
 for categoria_nombre in categorias_a_crear:
     crear_contenido_borrador(categoria_nombre, autor_username)

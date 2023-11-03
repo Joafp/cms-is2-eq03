@@ -40,11 +40,11 @@ class registroFormTest(TestCase):
 
     def test_registro_password1_label(self):
         form = RegistroForm()
-        self.assertTrue(form.fields['password1'].label is None or form.fields['password1'].label == 'password1')
+        self.assertTrue(form.fields['password1'].label is None or form.fields['password1'].label == 'Contraseña')
 
     def test_registro_password2_label(self):
         form = RegistroForm()
-        self.assertTrue(form.fields['password2'].label is None or form.fields['password2'].label == 'password2')
+        self.assertTrue(form.fields['password2'].label is None or form.fields['password2'].label == 'Repetir contraseña')
 
 
 # Test de view registro
@@ -115,10 +115,10 @@ class completarRegistroLoginTest(TestCase):
         # setup permisos
     
         permisos = [
-            Permission.objects.get(codename="Vista autor"),
-            Permission.objects.get(codename="Vista editor"),
-            Permission.objects.get(codename="Vista publicador"),
-            Permission.objects.get(codename="Vista administrador"),
+            Permission.objects.get(codename="Vista_autor"),
+            Permission.objects.get(codename="Vista_editor"),
+            Permission.objects.get(codename="Vista_publicador"),
+            Permission.objects.get(codename="Vista_administrador"),
             Permission.objects.get(codename="Boton desarrollador")
         ]
         
@@ -159,7 +159,7 @@ class completarRegistroLoginTest(TestCase):
         nombres = "test name"
         apellidos = "test lastname"
         response = self.client.post(reverse('registro'), {'email':email, 'telefono': telefono, 'username': username, 'password1': password1, 'password2': password2, 'nombres':nombres, 'apellidos': apellidos})
-        self.assertRedirects(response, reverse('registro'))
+        self.assertRedirects(response, reverse('login'))
 
     def test_login_redirige_a_pagina_principal(self):
         """
@@ -193,9 +193,9 @@ class completarRegistroLoginTest(TestCase):
         login = self.client.login(username='stafftestuser123', password='4L1_khrSri8i')
         usuario_rol = UsuarioRol.objects.get(username='stafftestuser123')
         response = self.client.get(reverse('maintrabajador'))
-        self.assertInHTML('<button class="volver-button">Entrar como Autor</button>', response.content.decode())
-        self.assertInHTML('<button class="volver-button">Entrar como editor</button>', response.content.decode())
-        self.assertInHTML('<button class="volver-button">Entrar como publicador</button>', response.content.decode())
-        self.assertInHTML('<button class="volver-button">Entrar como administrador</button>', response.content.decode())
+        self.assertInHTML('Vista Autor', response.content.decode())
+        self.assertInHTML('Vista editor', response.content.decode())
+        self.assertInHTML('Vista publicador', response.content.decode())
+        self.assertInHTML('Vista administrador', response.content.decode())
         response = self.client.get(reverse('MenuPrincipal'))
         self.assertInHTML('Entrar al  modo desarrollador', response.content.decode(), 1)

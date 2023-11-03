@@ -200,7 +200,7 @@
                         <option value="{{ autor.username }}" {% if autor.username == autor %}selected{% endif %}>{{ autor.username }}</option>
                     {% endfor %}
                     </select>
-                    <br></br>
+                    <br>
                     <label for="fecha_inicio">Fecha de inicio:</label>
                     <input type="date" name="fecha_inicio" id="fecha_inicio">
                     
@@ -224,10 +224,10 @@
                 <p>Filtrar hasta la fecha: {{ fecha_fin }}</p>
               {% endif %}
         </div>
-        <hr></hr>
+        <hr>
     </div>
     <h1>Contenidos</h1>
-    <hr></hr>
+    <hr>
     <div class="contenedor-2">
         {% for Contenido in contenido %}
         {% if Contenido.estado == 'P' %} 
