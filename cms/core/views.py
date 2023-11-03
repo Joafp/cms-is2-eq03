@@ -1565,6 +1565,34 @@ def dar_dislike(request, pk):
     Likes.objects.get(contenido__id=pk).user_dislikes.add(usuario)
     return redirect('detalles_articulo', pk=pk)
 def calificar_contenido(request, contenido_id):
+    """
+    Comentado el 02/11/2023
+    Esta vista sirve para calificar un contneido, luego de calificar hacemos un promedio de calificaiones y mostramos.
+
+    def calificar_contenido(request, contenido_id):
+        contenido = get_object_or_404(Contenido, id=contenido_id)
+        usuario = request.user
+        calificacion = Decimal(request.POST.get('calificacion',0))
+
+        # Verificar si el usuario ya ha calificado el contenido
+        calificacion_existente, created = Calificacion.objects.get_or_create(contenido=contenido, usuario=usuario, defaults={'calificacion': calificacion})
+
+        if not created:
+            # Actualizar la calificación existente
+            calificacion_existente.calificacion = calificacion
+            calificacion_existente.save()
+
+        # Recalcular la calificación media del contenido
+        calificaciones = Calificacion.objects.filter(contenido=contenido)
+        promedio_calificaciones = calificaciones.aggregate(Avg('calificacion'))['calificacion__avg'] or 0
+        contenido.promedio_calificaciones = promedio_calificaciones
+        contenido.save()
+
+        # Llama a la función para actualizar la calificación de estrellas
+        actualizar_calificacion_estrellas(contenido)
+
+        return redirect('detalles_articulo', pk=contenido.id)
+    """
     contenido = get_object_or_404(Contenido, id=contenido_id)
     usuario = request.user
     calificacion = Decimal(request.POST.get('calificacion',0))
@@ -1589,7 +1617,24 @@ def calificar_contenido(request, contenido_id):
     return redirect('detalles_articulo', pk=contenido.id)
 
 def actualizar_calificacion_estrellas(contenido):
-    """Actualiza la calificación de estrellas de un contenido."""
+    """
+    Documentado el 2/11/2023
+    La vista sirve para actualizar una calificaion, es decir cuando un usuario ya califico un contenido y desea cambiar la calificacion
+    
+    def actualizar_calificacion_estrellas(contenido):
+        promedio_calificaciones = contenido.promedio_calificaciones
+        num_estrellas = round(promedio_calificaciones)  # Redondeamos al número entero más cercano
+
+        # Establecer la clase de cada estrella en función del número de estrellas
+        for i in range(1, 6):
+            estrella_active = i <= num_estrellas
+
+            # Guardar el estado de la estrella en tu modelo Contenido
+            setattr(contenido, f'stars_{i}', estrella_active)
+
+        contenido.save()
+  
+    """
 
     promedio_calificaciones = contenido.promedio_calificaciones
     num_estrellas = round(promedio_calificaciones)  # Redondeamos al número entero más cercano
@@ -1604,6 +1649,17 @@ def actualizar_calificacion_estrellas(contenido):
     contenido.save()
 
 def aumentar_veces_compartido(request, contenido_id):
+    """
+    Documentado el 02/11/2023
+    Esta view se encarga de aumentar el contador de veces compartido de un contenido
+
+    def aumentar_veces_compartido(request, contenido_id):
+        contenido = Contenido.objects.get(id=contenido_id)
+        contenido.veces_compartido += 1
+        contenido.save()
+        return redirect('detalles_articulo', pk=contenido.id)
+
+    """
     contenido = Contenido.objects.get(id=contenido_id)
     contenido.veces_compartido += 1
     contenido.save()
@@ -1612,6 +1668,18 @@ def aumentar_veces_compartido(request, contenido_id):
 
   
 def qr_code(request, pk):
+    """
+    Documentado 02/11/2023
+    Esta vista sirve para generar el codigo qr y que muestre el link de la pagina actual
+    def qr_code(request, pk):
+        contenido = get_object_or_404(Contenido, id=pk)
+        aumentar_veces_compartido(request,pk)
+        url = request.build_absolute_uri(f'/articulo/{pk}')
+        img = qrcode.make(url)
+        response = HttpResponse(content_type="image/png")
+        img.save(response, "PNG")
+        return response
+    """
     contenido = get_object_or_404(Contenido, id=pk)
     aumentar_veces_compartido(request,pk)
     url = request.build_absolute_uri(f'/articulo/{pk}')
