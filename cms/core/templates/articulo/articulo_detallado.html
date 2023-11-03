@@ -179,6 +179,10 @@
             font-size: 0.8em;
             color: #6c757d;
         }
+        .compartir{
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -218,7 +222,7 @@
         <button type="submit">Calificar</button>
     </form>
     <hr></hr>
-    <div>
+    <div class="compartir">
         <img src="{% url 'qr_code' object.id %}" alt="QR Code" style="width: 100px;">
         <!-- Botón de compartir -->
         <button class="share-button" id="shareButton">Compartir</button>
