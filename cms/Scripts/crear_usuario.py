@@ -48,7 +48,14 @@ if __name__ == "__main__":
             "email": "joaneitor38@gmail.com",
             "nombres": "Joaquin Publicador",
             "apellidos": "Delgado"
-        }
+        },
+        {
+            "username": "Joadmin",
+            "email": "joad.d@hotmail.com",
+            "nombres": "Joaquin Administrador",
+            "apellidos": "Delgado"
+        },
+        
     ]
 
     for usuario_data in usuarios:
