@@ -1681,7 +1681,7 @@ def qr_code(request, pk):
         return response
     """
     contenido = get_object_or_404(Contenido, id=pk)
-    aumentar_veces_compartido(request,pk)
+    """aumentar_veces_compartido(request,pk)"""
     url = request.build_absolute_uri(f'/articulo/{pk}')
     img = qrcode.make(url)
     response = HttpResponse(content_type="image/png")
