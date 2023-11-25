@@ -33,6 +33,7 @@ urlpatterns = [
     path('reactivar-contenido/<int:contenido_id>/', views.reactivar_contenido, name='reactivar_contenido'),
     path('contenidos-inactivos/',views.contenidos_inactivos,name='contenidos-inactivos'),
     path('articulo/<int:pk>', VistaArticulos.as_view(),name='detalles_articulo'),
+    path('toggle_destacado/<int:pk>/', views.toggle_destacado, name='toggle_destacado'),
     path('articulo_edicion/<int:pk>', VistaArticulosEditor.as_view(),name='detalles_articulo_edicion'),
     path('articulo_revision/<int:pk>', VistaArticulosRevision.as_view(),name='detalles_articulo_revision'),
     path('miscontenidos-borrador/',views.vista_mis_contenidos_borrador,name='ContenidosBorrador'),

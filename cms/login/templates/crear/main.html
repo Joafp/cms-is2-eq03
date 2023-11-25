@@ -231,6 +231,7 @@
     <div class="contenedor-2">
         {% for Contenido in contenido %}
         {% if Contenido.estado == 'P' %} 
+           {% if Contenido.destacado == 1 %} 
                 <div class= "card">
                     <figure>
                         <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
@@ -242,6 +243,24 @@
                         
                     </div>     
                 </div>
+            {% endif %}    
+        {% endif %}    
+        {% endfor %}    
+        {% for Contenido in contenido %}
+        {% if Contenido.estado == 'P'%} 
+          {% if Contenido.destacado == 0 %} 
+                <div class= "card">
+                    <figure>
+                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                    </figure>
+                    <div class="contenido">
+                        <h3>{{Contenido.titulo| safe }}</h3>
+                        <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
+                        <p>{{Contenido.resumen | safe }}</p>
+                        
+                    </div>     
+                </div>
+            {% endif %}    
         {% endif %}    
         {% endfor %}    
     </div>

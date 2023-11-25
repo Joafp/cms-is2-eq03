@@ -34,6 +34,7 @@ class Contenido(models.Model):
         ('r','Rechazado'),
         ('I','Inactivo'),
     )
+    destacado= models.PositiveIntegerField(default=0)
     veces_visto= models.PositiveIntegerField(default=0)
     veces_compartido = models.PositiveIntegerField(default=0)
     stars = models.PositiveIntegerField(default=0)

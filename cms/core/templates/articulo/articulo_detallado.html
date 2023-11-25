@@ -204,6 +204,17 @@
     <hr></hr>
     <p>{% include 'articulo/likes.html' %}</p>
     <hr></hr>
+    {% for permiso in permisos_del_usuario %}
+        {% if permiso.codename == 'Vista_publicador' %}
+        <form method="post" action="{% url 'toggle_destacado' pk=object.id %}">
+            {% csrf_token %}
+            <label for="destacado">Destacado:</label>
+            <input type="checkbox" id="destacado" name="destacado" {% if object.destacado %}checked{% endif %}>
+            <button type="submit">Guardar</button>
+        </form>
+        {% endif %}
+    {% endfor %}  
+    <hr></hr>
     <form method="post" action="{% url 'calificar_contenido' contenido.id %}">
         {% csrf_token %}
         <label for="calificacion">Calificación:</label>

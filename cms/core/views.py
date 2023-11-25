@@ -1,5 +1,7 @@
 from pyexpat.errors import messages
+from django.urls import reverse
 from typing import Any
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, HttpResponse,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from GestionCuentas.models import UsuarioRol,Rol
@@ -578,7 +580,14 @@ class VistaArticulos(DetailView):
             context['liked'] = 'liked'
         elif likes.user_dislikes.filter(username=self.request.user.username).exists():
             context['disliked'] = 'disliked'
-        
+        permisos_del_usuario = []
+        usuario_rol = UsuarioRol.objects.get(username=self.request.user.username)
+        roles_del_usuario = usuario_rol.roles.all()
+        # Itera a través de los roles y agrega los permisos únicos a la lista
+        for rol in roles_del_usuario:
+            permisos_del_rol = rol.permisos.all()
+            permisos_del_usuario.extend(permisos_del_rol)
+        context['permisos_del_usuario']=permisos_del_usuario    
         return context
 
 class VistaArticulosEditor(DetailView):
@@ -1010,47 +1019,53 @@ def vista_mis_contenidos_publicados(request):
 
 @login_required(login_url="/login")
 def publicar_contenido(request,contenido_id):
-    # Obtén el objeto de contenido basado en algún criterio, como un ID
-    contenido = Contenido.objects.get(id=contenido_id)
-    contenido.estado = 'P'
-    contenido.publicador= UsuarioRol.objects.get(username=request.user.username)
-    contenido.ultimo_publicador=request.user.username
-    contenido.fecha_publicacion = timezone.now().date()
-    # Guarda el objeto de contenido
-    contenido.save()
-    nuevo_cambio = HistorialContenido(
-                contenido=contenido,  # Asigna la instancia de Contenido, no el ID
-                cambio=f"Se publico el contenido con el Titulo {contenido.titulo} por el autor {contenido.autor.username}. El contenido pasa a estado 'Publicado'. El Publicador que acepto la publicacion fue : {contenido.ultimo_publicador}"
-            )
-    nuevo_cambio.save()
-    mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
-                                            {'nombre': request.user.username,
-                                            'titulo_contenido': contenido.titulo,
-                                            'razon': contenido.razon,
-                                            'urlhost':request.get_host(),
-                                                    'contenidopk':contenido.pk})
+    if request.method == 'POST':    
+        # Obtén el objeto de contenido basado en algún criterio, como un ID
+        contenido = Contenido.objects.get(id=contenido_id)
+        destacado = request.POST.get('destacado')
+        if destacado == '1':
+            contenido.destacado = 1
+        else:
+            contenido.destacado = 0
+        contenido.estado = 'P'
+        contenido.publicador= UsuarioRol.objects.get(username=request.user.username)
+        contenido.ultimo_publicador=request.user.username
+        contenido.fecha_publicacion = timezone.now().date()
+        # Guarda el objeto de contenido
+        contenido.save()
+        nuevo_cambio = HistorialContenido(
+                    contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                    cambio=f"Se publico el contenido con el Titulo {contenido.titulo} por el autor {contenido.autor.username}. El contenido pasa a estado 'Publicado'. El Publicador que acepto la publicacion fue : {contenido.ultimo_publicador}"
+                )
+        nuevo_cambio.save()
+        mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
+                                                {'nombre': request.user.username,
+                                                'titulo_contenido': contenido.titulo,
+                                                'razon': contenido.razon,
+                                                'urlhost':request.get_host(),
+                                                        'contenidopk':contenido.pk})
+            
+        send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
+                    from_email=None,
+                        recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
+                        html_message=mensaje_edicion)
         
-    send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
-                from_email=None,
-                    recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
-                    html_message=mensaje_edicion)
-    
 
-    mensaje_edicion = render_to_string("email-notifs/email_notificacion_publicador.html",
-                                            {'nombre_publicador': request.user.username,
-                                            'nombre_editor':contenido.ultimo_editor,
-                                            'nombre_autor':contenido.autor_id,
-                                            'titulo_contenido': contenido.titulo,
-                                            'razon': contenido.razon,
-                                            'urlhost':request.get_host(),
-                                                    'contenidopk':contenido.pk})
-        
-    send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
-                from_email=None,
-                    recipient_list=[UsuarioRol.objects.get(username=contenido.publicador.username).email, 'is2cmseq03@gmail.com', ],
-                    html_message=mensaje_edicion)
-    # Redirige al usuario a la vista del editor
-    return redirect('Publicador')
+        mensaje_edicion = render_to_string("email-notifs/email_notificacion_publicador.html",
+                                                {'nombre_publicador': request.user.username,
+                                                'nombre_editor':contenido.ultimo_editor,
+                                                'nombre_autor':contenido.autor_id,
+                                                'titulo_contenido': contenido.titulo,
+                                                'razon': contenido.razon,
+                                                'urlhost':request.get_host(),
+                                                        'contenidopk':contenido.pk})
+            
+        send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
+                    from_email=None,
+                        recipient_list=[UsuarioRol.objects.get(username=contenido.publicador.username).email, 'is2cmseq03@gmail.com', ],
+                        html_message=mensaje_edicion)
+        # Redirige al usuario a la vista del editor
+        return redirect('Publicador')
 
 @login_required(login_url="/login")
 def inactivar_contenido(request,contenido_id):
@@ -1687,3 +1702,13 @@ def qr_code(request, pk):
     response = HttpResponse(content_type="image/png")
     img.save(response, "PNG")
     return response
+
+def toggle_destacado(request, pk):
+    # Obtener el contenido
+    contenido = get_object_or_404(Contenido, pk=pk)
+    # Cambiar el estado de destacado del contenido
+    contenido.destacado = not contenido.destacado
+    contenido.save()
+
+    # Redirigir a la página de detalles del contenido
+    return HttpResponseRedirect(reverse('detalles_articulo', kwargs={'pk': pk}))
