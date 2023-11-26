@@ -21,6 +21,7 @@ urlpatterns = [
     path('publicarcontenido/',views.vista_publicador,name='Publicador'),
     path('contenido/<int:contenido_id>/calificar/', views.calificar_contenido, name='calificar_contenido'),
     path('vistapublicador/',views.publicador,name='vista_pub'),
+    path('estadisticas/',views.grafico_estadisticas,name='estadisticas'),
     path('vistaautor/',views.vista_autor,name='vista_autor'),
     path('aumentar_veces_compartido/<int:contenido_id>/', views.aumentar_veces_compartido, name='aumentar_veces_compartido'),
     path('tablageneral/',views.tabla_kanbangeneral,name='tabla_general'),

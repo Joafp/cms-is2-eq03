@@ -28,7 +28,7 @@ from django.db.models import Avg
 from django.http import JsonResponse
 import qrcode
 from django.http import HttpResponse
-
+import plotly.express as px
 class CrearContenido(CreateView):
     """
     La clase creacontenido utiliza el view de django CreateView, este view nos permite rellenar datos para un modelo
@@ -1757,3 +1757,70 @@ def quitar_favorito(request, pk):
     favorito.user_sub.remove(usuario)
     
     return redirect('MenuPrincipal')
+
+from django.db.models import Count, Sum
+import plotly.express as px
+import plotly.graph_objs as go
+from plotly.offline import plot
+def grafico_estadisticas(request):
+    # Obtener las categorías y la cantidad de vistas de cada una
+    categorias = Categoria.objects.all()
+    datos_categorias = []
+    for categoria in categorias:
+        cantidad_vistas = Contenido.objects.filter(categoria=categoria).aggregate(total=Sum('veces_visto'))['total'] or 0
+        datos_categorias.append({'Categoria': categoria.nombre, 'Vistas': cantidad_vistas})
+
+    # Crear el gráfico de barras para las categorías más vistas
+    fig_categorias = px.bar(datos_categorias, x='Categoria', y='Vistas', title='Categorías más vistas')
+
+    # Obtener los contenidos con más likes y sus categorías
+    contenidos_likes = Likes.objects.values('contenido__titulo', 'contenido__categoria__nombre').annotate(total_likes=Count('user_likes')).order_by('-total_likes')[:10]
+    datos_contenidos_likes = []
+    for contenido_like in contenidos_likes:
+        datos_contenidos_likes.append({'Contenido': contenido_like['contenido__titulo'], 'Categoria': contenido_like['contenido__categoria__nombre'], 'Likes': contenido_like['total_likes']})
+
+    # Crear el gráfico de barras para los contenidos con más likes
+    fig_contenidos_likes = px.bar(datos_contenidos_likes, x='Contenido', y='Likes', title='Contenidos con más likes')
+
+    plot_contenidos_likes = fig_contenidos_likes.to_html(full_html=False, default_height=500, default_width=700)
+    plot_categorias = fig_categorias.to_html(full_html=False, default_height=500, default_width=700)
+    contenidos_dislikes = Likes.objects.values('contenido__titulo', 'contenido__categoria__nombre').annotate(total_dislikes=Count('user_dislikes')).order_by('-total_dislikes')[:10]
+    datos_contenidos_dislikes = []
+    for contenido_dislike in contenidos_dislikes:
+        datos_contenidos_dislikes.append({'Contenido': contenido_dislike['contenido__titulo'], 'Categoria': contenido_dislike['contenido__categoria__nombre'], 'DisLikes': contenido_dislike['total_dislikes']})
+
+    # Crear el gráfico de barras para los contenidos con más likes
+    fig_contenidos_dislikes = px.bar(datos_contenidos_dislikes, x='Contenido', y='DisLikes', title='Contenidos con más Dislikes')
+
+    plot_contenidos_dislikes = fig_contenidos_dislikes.to_html(full_html=False, default_height=500, default_width=700)
+    contenidos_mas_vistos = Contenido.objects.filter(estado='P').order_by('-veces_visto')[:10]
+
+    titulos = [contenido.titulo for contenido in contenidos_mas_vistos]
+    veces_vistos = [contenido.veces_visto for contenido in contenidos_mas_vistos]
+
+    data = [go.Bar(x=titulos, y=veces_vistos)]
+    layout = go.Layout(title='Contenidos más vistos')
+    fig = go.Figure(data=data, layout=layout)
+
+    plot_contenido_vistas = plot(fig, output_type='div', include_plotlyjs=False)
+    
+    contenidos_compartidos = Contenido.objects.filter(estado='P').order_by('-veces_compartido')[:10]
+
+    titulos = [contenido.titulo for contenido in contenidos_compartidos]
+    veces_compartidos = [contenido.veces_compartido for contenido in contenidos_compartidos]
+
+    data = [go.Bar(x=titulos, y=veces_compartidos)]
+    layout = go.Layout(title='Contenidos más Compartidos')
+    fig = go.Figure(data=data, layout=layout)
+
+    plot_veces_compartidos = plot(fig, output_type='div', include_plotlyjs=False)
+
+
+    context = {
+        'plot_html': plot_categorias,
+        'plot_contenidos_likes': plot_contenidos_likes,
+        'plot_contenidos_dislikes': plot_contenidos_dislikes,
+        'plot_contenido_vistas': plot_contenido_vistas,
+        'plot_veces_compartidos': plot_veces_compartidos
+    }
+    return render(request, 'graficos/graficos.html', context)
