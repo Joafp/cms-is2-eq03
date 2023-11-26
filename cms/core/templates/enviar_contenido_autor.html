@@ -25,13 +25,25 @@
 <body>
     {% block content %}
     <a href="{% url 'ContenidosBorrador' %}" class="volver-button">Volver a mis contenidos en Borrador</a>
-    <h1>Dar Un Comentario sobre el contenido a ser enviado para edicion</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.media }}
-        {{ form.as_p }}
-        <button class="btn btn-secondary" name="enviar_editor">Enviar a Editor</button>
-    </form>
+    {% if object.moderado == True %}
+        <h1>Dar Un Comentario sobre el contenido a ser enviado para edicion</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <button class="btn btn-secondary" name="enviar_editor">Enviar a Editor</button>
+        </form>
+    {% endif %}
+    {% if object.moderado == False %}
+        <h1>Seleccione la fecha de publicacion</h1>
+        <p>Dejar en blanco para publicar inmediatamente</p>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="fecha_programada">Fecha de publicacion</label>
+            <input type="date" name="fecha_programada" id="fecha_programada">
+            <input type="submit" class="my-button" value="Programar Publicacion" name="enviar_editor">
+        </form>
+    {% endif %}
     {% endblock %}
 </body>
 </html>

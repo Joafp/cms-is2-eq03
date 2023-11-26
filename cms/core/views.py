@@ -251,9 +251,22 @@ class EnviarContenidoAutor(UpdateView):
         if "enviar_editor" in self.request.POST:
             # Publica directamente si la categoria es no moderada
             if self.object.categoria.moderada == False:
+                fecha = self.request.POST.get("fecha_programada")
+                programado = True
+                if len(fecha) == 0:
+                    programado = False
+                    fecha = timezone.datetime.now()
                 self.object.ultimo_publicador=self.request.user.username
                 self.object.estado = 'P'
+                self.object.fecha_publicacion = fecha
                 self.object.save()
+                if programado:
+                    nuevo_cambio = HistorialContenido(
+                        contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+                        cambio=f"Se programo el contenido el con el Titulo {self.object.titulo} por el autor {self.object.autor.username}, para ser publicado en fecha {fecha}"
+                    )
+                    nuevo_cambio.save()
+
                 mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
                                                 {'nombre': self.request.user.username,
                                                 'titulo_contenido': self.object.titulo,
@@ -386,9 +399,9 @@ def vista_MenuPrincipal(request):
     autenticado=User.is_authenticated
     categorias= Categoria.objects.filter(activo=True)
     autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
-    contenidos=Contenido.objects.filter(autor__in=autores_activos)
+    contenidos=Contenido.objects.filter(autor__in=autores_activos, estado='P', fecha_publicacion__lte=timezone.datetime.now()) # Ocultar contenido no publicado
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
-    primeros_contenidos = contenidos.filter(estado='P')
+    primeros_contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
@@ -444,7 +457,7 @@ def vista_MenuPrincipal_filtrado(request):
     autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
     contenidos=Contenido.objects.filter(autor__in=autores_activos)
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
-    primeros_contenidos = contenidos.filter(estado='P')[:10]
+    primeros_contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())[:10]
       # Obtiene los parámetros de búsqueda del formulario
     q = request.GET.get('q', '')
     categoria = request.GET.get('categoria', '')  # Establecer valor predeterminado
@@ -454,6 +467,9 @@ def vista_MenuPrincipal_filtrado(request):
 
     # Inicializar el queryset con todos los contenidos
     contenidos = Contenido.objects.all()
+
+    #Filtrar contenidos no publicados
+    contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
 
     # Si hay un término de búsqueda, filtrar por el campo correspondiente
     if q:
@@ -474,7 +490,7 @@ def vista_MenuPrincipal_filtrado(request):
     # Si se proporciona fecha de fin pero no fecha de inicio, filtrar por el campo fecha_publicacion hasta la fecha de fin
     if fecha_fin:
         contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
-    primeros_contenidos=contenidos.filter(estado='P')[:10]  
+    primeros_contenidos=contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())[:10]  
     # Renderizar la plantilla con los resultados y los valores de los filtros
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
@@ -510,6 +526,7 @@ def vista_MenuPrincipal_filtrado(request):
         }    
     print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
+
 @login_required(login_url="/login")
 def vista_trabajador(request):
     """
@@ -616,7 +633,7 @@ class VistaContenidos(ListView):
     context_object_name = 'contenidos'  # Nombre del objeto que se utilizará en la plantilla
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        c=self.object_list.filter(estado='P')
+        c=self.object_list.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now()) # Oculta los contenidos programados para publicarse en fechas futuras
         paginator = Paginator(c, 4)  # Cambia '10' por la cantidad de elementos por página que desees
         page = self.request.GET.get('page')
         context['contenidos'] = paginator.get_page(page)
@@ -638,6 +655,9 @@ class VistaContenidos(ListView):
 
        # Inicializar el queryset con todos los contenidos
         contenidos = Contenido.objects.all()
+
+        #Filtrar contenidos no publicados
+        contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
 
         # Si hay un término de búsqueda, filtrar por el campo correspondiente
         if q:
@@ -680,7 +700,7 @@ def categoria(request,nombre):
     """
 
     categoria= get_object_or_404(Categoria,nombre=nombre)
-    contenidos=Contenido.objects.filter(categoria_id=categoria.id)
+    contenidos=Contenido.objects.filter(categoria_id=categoria.id, estado='P', fecha_publicacion__lte=timezone.datetime.now()) # Oculta contenidos no publicados
     context = {
         'categoria': categoria,
         'contenidos': contenidos
@@ -1024,11 +1044,11 @@ def vista_mis_contenidos_publicados(request):
     }
     return render(request,'vistas_autor/mis_contenidos_publicados.html',context)
 
-    
+
 
 @login_required(login_url="/login")
 def publicar_contenido(request,contenido_id):
-    if request.method == 'POST':    
+    if request.method == 'POST':
         # Obtén el objeto de contenido basado en algún criterio, como un ID
         contenido = Contenido.objects.get(id=contenido_id)
         destacado = request.POST.get('destacado')
@@ -1039,7 +1059,25 @@ def publicar_contenido(request,contenido_id):
         contenido.estado = 'P'
         contenido.publicador= UsuarioRol.objects.get(username=request.user.username)
         contenido.ultimo_publicador=request.user.username
-        contenido.fecha_publicacion = timezone.now().date()
+        contenido.fecha_publicacion = timezone.now()
+
+        if "programar_publicacion" in request.POST:
+            fecha = request.POST.get('fecha_programada')
+            # hora = request.POST.get('hora_programada')
+            # contenido.fecha_publicacion = datetime_object = datetime.strptime(fecha+' '+hora, '%Y-%m-%d %H:%M')
+            contenido.fecha_publicacion = datetime.strptime(fecha, '%Y-%m-%d')
+            contenido.save()
+            nuevo_cambio = HistorialContenido(
+                    contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                    cambio=f"Se programo la publicacion del contenido con el Titulo {contenido.titulo} por el autor {contenido.autor.username} Para la fecha {contenido.fecha_publicacion}. El contenido pasa a estado 'Publicado'. El Publicador que acepto la publicacion fue : {contenido.ultimo_publicador}"
+            )
+            nuevo_cambio.save()
+            send_mail(subject="Contenido Progamado para publicarse en la pagina", message=f"Su contenido {contenido.titulo} fue programado para publicarse en la pagina en la fecha {contenido.fecha_publicacion}",
+                    from_email=None,
+                        recipient_list=[UsuarioRol.objects.get(username=contenido.publicador.username).email, 'is2cmseq03@gmail.com', ],
+                        html_message=None)
+            return redirect('vista_pub')
+        
         # Guarda el objeto de contenido
         contenido.save()
         nuevo_cambio = HistorialContenido(

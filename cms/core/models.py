@@ -59,6 +59,17 @@ class Contenido(models.Model):
     def get_absolute_url(self):
         return reverse('crear_contenido')
     
+    @property
+    def contenido_programado(self):
+        # Retorna true si el contenido esta programado para publicarse en una fecha posterior
+        return self.fecha_publicacion > datetime.today().date()
+    
+    @property
+    def moderado(self):
+        # Retorna true si el contenido esta en una categoria moderada
+        return self.categoria.moderada
+
+    
 
 
 class Calificacion(models.Model):
