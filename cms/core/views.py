@@ -256,6 +256,8 @@ class EnviarContenidoAutor(UpdateView):
                 if len(fecha) == 0:
                     programado = False
                     fecha = timezone.datetime.now()
+                else:
+                    fecha = datetime.strptime(fecha, '%Y-%m-%d')
                 self.object.ultimo_publicador=self.request.user.username
                 self.object.estado = 'P'
                 self.object.fecha_publicacion = fecha
