@@ -46,6 +46,7 @@ class UsuarioRol(AbstractBaseUser):
     usuario_administrador: nos permite agregar mas permisos a un usuario en caso que sea administrador
     roles: utilizamos la clase anteriormente mencionada para agregar los roles a un usuario, un usuario puede tener mas de un rol
     """
+    # Resto del código
     username=models.CharField('Nombre de usuario',unique=True,max_length=100)
     email=models.EmailField('Correo electronico',max_length=254,unique=True)
     nombres=models.CharField('Nombres',max_length=200,blank=True,null=True)

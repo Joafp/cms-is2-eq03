@@ -15,7 +15,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
 from decimal import Decimal
 from django.db.models import Sum
-from .models import Categoria
+from .models import Categoria,Favorito
 from .models import Likes
 from .models import Contenido,HistorialContenido,VersionesContenido,Comentario
 from .models import Contenido,HistorialContenido,VersionesContenido,Comentario,Calificacion
@@ -302,7 +302,7 @@ class EnviarContenidoAutor(UpdateView):
                             recipient_list=[UsuarioRol.objects.get(id=self.object.autor_id).email, 'is2cmseq03@gmail.com', ],
                             html_message=mensaje_edicion)
             
-            return redirect('ContenidosBorrador')
+            return redirect('vista_autor')
             
         return response     
     
@@ -388,23 +388,27 @@ def vista_MenuPrincipal(request):
     autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
     contenidos=Contenido.objects.filter(autor__in=autores_activos)
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
-    primeros_contenidos = contenidos.filter(estado='P')[:10]
+    primeros_contenidos = contenidos.filter(estado='P')
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
+        favoritos = Favorito.objects.filter(user_sub=usuario_rol)
+        user_favoritos = [favorito.categoria.pk for favorito in favoritos]
         context={
             'autenticado':autenticado,
             'tiene_permiso':tiene_permiso,
             'categorias': categorias,
             'contenido':primeros_contenidos,
-            'autores':autores
+            'autores':autores,
+            'user_favoritos': user_favoritos
         }
     else:
         context={
             'autenticado': autenticado,
             'categorias': categorias,
             'contenido':primeros_contenidos,
-            'autores':autores
+            'autores':autores,
+            'user_favoritos': []
         }    
     print("Usuario: ",autenticado)
 
@@ -475,6 +479,8 @@ def vista_MenuPrincipal_filtrado(request):
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
+        favoritos = Favorito.objects.filter(user_sub=usuario_rol)
+        user_favoritos = [favorito.categoria.pk for favorito in favoritos]
         context={
             'autenticado':autenticado,
             'tiene_permiso':tiene_permiso,
@@ -485,8 +491,10 @@ def vista_MenuPrincipal_filtrado(request):
             'categoria': categoria,  # Pasar el valor de categoría
             'autor': autor,  # Pasar el valor de autor
             'fecha_inicio': fecha_inicio,  # Pasar el valor de fecha de inicio
-            'fecha_fin': fecha_fin  # Pasar el valor de fecha de fin
+            'fecha_fin': fecha_fin , # Pasar el valor de fecha de fin
+            'user_favoritos': []
         }
+        
     else:
         context={
             'autenticado': autenticado,
@@ -497,7 +505,8 @@ def vista_MenuPrincipal_filtrado(request):
             'categoria_filtro': categoria,  # Pasar el valor de categoría
             'autor': autor,  # Pasar el valor de autor
             'fecha_inicio': fecha_inicio,  # Pasar el valor de fecha de inicio
-            'fecha_fin': fecha_fin  # Pasar el valor de fecha de fin
+            'fecha_fin': fecha_fin , # Pasar el valor de fecha de fin
+            'user_favoritos': []
         }    
     print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
@@ -863,7 +872,7 @@ def remover_rol(request):
         usuarios = UsuarioRol.objects.filter(usuario_activo=True)
         usuario_seleccionado = None
         roles_usuario = []
-        if 'usuario' in request.GET:
+        if 'usuario' in request.GET:vista_editor
             usuario_id = request.GET.get('usuario')
             usuario_seleccionado = UsuarioRol.objects.get(id=usuario_id)
             roles_usuario = usuario_seleccionado.roles.all()
@@ -1065,7 +1074,7 @@ def publicar_contenido(request,contenido_id):
                         recipient_list=[UsuarioRol.objects.get(username=contenido.publicador.username).email, 'is2cmseq03@gmail.com', ],
                         html_message=mensaje_edicion)
         # Redirige al usuario a la vista del editor
-        return redirect('Publicador')
+        return redirect('vista_pub')
 
 @login_required(login_url="/login")
 def inactivar_contenido(request,contenido_id):
@@ -1712,3 +1721,39 @@ def toggle_destacado(request, pk):
 
     # Redirigir a la página de detalles del contenido
     return HttpResponseRedirect(reverse('detalles_articulo', kwargs={'pk': pk}))
+
+@login_required
+def dar_favorito(request, pk):
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    
+    # Verificar si ya existe un objeto Favorito para esta categoría
+    try:
+        favorito_existente = Favorito.objects.get(categoria__id=pk)
+    except Favorito.DoesNotExist:
+        # Si no existe, crea un nuevo objeto Favorito para esta categoría
+        nueva_categoria_favorita = Favorito.objects.create(categoria_id=pk)
+        nueva_categoria_favorita.save()
+
+    # Una vez que se tiene un objeto Favorito para la categoría, agrega el usuario como favorito
+    favorito = Favorito.objects.get(categoria__id=pk)
+    favorito.user_sub.add(usuario)
+    
+    return redirect('MenuPrincipal')
+
+@login_required
+def quitar_favorito(request, pk):
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    
+    # Verificar si ya existe un objeto Favorito para esta categoría
+    try:
+        favorito_existente = Favorito.objects.get(categoria__id=pk)
+    except Favorito.DoesNotExist:
+        # Si no existe, crea un nuevo objeto Favorito para esta categoría
+        nueva_categoria_favorita = Favorito.objects.create(categoria_id=pk)
+        nueva_categoria_favorita.save()
+
+    # Una vez que se tiene un objeto Favorito para la categoría, agrega el usuario como favorito
+    favorito = Favorito.objects.get(categoria__id=pk)
+    favorito.user_sub.remove(usuario)
+    
+    return redirect('MenuPrincipal')

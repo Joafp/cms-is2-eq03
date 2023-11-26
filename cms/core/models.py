@@ -121,3 +121,16 @@ class Likes(models.Model):
 
     def user_dislikes_count(self):
         return self.user_dislikes.all().count()
+    
+class Favorito(models.Model):
+    """
+    Guarda que usuarios indicaron como favorito una categoria
+    """
+    categoria= models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='categoria')
+    user_sub = models.ManyToManyField(UsuarioRol, related_name='user_sub')
+
+    def str(self):
+        return f'Numero de sub:en {self.categoria.nombre}: {self.user_subs_count}'
+    
+    def user_subs_count(self):
+        return self.user_sub.all().count()
