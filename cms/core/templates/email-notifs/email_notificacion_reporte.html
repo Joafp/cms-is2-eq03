@@ -1,0 +1,10 @@
+{% autoescape off %}
+  <p>Su contenido "{{titulo}}" fue reportado por el usuario "{{usuario}}"" con la siguiente razon:</p>
+  <p>{{razon}}</p>
+  <p>Fecha del reporte: {{fecha}}</p>
+  
+  {% include 'email-notifs/link_articulo_notificacion.html' %}
+
+  <p>Enlace a los reportes: http://{{ urlhost }}{% url 'contenidos_reportados'%}?filtro_id=contenidopk</p>
+
+{% endautoescape %}
