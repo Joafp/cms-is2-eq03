@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Gráficos</title>
     <!-- Agrega cualquier enlace o script necesario para Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body {
             background-color: #121212;
@@ -47,6 +48,11 @@
             border-radius: 5px;
             padding: 20px;
         }
+
+        /* Modificar el grosor de las líneas del gráfico */
+        .grafico-container .svg-container svg path {
+            stroke-width: 1px; /* Grosor de la línea */
+        }
     </style>
 </head>
 <body>
@@ -76,5 +82,66 @@
             {{ plot_veces_compartidos | safe }}
         </div>
     </div>
+
+    <!-- Script para deshabilitar funcionalidades no deseadas en los gráficos -->
+    <script>
+        var graficos = document.getElementsByClassName('grafico-container');
+        for (var i = 0; i < graficos.length; i++) {
+            var grafico = graficos[i];
+            var plotlyDiv = grafico.getElementsByClassName('js-plotly-plot')[0];
+            if (plotlyDiv) {
+                Plotly.relayout(plotlyDiv, {
+                    dragmode: 'pan',
+                    scrollZoom: false,
+                    modeBarButtonsToRemove: [
+                        'zoom2d',
+                        'zoomIn2d',
+                        'zoomOut2d',
+                        'autoScale2d',
+                        'resetScale2d',
+                        'toggleSpikelines',
+                        'hoverClosestCartesian',
+                        'hoverCompareCartesian',
+                        'lasso2d',
+                        'select2d'
+                    ],
+                    displaylogo: false
+                });
+            }
+        }
+    </script>
+
+    <script>
+        var data = {{ datos_dislikes | safe }};
+        var layout = {
+            title: 'Contenidos con más Dislikes',
+            xaxis: { title: 'Títulos' },
+            yaxis: { title: 'Total Dislikes' },
+            autosize: true,
+            bargap: 0.2,
+            font: { size: 10, color: '#FFFFFF' },
+            yaxis: { autorange: true }
+        };
+        var fig = { data: data, layout: layout };
+        var plot_contenidos_dislikes = Plotly.plot('grafico_contenidos_dislikes', fig).then(gd => {
+            Plotly.relayout(gd, {
+                dragmode: 'pan',
+                scrollZoom: false,
+                modeBarButtonsToRemove: [
+                    'zoom2d',
+                    'zoomIn2d',
+                    'zoomOut2d',
+                    'autoScale2d',
+                    'resetScale2d',
+                    'toggleSpikelines',
+                    'hoverClosestCartesian',
+                    'hoverCompareCartesian',
+                    'lasso2d',
+                    'select2d'
+                ],
+                displaylogo: false
+            });
+        });
+    </script>
 </body>
 </html>
