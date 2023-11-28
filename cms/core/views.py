@@ -1,5 +1,8 @@
 from pyexpat.errors import messages
+from django.urls import reverse
+from html.parser import HTMLParser
 from typing import Any
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, HttpResponse,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from GestionCuentas.models import UsuarioRol,Rol
@@ -11,14 +14,22 @@ from lxml.html.diff import htmldiff
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,UpdateView
-
-from .models import Categoria
+from decimal import Decimal
+from django.db.models import Sum
+from .models import Categoria,Favorito
+from .models import Likes
 from .models import Contenido,HistorialContenido,VersionesContenido,Comentario
+from .models import Contenido,HistorialContenido,VersionesContenido,Comentario,Calificacion
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator, Page
 from .forms import CrearContenidoForm
+from django.db.models import Avg
+from django.http import JsonResponse
+import qrcode
+from django.http import HttpResponse
+import plotly.express as px
 class CrearContenido(CreateView):
     """
     La clase creacontenido utiliza el view de django CreateView, este view nos permite rellenar datos para un modelo
@@ -32,8 +43,8 @@ class CrearContenido(CreateView):
         response = super(CrearContenido, self).form_valid(form)
         if "guardar_borrador" in self.request.POST:
             # Si se presionó el botón "Guardar borrador", no cambies nada
+            self.object.titulo_abreviado=self.object.titulo[:10]
             self.object.save()
-
             # Crea una instancia de HistorialContenido con la instancia de Contenido
             nuevo_cambio = HistorialContenido(
                 contenido=self.object,  # Asigna la instancia de Contenido, no el ID
@@ -55,6 +66,12 @@ class CrearContenido(CreateView):
         return initial
     
 class EditarContenido(UpdateView):
+    """
+    La clase EditarContenido utiliza el view de django UpdateView, este view nos permite updatear los datos para un modelo
+    en este caso para el modelo contenido, utilizamos el template crear_contenido.
+    Modificamos lo anteriormente cargado cuando creqamos el contenido, nos da la opcion de guardar comom borrador y este crea una nueva version del contenido.
+    La opcion de enviar al editor cambia el estado a ´En revision´ y manda a los editores para que estos lo revise
+    """
     model=Contenido
     form_class= CrearContenidoForm
     template_name = 'edit_cont.html'
@@ -62,16 +79,17 @@ class EditarContenido(UpdateView):
     def form_valid(self, form):
         form.instance.estado = 'B'  # establece el estado inicial a 'B'
         response = super().form_valid(form)
+        # if "guardar_borrador" in self.request.POST:
+        #     # si se presionó el botón "Guardar borrador", no cambies nada
+        #     self.object.save()
+        #     nuevo_cambio = HistorialContenido(
+        #         contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+        #         cambio=f"El Autor con ID {self.object.autor.id},con username {self.object.autor.username},Edito el contenido  Con el Titulo {self.object.titulo}."
+        #     )
+        #     nuevo_cambio.save()
+        #     return redirect('vista_autor')
+        # elif "guardar_version" in self.request.POST:
         if "guardar_borrador" in self.request.POST:
-            # si se presionó el botón "Guardar borrador", no cambies nada
-            self.object.save()
-            nuevo_cambio = HistorialContenido(
-                contenido=self.object,  # Asigna la instancia de Contenido, no el ID
-                cambio=f"El Autor con ID {self.object.autor.id},con username {self.object.autor.username},Edito el contenido  Con el Titulo {self.object.titulo}."
-            )
-            nuevo_cambio.save()
-            return redirect('vista_autor')
-        elif "guardar_version" in self.request.POST:
             # primero guarda el borrador y luego la version
             numero_version = 1
             ultima_version = VersionesContenido.objects.filter(contenido_base=self.object).order_by('-numero_version')
@@ -93,6 +111,11 @@ class EditarContenido(UpdateView):
 
 
 class EditarContenidoEditor(UpdateView):
+    """
+    La clase EditarContenidoEditor utiliza el view de django UpdateView, este view nos permite updatear los datos para un modelo
+    en este caso para el modelo contenido, utilizamos el template editar_contenido_editor.html.
+    Modificamos lo anteriormente cargado cuando el autor creo el contenido, basicamente psi un editor quiere cambiar algo que hizo un autor. Luego si aceptamos enviamos a un publicador
+    """
     model=Contenido
     form_class= CrearContenidoForm
     template_name = 'editar_contenido_editor.html'
@@ -133,6 +156,11 @@ class EditarContenidoEditor(UpdateView):
         return response    
 
 class RechazarContenidoEditor(UpdateView):
+    """
+        La clase RechazarContenidoEditor utiliza el view de django UpdateViewo, utilizamos el template rechazo.html.
+        esta clase nos permite cambiar el estado de un contenido en caso de ser rechazado , asi poner ene stado rechazado y que se le notifique al autor de esto.
+    
+    """
     model = Contenido
     template_name = 'rechazo.html'
     fields = ['razon']
@@ -170,6 +198,11 @@ class RechazarContenidoEditor(UpdateView):
 
 
 class RechazarContenidoPublicador(UpdateView):
+    """
+        La clase RechazarContenidoPublicador utiliza el view de django UpdateViewo, utilizamos el template rechazo_publicador.html.
+        esta clase nos permite cambiar el estado de un contenido en caso de ser rechazado , asi poner en estado rechazado y que se le notifique al autor de esto.
+    
+    """
     model = Contenido
     template_name = 'rechazo_publicador.html'
     fields = ['razon']
@@ -207,6 +240,9 @@ class RechazarContenidoPublicador(UpdateView):
         return response 
 
 class EnviarContenidoAutor(UpdateView):
+    """
+        ESTA VISTA PERMITE EL AUTOR REMITIR SU CONTENIDO A UN EDITOR. O PUBLICAR DIRECTAMENTE EN CASO DE SER UN AUTOR CHECKEADO PARA PUBLICAR EN  CATEGORIAS NO MODERADAS
+    """
     model = Contenido
     template_name = 'enviar_contenido_autor.html'
     fields = ['razon']
@@ -216,9 +252,24 @@ class EnviarContenidoAutor(UpdateView):
         if "enviar_editor" in self.request.POST:
             # Publica directamente si la categoria es no moderada
             if self.object.categoria.moderada == False:
+                fecha = self.request.POST.get("fecha_programada")
+                programado = True
+                if len(fecha) == 0:
+                    programado = False
+                    fecha = timezone.datetime.now()
+                else:
+                    fecha = datetime.strptime(fecha, '%Y-%m-%d')
                 self.object.ultimo_publicador=self.request.user.username
                 self.object.estado = 'P'
+                self.object.fecha_publicacion = fecha
                 self.object.save()
+                if programado:
+                    nuevo_cambio = HistorialContenido(
+                        contenido=self.object,  # Asigna la instancia de Contenido, no el ID
+                        cambio=f"Se programo el contenido el con el Titulo {self.object.titulo} por el autor {self.object.autor.username}, para ser publicado en fecha {fecha}"
+                    )
+                    nuevo_cambio.save()
+
                 mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
                                                 {'nombre': self.request.user.username,
                                                 'titulo_contenido': self.object.titulo,
@@ -267,11 +318,14 @@ class EnviarContenidoAutor(UpdateView):
                             recipient_list=[UsuarioRol.objects.get(id=self.object.autor_id).email, 'is2cmseq03@gmail.com', ],
                             html_message=mensaje_edicion)
             
-            return redirect('ContenidosBorrador')
+            return redirect('vista_autor')
             
         return response     
     
 class EnviarContenidoEditor(UpdateView):
+    """
+    Esta vista permite  que un editor remita sun contenido a un publicador para su revision y posterior publicacion, se envian mensajes en el correo electronico al autor para decirle que su contenido ha sido pasado a revision de publicadores.
+    """
     model = Contenido
     template_name = 'enviar_contenido_editor.html'
     fields = ['razon']
@@ -316,7 +370,7 @@ class EnviarContenidoEditor(UpdateView):
                             recipient_list=[UsuarioRol.objects.get(username=self.request.user.username).email, 'is2cmseq03@gmail.com', ],
                             html_message=mensaje_edicion)
             
-            return redirect('edicion')
+            return redirect('Editar')
             
         return response   
 @never_cache
@@ -348,29 +402,32 @@ def vista_MenuPrincipal(request):
     autenticado=User.is_authenticated
     categorias= Categoria.objects.filter(activo=True)
     autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
-    contenidos=Contenido.objects.filter(autor__in=autores_activos)
+    contenidos=Contenido.objects.filter(autor__in=autores_activos, estado='P', fecha_publicacion__lte=timezone.datetime.now()) # Ocultar contenido no publicado
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
-    primeros_contenidos = contenidos.filter(estado='P')[:10]
-
+    primeros_contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
+        favoritos = Favorito.objects.filter(user_sub=usuario_rol)
+        user_favoritos = [favorito.categoria.pk for favorito in favoritos]
         context={
             'autenticado':autenticado,
             'tiene_permiso':tiene_permiso,
             'categorias': categorias,
             'contenido':primeros_contenidos,
-            'autores':autores
+            'autores':autores,
+            'user_favoritos': user_favoritos
         }
     else:
         context={
             'autenticado': autenticado,
             'categorias': categorias,
             'contenido':primeros_contenidos,
-            'autores':autores
+            'autores':autores,
+            'user_favoritos': []
         }    
     print("Usuario: ",autenticado)
-    
+
     return render(request, 'crear/main.html',context )
 from datetime import datetime
 def vista_MenuPrincipal_filtrado(request):
@@ -403,7 +460,7 @@ def vista_MenuPrincipal_filtrado(request):
     autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
     contenidos=Contenido.objects.filter(autor__in=autores_activos)
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
-    primeros_contenidos = contenidos.filter(estado='P')[:10]
+    primeros_contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())[:10]
       # Obtiene los parámetros de búsqueda del formulario
     q = request.GET.get('q', '')
     categoria = request.GET.get('categoria', '')  # Establecer valor predeterminado
@@ -413,6 +470,9 @@ def vista_MenuPrincipal_filtrado(request):
 
     # Inicializar el queryset con todos los contenidos
     contenidos = Contenido.objects.all()
+
+    #Filtrar contenidos no publicados
+    contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
 
     # Si hay un término de búsqueda, filtrar por el campo correspondiente
     if q:
@@ -433,11 +493,13 @@ def vista_MenuPrincipal_filtrado(request):
     # Si se proporciona fecha de fin pero no fecha de inicio, filtrar por el campo fecha_publicacion hasta la fecha de fin
     if fecha_fin:
         contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
-    primeros_contenidos=contenidos.filter(estado='P')[:10]  
+    primeros_contenidos=contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())[:10]  
     # Renderizar la plantilla con los resultados y los valores de los filtros
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
+        favoritos = Favorito.objects.filter(user_sub=usuario_rol)
+        user_favoritos = [favorito.categoria.pk for favorito in favoritos]
         context={
             'autenticado':autenticado,
             'tiene_permiso':tiene_permiso,
@@ -448,8 +510,10 @@ def vista_MenuPrincipal_filtrado(request):
             'categoria': categoria,  # Pasar el valor de categoría
             'autor': autor,  # Pasar el valor de autor
             'fecha_inicio': fecha_inicio,  # Pasar el valor de fecha de inicio
-            'fecha_fin': fecha_fin  # Pasar el valor de fecha de fin
+            'fecha_fin': fecha_fin , # Pasar el valor de fecha de fin
+            'user_favoritos': []
         }
+        
     else:
         context={
             'autenticado': autenticado,
@@ -460,10 +524,12 @@ def vista_MenuPrincipal_filtrado(request):
             'categoria_filtro': categoria,  # Pasar el valor de categoría
             'autor': autor,  # Pasar el valor de autor
             'fecha_inicio': fecha_inicio,  # Pasar el valor de fecha de inicio
-            'fecha_fin': fecha_fin  # Pasar el valor de fecha de fin
+            'fecha_fin': fecha_fin , # Pasar el valor de fecha de fin
+            'user_favoritos': []
         }    
     print("Usuario: ",autenticado)
     return render(request, 'crear/main.html',context )
+
 @login_required(login_url="/login")
 def vista_trabajador(request):
     """
@@ -511,24 +577,46 @@ class CustomPermissionRequiredMixin(PermissionRequiredMixin):
 class VistaArticulos(DetailView):
     model = Contenido
     template_name = 'articulo/articulo_detallado.html'
-
+    
     def post(self, request, *args, **kwargs):
         # Procesar el formulario de comentarios aquí
         contenido = self.get_object()
         texto = request.POST.get('texto')
         autor = request.user  # El usuario actual
-
         if texto:
             Comentario.objects.create(contenido=contenido, autor=autor, texto=texto)
 
         # Recargar la página
         return self.get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
         contenido = self.get_object()
+        contenido.veces_visto += 1
+        contenido.save()
         comentarios = contenido.comentarios.all()
         context['comentarios'] = comentarios
+
+        #Agrega contador de likes a la pagina
+        likes = Likes.objects.get_or_create(contenido=contenido)[0]
+        context['nro_likes'] = likes.user_likes_count()
+        context['nro_dislikes'] = likes.user_dislikes_count()
+
+        #Da una clase especial a los botones si el usuario ya dio like/dislike al contenido
+        context['liked'] = 'notliked'
+        context['disliked'] = 'notdisliked'
+        if likes.user_likes.filter(username=self.request.user.username).exists():
+            context['liked'] = 'liked'
+        elif likes.user_dislikes.filter(username=self.request.user.username).exists():
+            context['disliked'] = 'disliked'
+        permisos_del_usuario = []
+        usuario_rol = UsuarioRol.objects.get(username=self.request.user.username)
+        roles_del_usuario = usuario_rol.roles.all()
+        # Itera a través de los roles y agrega los permisos únicos a la lista
+        for rol in roles_del_usuario:
+            permisos_del_rol = rol.permisos.all()
+            permisos_del_usuario.extend(permisos_del_rol)
+        context['permisos_del_usuario']=permisos_del_usuario    
         return context
 
 class VistaArticulosEditor(DetailView):
@@ -543,12 +631,58 @@ class VistaArticulosRevision(DetailView):
 
    
 class VistaContenidos(ListView):
-    """
-    Esta vista al ser un LisstView utilizamos para listar los contenidos, al pasarle como modelos el contennido, 
-    dentro del html podemos usar un object list para ver todos los contenidos de nuestro sistema
-    """
-    model= Contenido
-    template_name='Contenidos.html'
+    model = Contenido
+    template_name = 'Contenidos.html'
+    context_object_name = 'contenidos'  # Nombre del objeto que se utilizará en la plantilla
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c=self.object_list.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now()) # Oculta los contenidos programados para publicarse en fechas futuras
+        paginator = Paginator(c, 4)  # Cambia '10' por la cantidad de elementos por página que desees
+        page = self.request.GET.get('page')
+        context['contenidos'] = paginator.get_page(page)
+        context['categorias'] =Categoria.objects.filter(activo=True)
+        context['autores'] = UsuarioRol.objects.filter(roles__nombre__contains='Autor') 
+        context['promedio_calificaciones']=Contenido.objects.filter()
+        # Calcula el promedio de calificaciones para todos los contenidos
+        promedio_calificaciones = Contenido.objects.filter(estado='P').annotate(
+            avg_calificacion=Avg('calificacion')
+        )
+        context['promedio_calificaciones'] = promedio_calificaciones.aggregate(Avg('avg_calificacion'))['avg_calificacion__avg']
+        return context
+    def get_queryset(self):
+        q = self.request.GET.get('q', '')
+        categoria = self.request.GET.get('categoria', '')
+        autor = self.request.GET.get('autor', '')
+        fecha_inicio = self.request.GET.get('fecha_inicio', '')
+        fecha_fin = self.request.GET.get('fecha_fin', '')
+
+       # Inicializar el queryset con todos los contenidos
+        contenidos = Contenido.objects.all()
+
+        #Filtrar contenidos no publicados
+        contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
+
+        # Si hay un término de búsqueda, filtrar por el campo correspondiente
+        if q:
+            contenidos = contenidos.filter(titulo__icontains=q)
+
+        # Si hay una categoría seleccionada, filtrar por el campo categoria
+        if categoria:
+            contenidos = contenidos.filter(categoria__nombre=categoria)
+
+        # Si hay un autor seleccionado, filtrar por el campo autor
+        if autor:
+            contenidos = contenidos.filter(autor__username=autor)
+
+        # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
+        if fecha_inicio:
+            contenidos = contenidos.filter(fecha_publicacion__gte=fecha_inicio)
+
+        # Si se proporciona fecha de fin pero no fecha de inicio, filtrar por el campo fecha_publicacion hasta la fecha de fin
+        if fecha_fin:
+            contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
+        return contenidos
+    
 
 @login_required(login_url="/login")
 def categoria(request,nombre):
@@ -569,7 +703,7 @@ def categoria(request,nombre):
     """
 
     categoria= get_object_or_404(Categoria,nombre=nombre)
-    contenidos=Contenido.objects.filter(categoria_id=categoria.id)
+    contenidos=Contenido.objects.filter(categoria_id=categoria.id, estado='P', fecha_publicacion__lte=timezone.datetime.now()) # Oculta contenidos no publicados
     context = {
         'categoria': categoria,
         'contenidos': contenidos
@@ -761,7 +895,7 @@ def remover_rol(request):
         usuarios = UsuarioRol.objects.filter(usuario_activo=True)
         usuario_seleccionado = None
         roles_usuario = []
-        if 'usuario' in request.GET:
+        if 'usuario' in request.GET:vista_editor
             usuario_id = request.GET.get('usuario')
             usuario_seleccionado = UsuarioRol.objects.get(id=usuario_id)
             roles_usuario = usuario_seleccionado.roles.all()
@@ -844,11 +978,11 @@ def vista_autor(request):
     items_por_pagina = 2
 
     # Obtén los contenidos de las diferentes columnas
-    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username)
-    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username)
-    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username)
-    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username)
-    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username)
+    contenidos_borrador = Contenido.objects.filter(estado='B', autor__username=request.user.username).order_by('-pk') #ordenar por id, de mayor a menor
+    contenidos_en_edicion = Contenido.objects.filter(estado='E', autor__username=request.user.username).order_by('-pk')
+    contenidos_en_revision = Contenido.objects.filter(estado='R', autor__username=request.user.username).order_by('-pk')
+    contenidos_publicados = Contenido.objects.filter(estado='P', autor__username=request.user.username).order_by('-pk')
+    contenidos_inactivos = Contenido.objects.filter(estado='I', autor__username=request.user.username).order_by('-pk')
 
     # Divide los contenidos en páginas
     paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
@@ -913,51 +1047,75 @@ def vista_mis_contenidos_publicados(request):
     }
     return render(request,'vistas_autor/mis_contenidos_publicados.html',context)
 
-    
+
 
 @login_required(login_url="/login")
 def publicar_contenido(request,contenido_id):
-    # Obtén el objeto de contenido basado en algún criterio, como un ID
-    contenido = Contenido.objects.get(id=contenido_id)
-    contenido.estado = 'P'
-    contenido.publicador= UsuarioRol.objects.get(username=request.user.username)
-    contenido.ultimo_publicador=request.user.username
-    contenido.fecha_publicacion = timezone.now().date()
-    # Guarda el objeto de contenido
-    contenido.save()
-    nuevo_cambio = HistorialContenido(
-                contenido=contenido,  # Asigna la instancia de Contenido, no el ID
-                cambio=f"Se publico el contenido con el Titulo {contenido.titulo} por el autor {contenido.autor.username}. El contenido pasa a estado 'Publicado'. El Publicador que acepto la publicacion fue : {contenido.ultimo_publicador}"
-            )
-    nuevo_cambio.save()
-    mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
-                                            {'nombre': request.user.username,
-                                            'titulo_contenido': contenido.titulo,
-                                            'razon': contenido.razon,
-                                            'urlhost':request.get_host(),
-                                                    'contenidopk':contenido.pk})
-        
-    send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
-                from_email=None,
-                    recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
-                    html_message=mensaje_edicion)
-    
+    if request.method == 'POST':
+        # Obtén el objeto de contenido basado en algún criterio, como un ID
+        contenido = Contenido.objects.get(id=contenido_id)
+        destacado = request.POST.get('destacado')
+        if destacado == '1':
+            contenido.destacado = 1
+        else:
+            contenido.destacado = 0
+        contenido.estado = 'P'
+        contenido.publicador= UsuarioRol.objects.get(username=request.user.username)
+        contenido.ultimo_publicador=request.user.username
+        contenido.fecha_publicacion = timezone.now()
 
-    mensaje_edicion = render_to_string("email-notifs/email_notificacion_publicador.html",
-                                            {'nombre_publicador': request.user.username,
-                                            'nombre_editor':contenido.ultimo_editor,
-                                            'nombre_autor':contenido.autor_id,
-                                            'titulo_contenido': contenido.titulo,
-                                            'razon': contenido.razon,
-                                            'urlhost':request.get_host(),
-                                                    'contenidopk':contenido.pk})
+        if "programar_publicacion" in request.POST:
+            fecha = request.POST.get('fecha_programada')
+            # hora = request.POST.get('hora_programada')
+            # contenido.fecha_publicacion = datetime_object = datetime.strptime(fecha+' '+hora, '%Y-%m-%d %H:%M')
+            contenido.fecha_publicacion = datetime.strptime(fecha, '%Y-%m-%d')
+            contenido.save()
+            nuevo_cambio = HistorialContenido(
+                    contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                    cambio=f"Se programo la publicacion del contenido con el Titulo {contenido.titulo} por el autor {contenido.autor.username} Para la fecha {contenido.fecha_publicacion}. El contenido pasa a estado 'Publicado'. El Publicador que acepto la publicacion fue : {contenido.ultimo_publicador}"
+            )
+            nuevo_cambio.save()
+            send_mail(subject="Contenido Progamado para publicarse en la pagina", message=f"Su contenido {contenido.titulo} fue programado para publicarse en la pagina en la fecha {contenido.fecha_publicacion}",
+                    from_email=None,
+                        recipient_list=[UsuarioRol.objects.get(username=contenido.publicador.username).email, 'is2cmseq03@gmail.com', ],
+                        html_message=None)
+            return redirect('vista_pub')
         
-    send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
-                from_email=None,
-                    recipient_list=[UsuarioRol.objects.get(username=contenido.publicador.username).email, 'is2cmseq03@gmail.com', ],
-                    html_message=mensaje_edicion)
-    # Redirige al usuario a la vista del editor
-    return redirect('Publicador')
+        # Guarda el objeto de contenido
+        contenido.save()
+        nuevo_cambio = HistorialContenido(
+                    contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                    cambio=f"Se publico el contenido con el Titulo {contenido.titulo} por el autor {contenido.autor.username}. El contenido pasa a estado 'Publicado'. El Publicador que acepto la publicacion fue : {contenido.ultimo_publicador}"
+                )
+        nuevo_cambio.save()
+        mensaje_edicion = render_to_string("email-notifs/email_notificacion_enviar_publicacion.html",
+                                                {'nombre': request.user.username,
+                                                'titulo_contenido': contenido.titulo,
+                                                'razon': contenido.razon,
+                                                'urlhost':request.get_host(),
+                                                        'contenidopk':contenido.pk})
+            
+        send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
+                    from_email=None,
+                        recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
+                        html_message=mensaje_edicion)
+        
+
+        mensaje_edicion = render_to_string("email-notifs/email_notificacion_publicador.html",
+                                                {'nombre_publicador': request.user.username,
+                                                'nombre_editor':contenido.ultimo_editor,
+                                                'nombre_autor':contenido.autor_id,
+                                                'titulo_contenido': contenido.titulo,
+                                                'razon': contenido.razon,
+                                                'urlhost':request.get_host(),
+                                                        'contenidopk':contenido.pk})
+            
+        send_mail(subject="Contenido Publicado en la pagina", message=f"Su contenido {contenido.titulo} fue publicado en la pagina",
+                    from_email=None,
+                        recipient_list=[UsuarioRol.objects.get(username=contenido.publicador.username).email, 'is2cmseq03@gmail.com', ],
+                        html_message=mensaje_edicion)
+        # Redirige al usuario a la vista del editor
+        return redirect('vista_pub')
 
 @login_required(login_url="/login")
 def inactivar_contenido(request,contenido_id):
@@ -1283,6 +1441,7 @@ def buscar_tabla(request):
         'contenidos_en_edicion':contenidos_en_edicion,
     }
     return render(request, 'Tabla/tablakanbangeneral.html', context)
+@login_required(login_url="/login")
 def buscar_tabla_autor(request):
     q = request.GET.get('q', '')
     categoria = request.GET.get('categoria')
@@ -1301,10 +1460,6 @@ def buscar_tabla_autor(request):
     if categoria:
         contenidos = contenidos.filter(categoria__nombre=categoria)
 
-    # Si hay un autor seleccionado, filtrar por el campo autor
-    if autor:
-        contenidos = contenidos.filter(autor__username=autor)
-
     # Si se proporciona fecha de inicio pero no fecha de fin, filtrar por el campo fecha_publicacion desde la fecha de inicio
     if fecha_inicio and not fecha_fin:
         contenidos = contenidos.filter(fecha_publicacion__gte=fecha_inicio)
@@ -1316,28 +1471,56 @@ def buscar_tabla_autor(request):
     # Si se proporcionan fechas de inicio y fin, filtrar por el campo fecha_publicacion en el rango de esas fechas
     elif fecha_inicio and fecha_fin:
         contenidos = contenidos.filter(fecha_publicacion__range=[fecha_inicio, fecha_fin])
-    categorias= Categoria.objects.filter(activo=True)
+     # Define la cantidad de contenidos que deseas mostrar por página
+    items_por_pagina = 2
+
+    # Obtén los contenidos de las diferentes columnas
+    contenidos_borrador = contenidos.filter(estado='B', autor__username=request.user.username)
+    contenidos_en_edicion = contenidos.filter(estado='E', autor__username=request.user.username)
+    contenidos_en_revision = contenidos.filter(estado='R', autor__username=request.user.username)
+    contenidos_publicados = contenidos.filter(estado='P', autor__username=request.user.username)
+    contenidos_inactivos = contenidos.filter(estado='I', autor__username=request.user.username)
+
+    # Divide los contenidos en páginas
+    paginador_borrador = Paginator(contenidos_borrador, items_por_pagina)
+    paginador_edicion = Paginator(contenidos_en_edicion, items_por_pagina)
+    paginador_revision = Paginator(contenidos_en_revision, items_por_pagina)
+    paginador_publicados = Paginator(contenidos_publicados, items_por_pagina)
+    paginador_inactivos = Paginator(contenidos_inactivos, items_por_pagina)
+
+    # Obtén la página actual a partir del parámetro de la URL
+    page_number = request.GET.get('page', 1)
+
+    # Obtiene los contenidos de la página actual
+    contenidos_borrador = paginador_borrador.get_page(page_number)
+    contenidos_en_edicion = paginador_edicion.get_page(page_number)
+    contenidos_en_revision = paginador_revision.get_page(page_number)
+    contenidos_publicados = paginador_publicados.get_page(page_number)
+    contenidos_inactivos = paginador_inactivos.get_page(page_number)
+
+    # Otras consultas
+    categorias = Categoria.objects.filter(activo=True)
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
-    editores= UsuarioRol.objects.filter(roles__nombre__contains='Editor')
-    publicador=UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
-    contenido_borrador=contenidos.filter(estado='B')
-    contenidos_inactivos = contenidos.filter(estado='I')
-    contenidos_en_revision = contenidos.filter(estado='R')
-    contenidos_publicados = contenidos.filter(estado='P')
-    contenidos_en_edicion = contenidos.filter(estado='E')
+    editores = UsuarioRol.objects.filter(roles__nombre__contains='Editor')
+    publicadores = UsuarioRol.objects.filter(roles__nombre__contains='Publicador')
+
     context = {
         'categorias':categorias,
         'autores':autores,
         'editores':editores,
         'publicadores':publicador,
-        'contenidos_borrador': contenido_borrador,
+        'contenidos_borrador': contenidos_borrador,
         'contenidos_inactivos': contenidos_inactivos,
         'contenidos_en_revision': contenidos_en_revision,
         'contenidos_publicados': contenidos_publicados,
         'contenidos_en_edicion':contenidos_en_edicion,
     }
-    return render(request, 'Tabla/tablakanban.html', context)
+    return render(request, 'vistas/vista_autor.html', context)
 def historial_contenido(request, contenido_id):
+    """
+    Esta vista nos permite mantenernos al tanto de lso cambios que ha sufrido el contenido desde su creacion hasta su fin de ciclo. Detallando operaciones , personas responsables y fecha.
+    Lo desplegamos en html historial_contenido.html pasandole como contexto el historial de el contenido y el contenido en si.
+    """
     contenido = get_object_or_404(Contenido, id=contenido_id)  # Obtener la instancia de Contenido por su ID
     historial_prueba = HistorialContenido.objects.filter(contenido=contenido)
     context = {
@@ -1348,6 +1531,9 @@ def historial_contenido(request, contenido_id):
 
 
 def cambiar_version(request, contenido_id):
+    """
+    Muestra las versiones guardadas de un contenido empezando por las mas recientes. Muestra botones para restaurar las versiones.
+    """
     contenido = get_object_or_404(Contenido, id=contenido_id)
     versiones = VersionesContenido.objects.filter(contenido_base=contenido).order_by('-fecha_version')
     vacio = not versiones.exists()
@@ -1360,7 +1546,9 @@ def cambiar_version(request, contenido_id):
     return render(request, 'cambiar_version_contenido.html', context)
 
 def guardar_version(contenido, numero_version):
-    
+    """
+    Copia el contenido en un nuevo registro que se guarda con el numero de version proveido como argumento.
+    """
     nueva_version = VersionesContenido(
         numero_version=numero_version,
         contenido_base= contenido,
@@ -1375,6 +1563,9 @@ def guardar_version(contenido, numero_version):
     nueva_version.save()
 
 def aplicar_version(request, contenido_id, version_id):
+    """
+    Sobreescribe los campos de un contenido con los de una version previa. Agrega el cambio al historial del contenido.
+    """
     contenido = get_object_or_404(Contenido, id=contenido_id)
     version = get_object_or_404(VersionesContenido, id=version_id)
 
@@ -1393,4 +1584,291 @@ def aplicar_version(request, contenido_id, version_id):
             )
     nuevo_cambio.save()
     return redirect('ContenidosBorrador')
+
+@login_required
+def dar_like(request, pk):
+    """
+    Guarda el like de un usuario a un contenido
+    """
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    # Buscar si el usuario ya dio like o dislike
+    likes = Likes.objects.filter(contenido__id=pk, user_likes=usuario)
+    dislikes = Likes.objects.filter(contenido__id=pk, user_dislikes=usuario)
+
+    # Si existe el like, quitarlo y salir (el usuario quito su like)
+    if(likes.exists()):
+        likes[0].user_likes.remove(usuario)
+        return redirect('detalles_articulo', pk=pk)
+    # Si existe el dislike quitalo, agregar el usuario a los likes y salir
+    elif(dislikes.exists()):
+        dislikes[0].user_dislikes.remove(usuario)
+    
+    # Agregar usuario a los likes del contenido y salir
+    Likes.objects.get(contenido__id=pk).user_likes.add(usuario)
+    return redirect('detalles_articulo', pk=pk)
+
+@login_required
+def dar_dislike(request, pk):
+    """
+    Guarda el dislike de un usuario a un contenido
+    """
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    # Buscar si el usuario ya dio like o dislike
+    likes = Likes.objects.filter(contenido__id=pk, user_likes=usuario)
+    dislikes = Likes.objects.filter(contenido__id=pk, user_dislikes=usuario)
+    
+    # Si existe el dislike quitalo y salir (el usuario quito su dislike)
+    if(dislikes.exists()):
+        dislikes[0].user_dislikes.remove(usuario)
+        return redirect('detalles_articulo', pk=pk)
+
+    # Si existe el like, quitarlo y continuar
+    elif(likes.exists()):
+        likes[0].user_likes.remove(usuario)
+
+    # Agregar usuario a los dislikes del contenido y salir
+    Likes.objects.get(contenido__id=pk).user_dislikes.add(usuario)
+    return redirect('detalles_articulo', pk=pk)
+def calificar_contenido(request, contenido_id):
+    """
+    Comentado el 02/11/2023
+    Esta vista sirve para calificar un contneido, luego de calificar hacemos un promedio de calificaiones y mostramos.
+
+    def calificar_contenido(request, contenido_id):
+        contenido = get_object_or_404(Contenido, id=contenido_id)
+        usuario = request.user
+        calificacion = Decimal(request.POST.get('calificacion',0))
+
+        # Verificar si el usuario ya ha calificado el contenido
+        calificacion_existente, created = Calificacion.objects.get_or_create(contenido=contenido, usuario=usuario, defaults={'calificacion': calificacion})
+
+        if not created:
+            # Actualizar la calificación existente
+            calificacion_existente.calificacion = calificacion
+            calificacion_existente.save()
+
+        # Recalcular la calificación media del contenido
+        calificaciones = Calificacion.objects.filter(contenido=contenido)
+        promedio_calificaciones = calificaciones.aggregate(Avg('calificacion'))['calificacion__avg'] or 0
+        contenido.promedio_calificaciones = promedio_calificaciones
+        contenido.save()
+
+        # Llama a la función para actualizar la calificación de estrellas
+        actualizar_calificacion_estrellas(contenido)
+
+        return redirect('detalles_articulo', pk=contenido.id)
+    """
+    contenido = get_object_or_404(Contenido, id=contenido_id)
+    usuario = request.user
+    calificacion = Decimal(request.POST.get('calificacion',0))
+
+    # Verificar si el usuario ya ha calificado el contenido
+    calificacion_existente, created = Calificacion.objects.get_or_create(contenido=contenido, usuario=usuario, defaults={'calificacion': calificacion})
+
+    if not created:
+        # Actualizar la calificación existente
+        calificacion_existente.calificacion = calificacion
+        calificacion_existente.save()
+
+    # Recalcular la calificación media del contenido
+    calificaciones = Calificacion.objects.filter(contenido=contenido)
+    promedio_calificaciones = calificaciones.aggregate(Avg('calificacion'))['calificacion__avg'] or 0
+    contenido.promedio_calificaciones = promedio_calificaciones
+    contenido.save()
+
+    # Llama a la función para actualizar la calificación de estrellas
+    actualizar_calificacion_estrellas(contenido)
+
+    return redirect('detalles_articulo', pk=contenido.id)
+
+def actualizar_calificacion_estrellas(contenido):
+    """
+    Documentado el 2/11/2023
+    La vista sirve para actualizar una calificaion, es decir cuando un usuario ya califico un contenido y desea cambiar la calificacion
+    
+    def actualizar_calificacion_estrellas(contenido):
+        promedio_calificaciones = contenido.promedio_calificaciones
+        num_estrellas = round(promedio_calificaciones)  # Redondeamos al número entero más cercano
+
+        # Establecer la clase de cada estrella en función del número de estrellas
+        for i in range(1, 6):
+            estrella_active = i <= num_estrellas
+
+            # Guardar el estado de la estrella en tu modelo Contenido
+            setattr(contenido, f'stars_{i}', estrella_active)
+
+        contenido.save()
+  
+    """
+
+    promedio_calificaciones = contenido.promedio_calificaciones
+    num_estrellas = round(promedio_calificaciones)  # Redondeamos al número entero más cercano
+
+    # Establecer la clase de cada estrella en función del número de estrellas
+    for i in range(1, 6):
+        estrella_active = i <= num_estrellas
+
+        # Guardar el estado de la estrella en tu modelo Contenido
+        setattr(contenido, f'stars_{i}', estrella_active)
+
+    contenido.save()
+
+def aumentar_veces_compartido(request, contenido_id):
+    """
+    Documentado el 02/11/2023
+    Esta view se encarga de aumentar el contador de veces compartido de un contenido
+
+    def aumentar_veces_compartido(request, contenido_id):
+        contenido = Contenido.objects.get(id=contenido_id)
+        contenido.veces_compartido += 1
+        contenido.save()
+        return redirect('detalles_articulo', pk=contenido.id)
+
+    """
+    contenido = Contenido.objects.get(id=contenido_id)
+    contenido.veces_compartido += 1
+    contenido.save()
+    return redirect('detalles_articulo', pk=contenido.id)
+
+
+  
+def qr_code(request, pk):
+    """
+    Documentado 02/11/2023
+    Esta vista sirve para generar el codigo qr y que muestre el link de la pagina actual
+    def qr_code(request, pk):
+        contenido = get_object_or_404(Contenido, id=pk)
+        aumentar_veces_compartido(request,pk)
+        url = request.build_absolute_uri(f'/articulo/{pk}')
+        img = qrcode.make(url)
+        response = HttpResponse(content_type="image/png")
+        img.save(response, "PNG")
+        return response
+    """
+    contenido = get_object_or_404(Contenido, id=pk)
+    """aumentar_veces_compartido(request,pk)"""
+    url = request.build_absolute_uri(f'/articulo/{pk}')
+    img = qrcode.make(url)
+    response = HttpResponse(content_type="image/png")
+    img.save(response, "PNG")
+    return response
+
+def toggle_destacado(request, pk):
+    # Obtener el contenido
+    contenido = get_object_or_404(Contenido, pk=pk)
+    # Cambiar el estado de destacado del contenido
+    contenido.destacado = not contenido.destacado
+    contenido.save()
+
+    # Redirigir a la página de detalles del contenido
+    return HttpResponseRedirect(reverse('detalles_articulo', kwargs={'pk': pk}))
+
+@login_required
+def dar_favorito(request, pk):
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    
+    # Verificar si ya existe un objeto Favorito para esta categoría
+    try:
+        favorito_existente = Favorito.objects.get(categoria__id=pk)
+    except Favorito.DoesNotExist:
+        # Si no existe, crea un nuevo objeto Favorito para esta categoría
+        nueva_categoria_favorita = Favorito.objects.create(categoria_id=pk)
+        nueva_categoria_favorita.save()
+
+    # Una vez que se tiene un objeto Favorito para la categoría, agrega el usuario como favorito
+    favorito = Favorito.objects.get(categoria__id=pk)
+    favorito.user_sub.add(usuario)
+    
+    return redirect('MenuPrincipal')
+
+@login_required
+def quitar_favorito(request, pk):
+    usuario = UsuarioRol.objects.get(username=request.user.username)
+    
+    # Verificar si ya existe un objeto Favorito para esta categoría
+    try:
+        favorito_existente = Favorito.objects.get(categoria__id=pk)
+    except Favorito.DoesNotExist:
+        # Si no existe, crea un nuevo objeto Favorito para esta categoría
+        nueva_categoria_favorita = Favorito.objects.create(categoria_id=pk)
+        nueva_categoria_favorita.save()
+
+    # Una vez que se tiene un objeto Favorito para la categoría, agrega el usuario como favorito
+    favorito = Favorito.objects.get(categoria__id=pk)
+    favorito.user_sub.remove(usuario)
+    
+    return redirect('MenuPrincipal')
+class HTMLStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs = True
+        self.text = []
+
+    def handle_data(self, data):
+        self.text.append(data)
+
+    def get_data(self):
+        return ''.join(self.text)
+from django.db.models import Count, Sum
+import plotly.express as px
+import plotly.graph_objs as go
+from plotly.offline import plot
+from django.utils.html import strip_tags
+def grafico_estadisticas(request):
+    # Obtener las categorías y la cantidad de vistas de cada una
+    categorias = Categoria.objects.all()
+    datos_categorias = []
+    for categoria in categorias:
+        cantidad_vistas = Contenido.objects.filter(categoria=categoria).aggregate(total=Sum('veces_visto'))['total'] or 0
+        datos_categorias.append({'Categoria': categoria.nombre, 'Vistas': cantidad_vistas})
+
+    # Crear el gráfico de barras para las categorías más vistas
+    fig_categorias = px.bar(datos_categorias, x='Categoria', y='Vistas', title='Categorías más vistas')
+    plot_categorias = fig_categorias.to_html(full_html=False, default_height=500, default_width=700)
+   # Obtener los contenidos con más likes y sus categorías
+    contenidos_likes = Likes.objects.values('contenido__titulo', 'contenido__categoria__nombre').annotate(total_likes=Count('user_likes')).order_by('-total_likes')
+    titulos = [strip_tags(contenido_like['contenido__titulo']) for contenido_like in contenidos_likes]
+    total_likes = [contenido_like['total_likes'] for contenido_like in contenidos_likes]
+
+    data = [go.Bar(x=titulos, y=total_likes)]
+    layout = go.Layout(title='Contenidos con más Likes', xaxis=dict(title='Títulos'), yaxis=dict(title='Total Likes'))
+    fig = go.Figure(data=data, layout=layout)
+    plot_contenidos_likes = plot(fig, output_type='div', include_plotlyjs=False)
+   #dislikes
+    contenidos_dislikes = Likes.objects.values('contenido__titulo', 'contenido__categoria__nombre').annotate(total_dislikes=Count('user_dislikes')).order_by('-total_dislikes')
+    titulos = [strip_tags(contenido_dislike['contenido__titulo']) for contenido_dislike in contenidos_dislikes]
+    total_dislikes = [contenido_dislike['total_dislikes'] for contenido_dislike in contenidos_dislikes]
+
+    data = [go.Bar(x=titulos, y=total_dislikes)]
+    layout = go.Layout(title='Contenidos con más Dislikes', xaxis=dict(title='Títulos'), yaxis=dict(title='Total Dislikes'))
+    fig = go.Figure(data=data, layout=layout)
+    plot_contenidos_dislikes = plot(fig, output_type='div', include_plotlyjs=False)
+   #mas vistos
+    contenidos_mas_vistos = Contenido.objects.filter(estado='P').order_by('-veces_visto')
+    titulos = [strip_tags(contenido.titulo) for contenido in contenidos_mas_vistos]
+    veces_vistos = [contenido.veces_visto for contenido in contenidos_mas_vistos]
+    data = [go.Bar(x=titulos, y=veces_vistos)]
+    layout = go.Layout(title='Contenidos más vistos')
+    fig = go.Figure(data=data, layout=layout)
+    plot_contenido_vistas = plot(fig, output_type='div', include_plotlyjs=False)
+    #compartidos
+    contenidos_compartidos = Contenido.objects.filter(estado='P').order_by('-veces_compartido')
+    titulos = [strip_tags(contenido.titulo) for contenido in contenidos_compartidos]
+    veces_compartidos = [contenido.veces_compartido for contenido in contenidos_compartidos]
+    data = [go.Bar(x=titulos, y=veces_compartidos)]
+    layout = go.Layout(title='Contenidos más Compartidos')
+    fig = go.Figure(data=data, layout=layout)
+    plot_veces_compartidos = plot(fig, output_type='div', include_plotlyjs=False)
+
+
+    context = {
+        'plot_html': plot_categorias,
+        'plot_contenidos_likes': plot_contenidos_likes,
+        'plot_contenidos_dislikes': plot_contenidos_dislikes,
+        'plot_contenido_vistas': plot_contenido_vistas,
+        'plot_veces_compartidos': plot_veces_compartidos
+    }
+    return render(request, 'graficos/graficos.html', context)
 

@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login,logout
 from django.shortcuts import render,redirect
@@ -110,7 +111,7 @@ def registro(request):
             us_rol.roles.add(rol_suscriptor)
             us_rol.save()
             form.save()
-            return redirect('registro')  # Redirigir a la página de inicio de sesión
+            return redirect('login')  # Redirigir a la página de inicio de sesión
     else:
         form = RegistroForm()
     return render(request, 'main/registro.html', {'form': form})
@@ -141,6 +142,9 @@ def buscar_contenido(request):
 
     # Inicializar el queryset con todos los contenidos
     contenidos = Contenido.objects.all()
+
+    #ocultar no publicados
+    contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
 
     # Si hay un término de búsqueda, filtrar por el campo correspondiente
     if q:

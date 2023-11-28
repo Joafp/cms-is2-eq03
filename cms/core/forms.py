@@ -11,19 +11,27 @@ class RazonRechazoForm(forms.ModelForm):
 
 
 class CrearContenidoForm(forms.ModelForm):
+    """
+    Modelo para formularios de creacion de contenido
+    Contiene verificaciones especiales para la imagen de portada y categorias no moderadas
+    """
     class Meta:
         model= Contenido
         fields = ['titulo', 'autor', 'categoria', 'resumen', 'imagen', 'cuerpo', 'razon']
         widgets = {'autor': forms.HiddenInput()}
     
-
+    """
+    Verifica que el contenido tenga una imagen de portada, sino lanza un error y no se guarda el contenido
+    """
     def clean_imagen(self):
        data = self.cleaned_data.get("imagen")
        if not data:
             raise ValidationError("La imagen no puede estar vacia")
        return data
     
-       
+    """
+    Verifica que si se elige una categoria no moderada, el autor tenga permiso para publicar en categorias no moderadas, sino lanza error y no guarda el contenido
+    """   
     def clean(self):
         cleaned_data = super().clean()
         autor = cleaned_data.get("autor")

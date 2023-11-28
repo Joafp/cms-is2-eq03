@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cambiar version de contenido</title>
+    <title>Cambiar versión de contenido</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-color: #000;
+            color: #fff;
             margin: 0;
             padding: 0;
         }
         h1 {
             text-align: center;
-            background-color: #007BFF;
+            background-color: #333;
             color: #fff;
             padding: 20px 0;
         }
@@ -21,8 +22,8 @@
             margin: 20px;
         }
         li {
-            background-color: #fff;
-            border: 1px solid #ccc;
+            background-color: #444;
+            border: 1px solid #555;
             margin-bottom: 10px;
             padding: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -35,18 +36,18 @@
             text-align: center;
             margin-top: 20px;
             text-decoration: none;
-            background-color: #007BFF;
+            background-color: #333;
             color: #fff;
             padding: 10px 20px;
             border-radius: 5px;
         }
         a:hover {
-            background-color: #0056b3;
+            background-color: #222;
         }
     </style>
 </head>
 <body>
-    <h1>Cambiar version de contenido</h1>
+    <h1>Cambiar versión de contenido</h1>
     {% if vacio %}
         <p style="text-align: center;">No existen versiones para este contenido</p>
     {% endif %}
@@ -54,16 +55,17 @@
     <ul>
         {% for registro in versiones %}
             <li>
-                <p><strong>Titulo:</strong> {{ registro.titulo |safe }}</p>
+                <p><strong>Título:</strong> {{ registro.título | safe }}</p>
                 <p><strong>Fecha:</strong> {{ registro.fecha_version }}</p>
-                <p><strong>Version:</strong> {{ registro.numero_version }}</p>
-                <p><strong>Razon:</strong> {{ registro.razon |safe }}</p>
-                <a href="{% url 'aplicar_version' contenido_id=contenido.pk version_id=registro.pk %}">Aplicar version</a>
+                <p><strong>Versión:</strong> {{ registro.numero_version }}</p>
+                <p><strong>Razón:</strong> {{ registro.razón | safe }}</p>
+                <a href="{% url 'aplicar_version' contenido_id=contenido.pk version_id=registro.pk %}">Aplicar versión</a>
             </li>
         {% endfor %}
     </ul>
 
     <a href="javascript:history.back();">Volver</a>
-
 </body>
 </html>
+
+

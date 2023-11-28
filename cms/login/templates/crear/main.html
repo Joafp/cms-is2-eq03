@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divs Ejemplo</title>
+    <title>Menu Principal</title>
     <style>
-        /* Estilo para los divs */
         body {
             background-color: #121212;
             color: #FFFFFF;
@@ -35,6 +34,8 @@
             width:100%;
             height: 100%;
             display: flex;
+            justify-content:center;
+            align-items: center;
             flex-wrap: wrap;
         }
         .card{
@@ -151,6 +152,47 @@
             right: -140px;
             top:0px;
         }
+        .inline-form {
+            display: inline-block;
+            /* Otros estilos que desees agregar */
+        }
+        .categoria-item {
+            /* Ajusta el espaciado del contenedor */
+            margin-bottom: 10px;
+        }
+
+        .categoria-container {
+            background-color: black; /* Fondo negro para el contenedor */
+            padding: 10px; /* Ajusta el espaciado dentro del contenedor */
+            display: flex;
+            align-items: center;
+        }
+
+        .categoria-link {
+            margin-right: 10px;
+            color: white; /* Texto en color blanco para contrastar con el fondo negro */
+            text-decoration: none; /* Elimina el subrayado del enlace */
+        }
+
+        .favorito-form {
+            margin-left: auto;
+        }
+        .agregar-btn,
+        .quitar-btn {
+            padding: 10px 20px; /* Ajusta el relleno interior del botón */
+            background-color: #007bff; /* Color de fondo del botón */
+            color: #fff; /* Color del texto del botón */
+            border: none; /* Elimina el borde del botón */
+            border-radius: 5px; /* Borde redondeado */
+            cursor: pointer; /* Cambia el cursor al pasar por encima */
+            transition: background-color 0.3s; /* Efecto de transición suave */
+        }
+
+        /* Estilo cuando el cursor pasa por encima del botón */
+        .agregar-btn:hover,
+        .quitar-btn:hover {
+            background-color: #0056b3; /* Cambia el color de fondo al pasar el cursor */
+        }
     </style>
 </head>
 <body>
@@ -159,11 +201,26 @@
             <ul class="nav">
                 <li><a>Categorias</a>
                     <ul>
-                    {% for categoria in categorias %}
-                    <li><a href="{% url 'cat' categoria.nombre %}">{{categoria.nombre}}</a></li>
-                    {% endfor %}
+                        {% for categoria in categorias %}
+                        <li class="categoria-item">
+                            <div class="categoria-container">
+                                <a href="{% url 'cat' categoria.nombre %}" class="categoria-link">{{ categoria.nombre }}</a>
+                                {% if categoria.pk in user_favoritos %}
+                                    <form method="post" action="{% url 'quitar_favorito' pk=categoria.pk %}" class="favorito-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="quitar-btn">Quitar de favoritos</button>
+                                    </form>
+                                {% else %}
+                                    <form method="post" action="{% url 'dar_favorito' pk=categoria.pk %}" class="favorito-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="agregar-btn">Agregar a favoritos</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% endfor %}
                     </ul>
-                </li> 
+                </li>
                 {% if user.is_authenticated %}
                         {% if tiene_permiso %}
                               <li>
@@ -226,23 +283,63 @@
     </div>
     <h1>Contenidos</h1>
     <hr></hr>
-    
-        <div class="contenedor-2">
-            {% for Contenido in contenido %}
-            {% if Contenido.estado == 'P' %} 
-                 <div class= "card">
-                     <figure>
-                         <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
-                     </figure>
-                     <div class="contenido">
-                         <h3>{{Contenido.titulo| safe }}</h3>
-                         <p>{{Contenido.resumen | safe }}</p>
-                         <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
-                     </div>     
-                 </div>
+    <div class="contenedor-2">
+        {% for Contenido in contenido %}
+        {% if Contenido.estado == 'P' %} 
+           {% if Contenido.destacado == 1 %} 
+                <div class= "card">
+                    <figure>
+                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                    </figure>
+                    <div class="contenido">
+                        <h3>{{Contenido.titulo| safe }}</h3>
+                        <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
+                        <p>{{Contenido.resumen | safe }}</p>
+                        
+                    </div>     
+                </div>
             {% endif %}    
-            {% endfor %}    
-        </div>
-        
+        {% endif %}    
+        {% endfor %}    
+        {% for categoria in categorias %}
+        {% if categoria.pk in user_favoritos %}
+            {% for Contenido in categoria.contenido_set.all %}
+                {% if Contenido.estado == 'P' and not Contenido.contenido_programado %}
+                  {% if Contenido.destacado == 0 %}
+                        <div class="card">
+                            <figure>
+                                <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                            </figure>
+                            <div class="contenido">
+                                <h3>{{ Contenido.titulo | safe }}</h3>
+                                <a href="{% url 'detalles_articulo' Contenido.pk %}">Leer Mas</a>
+                                <p>{{ Contenido.resumen | safe }}</p>
+                            </div>
+                        </div>
+                 {% endif %}     
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% for Contenido in contenido %}
+            {% if Contenido.categoria.pk not in user_favoritos %}
+                {% if Contenido.estado == 'P'%} 
+                {% if Contenido.destacado == 0 %} 
+                        <div class= "card">
+                            <figure>
+                                <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                            </figure>
+                            <div class="contenido">
+                                <h3>{{Contenido.titulo| safe }}</h3>
+                                <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
+                                <p>{{Contenido.resumen | safe }}</p>
+                                
+                            </div>     
+                        </div>
+                    {% endif %}    
+                {% endif %}    
+            {% endif %}      
+        {% endfor %}    
+    </div>
 </body>
 </html>

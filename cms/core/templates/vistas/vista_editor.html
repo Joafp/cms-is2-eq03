@@ -109,11 +109,6 @@
                 </a>
             </li> 
             <li>
-                <a href="#">
-                    Tabla kanban 
-                </a>
-            </li> 
-            <li>
                 <a href="{% url 'maintrabajador' %}">
                     Volver Menu Desarrollador
                 </a>
@@ -136,6 +131,7 @@
                     {% endif %}
                     {% if contenido.publicador %}
                         <p>Publicador: {{ contenido.publicador }}</p>
+                        
                     {% endif %}
                 </div> 
             {% endfor %}

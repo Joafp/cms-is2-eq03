@@ -1,0 +1,1196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module core.models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="core.html"><font color="#ffffff">core</font></a>.models</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/core/models.py">/home/joaquin/Escritorio/Proyectois2/cms-is2-eq03/cms/core/models.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="django.db.models.html">django.db.models</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="django.db.models.base.html#Model">django.db.models.base.Model</a>(<a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="core.models.html#Calificacion">Calificacion</a>
+</font></dt><dt><font face="helvetica, arial"><a href="core.models.html#Categoria">Categoria</a>
+</font></dt><dt><font face="helvetica, arial"><a href="core.models.html#Comentario">Comentario</a>
+</font></dt><dt><font face="helvetica, arial"><a href="core.models.html#Contenido">Contenido</a>
+</font></dt><dt><font face="helvetica, arial"><a href="core.models.html#HistorialContenido">HistorialContenido</a>
+</font></dt><dt><font face="helvetica, arial"><a href="core.models.html#Likes">Likes</a>
+</font></dt><dt><font face="helvetica, arial"><a href="core.models.html#VersionesContenido">VersionesContenido</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Calificacion">class <strong>Calificacion</strong></a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Calificacion">Calificacion</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+<a href="#Calificacion">Calificacion</a>(id,&nbsp;contenido,&nbsp;usuario,&nbsp;calificacion)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.models.html#Calificacion">Calificacion</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Calificacion-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<strong>calificacion</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>contenido</strong></dt>
+</dl>
+<dl><dt><strong>contenido_id</strong></dt>
+</dl>
+<dl><dt><strong>usuario</strong></dt>
+</dl>
+<dl><dt><strong>usuario_id</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'core.models.Calificacion.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'core.models.Calificacion.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Calificacion-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt>async <a name="Calificacion-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="Calificacion-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="Calificacion-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="Calificacion-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#Calificacion-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="Calificacion-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="Calificacion-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#Calificacion-clean_fields">clean_fields</a>(),&nbsp;<a href="#Calificacion-clean">clean</a>(),&nbsp;<a href="#Calificacion-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#Calificacion-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Calificacion-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="Calificacion-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-save"><strong>save</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Calificacion-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="Calificacion-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="Calificacion-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Calificacion-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="Calificacion-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="Calificacion-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Categoria">class <strong>Categoria</strong></a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Categoria">Categoria</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+<a href="#Categoria">Categoria</a>(id,&nbsp;nombre,&nbsp;moderada,&nbsp;activo)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.models.html#Categoria">Categoria</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Categoria-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<strong>activo</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>moderada</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>nombre</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>contenido_set</strong></dt>
+</dl>
+<dl><dt><strong>versionescontenido_set</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'core.models.Categoria.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'core.models.Categoria.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Categoria-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="Categoria-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="Categoria-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt>async <a name="Categoria-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="Categoria-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="Categoria-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="Categoria-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#Categoria-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="Categoria-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="Categoria-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#Categoria-clean_fields">clean_fields</a>(),&nbsp;<a href="#Categoria-clean">clean</a>(),&nbsp;<a href="#Categoria-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#Categoria-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Categoria-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="Categoria-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-save"><strong>save</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Categoria-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="Categoria-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="Categoria-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Categoria-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="Categoria-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="Categoria-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Comentario">class <strong>Comentario</strong></a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Comentario">Comentario</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+<a href="#Comentario">Comentario</a>(id,&nbsp;contenido,&nbsp;autor,&nbsp;texto,&nbsp;fecha_creacion)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.models.html#Comentario">Comentario</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<strong>fecha_creacion</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<dl><dt><a name="Comentario-get_next_by_fecha_creacion"><strong>get_next_by_fecha_creacion</strong></a> = _method(self, *, field=&lt;django.db.models.fields.DateTimeField: fecha_creacion&gt;, is_next=True, **kwargs)</dt></dl>
+
+<dl><dt><a name="Comentario-get_previous_by_fecha_creacion"><strong>get_previous_by_fecha_creacion</strong></a> = _method(self, *, field=&lt;django.db.models.fields.DateTimeField: fecha_creacion&gt;, is_next=False, **kwargs)</dt></dl>
+
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<dl><dt><a name="Comentario-str"><strong>str</strong></a>(self)</dt></dl>
+
+<strong>texto</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>autor</strong></dt>
+</dl>
+<dl><dt><strong>autor_id</strong></dt>
+</dl>
+<dl><dt><strong>contenido</strong></dt>
+</dl>
+<dl><dt><strong>contenido_id</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'core.models.Comentario.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'core.models.Comentario.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Comentario-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="Comentario-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="Comentario-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt><a name="Comentario-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;<a href="#Comentario-str">str</a>(self).</tt></dd></dl>
+
+<dl><dt>async <a name="Comentario-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="Comentario-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="Comentario-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="Comentario-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#Comentario-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="Comentario-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="Comentario-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#Comentario-clean_fields">clean_fields</a>(),&nbsp;<a href="#Comentario-clean">clean</a>(),&nbsp;<a href="#Comentario-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#Comentario-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Comentario-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="Comentario-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-save"><strong>save</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Comentario-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="Comentario-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="Comentario-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Comentario-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="Comentario-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="Comentario-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Contenido">class <strong>Contenido</strong></a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Contenido">Contenido</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+El&nbsp;modelo&nbsp;contenido&nbsp;nos&nbsp;sirve&nbsp;para&nbsp;guardar&nbsp;los&nbsp;datos&nbsp;del&nbsp;contenido,&nbsp;tenemos&nbsp;los&nbsp;atributos<br>
+Titulo:&nbsp;guardamos&nbsp;el&nbsp;titulo&nbsp;del&nbsp;contenido<br>
+Autor:&nbsp;Asignamos&nbsp;un&nbsp;autor&nbsp;al&nbsp;titulo,&nbsp;mediante&nbsp;el&nbsp;codigo&nbsp;podemos&nbsp;ver&nbsp;que&nbsp;usamos&nbsp;limit&nbsp;choices&nbsp;para&nbsp;buscar&nbsp;solo&nbsp;los&nbsp;usuarios&nbsp;con&nbsp;el&nbsp;rol<br>
+autor<br>
+<a href="#Categoria">Categoria</a>:&nbsp;En&nbsp;nuestro&nbsp;caso&nbsp;usamos&nbsp;el&nbsp;modelo&nbsp;creado&nbsp;anteriormente&nbsp;llamado&nbsp;categoria,&nbsp;como&nbsp;vemos&nbsp;asignamos&nbsp;que&nbsp;<br>
+un&nbsp;contenido&nbsp;solo&nbsp;puede&nbsp;pertenecer&nbsp;a&nbsp;una&nbsp;categoria<br>
+Imagen:&nbsp;utilizamos&nbsp;el&nbsp;modelo&nbsp;default&nbsp;de&nbsp;django&nbsp;que&nbsp;nos&nbsp;ofrece&nbsp;ImageField,&nbsp;en&nbsp;este&nbsp;atributo&nbsp;lo&nbsp;que&nbsp;guardamos&nbsp;es&nbsp;el&nbsp;path<br>
+de&nbsp;la&nbsp;imagen,&nbsp;en&nbsp;upload&nbsp;asingamos&nbsp;la&nbsp;ubicacion&nbsp;donde&nbsp;se&nbsp;guardara&nbsp;la&nbsp;imagen<br>
+Cuerpo:&nbsp;Utilizamos&nbsp;la&nbsp;libreria&nbsp;ckeditor,&nbsp;esta&nbsp;libreria&nbsp;nos&nbsp;permite&nbsp;crear&nbsp;field&nbsp;enriquesidos,&nbsp;donde&nbsp;podemos&nbsp;subir&nbsp;tanto&nbsp;imagenes,&nbsp;como&nbsp;textos<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.models.html#Contenido">Contenido</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Contenido-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<strong>cuerpo</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>estado</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>fecha_publicacion</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<dl><dt><a name="Contenido-get_absolute_url"><strong>get_absolute_url</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Contenido-get_estado_display"><strong>get_estado_display</strong></a> = _method(self, *, field=&lt;django.db.models.fields.CharField: estado&gt;)</dt></dl>
+
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>promedio_calificaciones</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>razon</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>resumen</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>stars</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>titulo</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>ultimo_editor</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>ultimo_publicador</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>veces_compartido</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>veces_visto</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>autor</strong></dt>
+</dl>
+<dl><dt><strong>autor_id</strong></dt>
+</dl>
+<dl><dt><strong>calificacion_set</strong></dt>
+</dl>
+<dl><dt><strong>categoria</strong></dt>
+</dl>
+<dl><dt><strong>categoria_id</strong></dt>
+</dl>
+<dl><dt><strong>comentarios</strong></dt>
+</dl>
+<dl><dt><strong>contenido</strong></dt>
+</dl>
+<dl><dt><strong>editor</strong></dt>
+</dl>
+<dl><dt><strong>editor_id</strong></dt>
+</dl>
+<dl><dt><strong>historialcontenido_set</strong></dt>
+</dl>
+<dl><dt><strong>imagen</strong></dt>
+</dl>
+<dl><dt><strong>publicador</strong></dt>
+</dl>
+<dl><dt><strong>publicador_id</strong></dt>
+</dl>
+<dl><dt><strong>versionescontenido_set</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'core.models.Contenido.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>ESTADOS</strong> = (('B', 'Borrador'), ('E', 'En Edicion'), ('R', 'En Revisión'), ('P', 'Publicado'), ('r', 'Rechazado'), ('I', 'Inactivo'))</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'core.models.Contenido.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Contenido-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="Contenido-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="Contenido-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt>async <a name="Contenido-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="Contenido-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="Contenido-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="Contenido-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#Contenido-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="Contenido-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="Contenido-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#Contenido-clean_fields">clean_fields</a>(),&nbsp;<a href="#Contenido-clean">clean</a>(),&nbsp;<a href="#Contenido-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#Contenido-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Contenido-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="Contenido-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-save"><strong>save</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Contenido-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="Contenido-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="Contenido-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Contenido-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="Contenido-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="Contenido-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HistorialContenido">class <strong>HistorialContenido</strong></a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#HistorialContenido">HistorialContenido</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+<a href="#HistorialContenido">HistorialContenido</a>(id,&nbsp;contenido,&nbsp;cambio,&nbsp;fecha)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.models.html#HistorialContenido">HistorialContenido</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="HistorialContenido-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<strong>cambio</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>fecha</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<dl><dt><a name="HistorialContenido-get_next_by_fecha"><strong>get_next_by_fecha</strong></a> = _method(self, *, field=&lt;django.db.models.fields.DateTimeField: fecha&gt;, is_next=True, **kwargs)</dt></dl>
+
+<dl><dt><a name="HistorialContenido-get_previous_by_fecha"><strong>get_previous_by_fecha</strong></a> = _method(self, *, field=&lt;django.db.models.fields.DateTimeField: fecha&gt;, is_next=False, **kwargs)</dt></dl>
+
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>contenido</strong></dt>
+</dl>
+<dl><dt><strong>contenido_id</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'core.models.HistorialContenido.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'core.models.HistorialContenido.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="HistorialContenido-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt>async <a name="HistorialContenido-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="HistorialContenido-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="HistorialContenido-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="HistorialContenido-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#HistorialContenido-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="HistorialContenido-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="HistorialContenido-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#HistorialContenido-clean_fields">clean_fields</a>(),&nbsp;<a href="#HistorialContenido-clean">clean</a>(),&nbsp;<a href="#HistorialContenido-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#HistorialContenido-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="HistorialContenido-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="HistorialContenido-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-save"><strong>save</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="HistorialContenido-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="HistorialContenido-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="HistorialContenido-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="HistorialContenido-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="HistorialContenido-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="HistorialContenido-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Likes">class <strong>Likes</strong></a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Likes">Likes</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Guarda&nbsp;que&nbsp;usuarios&nbsp;indicaron&nbsp;like/dislike&nbsp;en&nbsp;un&nbsp;contenido<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.models.html#Likes">Likes</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<dl><dt><a name="Likes-str"><strong>str</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Likes-user_dislikes_count"><strong>user_dislikes_count</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Likes-user_likes_count"><strong>user_likes_count</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>contenido</strong></dt>
+</dl>
+<dl><dt><strong>contenido_id</strong></dt>
+</dl>
+<dl><dt><strong>user_dislikes</strong></dt>
+</dl>
+<dl><dt><strong>user_likes</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'core.models.Likes.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'core.models.Likes.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Likes-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="Likes-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Likes-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="Likes-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="Likes-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="Likes-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="Likes-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt><a name="Likes-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;<a href="#Likes-str">str</a>(self).</tt></dd></dl>
+
+<dl><dt>async <a name="Likes-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="Likes-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="Likes-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="Likes-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#Likes-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="Likes-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Likes-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="Likes-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="Likes-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#Likes-clean_fields">clean_fields</a>(),&nbsp;<a href="#Likes-clean">clean</a>(),&nbsp;<a href="#Likes-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#Likes-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="Likes-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Likes-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="Likes-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="Likes-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Likes-save"><strong>save</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="Likes-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="Likes-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="Likes-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="Likes-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="Likes-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="Likes-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="Likes-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="Likes-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="VersionesContenido">class <strong>VersionesContenido</strong></a>(<a href="django.db.models.base.html#Model">django.db.models.base.Model</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#VersionesContenido">VersionesContenido</a>(*args,&nbsp;**kwargs)<br>
+&nbsp;<br>
+Guarda&nbsp;una&nbsp;copia&nbsp;de&nbsp;los&nbsp;campos&nbsp;de&nbsp;un&nbsp;contenido.&nbsp;Tambien&nbsp;guarda&nbsp;el&nbsp;numero&nbsp;de&nbsp;version&nbsp;y&nbsp;la&nbsp;fecha&nbsp;en&nbsp;que&nbsp;se&nbsp;guardo&nbsp;la&nbsp;copia.<br>
+Contiene&nbsp;una&nbsp;referencia&nbsp;al&nbsp;contenido&nbsp;al&nbsp;que&nbsp;pertenece&nbsp;la&nbsp;version&nbsp;para&nbsp;facilitar&nbsp;la&nbsp;restauracion&nbsp;de&nbsp;una&nbsp;version.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="core.models.html#VersionesContenido">VersionesContenido</a></dd>
+<dd><a href="django.db.models.base.html#Model">django.db.models.base.Model</a></dd>
+<dd><a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="VersionesContenido-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<strong>cuerpo</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>fecha_version</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<dl><dt><a name="VersionesContenido-get_next_by_fecha_version"><strong>get_next_by_fecha_version</strong></a> = _method(self, *, field=&lt;django.db.models.fields.DateTimeField: fecha_version&gt;, is_next=True, **kwargs)</dt></dl>
+
+<dl><dt><a name="VersionesContenido-get_previous_by_fecha_version"><strong>get_previous_by_fecha_version</strong></a> = _method(self, *, field=&lt;django.db.models.fields.DateTimeField: fecha_version&gt;, is_next=False, **kwargs)</dt></dl>
+
+<strong>id</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>numero_version</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>razon</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>resumen</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<strong>titulo</strong> = &lt;django.db.models.query_utils.DeferredAttribute object&gt;
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>categoria</strong></dt>
+</dl>
+<dl><dt><strong>categoria_id</strong></dt>
+</dl>
+<dl><dt><strong>contenido_base</strong></dt>
+</dl>
+<dl><dt><strong>contenido_base_id</strong></dt>
+</dl>
+<dl><dt><strong>imagen</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DoesNotExist</strong> = &lt;class 'core.models.VersionesContenido.DoesNotExist'&gt;</dl>
+
+<dl><dt><strong>MultipleObjectsReturned</strong> = &lt;class 'core.models.VersionesContenido.MultipleObjectsReturned'&gt;</dl>
+
+<dl><dt><strong>objects</strong> = &lt;django.db.models.manager.Manager object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="VersionesContenido-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>Hook&nbsp;to&nbsp;allow&nbsp;choosing&nbsp;the&nbsp;attributes&nbsp;to&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>Return&nbsp;hash(self).</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-__reduce__"><strong>__reduce__</strong></a>(self)</dt><dd><tt>Helper&nbsp;for&nbsp;pickle.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-__setstate__"><strong>__setstate__</strong></a>(self, state)</dt></dl>
+
+<dl><dt>async <a name="VersionesContenido-adelete"><strong>adelete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt>async <a name="VersionesContenido-arefresh_from_db"><strong>arefresh_from_db</strong></a>(self, using=None, fields=None)</dt></dl>
+
+<dl><dt>async <a name="VersionesContenido-asave"><strong>asave</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt></dl>
+
+<dl><dt><a name="VersionesContenido-clean"><strong>clean</strong></a>(self)</dt><dd><tt>Hook&nbsp;for&nbsp;doing&nbsp;any&nbsp;extra&nbsp;model-wide&nbsp;validation&nbsp;after&nbsp;<a href="#VersionesContenido-clean">clean</a>()&nbsp;has&nbsp;been<br>
+called&nbsp;on&nbsp;every&nbsp;field&nbsp;by&nbsp;self.<strong>clean_fields</strong>.&nbsp;Any&nbsp;ValidationError&nbsp;raised<br>
+by&nbsp;this&nbsp;method&nbsp;will&nbsp;not&nbsp;be&nbsp;associated&nbsp;with&nbsp;a&nbsp;particular&nbsp;field;&nbsp;it&nbsp;will<br>
+have&nbsp;a&nbsp;special-case&nbsp;association&nbsp;with&nbsp;the&nbsp;field&nbsp;defined&nbsp;by&nbsp;NON_FIELD_ERRORS.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-clean_fields"><strong>clean_fields</strong></a>(self, exclude=None)</dt><dd><tt>Clean&nbsp;all&nbsp;fields&nbsp;and&nbsp;raise&nbsp;a&nbsp;ValidationError&nbsp;containing&nbsp;a&nbsp;dict<br>
+of&nbsp;all&nbsp;validation&nbsp;errors&nbsp;if&nbsp;any&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-date_error_message"><strong>date_error_message</strong></a>(self, lookup_type, field_name, unique_for)</dt></dl>
+
+<dl><dt><a name="VersionesContenido-delete"><strong>delete</strong></a>(self, using=None, keep_parents=False)</dt></dl>
+
+<dl><dt><a name="VersionesContenido-full_clean"><strong>full_clean</strong></a>(self, exclude=None, validate_unique=True, validate_constraints=True)</dt><dd><tt>Call&nbsp;<a href="#VersionesContenido-clean_fields">clean_fields</a>(),&nbsp;<a href="#VersionesContenido-clean">clean</a>(),&nbsp;<a href="#VersionesContenido-validate_unique">validate_unique</a>(),&nbsp;and<br>
+<a href="#VersionesContenido-validate_constraints">validate_constraints</a>()&nbsp;on&nbsp;the&nbsp;model.&nbsp;Raise&nbsp;a&nbsp;ValidationError&nbsp;for&nbsp;any<br>
+errors&nbsp;that&nbsp;occur.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-get_constraints"><strong>get_constraints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="VersionesContenido-get_deferred_fields"><strong>get_deferred_fields</strong></a>(self)</dt><dd><tt>Return&nbsp;a&nbsp;set&nbsp;containing&nbsp;names&nbsp;of&nbsp;deferred&nbsp;fields&nbsp;for&nbsp;this&nbsp;instance.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-prepare_database_save"><strong>prepare_database_save</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="VersionesContenido-refresh_from_db"><strong>refresh_from_db</strong></a>(self, using=None, fields=None)</dt><dd><tt>Reload&nbsp;field&nbsp;values&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;the&nbsp;reloading&nbsp;happens&nbsp;from&nbsp;the&nbsp;database&nbsp;this&nbsp;instance&nbsp;was<br>
+loaded&nbsp;from,&nbsp;or&nbsp;by&nbsp;the&nbsp;read&nbsp;router&nbsp;if&nbsp;this&nbsp;instance&nbsp;wasn't&nbsp;loaded&nbsp;from<br>
+any&nbsp;database.&nbsp;The&nbsp;using&nbsp;parameter&nbsp;will&nbsp;override&nbsp;the&nbsp;default.<br>
+&nbsp;<br>
+Fields&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;specify&nbsp;which&nbsp;fields&nbsp;to&nbsp;reload.&nbsp;The&nbsp;fields<br>
+should&nbsp;be&nbsp;an&nbsp;iterable&nbsp;of&nbsp;field&nbsp;attnames.&nbsp;If&nbsp;fields&nbsp;is&nbsp;None,&nbsp;then<br>
+all&nbsp;non-deferred&nbsp;fields&nbsp;are&nbsp;reloaded.<br>
+&nbsp;<br>
+When&nbsp;accessing&nbsp;deferred&nbsp;fields&nbsp;of&nbsp;an&nbsp;instance,&nbsp;the&nbsp;deferred&nbsp;loading<br>
+of&nbsp;the&nbsp;field&nbsp;will&nbsp;call&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-save"><strong>save</strong></a>(self, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Save&nbsp;the&nbsp;current&nbsp;instance.&nbsp;Override&nbsp;this&nbsp;in&nbsp;a&nbsp;subclass&nbsp;if&nbsp;you&nbsp;want&nbsp;to<br>
+control&nbsp;the&nbsp;saving&nbsp;process.<br>
+&nbsp;<br>
+The&nbsp;'force_insert'&nbsp;and&nbsp;'force_update'&nbsp;parameters&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;insist<br>
+that&nbsp;the&nbsp;"save"&nbsp;must&nbsp;be&nbsp;an&nbsp;SQL&nbsp;insert&nbsp;or&nbsp;update&nbsp;(or&nbsp;equivalent&nbsp;for<br>
+non-SQL&nbsp;backends),&nbsp;respectively.&nbsp;Normally,&nbsp;they&nbsp;should&nbsp;not&nbsp;be&nbsp;set.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-save_base"><strong>save_base</strong></a>(self, raw=False, force_insert=False, force_update=False, using=None, update_fields=None)</dt><dd><tt>Handle&nbsp;the&nbsp;parts&nbsp;of&nbsp;saving&nbsp;which&nbsp;should&nbsp;be&nbsp;done&nbsp;only&nbsp;once&nbsp;per&nbsp;save,<br>
+yet&nbsp;need&nbsp;to&nbsp;be&nbsp;done&nbsp;in&nbsp;raw&nbsp;saves,&nbsp;too.&nbsp;This&nbsp;includes&nbsp;some&nbsp;sanity<br>
+checks&nbsp;and&nbsp;signal&nbsp;sending.<br>
+&nbsp;<br>
+The&nbsp;'raw'&nbsp;argument&nbsp;is&nbsp;telling&nbsp;save_base&nbsp;not&nbsp;to&nbsp;save&nbsp;any&nbsp;parent<br>
+models&nbsp;and&nbsp;not&nbsp;to&nbsp;do&nbsp;any&nbsp;changes&nbsp;to&nbsp;the&nbsp;values&nbsp;before&nbsp;save.&nbsp;This<br>
+is&nbsp;used&nbsp;by&nbsp;fixture&nbsp;loading.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-serializable_value"><strong>serializable_value</strong></a>(self, field_name)</dt><dd><tt>Return&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;field&nbsp;name&nbsp;for&nbsp;this&nbsp;instance.&nbsp;If&nbsp;the&nbsp;field&nbsp;is<br>
+a&nbsp;foreign&nbsp;key,&nbsp;return&nbsp;the&nbsp;id&nbsp;value&nbsp;instead&nbsp;of&nbsp;the&nbsp;object.&nbsp;If&nbsp;there's<br>
+no&nbsp;Field&nbsp;object&nbsp;with&nbsp;this&nbsp;name&nbsp;on&nbsp;the&nbsp;model,&nbsp;return&nbsp;the&nbsp;model<br>
+attribute's&nbsp;value.<br>
+&nbsp;<br>
+Used&nbsp;to&nbsp;serialize&nbsp;a&nbsp;field's&nbsp;value&nbsp;(in&nbsp;the&nbsp;serializer,&nbsp;or&nbsp;form&nbsp;output,<br>
+for&nbsp;example).&nbsp;Normally,&nbsp;you&nbsp;would&nbsp;just&nbsp;access&nbsp;the&nbsp;attribute&nbsp;directly<br>
+and&nbsp;not&nbsp;use&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="VersionesContenido-unique_error_message"><strong>unique_error_message</strong></a>(self, model_class, unique_check)</dt></dl>
+
+<dl><dt><a name="VersionesContenido-validate_constraints"><strong>validate_constraints</strong></a>(self, exclude=None)</dt></dl>
+
+<dl><dt><a name="VersionesContenido-validate_unique"><strong>validate_unique</strong></a>(self, exclude=None)</dt><dd><tt>Check&nbsp;unique&nbsp;constraints&nbsp;on&nbsp;the&nbsp;model&nbsp;and&nbsp;raise&nbsp;ValidationError&nbsp;if&nbsp;any<br>
+failed.</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><a name="VersionesContenido-check"><strong>check</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<dl><dt><a name="VersionesContenido-from_db"><strong>from_db</strong></a>(db, field_names, values)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.base.html#Model">django.db.models.base.Model</a>:<br>
+<dl><dt><strong>pk</strong></dt>
+</dl>
+<hr>
+Class methods inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><a name="VersionesContenido-__init_subclass__"><strong>__init_subclass__</strong></a>(**kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="django.db.models.base.html#ModelBase">django.db.models.base.ModelBase</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="django.db.models.utils.html#AltersData">django.db.models.utils.AltersData</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>settings</strong> = &lt;LazySettings "cms.settings"&gt;</td></tr></table>
+</body></html>

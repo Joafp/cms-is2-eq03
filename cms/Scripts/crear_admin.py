@@ -8,8 +8,7 @@ from django.contrib.auth.models import Permission,User
 from GestionCuentas.models import Rol,UsuarioRol
 def create_admin_role():
     # Obtener todos los permisos de superusuario
-    permissions = Permission.objects.filter(codename='admin')
-
+    permissions = Permission.objects.all()
     # Crear el rol de Administrador y asignarle los permisos
     admin_role, created = Rol.objects.get_or_create(nombre='Administrador')
     admin_role.permisos.set(permissions)
@@ -19,8 +18,8 @@ def create_admin_role():
 def asignar_rol():
     try:
         admin_rol=Rol.objects.get(nombre='Administrador')
-        usuario=UsuarioRol.objects.get(username='AlainVega')
-        user=User.objects.get(username='AlainVega')
+        usuario=UsuarioRol.objects.get(username='Joadmin')
+        user=User.objects.get(username='Joadmin')
         usuario.roles.add(admin_rol)
         user.is_superuser=True
         user.is_staff=True

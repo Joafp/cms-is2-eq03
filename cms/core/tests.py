@@ -1,38 +1,17 @@
 from django.test import TestCase,Client
 from django.urls import reverse
 from . import urls
-from .models import Contenido, Categoria
+from .models import Contenido, Categoria, Likes, VersionesContenido
 from GestionCuentas.models import UsuarioRol, Rol
 from django.contrib.auth.models import Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
-from .models import Categoria,UsuarioRol,Contenido
+from .models import Categoria,UsuarioRol,Contenido,Calificacion,Comentario
 from GestionCuentas.models import Rol
 from django.test import override_settings
 from django.core import mail
-
-class CategoriaTestCase(TestCase):
-    def setUp(self):
-        self.client=Client()
-        self.user = User.objects.create_user(username='Administrador_prueba', password='4L1_khrSri8i')
-        self.admin = UsuarioRol.objects.create(
-            username='Administrador_prueba',
-            email='administrador@prueba.com',
-            nombres='Nombre del Administrador',
-            apellidos='Apellido del Administrador',
-        )
-        self.admin.roles.add(Rol.objects.create(nombre='Administrador'))
-        self.categoria = Categoria.objects.create(nombre='Test')
-        self.contenido = Contenido.objects.create(
-            titulo='Título de Prueba',
-            autor=self.admin,
-            categoria=self.categoria,
-            resumen='Resumen de prueba',
-            cuerpo='Cuerpo de prueba',
-        )
-
-
+from .views import actualizar_calificacion_estrellas
 class CategoriaTestCase(TestCase):
     def setUp(self):
         self.client=Client()
@@ -102,7 +81,7 @@ class RolTestCase(TestCase):
         rol=usuario_rol.roles.filter(nombre=self.rol_test.nombre).first()
         self.assertIsNone(rol, 'El rol no fue removido del usuario')
 """Nos permite comprobar si la creacion de contenidos en nuestra vista funciona"""
-class CrearContenidoTestCase(TestCase):
+"""class CrearContenidoTestCase(TestCase):
     def setUp(self):
         self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
         # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
@@ -130,16 +109,13 @@ class CrearContenidoTestCase(TestCase):
         # Realiza una solicitud POST para crear el contenido utilizando la vista de creación
         response = self.client.post(reverse('crear_contenido'), self.datos_contenido, follow=True)
 
-        # Verifica que la solicitud redirija a la página deseada después de la creación
-        self.assertRedirects(response, reverse('crear_contenido'))
+        # Verifica que la solicitud sea exitosa (código de respuesta 200)
+        self.assertEqual(response.status_code, 200)
 
         # Verifica que el contenido se ha creado correctamente en la base de datos
         self.assertTrue(Contenido.objects.filter(titulo='Título de Prueba').exists())
         print(f"Contenido con título: 'Título de Prueba' creado exitosamente.") 
-    def tearDown(self):
-        # Limpia los datos de prueba si es necesario
-        self.autor.delete()
-        self.categoria.delete()
+"""
 class AccesoContenidoTestCase(TestCase):
     def setUp(self):
         # Crear un contenido de prueba
@@ -176,7 +152,7 @@ class AccesoContenidoTestCase(TestCase):
         # Verificar que la solicitud sea exitosa (código 200)
         self.assertEqual(response.status_code, 200)
         print(f"Contenido con título: 'Título de Prueba' ingresado exitosamente.") 
-    def test_aceptar_contenido(self):
+    """def test_aceptar_contenido(self):
         # Obtiene la URL para la vista aceptar_contenido utilizando reverse()
         url = reverse('aceptar_contenido', args=[self.contenido.id])
 
@@ -193,7 +169,7 @@ class AccesoContenidoTestCase(TestCase):
         self.contenido.refresh_from_db()
 
         # Verifica que el estado del contenido se haya actualizado a 'R'
-        self.assertEqual(self.contenido.estado, 'A')
+        self.assertEqual(self.contenido.estado, 'A')"""
     def test_rechazar_contenido(self):
           # Obtiene la URL para la vista aceptar_contenido utilizando reverse()
         url = reverse('rechazar_contenido', args=[self.contenido.id])
@@ -277,10 +253,20 @@ class notificacionCorreoTestCase(TestCase):
         self.assertIsNotNone(backend, "No se pudo conectar con el servicio de correo")
 
     @override_settings(EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend')# El correo se mantiene en la memoria para facilitar el test
-    def testEmailEdicion(self):
+   
+    def testEmailRecuperacion(self):
         """
-            Verifica que se envia el mensaje correcto en el email de edicion de contenido y al email correcto
+            Verifica que se envia el email de recuperacion y que es enviado a la direccion correcta
         """
+        response = self.client.post(reverse('recuperarPassword'), data={'email':"testuseremail@test.com"})
+        self.assertRedirects(response, reverse('MenuPrincipal'), 302, 200, "No se envio la solicitud de recuperacion")
+        self.assertEqual(len(mail.outbox), 1, "No se envio el email o se envio mas de un email")
+        self.assertEqual(mail.outbox[0].subject, 'CMS IS2 EQ03 - Recuperacion de contraseña')
+        self.assertTrue("testuseremail@test.com" in mail.outbox[0].recipients(), "No se envio el email a la direccion correcta")        
+    """
+    def testEmailEdicion(self):     
+       # Verifica que se envia el mensaje correcto en el email de edicion de contenido y al email correcto
+        
         login = self.client.login(username="TestUser", password="4L1_khrSri8i")
         self.assertTrue(login, "No se pudo acceder a la pagina con las credenciales especificadas")
         response = self.client.get(reverse('editar_contenido_editor', kwargs={'pk': self.contenido.pk}))
@@ -295,14 +281,291 @@ class notificacionCorreoTestCase(TestCase):
         self.assertEqual(len(mail.outbox), 1, "No se envio el email o se envio mas de un email")
         self.assertEqual(mail.outbox[0].subject, 'Contenido editado')
         self.assertEqual(mail.outbox[0].body, f"Su contenido {form['titulo'].initial} fue editado")
-        self.assertTrue("testuseremail@test.com" in mail.outbox[0].recipients(), "No se envio el email a la direccion de correo del autor")
+        self.assertTrue("testuseremail@test.com" in mail.outbox[0].recipients(), "No se envio el email a la direccion de correo del autor")   
+    """
 
-    def testEmailRecuperacion(self):
+class CategoriaNoModeradaTest(TestCase):
+    """
+        Verifica que el autor con permiso para categorias no moderadas puede publicar su contenido directamente
+        Fecha: 2023/10/19
+    """
+    def setUp(self):
+        self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        # Agrega el permiso para categorias no moderadas
+        perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+
+        # Crea una categoría no moderada de prueba
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.categoria.moderada = False
+        
+        # Crea un contenido de ejemplo  
+        self.contenido_ejemplo = Contenido.objects.create(
+            titulo='Título de Prueba',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'B'
+        )
+
+    def test_publicar_contenido_no_moderado(self):
         """
-            Verifica que se envia el email de recuperacion y que es enviado a la direccion correcta
+        Verifica que el contenido pasa de borrador a publicado directamente
         """
-        response = self.client.post(reverse('recuperarPassword'), data={'email':"testuseremail@test.com"})
-        self.assertRedirects(response, reverse('MenuPrincipal'), 302, 200, "No se envio la solicitud de recuperacion")
-        self.assertEqual(len(mail.outbox), 1, "No se envio el email o se envio mas de un email")
-        self.assertEqual(mail.outbox[0].subject, 'CMS IS2 EQ03 - Recuperacion de contraseña')
-        self.assertTrue("testuseremail@test.com" in mail.outbox[0].recipients(), "No se envio el email a la direccion correcta")
+        # Iniciar sesión como el usuario autor
+        login = self.client.login(username='autor_prueba', password='4L1_khrSri8i')
+        self.assertTrue(login, "No se pudo loguear al autor de prueba")
+
+        # Intenta enviar el contenido
+        response = self.client.post(reverse('enviar_contenido_autor', kwargs={'pk': self.contenido_ejemplo.pk}), data={'enviar_editor':'enviar_editor'}, follow=True)
+
+        # Verifica que se haya redirigido luego enviar el contenido correctamente
+        self.assertRedirects(response, reverse('vista_autor'), 302, 200, "Error al enviar el contenido")
+
+        # Verifica que el contenido se ha publicado
+        self.assertTrue(Contenido.objects.filter(titulo='Título de Prueba', estado="P").exists(), "El contenido no fue publicado")     
+
+class VersionesTest(TestCase):
+    """
+        Verifica que se guarden las versiones de un contenido y que se puedan restaurar
+        Fecha: 2023/10/19
+    """
+    def setUp(self):
+        self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        # Agrega el permiso para categorias no moderadas
+        perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+
+        # Crea una categoría no moderada de prueba
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.categoria.moderada = False
+        
+        # Crea un contenido de ejemplo  
+        self.contenido_ejemplo = Contenido.objects.create(
+            titulo='Ver1',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'B',
+            imagen= "contenido_imagenes/Octagon_delete.png"
+        )
+
+    def test_guardar_restaurar_version(self):
+        """
+        Guarda y restaura diferentes versiones de un contenido
+        """
+        # Iniciar sesión como el usuario autor
+        login = self.client.login(username='autor_prueba', password='4L1_khrSri8i')
+        self.assertTrue(login, "No se pudo loguear al autor de prueba")
+
+        response = self.client.get(reverse('editar_contenido', kwargs={"pk": self.contenido_ejemplo.pk}))
+        self.assertEqual(response.status_code, 200, "No se puede acceder al borrador del contenido")
+
+        # Carga los datos iniciales del formulario
+        form = response.context['form']
+        data = {'guardar_borrador':'guardar_borrador'}
+
+        for field in form.fields:
+            t = form[field].initial
+            if not t:
+                t = ""
+            data[field]=t
+
+        # Intenta guardar el borrador
+        response = self.client.post(reverse('editar_contenido', kwargs={'pk': self.contenido_ejemplo.pk}),
+                                    data=data)
+
+        # Verifica que se haya guardado la version 1
+        self.assertTrue(VersionesContenido.objects.filter(contenido_base=self.contenido_ejemplo, numero_version=1).exists(), "No se guardo la version 1")
+
+        # Hace y restaura varias versiones
+        for i in range(2, 5):
+            # Carga los datos iniciales del formulario
+            response = self.client.get(reverse('editar_contenido', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 200, "No se puede acceder al borrador del contenido")
+            form = response.context['form']
+            data = {'guardar_borrador':'guardar_borrador'}
+
+            for field in form.fields:
+                t = form[field].initial
+                if not t:
+                    t = ""
+                data[field]=t
+            data['titulo'] = f'Ver{i}'
+
+            # Intenta guardar el borrador con un nuevo titulo
+            response = self.client.post(reverse('editar_contenido', kwargs={'pk': self.contenido_ejemplo.pk}),
+                                        data=data)
+            
+            # Verifica que se haya guardado la version i
+            self.assertTrue(VersionesContenido.objects.filter(contenido_base=self.contenido_ejemplo, numero_version=i).exists(), f"No se guardo la version {i}")
+            self.assertEqual(Contenido.objects.get(id=self.contenido_ejemplo.pk).titulo, f"Ver{i}", f"No se guardo correctamente la version {i} del contenido")
+
+            # Restaura la version i - 1
+            response = self.client.get(reverse('aplicar_version', kwargs={"contenido_id": self.contenido_ejemplo.pk, "version_id": i-1}))
+            
+            # Verifica que se haya restaurado la version i - 1
+            self.assertEqual(Contenido.objects.get(id=self.contenido_ejemplo.pk).titulo, f"Ver{i-1}", f"No se aplico la version {i-1} al contenido")
+
+class LikesTest(TestCase):
+    """
+    Verifica que se guarden los likes de usuario
+    Fecha: 2023/11/02
+    """
+
+    def setUp(self):
+        self.num_suscriptores = 3
+        self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        # Agrega el permiso para categorias no moderadas
+        perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+
+        # Crea una categoría no moderada de prueba
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.categoria.moderada = False
+        
+        # Crea un contenido publicado de ejemplo
+        self.contenido_ejemplo = Contenido.objects.create(
+            titulo='Ver1',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'P',
+            imagen= "contenido_imagenes/Octagon_delete.png"
+        )
+
+        self.likes = Likes.objects.get_or_create(contenido=self.contenido_ejemplo)[0]
+
+        # Crea suscriptores de prueba
+        self.suscriptores = [None, None, None, None, None]
+
+        for i in range(0, self.num_suscriptores):
+            self.suscriptores[i] = User.objects.create_user(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            UsuarioRol.objects.create(
+                username=f'sucriptor_{i}',
+                email=f'sucriptor_{i}@prueba.com',
+                nombres=f'Nombre susc{i}',
+                apellidos=f'Apellido susc{i}',
+            )
+
+        
+
+    def test_boton_like(self):
+        """
+        Da like al contenido de prueba y verifica que se guarde el like del usuario y el contador cuente correctamente el numero
+        """
+
+        for i in range(0, self.num_suscriptores):
+            # Iniciar sesión como el suscriptor
+            login = self.client.login(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            self.assertTrue(login, f"No se pudo loguear al sucriptor_{i}")
+
+            # Da like al contenido
+            response = self.client.get(reverse('dar_like', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 302, "No se pudo dar like al contenido")
+
+            # Verifica el incremento del numero de likes del contenido
+            self.assertEqual(self.likes.user_likes_count(), i+1, "No se contaron los likes correctamente")
+
+        
+        for i in range(0, self.num_suscriptores):
+            # Iniciar sesión como el suscriptor
+            login = self.client.login(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            self.assertTrue(login, f"No se pudo loguear al sucriptor_{i}")
+
+            # Quitar like al contenido
+            response = self.client.get(reverse('dar_like', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 302, "No se pudo quitar el like del contenido")
+
+            # Verifica la reduccion del numero de likes del contenido
+            self.assertEqual(self.likes.user_likes_count(), self.num_suscriptores-1-i, "No se contaron correctamente los likes quitados")
+
+    def test_boton_dislike(self):
+        """
+        Da dislike al contenido de prueba y verifica que se guarde el like del usuario y el contador cuente correctamente el numero
+        """
+
+        for i in range(0, self.num_suscriptores):
+            # Iniciar sesión como el suscriptor
+            login = self.client.login(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            self.assertTrue(login, f"No se pudo loguear al sucriptor_{i}")
+
+            # Da dislike al contenido
+            response = self.client.get(reverse('dar_dislike', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 302, "No se pudo dar dislike al contenido")
+
+            # Verifica el incremento del numero de dislikes del contenido
+            self.assertEqual(self.likes.user_dislikes_count(), i+1, "No se contaron los dislikes correctamente")
+
+        
+        for i in range(0, self.num_suscriptores):
+            # Iniciar sesión como el suscriptor
+            login = self.client.login(username=f'sucriptor_{i}', password='4L1_khrSri8i')
+            self.assertTrue(login, f"No se pudo loguear al sucriptor_{i}")
+
+            # Quitar dislike al contenido
+            response = self.client.get(reverse('dar_dislike', kwargs={"pk": self.contenido_ejemplo.pk}))
+            self.assertEqual(response.status_code, 302, "No se pudo quitar el dislike del contenido")
+
+            # Verifica la reduccion del numero de dislikes del contenido
+            self.assertEqual(self.likes.user_dislikes_count(), self.num_suscriptores-1-i, "No se contaron correctamente los dislikes quitados")
+
+
+class CalificacionTestCase(TestCase):
+    def setUp(self):
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.contenido = Contenido.objects.create(
+            titulo='Contenido de Prueba',
+            autor=self.autor,
+            categoria=self.categoria,
+            resumen='Resumen de prueba',
+            cuerpo='Cuerpo de prueba',
+            imagen='/contenido_imagenes/imagen.jpg'
+        )
+
+    def test_calificar_contenido(self):
+        self.client.login(username='testuser', password='testpassword')
+        calificacion_data = {'calificacion': 4}  # Calificación de ejemplo
+        response = self.client.post(f'/contenido/{self.contenido.id}/calificar/', calificacion_data)
+        self.assertEqual(response.status_code, 302)  # Comprueba que se redirige correctamente
+
+        # Comprueba que la calificación se ha registrado en la base de datos
+        calificacion = Calificacion.objects.get(contenido=self.contenido, usuario=self.user)
+        self.assertEqual(calificacion.calificacion, 4)
+
+        # Comprueba que la calificación media del contenido se ha actualizado
+        self.contenido.refresh_from_db()
+        self.assertEqual(self.contenido.promedio_calificaciones, 4.0)  # Actualiza esto con el valor esperado

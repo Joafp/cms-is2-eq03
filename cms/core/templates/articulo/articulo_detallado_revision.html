@@ -51,10 +51,21 @@
     <p>{{ object.cuerpo|safe }}</p>
     <p>Observacion</p>
     <p>{{ object.razon|safe }}</p>
+    <!-- Formulario para marcar como destacado y publicar -->
+    <form method="post" action="{% url 'publicar_contenido' contenido_id=object.id %}">
+        {% csrf_token %}
+        <label for="destacado">¿Destacar este contenido?</label>
+        <input type="checkbox" id="destacado" name="destacado" value="1">
+        <input type="submit" class="my-button rechazar" value="Publicar Contenido">
+        <br>
+        <label for="fecha_programada">Fecha de publicacion</label>
+        <input type="date" name="fecha_programada" id="fecha_programada">
+        <input type="submit" class="my-button" value="Programar Publicacion" name="programar_publicacion">
+    </form>
+    <!-- Fin del formulario -->
     {% endblock %}
     <hr class="content-divider">
     <div class="footer-buttons">
-        <a href="{% url 'publicar_contenido' contenido_id=object.id %}" class="my-button publicar">Publicar Contenido</a>
         <a href="{% url 'rechazar_contenido_publicador' pk=object.id %}" class="my-button rechazar">Rechazar Contenido</a>
     </div>
 </body>
