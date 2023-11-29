@@ -14,6 +14,7 @@ urlpatterns = [
     path('main_trabajador/',views.vista_trabajador,name='maintrabajador'),
     path('gestioncuentas/',include('GestionCuentas.urls')),
     path('login/',include('login.urls')),
+    path('estadistica_autor/',views.estadistica_autor,name='estadistica_autor'),
     #path('crearcontenido/',login_required(CrearContenido.as_view(),login_url="/login"),name='crear_contenido'),
     path('articulo/<int:pk>', login_required(VistaArticulos.as_view(),login_url="/login"),name='detalles_articulo'),
     path('crearcontenido/',CrearContenido.as_view(),name='crear_contenido'),
@@ -69,6 +70,7 @@ urlpatterns = [
     path('editar-rol/<int:pk>/', views.EditarRol.as_view(), name='editar_rol'),
     path('desactivar-rol/<int:pk>/', views.EliminarRol.as_view(), name='desactivar_rol'),
     path('seleccionar-rol/', views.seleccionar_rol, name='seleccionar_rol'),
+    path('pasar_a_borrador_contenido/<int:contenido_id>/',views.pasar_a_borrador_contenido,name='pasar_a_borrador_contenido')
 ]
 """Nos permite vincular la direccion donde tenemos guardadas nuestras imagenes, en este caso
 tenemos las imagenes en la carpeta raiz y esta esta definida en el archivo settings"""

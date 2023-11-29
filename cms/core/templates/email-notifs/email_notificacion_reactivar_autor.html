@@ -1,0 +1,13 @@
+{% autoescape off %}
+<style>
+  ins{
+    background-color: greenyellow;
+  }
+  del{
+    background-color: pink;
+  }
+</style>
+  <p>Su contenido "{{titulo_contenido}}" se ha movido al estado borrador por usted</p>
+  <p>Su contenido se encuentra actualmente en el estado borrador, puedes editarlo en el menu de desarrollo para autores</p>
+  {% include 'email-notifs/link_tabla_kanban.html' %}
+{% endautoescape %}
