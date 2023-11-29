@@ -336,7 +336,7 @@
         {% for categoria in categorias %}
         {% if categoria.pk in user_favoritos %}
             {% for Contenido in categoria.contenido_set.all %}
-                {% if Contenido.estado == 'P'  and not Contenido.contenido_programado %}
+                {% if Contenido.estado == 'P' and not Contenido.contenido_programado %}
                   {% if Contenido.destacado == 0 %}
                         <div class="card">
                             <div class="contenedor-img">
@@ -366,7 +366,7 @@
         {% endfor %}
         {% for Contenido in contenido %}
             {% if Contenido.categoria.pk not in user_favoritos %}
-                {% if Contenido.estado == 'P'  and not Contenido.contenido_programado %} 
+                {% if Contenido.estado == 'P' and not Contenido.contenido_programado %} 
                 {% if Contenido.destacado == 0 %} 
                         <div class= "card">
                             <div class="contenedor-img">
