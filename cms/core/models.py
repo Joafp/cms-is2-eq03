@@ -90,7 +90,7 @@ class Calificacion(models.Model):
 
 class HistorialContenido(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
-    cambio = models.CharField(max_length=255)
+    cambio = models.CharField()
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
