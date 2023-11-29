@@ -33,7 +33,6 @@ class Contenido(models.Model):
     de la imagen, en upload asingamos la ubicacion donde se guardara la imagen
     Cuerpo: Utilizamos la libreria ckeditor, esta libreria nos permite crear field enriquesidos, donde podemos subir tanto imagenes, como textos
     """
-    objects = ContenidoManager()
     ESTADOS = (
         ('B', 'Borrador'),
         ('E', 'En Edicion'),
