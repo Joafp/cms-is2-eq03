@@ -4,11 +4,32 @@
     <meta charset="UTF-8">
     <title>Crear categoría</title>
     <style>
-        
+        /* Estilos para el botón Volver */
+        .volver-btn {
+            padding: 15px 30px; /* Ajuste del relleno del botón */
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 16px; /* Tamaño del texto */
+        }
+
+        /* Cambio de color y tamaño del texto al pasar el cursor por encima del botón Volver */
+        .volver-btn:hover {
+            background-color: #0056b3;
+            color: #fff; /* Cambio de color del texto al pasar el cursor */
+            font-size: 18px; /* Ajuste del tamaño del texto al pasar el cursor */
+        }
+
         h1 {
             text-align: center;
             font-size: 24px;
-            color: #FFFFFF;
+            color: #ffffff;
         }
 
         .select {
@@ -18,7 +39,7 @@
             border: 1px solid #333;
             border-radius: 4px;
             background-color: #282828;
-            color: #FFFFFF;
+            color: #ffffff;
         }
 
         .create-account {
@@ -30,60 +51,66 @@
 
         body {
             background-color: #121212;
-            color: #FFFFFF;
+            color: #ffffff;
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            position: relative;
         }
+
         .container {
             width: 400px;
             padding: 40px;
-            background-color: #1E1E1E;
+            background-color: #1e1e1e;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
+
         label {
             display: block;
             text-align: center;
             margin-bottom: 10px;
         }
+
         input {
-            width: 100%;
+            width: calc(100% - 22px); /* Ajuste del ancho del input */
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #333;
             border-radius: 4px;
             background-color: #282828;
-            color: #FFFFFF;
+            color: #ffffff;
         }
-        button {
+
+        button.button {
             display: block;
             margin: 0 auto;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
-            background-color: #1976D2;
-            color: #FFFFFF;
+            background-color: #1976d2;
+            color: #ffffff;
             cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <button class="volver-btn"><a href="javascript:history.back();">Volver</a></button>
     <div class="container">
         <h1>Crear categoría</h1>
         <form action="{% url 'Categoria' %}" method="post">
             {% csrf_token %}
             <input type="text" name="nombre" placeholder="Nombre de la categoría" class="input">
-            <select name="moderada">
+            <select name="moderada" class="select">
                 <option value="True">Moderada</option>
                 <option value="False">No moderada</option>
             </select>
             <input type="submit" value="Crear categoría" class="button">
         </form>
-    </div>    
+    </div>
 </body>
 </html>
