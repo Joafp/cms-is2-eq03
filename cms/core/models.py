@@ -51,7 +51,7 @@ class Contenido(models.Model):
     razon = RichTextField(blank=True,null=True,config_name='limite_caracteres')
     ultimo_editor=models.CharField(max_length=255,blank=True)
     ultimo_publicador=models.CharField(max_length=255,blank=True)
-    fecha_publicacion = models.DateField(null=True, blank=True)
+    fecha_publicacion = models.DateTimeField(null=True, blank=True)
     promedio_calificaciones = models.DecimalField(max_digits=3, decimal_places=2, default=0)
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
@@ -63,7 +63,7 @@ class Contenido(models.Model):
     @property
     def contenido_programado(self):
         # Retorna true si el contenido esta programado para publicarse en una fecha posterior
-        return self.fecha_publicacion > datetime.today().date()
+        return self.fecha_publicacion > datetime.now()
     
     @property
     def moderado(self):
@@ -146,3 +146,9 @@ class Favorito(models.Model):
     
     def user_subs_count(self):
         return self.user_sub.all().count()
+
+class Reporte(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE)
+    texto = models.TextField(verbose_name="Razon de reporte")
+    fecha_creacion = models.DateTimeField(auto_now_add=True)

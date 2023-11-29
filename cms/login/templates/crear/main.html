@@ -323,7 +323,7 @@
         {% endfor %}
         {% for Contenido in contenido %}
             {% if Contenido.categoria.pk not in user_favoritos %}
-                {% if Contenido.estado == 'P'%} 
+                {% if Contenido.estado == 'P' and not Contenido.contenido_programado %} 
                 {% if Contenido.destacado == 0 %} 
                         <div class= "card">
                             <figure>

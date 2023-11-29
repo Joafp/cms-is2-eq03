@@ -1,0 +1,99 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportar contenido</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+        }
+
+        .volver-button {
+            float: right;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        main {
+            min-width: 50%;
+            max-width: fit-content;
+            margin: 0 auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #007bff;
+            cursor: pointer;
+            color: #FFFFFF;
+            max-width: fit-content;
+            align-self: center;
+        }
+
+        input:hover{
+            background-color: #005ec2;
+            
+        }
+
+        .flabel{
+            display: flex;
+            width: 100%;
+            height: fit-content;
+            color: #FFFFFF;
+        }
+
+        .flabelx{
+            margin: 0.5rem 0 ;
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+        }
+        label, .label {
+            display: block;  
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+
+        textarea{
+            width: 100%;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    {% block content %}
+    <header>
+        <a href="javascript:history.back();" class="volver-button">Volver</a>
+    </header>
+
+    <main>
+        <h1>Reportar contenido</h1>
+        <p><span class="label">Titulo del contenido: </span><span class="flabel">{{ titulo|safe }}</span></p>
+        <p><span class="label">Autor del contenido: </span> <span class="flabelx">{{autor}}</span></p>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Enviar Reporte" name="enviar_reporte" id="enviar_reporte">
+        </form>
+    </main>
+
+    {% endblock %}
+</body>
+
+</html>
