@@ -30,6 +30,18 @@
             padding: 35px;
            
         }
+        .contenedor-img{
+            display:flex;
+        }
+        .caja{
+            display:flex
+            aling-items:left;
+            justify-content:center:
+            width:50%
+        }
+        .caja h4{
+            text-decoration: underline;
+        }
         .contenedor-2 {
             display: flex;
             justify-content: center;
@@ -61,8 +73,11 @@
 
         }
         .card img{
+            display: flex;
+            justify-content:center;
             width:100%;
-            height:210px;
+            height:150px;
+            
         }
         .card .contenido{
             padding: 15px;
@@ -76,6 +91,8 @@
         .card .contenido h3{
             font-weight: 400;
             margin-bottom: 15px;
+            text-decoration: underline;
+
         }
         .card .contenido a{
             text-decoration: none;
@@ -198,6 +215,7 @@
         .quitar-btn:hover {
             background-color: #0056b3; /* Cambia el color de fondo al pasar el cursor */
         }
+        
     </style>
 </head>
 <body>
@@ -293,16 +311,23 @@
         {% if Contenido.estado == 'P' %} 
            {% if Contenido.destacado == 1 %} 
                 <div class= "card">
-                    <figure>
-                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
-                    </figure>
-                    <p>DESTACADO</p>
-                    <p>{{Contenido.categoria| safe }}</p>
-                    <div class="contenido">
-                        <h3>{{Contenido.titulo| safe }}</h3>
+                    <div class="contenedor-img">
+                        <div class="caja">
+                            <figure>
+                                <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                            <figure>
+                        </div>
+                        <div class="caja">
+                            <h3>DESTACADO</h3>
+                            <h4>Categoria</h4>
+                            <h5>{{Contenido.categoria| safe }}</h5>
+                            <h4>Titulo</h4>
+                            <h5>{{Contenido.titulo| safe }}</h5>
+                        </div>
+                    </div>
+                    <div class="contenido">   
+                        <p>{{ Contenido.resumen | slice:":100" | safe }}</p>
                         <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
-                        <p>{{Contenido.resumen | safe }}</p>
-                        
                     </div>     
                 </div>
             {% endif %}    
@@ -314,10 +339,20 @@
                 {% if Contenido.estado == 'P'  and not Contenido.contenido_programado %}
                   {% if Contenido.destacado == 0 %}
                         <div class="card">
-                            <figure>
-                                <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
-                            </figure>
-                            <p>{{Contenido.categoria| safe }}</p>
+                            <div class="contenedor-img">
+                                <div class="caja">
+                                    <figure>
+                                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                                    <figure>
+                                </div>
+                                <div class="caja">
+                                    <h4>Categoria</h4>
+                                    <h5>{{Contenido.categoria| safe }}</h5>
+                                    <h4>Titulo</h4>
+                                    <h5>{{Contenido.titulo| safe }}</h5>
+                                </div>
+                            </div>
+                            <hr></hr>
                             <div class="contenido">
                                 <h3>{{ Contenido.titulo | safe }}</h3>
                                 <a href="{% url 'detalles_articulo' Contenido.pk %}">Leer Mas</a>
@@ -334,15 +369,23 @@
                 {% if Contenido.estado == 'P'  and not Contenido.contenido_programado %} 
                 {% if Contenido.destacado == 0 %} 
                         <div class= "card">
-                            <figure>
-                                <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
-                            </figure>
-                            <p>{{Contenido.categoria| safe }}</p>
+                            <div class="contenedor-img">
+                                <div class="caja">
+                                    <figure>
+                                        <img src="{{ Contenido.imagen.url }}" alt="{{ Contenido.titulo }}">
+                                    <figure>
+                                </div>
+                                <div class="caja">
+                                    <h4>Categoria</h4>
+                                    <h5>{{Contenido.categoria| safe }}</h5>
+                                    <h4>Titulo</h4>
+                                    <h5>{{Contenido.titulo| safe }}</h5>
+                                </div>
+                            </div>
                             <div class="contenido">
-                                <h3>{{Contenido.titulo| safe }}</h3>
-                                <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
-                                <p>{{Contenido.resumen | safe }}</p>
                                 
+                                <p>{{Contenido.resumen | safe }}</p>
+                                <a href="{% url 'detalles_articulo' Contenido.pk%}">Leer Mas</a>
                             </div>     
                         </div>
                     {% endif %}    
