@@ -5,6 +5,8 @@ from ckeditor.fields import RichTextField
 from GestionCuentas.models import UsuarioRol
 from django.conf import settings
 from django.urls import reverse
+from django.db.models import Manager, QuerySet
+
 class Categoria(models.Model):
     nombre=models.CharField(max_length=200)
     moderada=models.BooleanField(default=False)
@@ -12,7 +14,12 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre    
     
-
+class ContenidoManager(Manager):
+    # Excluye los contenidos que tengan autores inactivos de cualquier query y los autores que ya no tengan el permiso(si se borro o desasigno el rol)
+    def get_queryset(self):
+        qs = QuerySet(self.model, using=self._db).filter(autor__roles__permisos__codename="Vista_autor")
+        qs = qs.exclude(autor__usuario_activo=False)
+        return qs
 
 class Contenido(models.Model):
     """
@@ -26,6 +33,7 @@ class Contenido(models.Model):
     de la imagen, en upload asingamos la ubicacion donde se guardara la imagen
     Cuerpo: Utilizamos la libreria ckeditor, esta libreria nos permite crear field enriquesidos, donde podemos subir tanto imagenes, como textos
     """
+    objects = ContenidoManager()
     ESTADOS = (
         ('B', 'Borrador'),
         ('E', 'En Edicion'),
