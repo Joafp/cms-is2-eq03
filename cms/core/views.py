@@ -1,4 +1,5 @@
 from pyexpat.errors import messages
+from django.forms.models import BaseModelForm
 from django.urls import reverse
 from html.parser import HTMLParser
 from typing import Any
@@ -13,7 +14,7 @@ from pathlib import Path
 from lxml.html.diff import htmldiff
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView,UpdateView
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from decimal import Decimal
 from django.db.models import Sum
 from .models import Categoria,Favorito,Reporte
@@ -31,6 +32,10 @@ import qrcode
 from django.http import HttpResponse
 import plotly.express as px
 from datetime import datetime
+from GestionCuentas.models import Rol
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
 class CrearContenido(CreateView):
     """
     La clase creacontenido utiliza el view de django CreateView, este view nos permite rellenar datos para un modelo
@@ -1935,7 +1940,7 @@ class ListaReportes(ListView):
             f = f | {'contenido__pk': t}
         
         qs = super().get_queryset().filter(contenido__autor__username=self.request.user.username) # Solo carga los reportes enviados al autor del contenido
-        return qs.filter(**f).order_by('fecha_creacion')
+        return qs.filter(**f).order_by('-fecha_creacion')
     
     def get_context_data(self, **kwargs):
         """
@@ -1950,3 +1955,90 @@ class ListaReportes(ListView):
         if request.POST.get('filtro_id') is None:
             return redirect('contenidos_reportados')
         return super(ListaReportes, self)
+    
+class CrearRol(CreateView, PermissionRequiredMixin, LoginRequiredMixin):
+    model = Rol
+    fields = ['nombre', 'permisos']
+    template_name = 'crear_rol.html'
+    login_url = reverse_lazy('login')
+    permission_required = "Vista_administrador"
+
+
+    def get_success_url(self) -> str:
+        return reverse('gestion')
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["titulo"] = "Crear Rol"
+        context["submitbutton"] = "Guardar nuevo rol"
+        return context
+    
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        response = super(CrearRol, self).form_valid(form)
+        return response
+    
+class EditarRol(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
+    model = Rol
+    fields = ['nombre', 'permisos']
+    template_name = 'crear_rol.html'
+    login_url = reverse_lazy('login')
+    permission_required = "Vista_administrador"
+
+
+    def get_success_url(self) -> str:
+        return reverse('gestion')
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["titulo"] = "Editar Rol"
+        context["submitbutton"] = "Guardar rol"
+        return context
+    
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        if form.initial["nombre"] in ["Administrador", "Autor", "Editor", "Publicador", "Suscriptor", "Autor no moderado"]:
+            raise ValueError("No se permite editar los roles basicos")
+        response = super(EditarRol, self).form_valid(form)
+        return response
+    
+class EliminarRol(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
+    model = Rol
+    fields = []
+    template_name = 'crear_rol.html'
+    login_url = reverse_lazy('login')
+    permission_required = "Vista_administrador"
+
+
+    def get_success_url(self) -> str:
+        return reverse('gestion')
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["titulo"] = "Desactivar Rol"
+        context["submitbutton"] = "Si, desactivar el rol"
+        context["mensaje_eliminacion"] = True
+        return context
+    
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        if self.object.nombre in ["Administrador", "Autor", "Editor", "Publicador", "Suscriptor", "Autor no moderado"]:
+            raise ValueError("No se permite eliminar los roles basicos")
+        self.object.borrado = True
+        response = super(EliminarRol, self).form_valid(form)
+        return response
+    
+@login_required(login_url="/login")
+def seleccionar_rol(request):
+    if request.method == 'POST':
+        rol_id = request.POST.get('rol')
+        if rol_id is None:
+            raise ValueError("Debe seleccionar un rol")
+        if "editar_rol" in request.POST:
+            return redirect('editar_rol', pk=rol_id)
+        elif "eliminar_rol" in request.POST:
+            return redirect('desactivar_rol', pk=rol_id)
+    else:
+        roles = Rol.objects.all()
+        roles = roles.exclude(nombre__in=("Administrador", "Autor", "Editor", "Publicador", "Suscriptor", "Autor no moderado")) # No permite modificar los roles basicos
+        context = {
+            'roles': roles,
+        }
+        return render(request, 'editar_rol.html', context)

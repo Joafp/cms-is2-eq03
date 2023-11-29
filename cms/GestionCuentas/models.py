@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import Permission, User
+from django.db.models import Manager, QuerySet
 class PermisosPer(models.Model):
     """
     Modelo para definir permisos personalizados
@@ -22,6 +23,12 @@ class PermisosPer(models.Model):
             ("Vista_tabla", "Permite ver la tabla general"),
             ("Publicacion no moderada", "Permite la publicacion en categorias no moderadas"),
         ]
+
+class RolManager(Manager):
+    # Excluye los roles borrados de cualquier query
+    def get_queryset(self):
+        return QuerySet(self.model, using=self._db).exclude(borrado=True)
+
 class Rol(models.Model):
     """
     Modelo para definir roles de usuarios
@@ -31,6 +38,9 @@ class Rol(models.Model):
     """
     nombre=models.CharField(max_length=50,unique=True)
     permisos=models.ManyToManyField(Permission,default=None)
+    borrado=models.BooleanField(default=False, null=True)
+
+    objects = RolManager()
     def __str__(self):
         return self.nombre
 class UsuarioRol(AbstractBaseUser):
