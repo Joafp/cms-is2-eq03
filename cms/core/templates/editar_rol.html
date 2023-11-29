@@ -10,17 +10,6 @@
             color: white;
         }
 
-        form p input, select{
-            all: unset;
-            background-color: #333;
-            color: #FFFFFF;
-            border-radius: 0.25em;
-            border: 1px solid gray;
-            padding: 0 1em;
-            width: 100%;
-            min-height: 1.5em;
-        }
-
         .volver-button {
             float: right;
             background-color: #007bff;
@@ -38,7 +27,7 @@
             margin: 0 auto;
         }
 
-        input.button {
+        input {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -47,11 +36,11 @@
             background-color: #007bff;
             cursor: pointer;
             color: #FFFFFF;
-            max-width: fit-content;
+            /* max-width: fit-content; */
             align-self: center;
         }
 
-        input.button:hover{
+        input:hover{
             background-color: #005ec2;
             
         }
@@ -79,32 +68,32 @@
             font-weight: 600;
         }
 
-        textarea, select, input{
+        textarea{
             width: 100%;
         }
 
-        select{
-            max-height: fit-content;
-            height: 20rem;
+        div.button-container{
+            margin: 1.5rem auto;
+            display: flex;
+            flex-direction: column;
+            max-width: max-content;
+            align-self: center;
         }
 
-        span.nombre_rol{
+        div.button-container input{ 
             display: flex;
-            font-weight: 600;
-            border: 0.15em none #333;
-            border-radius: 0.15em;
-            padding: 0.5em;
-            background-color: #333;
             flex-grow: 1;
-            margin-left: 0.5em;
         }
 
-        p.container{
-            display: flex;
-            align-items: center;
+        select{
+            all: unset;
+            height: 2.5em;
+            background-color: #333;
+            color: #FFFFFF;
+            border-radius: 0.25em;
+            border: 1px solid gray;
+            padding: 0 1em;
         }
-
-        
 
     </style>
 </head>
@@ -116,15 +105,20 @@
     </header>
 
     <main>
-        <h1>{{titulo}}</h1>
-        {% if mensaje_eliminacion %}
-            <p class="container">Esta seguro que desea desactivar el rol: <span class="nombre_rol">{{object.nombre}}</span></p>
-        {% endif %}
-        <form method="POST">
+        <h1>Seleccione un rol</h1>
+        <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input class="button" type="submit" value="{{submitbutton}}" name="crear_rol" id="crear_rol">
-        </form>
+            <label for="rol">Rol:</label>
+            <select name="rol" id="rol" required>
+            {% for rol in roles %}
+                <option value="{{ rol.id }}">{{ rol.nombre }}</option>
+            {% endfor %}
+            </select>
+            <div class="button-container">
+                <input type="submit" value="Editar Rol" name="editar_rol" id="editar_rol">
+                <input type="submit" value="Eliminar Rol" name="eliminar_rol" id="eliminar_rol">
+            </div>
+          </form>
     </main>
 
     {% endblock %}

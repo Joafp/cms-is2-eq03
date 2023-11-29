@@ -1,4 +1,5 @@
 from pyexpat.errors import messages
+from django.forms.models import BaseModelForm
 from django.urls import reverse
 from html.parser import HTMLParser
 from typing import Any
@@ -13,10 +14,10 @@ from pathlib import Path
 from lxml.html.diff import htmldiff
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView,UpdateView
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from decimal import Decimal
 from django.db.models import Sum
-from .models import Categoria,Favorito
+from .models import Categoria,Favorito,Reporte
 from .models import Likes
 from .models import Contenido,HistorialContenido,VersionesContenido,Comentario
 from .models import Contenido,HistorialContenido,VersionesContenido,Comentario,Calificacion
@@ -30,6 +31,11 @@ from django.http import JsonResponse
 import qrcode
 from django.http import HttpResponse
 import plotly.express as px
+from datetime import datetime
+from GestionCuentas.models import Rol
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
 class CrearContenido(CreateView):
     """
     La clase creacontenido utiliza el view de django CreateView, este view nos permite rellenar datos para un modelo
@@ -249,16 +255,17 @@ class EnviarContenidoAutor(UpdateView):
     def form_valid(self, form):
         form.instance.estado = 'B'  # establece el estado inicial a 'E'
         response = super().form_valid(form)
-        if "enviar_editor" in self.request.POST:
+        if "enviar_editor" in self.request.POST or "publicar_ahora" in self.request.POST:
             # Publica directamente si la categoria es no moderada
             if self.object.categoria.moderada == False:
                 fecha = self.request.POST.get("fecha_programada")
+                hora = self.request.POST.get('hora_programada')
                 programado = True
-                if len(fecha) == 0:
+                if len(fecha) == 0 or "publicar_ahora" in self.request.POST:
                     programado = False
-                    fecha = timezone.datetime.now()
+                    fecha = datetime.now()
                 else:
-                    fecha = datetime.strptime(fecha, '%Y-%m-%d')
+                    fecha = datetime.strptime(fecha+' '+hora, '%Y-%m-%d %H:%M')
                 self.object.ultimo_publicador=self.request.user.username
                 self.object.estado = 'P'
                 self.object.fecha_publicacion = fecha
@@ -429,7 +436,7 @@ def vista_MenuPrincipal(request):
     print("Usuario: ",autenticado)
 
     return render(request, 'crear/main.html',context )
-from datetime import datetime
+
 def vista_MenuPrincipal_filtrado(request):
     """
     Fecha documentacion: 28/08/2023
@@ -703,7 +710,7 @@ def categoria(request,nombre):
     """
 
     categoria= get_object_or_404(Categoria,nombre=nombre)
-    contenidos=Contenido.objects.filter(categoria_id=categoria.id, estado='P', fecha_publicacion__lte=timezone.datetime.now()) # Oculta contenidos no publicados
+    contenidos=Contenido.objects.filter(categoria_id=categoria.id, estado='P', fecha_publicacion__lte=datetime.now()) # Oculta contenidos no publicados
     context = {
         'categoria': categoria,
         'contenidos': contenidos
@@ -1066,9 +1073,9 @@ def publicar_contenido(request,contenido_id):
 
         if "programar_publicacion" in request.POST:
             fecha = request.POST.get('fecha_programada')
-            # hora = request.POST.get('hora_programada')
-            # contenido.fecha_publicacion = datetime_object = datetime.strptime(fecha+' '+hora, '%Y-%m-%d %H:%M')
-            contenido.fecha_publicacion = datetime.strptime(fecha, '%Y-%m-%d')
+            hora = request.POST.get('hora_programada')
+            contenido.fecha_publicacion = datetime.strptime(fecha+' '+hora, '%Y-%m-%d %H:%M')
+            #contenido.fecha_publicacion = datetime.strptime(fecha, '%Y-%m-%d')
             contenido.save()
             nuevo_cambio = HistorialContenido(
                     contenido=contenido,  # Asigna la instancia de Contenido, no el ID
@@ -1190,7 +1197,7 @@ def inactivar_contenido(request,contenido_id):
 
     
     # Redirige al usuario a la vista del editor
-    return redirect('ContenidosPublicados')
+    return redirect('vista_autor')
 @login_required(login_url="/login")
 def aceptar_rechazo_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
@@ -1973,4 +1980,203 @@ def estadistica_autor(request):
         'plot_contenidos_compartidos': plot_contenidos_compartidos,
         'plot_contenidos_calificados': plot_contenidos_calificados
     }
+<<<<<<< HEAD
     return render(request, 'graficos/graficos_autor.html', context)
+=======
+    return render(request, 'graficos/graficos_autor.html', context)
+class ReportarContenido(CreateView):
+    # Vista para crear un reporte
+    model = Reporte
+    fields = ["texto"]
+    template_name = "articulo/reportar_articulo.html"
+
+    def get_context_data(self, **kwargs):
+        # Obtiene el titulo y autor del contenido y los agrega al context que usa el template
+        context = super().get_context_data(**kwargs)
+        cont = Contenido.objects.get(pk=self.kwargs['pk'])
+        context['titulo'] = cont.titulo
+        context['autor'] = cont.autor.nombres + ', ' + cont.autor.apellidos
+        return context
+    
+    def form_valid(self, form):
+        # Completa los campos del formulario y guarda el reporte, luego redirige de vuelta a la pagina del contenido
+        form.instance.contenido = Contenido.objects.get(pk=self.kwargs['pk'])
+        form.instance.usuario = UsuarioRol.objects.get(username=self.request.user.username)
+        response = super(ReportarContenido, self).form_valid(form)
+        # Notifica al autor
+        mensaje = render_to_string("email-notifs/email_notificacion_reporte.html",
+                                            {
+                                            'titulo': form.instance.contenido.titulo,
+                                            'usuario': form.instance.usuario.username,
+                                            'fecha': form.instance.fecha_creacion,
+                                            'razon': form.instance.texto,
+                                            'urlhost':self.request.get_host(),
+                                            'contenidopk':form.instance.contenido.pk})
+    
+        send_mail(subject="Contenido reportado",
+                  message= "Su contenido {form.instance.contenido.titulo} ha sido reportado", 
+                    from_email=None,
+                        recipient_list=[self.object.contenido.autor.email, 'is2cmseq03@gmail.com'],
+                        html_message=mensaje)
+
+        return response
+    
+    def get_success_url(self) -> str:
+        return reverse('detalles_articulo', kwargs={"pk":self.kwargs["pk"]})
+    
+class ListaReportes(ListView):
+    """
+    Fecha de documentacion: 28-11-2023
+        Permite ver la lista de contenidos reportados
+    """
+    model = Reporte
+    paginate_by = 5
+    template_name = "articulo/lista_reportes.html"
+    
+    def get_queryset(self):
+        """
+        Fecha de documentacion: 28-11-2023
+            Se modifica la funcion para filtrar los reportes por id de contenido
+        """
+        f = {}
+        t = self.request.GET.get('filtro_id')
+        if (t is not None and t is not ''):
+            f = f | {'contenido__pk': t}
+        
+        qs = super().get_queryset().filter(contenido__autor__username=self.request.user.username) # Solo carga los reportes enviados al autor del contenido
+        return qs.filter(**f).order_by('-fecha_creacion')
+    
+    def get_context_data(self, **kwargs):
+        """
+        Fecha de documentacion: 07-09-2023
+            Se sobreescribe para agregar los criterios de filtrado al contexto de la pagina para ser utilizados en templates
+        """
+        context = super().get_context_data(**kwargs)
+        context["filtro_id"] = self.request.GET.get('filtro_id') or ''
+        return context
+    
+    def post(self, request):
+        if request.POST.get('filtro_id') is None:
+            return redirect('contenidos_reportados')
+        return super(ListaReportes, self)
+    
+class CrearRol(CreateView, PermissionRequiredMixin, LoginRequiredMixin):
+    model = Rol
+    fields = ['nombre', 'permisos']
+    template_name = 'crear_rol.html'
+    login_url = reverse_lazy('login')
+    permission_required = "Vista_administrador"
+
+
+    def get_success_url(self) -> str:
+        return reverse('gestion')
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["titulo"] = "Crear Rol"
+        context["submitbutton"] = "Guardar nuevo rol"
+        return context
+    
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        response = super(CrearRol, self).form_valid(form)
+        return response
+    
+class EditarRol(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
+    model = Rol
+    fields = ['nombre', 'permisos']
+    template_name = 'crear_rol.html'
+    login_url = reverse_lazy('login')
+    permission_required = "Vista_administrador"
+
+
+    def get_success_url(self) -> str:
+        return reverse('gestion')
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["titulo"] = "Editar Rol"
+        context["submitbutton"] = "Guardar rol"
+        return context
+    
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        if form.initial["nombre"] in ["Administrador", "Autor", "Editor", "Publicador", "Suscriptor", "Autor no moderado"]:
+            raise ValueError("No se permite editar los roles basicos")
+        response = super(EditarRol, self).form_valid(form)
+        return response
+    
+class EliminarRol(UpdateView, PermissionRequiredMixin, LoginRequiredMixin):
+    model = Rol
+    fields = []
+    template_name = 'crear_rol.html'
+    login_url = reverse_lazy('login')
+    permission_required = "Vista_administrador"
+
+
+    def get_success_url(self) -> str:
+        return reverse('gestion')
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["titulo"] = "Desactivar Rol"
+        context["submitbutton"] = "Si, desactivar el rol"
+        context["mensaje_eliminacion"] = True
+        return context
+    
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        if self.object.nombre in ["Administrador", "Autor", "Editor", "Publicador", "Suscriptor", "Autor no moderado"]:
+            raise ValueError("No se permite eliminar los roles basicos")
+        self.object.borrado = True
+        response = super(EliminarRol, self).form_valid(form)
+        return response
+    
+@login_required(login_url="/login")
+def seleccionar_rol(request):
+    if request.method == 'POST':
+        rol_id = request.POST.get('rol')
+        if rol_id is None:
+            raise ValueError("Debe seleccionar un rol")
+        if "editar_rol" in request.POST:
+            return redirect('editar_rol', pk=rol_id)
+        elif "eliminar_rol" in request.POST:
+            return redirect('desactivar_rol', pk=rol_id)
+    else:
+        roles = Rol.objects.all()
+        roles = roles.exclude(nombre__in=("Administrador", "Autor", "Editor", "Publicador", "Suscriptor", "Autor no moderado")) # No permite modificar los roles basicos
+        context = {
+            'roles': roles,
+        }
+        return render(request, 'editar_rol.html', context)
+
+@login_required(login_url="/login")
+def pasar_a_borrador_contenido(request,contenido_id):
+    # Obtén el objeto de contenido basado en algún criterio, como un ID
+    contenido = Contenido.objects.get(id=contenido_id)
+    contenido.fecha_publicacion = None
+    contenido.estado = 'B'
+   
+    # Guarda el objeto de contenido
+    contenido.save()
+    nuevo_cambio = HistorialContenido(
+                contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El contenido con el Titulo {contenido.titulo} fue enviado a borrador por su autor {contenido.autor.username}. El contenido pasa de estado inactivo a borrador"
+            )
+    nuevo_cambio.save()
+    mensaje_edicion = render_to_string("email-notifs/email_notificacion_reactivar_autor.html",
+                                            {
+                                            'nombre_editor':contenido.ultimo_editor,
+                                            'nombre_autor':contenido.autor_id,
+                                            'titulo_contenido': contenido.titulo,
+                                            'razon': contenido.razon,
+                                            'urlhost':request.get_host(),
+                                                    'contenidopk':contenido.pk})
+    
+
+    send_mail(subject="Se ha puesto en borrador un contenido", message=f"Su contenido {contenido.titulo} fue movido de inactivo a borrador",
+                from_email=None,
+                    recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
+                    html_message=mensaje_edicion)
+
+    
+    # Redirige al usuario a la vista del editor
+    return redirect('vista_autor')    
+>>>>>>> main

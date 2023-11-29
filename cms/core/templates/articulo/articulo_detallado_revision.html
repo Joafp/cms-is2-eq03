@@ -56,10 +56,12 @@
         {% csrf_token %}
         <label for="destacado">¿Destacar este contenido?</label>
         <input type="checkbox" id="destacado" name="destacado" value="1">
-        <input type="submit" class="my-button rechazar" value="Publicar Contenido">
+        <input type="submit" class="my-button rechazar" value="Publicar Contenido" name="publicar_ahora">
         <br>
         <label for="fecha_programada">Fecha de publicacion</label>
         <input type="date" name="fecha_programada" id="fecha_programada">
+        <label for="hora_programada">Hora de publicacion</label>
+        <input type="time" name="hora_programada" id="hora_programada">
         <input type="submit" class="my-button" value="Programar Publicacion" name="programar_publicacion">
     </form>
     <!-- Fin del formulario -->

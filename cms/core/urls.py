@@ -64,6 +64,13 @@ urlpatterns = [
     path('tabla/',views.tabla_kanban,name='Tabla'),
     path('articulo/<int:pk>/like', views.dar_like, name='dar_like'),
     path('articulo/<int:pk>/dislike', views.dar_dislike, name='dar_dislike'),
+    path('articulo/<int:pk>/reportar', views.ReportarContenido.as_view(), name='reportar_contenido'),
+    path('reportes/', views.ListaReportes.as_view(), name='contenidos_reportados'),
+    path('crear-rol/', views.CrearRol.as_view(), name='crear_rol'),
+    path('editar-rol/<int:pk>/', views.EditarRol.as_view(), name='editar_rol'),
+    path('desactivar-rol/<int:pk>/', views.EliminarRol.as_view(), name='desactivar_rol'),
+    path('seleccionar-rol/', views.seleccionar_rol, name='seleccionar_rol'),
+    path('pasar_a_borrador_contenido/<int:contenido_id>/',views.pasar_a_borrador_contenido,name='pasar_a_borrador_contenido')
 ]
 """Nos permite vincular la direccion donde tenemos guardadas nuestras imagenes, en este caso
 tenemos las imagenes en la carpeta raiz y esta esta definida en el archivo settings"""
