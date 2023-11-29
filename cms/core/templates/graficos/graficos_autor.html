@@ -76,65 +76,41 @@
 <body>
     <h1>
         Gráficos de estadísticas
-        <button id="boton-regresar" onclick="window.location.href = '{% url 'vista_pub' %}'">Volver Al Menu Publicador</button>
+        <button id="boton-regresar" onclick="window.location.href = '{% url 'vista_autor' %}'">Volver Al Menu Autor</button>
     </h1>
     <div class="graficos-container">
-        <div class="grafico-container" id="grafico_categorias">
-            <!-- Aquí se mostrará el gráfico de categorías -->
-            {{ plot_html | safe }}
-        </div>
+        <!-- Divs para mostrar los gráficos -->
         <div class="grafico-container" id="grafico_contenidos_likes">
             <!-- Aquí se mostrará el gráfico de contenidos con más likes -->
             {{ plot_contenidos_likes | safe }}
         </div>
-        <div class="grafico-container" id="grafico_contenidos_dislikes">
-            <!-- Aquí se mostrará el gráfico de contenidos con más dislikes -->
+        <div class="grafico-container" id="grafico_contenidos_likes">
+            <!-- Aquí se mostrará el gráfico de contenidos con más likes -->
             {{ plot_contenidos_dislikes | safe }}
         </div>
-        <div class="grafico-container" id="grafico_contenidos_vistas">
-            <!-- Aquí se mostrará el gráfico de contenidos más vistos -->
-            {{ plot_contenido_vistas | safe }}
+        <div class="grafico-container" id="grafico_contenidos_likes">
+            <!-- Aquí se mostrará el gráfico de contenidos con más likes -->
+            {{ plot_contenidos_vistas| safe }}
         </div>
-        <div class="grafico-container" id="grafico_contenidos_compartidos">
-            <!-- Aquí se mostrará el gráfico de contenidos más compartidos -->
-            {{ plot_veces_compartidos | safe }}
+        <div class="grafico-container" id="grafico_contenidos_likes">
+            <!-- Aquí se mostrará el gráfico de contenidos con más likes -->
+            {{ plot_contenidos_compartidos| safe }}
         </div>
-        <div class="grafico-container" id="grafico_contenidos_compartidos">
-            <!-- Aquí se mostrará el gráfico de contenidos más compartidos -->
-            {{ plot_calificacion | safe }}
+        <div class="grafico-container" id="grafico_contenidos_likes">
+            <!-- Aquí se mostrará el gráfico de contenidos con más likes -->
+            {{ plot_contenidos_calificados| safe }}
         </div>
     </div>
 
     <!-- Script para deshabilitar funcionalidades no deseadas en los gráficos -->
     <script>
-        var graficos = document.getElementsByClassName('grafico-container');
-        for (var i = 0; i < graficos.length; i++) {
-            var grafico = graficos[i];
-            var plotlyDiv = grafico.getElementsByClassName('js-plotly-plot')[0];
-            if (plotlyDiv) {
-                Plotly.relayout(plotlyDiv, {
-                    dragmode: 'pan',
-                    scrollZoom: false,
-                    modeBarButtonsToRemove: [
-                        'zoom2d',
-                        'zoomIn2d',
-                        'zoomOut2d',
-                        'autoScale2d',
-                        'resetScale2d',
-                        'toggleSpikelines',
-                        'hoverClosestCartesian',
-                        'hoverCompareCartesian',
-                        'lasso2d',
-                        'select2d'
-                    ],
-                    displaylogo: false
-                });
-            }
-        }
+        /* Código JavaScript */
+        /* ... (tu script actual) ... */
     </script>
 
+    <!-- Script para generar y personalizar el gráfico de contenidos con más dislikes -->
     <script>
-        var data = {{ datos_dislikes | safe }};
+        var data = {{ datos_dislikes | safe }}; // Puedes modificar esto según los datos del gráfico
         var layout = {
             title: 'Contenidos con más Dislikes',
             xaxis: { title: 'Títulos' },
@@ -165,5 +141,31 @@
             });
         });
     </script>
+        <script>
+            var graficos = document.getElementsByClassName('grafico-container');
+            for (var i = 0; i < graficos.length; i++) {
+                var grafico = graficos[i];
+                var plotlyDiv = grafico.getElementsByClassName('js-plotly-plot')[0];
+                if (plotlyDiv) {
+                    Plotly.relayout(plotlyDiv, {
+                        dragmode: 'pan',
+                        scrollZoom: false,
+                        modeBarButtonsToRemove: [
+                            'zoom2d',
+                            'zoomIn2d',
+                            'zoomOut2d',
+                            'autoScale2d',
+                            'resetScale2d',
+                            'toggleSpikelines',
+                            'hoverClosestCartesian',
+                            'hoverCompareCartesian',
+                            'lasso2d',
+                            'select2d'
+                        ],
+                        displaylogo: false
+                    });
+                }
+            }
+        </script>
 </body>
 </html>

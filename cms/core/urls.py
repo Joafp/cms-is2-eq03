@@ -14,6 +14,7 @@ urlpatterns = [
     path('main_trabajador/',views.vista_trabajador,name='maintrabajador'),
     path('gestioncuentas/',include('GestionCuentas.urls')),
     path('login/',include('login.urls')),
+    path('estadistica_autor/',views.estadistica_autor,name='estadistica_autor'),
     #path('crearcontenido/',login_required(CrearContenido.as_view(),login_url="/login"),name='crear_contenido'),
     path('articulo/<int:pk>', login_required(VistaArticulos.as_view(),login_url="/login"),name='detalles_articulo'),
     path('crearcontenido/',CrearContenido.as_view(),name='crear_contenido'),
