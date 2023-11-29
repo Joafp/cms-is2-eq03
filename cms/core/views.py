@@ -1980,9 +1980,6 @@ def estadistica_autor(request):
         'plot_contenidos_compartidos': plot_contenidos_compartidos,
         'plot_contenidos_calificados': plot_contenidos_calificados
     }
-<<<<<<< HEAD
-    return render(request, 'graficos/graficos_autor.html', context)
-=======
     return render(request, 'graficos/graficos_autor.html', context)
 class ReportarContenido(CreateView):
     # Vista para crear un reporte
@@ -2179,4 +2176,3 @@ def pasar_a_borrador_contenido(request,contenido_id):
     
     # Redirige al usuario a la vista del editor
     return redirect('vista_autor')    
->>>>>>> main
