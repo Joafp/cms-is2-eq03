@@ -43,7 +43,7 @@ class CrearContenido(CreateView):
         response = super(CrearContenido, self).form_valid(form)
         if "guardar_borrador" in self.request.POST:
             # Si se presionó el botón "Guardar borrador", no cambies nada
-            self.object.titulo_abreviado=self.object.titulo[:10]
+            self.object.titulo_abreviado=self.object.titulo[:20]
             self.object.save()
             # Crea una instancia de HistorialContenido con la instancia de Contenido
             nuevo_cambio = HistorialContenido(
@@ -1114,6 +1114,31 @@ def publicar_contenido(request,contenido_id):
                     from_email=None,
                         recipient_list=[UsuarioRol.objects.get(username=contenido.publicador.username).email, 'is2cmseq03@gmail.com', ],
                         html_message=mensaje_edicion)
+        
+        ###mensaje a los usuarios
+        categoria_contenido = contenido.categoria
+
+        # Obtener los favoritos asociados a la categoría del contenido actual
+        categorias_favoritas = Favorito.objects.filter(categoria=categoria_contenido)
+        for favorito in categorias_favoritas:
+            # Recuperar usuarios asociados a la categoría favorita
+            usuarios_favoritos = favorito.user_sub.all()
+            for usuario in usuarios_favoritos:
+                # Obtener la información relevante para el correo electrónico
+                categoria_nombre = favorito.categoria.nombre
+                email_usuario = usuario.email
+
+                # Aquí puedes personalizar el mensaje del correo electrónico
+                mensaje = f"Hola {usuario.username}, la categoría '{categoria_nombre}' que has marcado como favorita tiene una actualización. ¡Échale un vistazo!"
+
+                # Envío del correo electrónico
+                send_mail(
+                    subject="Actualización en tu categoría favorita",
+                    message=mensaje,
+                    from_email=None,  # Puedes configurar el correo del remitente si es necesario
+                    recipient_list=[email_usuario],  # Envía el correo al usuario asociado a la categoría
+                    html_message=None,  # Mensaje HTML opcional
+                )
         # Redirige al usuario a la vista del editor
         return redirect('vista_pub')
 
@@ -1828,8 +1853,8 @@ def grafico_estadisticas(request):
     fig_categorias = px.bar(datos_categorias, x='Categoria', y='Vistas', title='Categorías más vistas')
     plot_categorias = fig_categorias.to_html(full_html=False, default_height=500, default_width=700)
    # Obtener los contenidos con más likes y sus categorías
-    contenidos_likes = Likes.objects.values('contenido__titulo', 'contenido__categoria__nombre').annotate(total_likes=Count('user_likes')).order_by('-total_likes')
-    titulos = [strip_tags(contenido_like['contenido__titulo']) for contenido_like in contenidos_likes]
+    contenidos_likes = Likes.objects.values('contenido__titulo_abreviado', 'contenido__categoria__nombre').annotate(total_likes=Count('user_likes')).order_by('-total_likes')
+    titulos = [strip_tags(contenido_like['contenido__titulo_abreviado']) for contenido_like in contenidos_likes]
     total_likes = [contenido_like['total_likes'] for contenido_like in contenidos_likes]
 
     data = [go.Bar(x=titulos, y=total_likes)]
@@ -1837,8 +1862,8 @@ def grafico_estadisticas(request):
     fig = go.Figure(data=data, layout=layout)
     plot_contenidos_likes = plot(fig, output_type='div', include_plotlyjs=False)
    #dislikes
-    contenidos_dislikes = Likes.objects.values('contenido__titulo', 'contenido__categoria__nombre').annotate(total_dislikes=Count('user_dislikes')).order_by('-total_dislikes')
-    titulos = [strip_tags(contenido_dislike['contenido__titulo']) for contenido_dislike in contenidos_dislikes]
+    contenidos_dislikes = Likes.objects.values('contenido__titulo_abreviado', 'contenido__categoria__nombre').annotate(total_dislikes=Count('user_dislikes')).order_by('-total_dislikes')
+    titulos = [strip_tags(contenido_dislike['contenido__titulo_abreviado']) for contenido_dislike in contenidos_dislikes]
     total_dislikes = [contenido_dislike['total_dislikes'] for contenido_dislike in contenidos_dislikes]
 
     data = [go.Bar(x=titulos, y=total_dislikes)]
@@ -1847,7 +1872,7 @@ def grafico_estadisticas(request):
     plot_contenidos_dislikes = plot(fig, output_type='div', include_plotlyjs=False)
    #mas vistos
     contenidos_mas_vistos = Contenido.objects.filter(estado='P').order_by('-veces_visto')
-    titulos = [strip_tags(contenido.titulo) for contenido in contenidos_mas_vistos]
+    titulos = [strip_tags(contenido.titulo_abreviado) for contenido in contenidos_mas_vistos]
     veces_vistos = [contenido.veces_visto for contenido in contenidos_mas_vistos]
     data = [go.Bar(x=titulos, y=veces_vistos)]
     layout = go.Layout(title='Contenidos más vistos')
@@ -1855,20 +1880,97 @@ def grafico_estadisticas(request):
     plot_contenido_vistas = plot(fig, output_type='div', include_plotlyjs=False)
     #compartidos
     contenidos_compartidos = Contenido.objects.filter(estado='P').order_by('-veces_compartido')
-    titulos = [strip_tags(contenido.titulo) for contenido in contenidos_compartidos]
+    titulos = [strip_tags(contenido.titulo_abreviado) for contenido in contenidos_compartidos]
     veces_compartidos = [contenido.veces_compartido for contenido in contenidos_compartidos]
     data = [go.Bar(x=titulos, y=veces_compartidos)]
     layout = go.Layout(title='Contenidos más Compartidos')
     fig = go.Figure(data=data, layout=layout)
     plot_veces_compartidos = plot(fig, output_type='div', include_plotlyjs=False)
 
-
+    #Calificacion
+    contenidos_calificados = Contenido.objects.filter(estado='P').order_by('-promedio_calificaciones')
+    titulos = [strip_tags(contenido.titulo_abreviado) for contenido in contenidos_calificados]
+    promedio = [contenido.promedio_calificaciones for contenido in contenidos_calificados]
+    data = [go.Bar(x=titulos, y=promedio)]
+    layout = go.Layout(title='Contenidos mejores calificados')
+    fig = go.Figure(data=data, layout=layout)
+    plot_calificacion = plot(fig, output_type='div', include_plotlyjs=False)
     context = {
         'plot_html': plot_categorias,
         'plot_contenidos_likes': plot_contenidos_likes,
         'plot_contenidos_dislikes': plot_contenidos_dislikes,
         'plot_contenido_vistas': plot_contenido_vistas,
-        'plot_veces_compartidos': plot_veces_compartidos
+        'plot_veces_compartidos': plot_veces_compartidos,
+        'plot_calificacion':plot_calificacion
     }
     return render(request, 'graficos/graficos.html', context)
+from collections import Counter
+from collections import defaultdict
+def estadistica_autor(request):
+    usuario_actual = request.user
+    nombre_usuario = usuario_actual.username if usuario_actual else None
 
+    # Obtener contenidos del usuario actual que estén publicados ('P')
+    contenidos_usuario_actual = Contenido.objects.filter(autor__username=nombre_usuario, estado='P')
+
+    # Inicializar contadores para likes, dislikes, vistas y compartidos
+    likes_contenidos = Counter()
+    dislikes_contenidos = Counter()
+    vistas_contenidos = Counter()
+    compartidos_contenidos = Counter()
+    calificaciones_contenidos = defaultdict(int)
+    for contenido in contenidos_usuario_actual:
+        # Obtener los likes, dislikes, vistas y compartidos para cada contenido del usuario actual
+        likes_contenido = Likes.objects.filter(contenido=contenido, user_likes__isnull=False).count()
+        dislikes_contenido = Likes.objects.filter(contenido=contenido, user_dislikes__isnull=False).count()
+        vistas_contenido = contenido.veces_visto
+        compartidos_contenido = contenido.veces_compartido
+        calificacion_contenido = contenido.promedio_calificaciones
+        # Agregar los valores a los contadores por título de contenido
+        likes_contenidos[strip_tags(contenido.titulo_abreviado)] = likes_contenido
+        dislikes_contenidos[strip_tags(contenido.titulo_abreviado)] = dislikes_contenido
+        vistas_contenidos[strip_tags(contenido.titulo_abreviado)] = vistas_contenido
+        compartidos_contenidos[strip_tags(contenido.titulo_abreviado)] = compartidos_contenido
+        calificaciones_contenidos[strip_tags(contenido.titulo_abreviado)] = calificacion_contenido
+    # Ordenar los contenidos por likes, dislikes, vistas y compartidos de mayor a menor
+    likes_ordenados = dict(sorted(likes_contenidos.items(), key=lambda item: item[1], reverse=True))
+    dislikes_ordenados = dict(sorted(dislikes_contenidos.items(), key=lambda item: item[1], reverse=True))
+    vistas_ordenadas = dict(sorted(vistas_contenidos.items(), key=lambda item: item[1], reverse=True))
+    compartidos_ordenados = dict(sorted(compartidos_contenidos.items(), key=lambda item: item[1], reverse=True))
+    calificaciones_ordenadas = dict(sorted(calificaciones_contenidos.items(), key=lambda item: item[1], reverse=True))
+
+    # Crear los gráficos de barras con los datos ordenados
+    data_likes = [go.Bar(x=list(likes_ordenados.keys()), y=list(likes_ordenados.values()))]
+    layout_likes = go.Layout(title='Contenidos con más Likes', xaxis=dict(title='Títulos'), yaxis=dict(title='Total Likes'))
+    fig_likes = go.Figure(data=data_likes, layout=layout_likes)
+    plot_contenidos_likes = plot(fig_likes, output_type='div', include_plotlyjs=False)
+
+    data_dislikes = [go.Bar(x=list(dislikes_ordenados.keys()), y=list(dislikes_ordenados.values()))]
+    layout_dislikes = go.Layout(title='Contenidos con más Dislikes', xaxis=dict(title='Títulos'), yaxis=dict(title='Total Dislikes'))
+    fig_dislikes = go.Figure(data=data_dislikes, layout=layout_dislikes)
+    plot_contenidos_dislikes = plot(fig_dislikes, output_type='div', include_plotlyjs=False)
+
+    data_vistas = [go.Bar(x=list(vistas_ordenadas.keys()), y=list(vistas_ordenadas.values()))]
+    layout_vistas = go.Layout(title='Contenidos más Vistos', xaxis=dict(title='Títulos'), yaxis=dict(title='Total Vistas'))
+    fig_vistas = go.Figure(data=data_vistas, layout=layout_vistas)
+    plot_contenidos_vistas = plot(fig_vistas, output_type='div', include_plotlyjs=False)
+
+    data_compartidos = [go.Bar(x=list(compartidos_ordenados.keys()), y=list(compartidos_ordenados.values()))]
+    layout_compartidos = go.Layout(title='Contenidos más Compartidos', xaxis=dict(title='Títulos'), yaxis=dict(title='Total Compartidos'))
+    fig_compartidos = go.Figure(data=data_compartidos, layout=layout_compartidos)
+    plot_contenidos_compartidos = plot(fig_compartidos, output_type='div', include_plotlyjs=False)
+    
+    data_calificaciones = [go.Bar(x=list(calificaciones_ordenadas.keys()), y=list(calificaciones_ordenadas.values()))]
+    layout_calificaciones = go.Layout(title='Contenidos mejor Calificados', xaxis=dict(title='Títulos'), yaxis=dict(title='Calificación'))
+    fig_calificaciones = go.Figure(data=data_calificaciones, layout=layout_calificaciones)
+    plot_contenidos_calificados = plot(fig_calificaciones, output_type='div', include_plotlyjs=False)
+
+
+    context = {
+        'plot_contenidos_likes': plot_contenidos_likes,
+        'plot_contenidos_dislikes': plot_contenidos_dislikes,
+        'plot_contenidos_vistas': plot_contenidos_vistas,
+        'plot_contenidos_compartidos': plot_contenidos_compartidos,
+        'plot_contenidos_calificados': plot_contenidos_calificados
+    }
+    return render(request, 'graficos/graficos_autor.html', context)
