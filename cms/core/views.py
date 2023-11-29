@@ -1192,7 +1192,7 @@ def inactivar_contenido(request,contenido_id):
 
     
     # Redirige al usuario a la vista del editor
-    return redirect('ContenidosPublicados')
+    return redirect('vista_autor')
 @login_required(login_url="/login")
 def aceptar_rechazo_contenido(request,contenido_id):
     # Obtén el objeto de contenido basado en algún criterio, como un ID
@@ -2051,3 +2051,36 @@ class ListaReportes(ListView):
         if request.POST.get('filtro_id') is None:
             return redirect('contenidos_reportados')
         return super(ListaReportes, self)
+
+@login_required(login_url="/login")
+def pasar_a_borrador_contenido(request,contenido_id):
+    # Obtén el objeto de contenido basado en algún criterio, como un ID
+    contenido = Contenido.objects.get(id=contenido_id)
+    contenido.fecha_publicacion = None
+    contenido.estado = 'B'
+   
+    # Guarda el objeto de contenido
+    contenido.save()
+    nuevo_cambio = HistorialContenido(
+                contenido=contenido,  # Asigna la instancia de Contenido, no el ID
+                cambio=f"El contenido con el Titulo {contenido.titulo} fue enviado a borrador por su autor {contenido.autor.username}. El contenido pasa de estado inactivo a borrador"
+            )
+    nuevo_cambio.save()
+    mensaje_edicion = render_to_string("email-notifs/email_notificacion_reactivar_autor.html",
+                                            {
+                                            'nombre_editor':contenido.ultimo_editor,
+                                            'nombre_autor':contenido.autor_id,
+                                            'titulo_contenido': contenido.titulo,
+                                            'razon': contenido.razon,
+                                            'urlhost':request.get_host(),
+                                                    'contenidopk':contenido.pk})
+    
+
+    send_mail(subject="Se ha puesto en borrador un contenido", message=f"Su contenido {contenido.titulo} fue movido de inactivo a borrador",
+                from_email=None,
+                    recipient_list=[UsuarioRol.objects.get(id=contenido.autor_id).email, 'is2cmseq03@gmail.com', ],
+                    html_message=mensaje_edicion)
+
+    
+    # Redirige al usuario a la vista del editor
+    return redirect('vista_autor')    

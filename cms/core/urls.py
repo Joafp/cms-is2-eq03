@@ -66,6 +66,7 @@ urlpatterns = [
     path('articulo/<int:pk>/dislike', views.dar_dislike, name='dar_dislike'),
     path('articulo/<int:pk>/reportar', views.ReportarContenido.as_view(), name='reportar_contenido'),
     path('reportes/', views.ListaReportes.as_view(), name='contenidos_reportados'),
+    path('pasar_a_borrador_contenido/<int:contenido_id>/',views.pasar_a_borrador_contenido,name='pasar_a_borrador_contenido')
 ]
 """Nos permite vincular la direccion donde tenemos guardadas nuestras imagenes, en este caso
 tenemos las imagenes en la carpeta raiz y esta esta definida en el archivo settings"""
