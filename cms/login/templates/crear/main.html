@@ -278,7 +278,7 @@
                         <option value="{{ autor.username }}" {% if autor.username == autor %}selected{% endif %}>{{ autor.username }}</option>
                     {% endfor %}
                     </select>
-                    <br></br>
+                    <br>
                     <label for="fecha_inicio">Fecha de inicio:</label>
                     <input type="date" name="fecha_inicio" id="fecha_inicio">
                     
@@ -302,10 +302,10 @@
                 <p>Filtrar hasta la fecha: {{ fecha_fin }}</p>
               {% endif %}
         </div>
-        <hr></hr>
+        <hr>
     </div>
     <h1>Contenidos</h1>
-    <hr></hr>
+    <hr>
     <div class="contenedor-2">
         {% for Contenido in contenido %}
         {% if Contenido.estado == 'P' %} 
@@ -352,7 +352,7 @@
                                     <h5>{{Contenido.titulo| safe }}</h5>
                                 </div>
                             </div>
-                            <hr></hr>
+                            <hr>
                             <div class="contenido">
                                 <h3>{{ Contenido.titulo | safe }}</h3>
                                 <a href="{% url 'detalles_articulo' Contenido.pk %}">Leer Mas</a>

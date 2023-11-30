@@ -325,7 +325,7 @@ class CategoriaNoModeradaTest(TestCase):
         self.assertTrue(login, "No se pudo loguear al autor de prueba")
 
         # Intenta enviar el contenido
-        response = self.client.post(reverse('enviar_contenido_autor', kwargs={'pk': self.contenido_ejemplo.pk}), data={'enviar_editor':'enviar_editor'}, follow=True)
+        response = self.client.post(reverse('enviar_contenido_autor', kwargs={'pk': self.contenido_ejemplo.pk}), data={'enviar_editor':'enviar_editor', 'fecha_programada':'', 'hora_programada':''}, follow=True)
 
         # Verifica que se haya redirigido luego enviar el contenido correctamente
         self.assertRedirects(response, reverse('vista_autor'), 302, 200, "Error al enviar el contenido")
@@ -351,6 +351,8 @@ class VersionesTest(TestCase):
         self.autor.roles.add(rol_autor)
         # Agrega el permiso para categorias no moderadas
         perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+        perm = Permission.objects.create(codename="Vista_autor", content_type_id=2)
         rol_autor.permisos.add(perm)
 
         # Crea una categoría no moderada de prueba
@@ -392,7 +394,7 @@ class VersionesTest(TestCase):
                                     data=data)
 
         # Verifica que se haya guardado la version 1
-        self.assertTrue(VersionesContenido.objects.filter(contenido_base=self.contenido_ejemplo, numero_version=1).exists(), "No se guardo la version 1")
+        self.assertTrue(VersionesContenido.objects.filter(contenido_base=self.contenido_ejemplo, numero_version=1).exists(), f"No se guardo la version 1: {VersionesContenido.objects.filter(contenido_base=self.contenido_ejemplo).count()}")
 
         # Hace y restaura varias versiones
         for i in range(2, 5):
