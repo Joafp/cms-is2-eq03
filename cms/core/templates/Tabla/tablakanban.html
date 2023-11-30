@@ -121,6 +121,7 @@
         </form>
     </div>
     <hr></hr>
+    
     <!-- Div de abajo para la tabla Kanban -->
     <div class="kanban-container">
         <!-- Columna para estado 'Borrador' -->
@@ -199,6 +200,7 @@
                         <a href="{% url 'detalles_articulo' contenido.pk %}">
                             <h3>{{ contenido.titulo| safe  }}</h3>
                         </a>
+                        <p>Codigo:{{contenido.id}}</p>
                         <p>Autor: {{ contenido.autor }}</p>
                         {% if contenido.editor %}
                             <p>Editor: {{ contenido.editor }}</p>
