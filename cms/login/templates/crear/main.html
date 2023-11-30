@@ -308,7 +308,7 @@
     <hr>
     <div class="contenedor-2">
         {% for Contenido in contenido %}
-        {% if Contenido.estado == 'P' %} 
+        {% if Contenido.estado == 'P' and not Contenido.contenido_programado %} 
            {% if Contenido.destacado == 1 %} 
                 <div class= "card">
                     <div class="contenedor-img">

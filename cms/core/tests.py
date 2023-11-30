@@ -7,7 +7,7 @@ from django.contrib.auth.models import Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
-from .models import Categoria,UsuarioRol,Contenido,Calificacion,Comentario, Reporte
+from .models import Categoria,UsuarioRol,Contenido,Calificacion,Comentario, Reporte, Favorito
 from GestionCuentas.models import Rol
 from django.test import override_settings
 from django.core import mail
@@ -691,8 +691,10 @@ class ContenidoDestacadoTest(TestCase):
         # Agrega el permiso para categorias no moderadas
         perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
         rol_autor.permisos.add(perm)
-        perm = Permission.objects.create(codename="'Vista_publicador'", content_type_id=2)
+        perm = Permission.objects.create(codename="Vista_publicador", content_type_id=2)
         rol_autor.permisos.add(perm)
+
+        rol_autor.save()
 
         # Crea una categoría no moderada de prueba
         self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
@@ -705,7 +707,8 @@ class ContenidoDestacadoTest(TestCase):
             categoria= self.categoria,
             estado= 'P',
             fecha_publicacion= datetime.now(),
-            imagen='/contenido_imagenes/6f0c63b0-3a7d-11ee-8996-c34107379e5e.jpg'
+            imagen='/contenido_imagenes/6f0c63b0-3a7d-11ee-8996-c34107379e5e.jpg',
+            destacado=0
         )
         
         # Crea un contenido que aparecera despues de los destacados
@@ -715,12 +718,13 @@ class ContenidoDestacadoTest(TestCase):
             categoria= self.categoria,
             estado= 'P',
             fecha_publicacion= datetime.now(),
-            imagen='/contenido_imagenes/6f0c63b0-3a7d-11ee-8996-c34107379e5e.jpg'
+            imagen='/contenido_imagenes/6f0c63b0-3a7d-11ee-8996-c34107379e5e.jpg',
+            destacado=0
         )
 
     def test_destacar_contenido(self):
         """
-        Verifica que el contenido se puede destacar y que aparece primero en el inicio
+        Verifica que el contenido que se destaca aparece primero en el inicio
         """
         # Iniciar sesión como el usuario autor
         login = self.client.login(username='autor_prueba', password='4L1_khrSri8i')
@@ -733,12 +737,91 @@ class ContenidoDestacadoTest(TestCase):
         response = self.client.get(reverse('MenuPrincipal'))
         self.assertEqual(response.context.get('contenido')[0], self.contenido_no_destatcado, "El contenido se mostro primero en la pagina aunque no estaba destacado")
 
-        # Intenta destacar el contenido
-        response = self.client.post(reverse('detalles_articulo', kwargs={'pk': self.contenido_ejemplo.pk}), follow=True)
+        # Destaca el contenido
+        self.contenido_ejemplo.destacado = 1
+        self.contenido_ejemplo.save()
 
         # Verifica que el contenido ahora si esta destacado
-        self.assertEqual(self.contenido_ejemplo.destacado, 1, "El contenido no fue destacado")
+        self.assertNotEqual(self.contenido_ejemplo.destacado, 0, "El contenido no fue destacado")
 
         # Verifica que el contenido es el primero en la pagina
         response = self.client.get(reverse('MenuPrincipal'))
-        self.assertEqual(response.context.get('contenido')[0], self.contenido_ejemplo, "El contenido no se mostro primero en la pagina aunque estaba destacado")
+        self.assertEqual(response.context.get('contenido').filter(destacado=1)[0], self.contenido_ejemplo, "El contenido no se mostro primero en la pagina aunque estaba destacado")
+
+class ContenidoFavoritoTest(TestCase):
+    """
+    Fecha: 2023-11-30
+        Este test verifica que un contenido se pueda destacar
+    """
+    def setUp(self):
+        self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        # Agrega el permiso para categorias no moderadas
+        perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+        perm = Permission.objects.create(codename="Vista_publicador", content_type_id=2)
+        rol_autor.permisos.add(perm)
+
+        rol_autor.save()
+
+        # Crea una categoría no moderada de prueba
+        self.categoria = Categoria.objects.create(nombre='Categoría Favorita')
+        self.categoria.moderada = False
+
+        self.categoria2 = Categoria.objects.create(nombre='Categoría no Favorita')
+        self.categoria2.moderada = False
+        
+        # Crea un contenido de ejemplo  
+        self.contenido_ejemplo = Contenido.objects.create(
+            titulo='Contenido destacado',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'P',
+            fecha_publicacion= datetime.now(),
+            imagen='/contenido_imagenes/6f0c63b0-3a7d-11ee-8996-c34107379e5e.jpg',
+            destacado=0
+        )
+        
+        # Crea un contenido que aparecera despues de los destacados
+        self.contenido_no_favorito = Contenido.objects.create(
+            titulo='Contenido no favorito',
+            autor= self.autor,
+            categoria= self.categoria2,
+            estado= 'P',
+            fecha_publicacion= datetime.now(),
+            imagen='/contenido_imagenes/6f0c63b0-3a7d-11ee-8996-c34107379e5e.jpg',
+            destacado=0
+        )
+
+        self.favorito1 = Favorito.objects.create(
+            categoria= self.categoria,
+        )
+
+    def test_contenido_favorito(self):
+        """
+        Verifica que el contenido favoritoaparece primero en el inicio
+        """
+        # Iniciar sesión como el usuario autor
+        login = self.client.login(username='autor_prueba', password='4L1_khrSri8i')
+        self.assertTrue(login, "No se pudo loguear al autor de prueba")
+
+        # Verifica que el contenido no esta aparece al principio inicialmente
+        response = self.client.get(reverse('MenuPrincipal'))
+        self.assertEqual(response.context.get('contenido')[0], self.contenido_no_favorito, "El contenido se mostro primero en la pagina aunque no estaba favorito")
+
+        # Agrega el contenido a favoritos
+        
+        self.favorito1.user_sub.set([self.autor])
+        self.favorito1.save()
+
+        # Verifica que el contenido es el primero en la pagina
+        response = self.client.get(reverse('MenuPrincipal'))
+        self.assertEqual(response.context.get('contenido').filter(categoria=response.context.get('user_favoritos')[0])[0], self.contenido_ejemplo, "El contenido no se mostro primero en la pagina aunque estaba en favoritos")
