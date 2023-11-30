@@ -409,7 +409,7 @@ def vista_MenuPrincipal(request):
     autenticado=User.is_authenticated
     categorias= Categoria.objects.filter(activo=True)
     autores_activos= UsuarioRol.objects.filter(usuario_activo=True) # Solo mostrar contenidos de autores activos
-    contenidos=Contenido.objects.filter(autor__in=autores_activos, estado='P', fecha_publicacion__lte=timezone.datetime.now()) # Ocultar contenido no publicado
+    contenidos=Contenido.objects.filter(autor__in=autores_activos, estado='P', fecha_publicacion__lte=timezone.datetime.now()).order_by('-fecha_publicacion') # Ocultar contenido no publicado
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
     primeros_contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
     if request.user.is_authenticated:

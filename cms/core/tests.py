@@ -7,11 +7,12 @@ from django.contrib.auth.models import Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
-from .models import Categoria,UsuarioRol,Contenido,Calificacion,Comentario
+from .models import Categoria,UsuarioRol,Contenido,Calificacion,Comentario, Reporte
 from GestionCuentas.models import Rol
 from django.test import override_settings
 from django.core import mail
 from .views import actualizar_calificacion_estrellas
+from datetime import datetime
 class CategoriaTestCase(TestCase):
     def setUp(self):
         self.client=Client()
@@ -571,3 +572,173 @@ class CalificacionTestCase(TestCase):
         # Comprueba que la calificación media del contenido se ha actualizado
         self.contenido.refresh_from_db()
         self.assertEqual(self.contenido.promedio_calificaciones, 4.0)  # Actualiza esto con el valor esperado
+
+class ReporteTest(TestCase):
+    """
+    Fecha: 2023-11-30
+    Este test verifica que se cuando un usuario reporte un contenido el contenido se guarde y contenga la informacion correcta,
+    tambien se verifica que el autor reciba la notificacion de reporte
+    """
+    def setUp(self):
+        self.autor = UsuarioRol.objects.create(
+            username='testuser',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.autor.save()
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.contenido = Contenido.objects.create(
+            titulo='Contenido de Prueba',
+            autor=self.autor,
+            categoria=self.categoria,
+            resumen='Resumen de prueba',
+            cuerpo='Cuerpo de prueba',
+            imagen='/contenido_imagenes/imagen.jpg'
+        )
+
+    def test_reportar_contenido(self):
+        login = self.client.login(username='testuser', password='testpassword')
+        self.assertTrue(login, "No se pudo logear al usuario")
+        response = self.client.post(reverse('reportar_contenido', args=[self.contenido.pk]), data={'texto':'Este contenido tiene informacion incorrecta'})
+        reporte_guardado = Reporte.objects.get(texto='Este contenido tiene informacion incorrecta')
+        self.assertIsNotNone(reporte_guardado, "No se guardo el reporte")
+        self.assertEqual(reporte_guardado.contenido, self.contenido, "El reporte no se relaciono al contenido correcto")
+        self.assertEqual(reporte_guardado.usuario, self.autor, "El reporte no se relaciono al autor del reporte correcto")
+        self.assertEqual(len(mail.outbox), 1, "No se envio el email o se envio mas de un email")
+        self.assertEqual(mail.outbox[0].subject, 'Contenido reportado')
+        self.assertTrue(self.autor.email in mail.outbox[0].recipients(), "No se envio el email a la direccion correcta")
+
+class ProgramarContenidoTest(TestCase):
+    """
+    Fecha: 2023-11-30
+        Este test verifica que un contenido se pueda programar para publicarse en una fecha y hora posterior y que se guarde correctamente la fecha y hora programadas
+    """
+    def setUp(self):
+        self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        # Agrega el permiso para categorias no moderadas
+        perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+
+        # Crea una categoría no moderada de prueba
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.categoria.moderada = False
+        
+        # Crea un contenido de ejemplo  
+        self.contenido_ejemplo = Contenido.objects.create(
+            titulo='Título de Prueba',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'B'
+        )
+
+    def test_publicar_contenido_programado(self):
+        """
+        Verifica que el contenido se programo para publicar
+        """
+        # Iniciar sesión como el usuario autor
+        login = self.client.login(username='autor_prueba', password='4L1_khrSri8i')
+        self.assertTrue(login, "No se pudo loguear al autor de prueba")
+
+        fecha_programada = '2024-01-01'
+        hora_programada = '10:00'
+
+        # Intenta enviar el contenido
+        response = self.client.post(reverse('enviar_contenido_autor', kwargs={'pk': self.contenido_ejemplo.pk}), data={'enviar_editor':'enviar_editor', 'fecha_programada':fecha_programada, 'hora_programada':hora_programada}, follow=True)
+
+        # Verifica que se haya redirigido luego enviar el contenido correctamente
+        self.assertRedirects(response, reverse('vista_autor'), 302, 200, "Error al enviar el contenido")
+
+        # Verifica que el contenido paso al estado publicado
+        self.assertTrue(Contenido.objects.filter(titulo='Título de Prueba', estado="P").exists(), "El contenido no pudo ser publicado")
+
+        # Verifica que el contenido esta programado para publicarse
+        self.assertTrue(Contenido.objects.get(titulo='Título de Prueba', estado="P").contenido_programado, "El contenido se publico inmediatamente")
+
+        # Verifica que la fecha y hora sean las correctas
+        self.assertEqual(Contenido.objects.get(titulo='Título de Prueba', estado="P").fecha_publicacion, datetime.strptime(fecha_programada+' '+hora_programada, '%Y-%m-%d %H:%M'), "Se programo una fecha y hora incorrectas")
+
+
+
+class ContenidoDestacadoTest(TestCase):
+    """
+    Fecha: 2023-11-30
+        Este test verifica que un contenido se pueda destacar
+    """
+    def setUp(self):
+        self.user= User.objects.create_user(username='autor_prueba', password='4L1_khrSri8i')
+        # Crea un usuario con el rol 'Autor' para usarlo como autor del contenido
+        self.autor = UsuarioRol.objects.create(
+            username='autor_prueba',
+            email='autor@prueba.com',
+            nombres='Nombre del Autor',
+            apellidos='Apellido del Autor',
+        )
+        rol_autor = (Rol.objects.create(nombre='Autor'))
+        self.autor.roles.add(rol_autor)
+        # Agrega el permiso para categorias no moderadas
+        perm = Permission.objects.create(codename="Publicacion no moderada", content_type_id=1)
+        rol_autor.permisos.add(perm)
+        perm = Permission.objects.create(codename="'Vista_publicador'", content_type_id=2)
+        rol_autor.permisos.add(perm)
+
+        # Crea una categoría no moderada de prueba
+        self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
+        self.categoria.moderada = False
+        
+        # Crea un contenido de ejemplo  
+        self.contenido_ejemplo = Contenido.objects.create(
+            titulo='Contenido destacado',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'P',
+            fecha_publicacion= datetime.now(),
+            imagen='/contenido_imagenes/6f0c63b0-3a7d-11ee-8996-c34107379e5e.jpg'
+        )
+        
+        # Crea un contenido que aparecera despues de los destacados
+        self.contenido_no_destatcado = Contenido.objects.create(
+            titulo='Contenido no destacado',
+            autor= self.autor,
+            categoria= self.categoria,
+            estado= 'P',
+            fecha_publicacion= datetime.now(),
+            imagen='/contenido_imagenes/6f0c63b0-3a7d-11ee-8996-c34107379e5e.jpg'
+        )
+
+    def test_destacar_contenido(self):
+        """
+        Verifica que el contenido se puede destacar y que aparece primero en el inicio
+        """
+        # Iniciar sesión como el usuario autor
+        login = self.client.login(username='autor_prueba', password='4L1_khrSri8i')
+        self.assertTrue(login, "No se pudo loguear al autor de prueba")
+
+        # Verifica que el contenido no esta destacado inicialmente
+        self.assertEqual(self.contenido_ejemplo.destacado, 0, "El contenido ya estaba destacado")
+
+        # Verifica que el contenido no es el primero en la pagina
+        response = self.client.get(reverse('MenuPrincipal'))
+        self.assertEqual(response.context.get('contenido')[0], self.contenido_no_destatcado, "El contenido se mostro primero en la pagina aunque no estaba destacado")
+
+        # Intenta destacar el contenido
+        response = self.client.post(reverse('detalles_articulo', kwargs={'pk': self.contenido_ejemplo.pk}), follow=True)
+
+        # Verifica que el contenido ahora si esta destacado
+        self.assertEqual(self.contenido_ejemplo.destacado, 1, "El contenido no fue destacado")
+
+        # Verifica que el contenido es el primero en la pagina
+        response = self.client.get(reverse('MenuPrincipal'))
+        self.assertEqual(response.context.get('contenido')[0], self.contenido_ejemplo, "El contenido no se mostro primero en la pagina aunque estaba destacado")
