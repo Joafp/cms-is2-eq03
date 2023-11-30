@@ -345,6 +345,7 @@
                 {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
                         <h3>{{ contenido.titulo| safe  }}</h3>
+                        <p>Codigo: {{contenido.pk}}</p>
                         <p>Autor: {{ contenido.autor }}</p>
                         {% if contenido.editor %}
                             <p>Editor: {{ contenido.editor }}</p>
