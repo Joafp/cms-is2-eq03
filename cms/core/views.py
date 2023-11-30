@@ -1087,7 +1087,7 @@ def publicar_contenido(request,contenido_id):
                         recipient_list=[UsuarioRol.objects.get(username=contenido.publicador.username).email, 'is2cmseq03@gmail.com', ],
                         html_message=None)
             return redirect('vista_pub')
-        
+        contenido.titulo_abreviado=contenido.titulo[:20]
         # Guarda el objeto de contenido
         contenido.save()
         nuevo_cambio = HistorialContenido(
