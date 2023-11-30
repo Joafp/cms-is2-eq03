@@ -231,7 +231,7 @@
             {% csrf_token %}
             <label for="destacado">Destacado:</label>
             <input type="checkbox" id="destacado" name="destacado" {% if object.destacado %}checked{% endif %}>
-            <button type="submit">Guardar</button>
+            <button type="submit" name="destacar-form">Guardar</button>
         </form>
         {% endif %}
     {% endfor %}  
