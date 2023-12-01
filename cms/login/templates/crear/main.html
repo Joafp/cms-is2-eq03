@@ -393,5 +393,22 @@
             {% endif %}      
         {% endfor %}    
     </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if contenido.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ contenido.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ contenido.number }} of {{ contenido.paginator.num_pages }}.
+            </span>
+    
+            {% if contenido.has_next %}
+                <a href="?page={{ contenido.next_page_number }}">next</a>
+                <a href="?page={{ contenido.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 </body>
 </html>

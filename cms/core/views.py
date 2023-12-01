@@ -379,7 +379,8 @@ class EnviarContenidoEditor(UpdateView):
             
             return redirect('Editar')
             
-        return response   
+        return response 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  
 @never_cache
 def vista_MenuPrincipal(request):
     """
@@ -412,6 +413,14 @@ def vista_MenuPrincipal(request):
     contenidos=Contenido.objects.filter(autor__in=autores_activos, estado='P', fecha_publicacion__lte=timezone.datetime.now()).order_by('-fecha_publicacion') # Ocultar contenido no publicado
     autores = UsuarioRol.objects.filter(roles__nombre__contains='Autor')
     primeros_contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
+    page = request.GET.get('page', 1)
+    paginator = Paginator(contenidos, 10)  # Show 10 contents per page
+    try:
+        primeros_contenidos = paginator.page(page)
+    except PageNotAnInteger:
+        primeros_contenidos = paginator.page(1)
+    except EmptyPage:
+        primeros_contenidos = paginator.page(paginator.num_pages)
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
@@ -434,9 +443,8 @@ def vista_MenuPrincipal(request):
             'user_favoritos': []
         }    
     print("Usuario: ",autenticado)
-
+      # Paginación
     return render(request, 'crear/main.html',context )
-
 def vista_MenuPrincipal_filtrado(request):
     """
     Fecha documentacion: 28/08/2023
@@ -502,6 +510,14 @@ def vista_MenuPrincipal_filtrado(request):
         contenidos = contenidos.filter(fecha_publicacion__lte=fecha_fin)
     primeros_contenidos=contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())[:10]  
     # Renderizar la plantilla con los resultados y los valores de los filtros
+    page = request.GET.get('page', 1)
+    paginator = Paginator(contenidos, 10)  # Show 10 contents per page
+    try:
+        primeros_contenidos = paginator.page(page)
+    except PageNotAnInteger:
+        primeros_contenidos = paginator.page(1)
+    except EmptyPage:
+        primeros_contenidos = paginator.page(paginator.num_pages)
     if request.user.is_authenticated:
         usuario_rol = UsuarioRol.objects.get(username=request.user.username)
         tiene_permiso=usuario_rol.has_perm("Boton desarrollador")
