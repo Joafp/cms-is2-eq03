@@ -4,6 +4,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cms.settings')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cms.settings')
+from django.utils import timezone
 django.setup()
 from core.forms import CrearContenidoForm  # Asegúrate de importar el formulario correctamente.
 from core.models import Contenido, UsuarioRol,Categoria
@@ -72,8 +73,9 @@ def crear_contenido_publicado(categoria_nombre,autor_username,editor_username,pu
         autor = UsuarioRol.objects.get(username=autor_username)
         editor=UsuarioRol.objects.get(username=editor_username)
         publicador=UsuarioRol.objects.get(username=publicador_username)
+        titulo = f"Título de Prueba de {categoria_nombre}"
         contenido = Contenido.objects.create(
-            titulo=f"Título de Prueba de {categoria_nombre}",
+            titulo=titulo,
             autor=autor,
             editor=editor,
             publicador=publicador,
@@ -81,7 +83,9 @@ def crear_contenido_publicado(categoria_nombre,autor_username,editor_username,pu
             resumen=f"Resumen de prueba de {categoria_nombre}",
             cuerpo=f"Cuerpo de prueba de {categoria_nombre}",
             imagen="contenido_imagenes/ASUNCIÓN_Asunción_Paraguay_3ojm1wQ.jpg",
-            estado='P'
+            estado='P',
+            fecha_publicacion=timezone.now(),
+            titulo_abreviado=titulo[:15]
         )
         contenido.save()
 

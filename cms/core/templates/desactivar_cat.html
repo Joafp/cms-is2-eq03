@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <title>Desactivar categoría</title>
     <style>
+        .volver-btn {
+            padding: 15px 30px; /* Ajuste del relleno del botón */
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 16px; /* Tamaño del texto */
+        }
+
+        /* Cambio de color y tamaño del texto al pasar el cursor por encima del botón Volver */
+        .volver-btn:hover {
+            background-color: #0056b3;
+            color: #fff; /* Cambio de color del texto al pasar el cursor */
+            font-size: 18px; /* Ajuste del tamaño del texto al pasar el cursor */
+        }
         body {
             background-color: #121212;
             color: #FFFFFF;
@@ -65,7 +85,7 @@
     </style>
 </head>
 <body>
-
+     <button type="submit" class="volver-btn"><a href="javascript:history.back();">Volver</a></button>
         <div class="container">
             <form action="{% url 'desc' %}" method="post">
                 {% csrf_token %}

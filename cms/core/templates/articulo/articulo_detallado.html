@@ -183,6 +183,27 @@
             display: flex;
             align-items: center;
         }
+
+        button.boton-reportar{
+            all: unset;
+            border-radius: 0.5rem; 
+            font-size: 16px; 
+            cursor: pointer;
+            transition: box-shadow 0.3s ease; 
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px;
+            margin-top: 10px;
+            color: #2fb4cc;
+            border: 1px solid #2fb4cc;
+            transition: all 400ms ease;
+            text-align: center;
+    }
+
+    button.boton-reportar:hover{
+        background: #2fb4cc;
+            color: #fff; 
+    }
     </style>
 </head>
 <body>
@@ -190,7 +211,6 @@
     <h1>{{ object.titulo|safe }}</h1>
     <div class="boton-container">
         <a href="{% url 'vistacontenidos' %}" class="volver-button">Volver a contenidos</a>
-        <a href="javascript:history.back();" class="volver-button">Volver</a>
     </div>
     <small> Autor: {{ object.autor.nombres }}</small><br/>
     <hr>
@@ -203,6 +223,18 @@
     <p>{{ object.cuerpo|safe }}</p>
     <hr></hr>
     <p>{% include 'articulo/likes.html' %}</p>
+    <p><a href="{% url 'reportar_contenido' pk=object.id %}" ><button class="boton-reportar">Reportar Contenido</button></a></p>
+    <hr></hr>
+    {% for permiso in permisos_del_usuario %}
+        {% if permiso.codename == 'Vista_publicador' %}
+        <form method="post" action="{% url 'toggle_destacado' pk=object.id %}">
+            {% csrf_token %}
+            <label for="destacado">Destacado:</label>
+            <input type="checkbox" id="destacado" name="destacado" {% if object.destacado %}checked{% endif %}>
+            <button type="submit" name="destacar-form">Guardar</button>
+        </form>
+        {% endif %}
+    {% endfor %}  
     <hr></hr>
     <form method="post" action="{% url 'calificar_contenido' contenido.id %}">
         {% csrf_token %}

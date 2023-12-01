@@ -20,18 +20,44 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .my-button{
+            background-color: #007bff; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            padding: 10px 15px; /* Ajusta el espaciado interno del botón */
+            margin: 0.25rem 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     {% block content %}
     <a href="{% url 'ContenidosBorrador' %}" class="volver-button">Volver a mis contenidos en Borrador</a>
-    <h1>Dar Un Comentario sobre el contenido a ser enviado para edicion</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.media }}
-        {{ form.as_p }}
-        <button class="btn btn-secondary" name="enviar_editor">Enviar a Editor</button>
-    </form>
+    {% if object.moderado == True %}
+        <h1>Dar Un Comentario sobre el contenido a ser enviado para edicion</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <button class="btn btn-secondary" name="enviar_editor">Enviar a Editor</button>
+        </form>
+    {% endif %}
+    {% if object.moderado == False %}
+        <h1>Seleccione la fecha de publicacion</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="fecha_programada">Fecha de publicacion</label>
+            <input type="date" name="fecha_programada" id="fecha_programada">
+            <label for="hora_programada">Hora de publicacion</label>
+            <input type="time" name="hora_programada" id="hora_programada">
+            
+            <input type="submit" class="my-button" value="Programar Publicacion" name="enviar_editor">
+            
+            <input type="submit" class="my-button" value="Publicar ahora" name="publicar_ahora">
+        </form>
+    {% endif %}
     {% endblock %}
 </body>
 </html>

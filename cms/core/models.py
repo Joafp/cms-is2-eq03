@@ -5,6 +5,8 @@ from ckeditor.fields import RichTextField
 from GestionCuentas.models import UsuarioRol
 from django.conf import settings
 from django.urls import reverse
+from django.db.models import Manager, QuerySet
+
 class Categoria(models.Model):
     nombre=models.CharField(max_length=200)
     moderada=models.BooleanField(default=False)
@@ -12,7 +14,12 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre    
     
-
+class ContenidoManager(Manager):
+    # Excluye los contenidos que tengan autores inactivos de cualquier query y los autores que ya no tengan el permiso(si se borro o desasigno el rol)
+    def get_queryset(self):
+        qs = QuerySet(self.model, using=self._db).filter(autor__roles__permisos__codename="Vista_autor")
+        qs = qs.exclude(autor__usuario_activo=False)
+        return qs
 
 class Contenido(models.Model):
     """
@@ -34,14 +41,16 @@ class Contenido(models.Model):
         ('r','Rechazado'),
         ('I','Inactivo'),
     )
+    destacado= models.PositiveIntegerField(default=0)
     veces_visto= models.PositiveIntegerField(default=0)
     veces_compartido = models.PositiveIntegerField(default=0)
     stars = models.PositiveIntegerField(default=0)
     estado = models.CharField(max_length=1, choices=ESTADOS, default='B')
     titulo= RichTextField(blank=True,null=True,config_name='limite_caracteres')
-    autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__nombre':'Autor'},related_name='contenidos_autor',null=True)
-    editor = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Editor'}, related_name='contenidos_editor',null=True)
-    publicador = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__nombre': 'Publicador'}, related_name='contenidos_publicador',null=True)
+    titulo_abreviado=RichTextField(blank=True,null=True,config_name='limite_caracteres')
+    autor= models.ForeignKey(UsuarioRol,on_delete=models.CASCADE,limit_choices_to={'roles__permisos__codename':'Vista_autor'},related_name='contenidos_autor',null=True)
+    editor = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__permisos__codename':'Vista_editor'}, related_name='contenidos_editor',null=True)
+    publicador = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE, limit_choices_to={'roles__permisos__codename':'Vista_publicador'}, related_name='contenidos_publicador',null=True)
     categoria= models.ForeignKey(Categoria,on_delete=models.CASCADE)
     resumen=RichTextField(blank=True,null=True,config_name='limite_caracteres')
     imagen = models.ImageField(upload_to='contenido_imagenes/', blank=True, null=True)
@@ -49,7 +58,7 @@ class Contenido(models.Model):
     razon = RichTextField(blank=True,null=True,config_name='limite_caracteres')
     ultimo_editor=models.CharField(max_length=255,blank=True)
     ultimo_publicador=models.CharField(max_length=255,blank=True)
-    fecha_publicacion = models.DateField(null=True, blank=True)
+    fecha_publicacion = models.DateTimeField(null=True, blank=True)
     promedio_calificaciones = models.DecimalField(max_digits=3, decimal_places=2, default=0)
     def __str__(self):
         return self.titulo+ '|'+ str(self.autor)
@@ -57,6 +66,17 @@ class Contenido(models.Model):
     en caso de querer redireccionar a otr pagina solo cambiamos reverse()"""
     def get_absolute_url(self):
         return reverse('crear_contenido')
+    
+    @property
+    def contenido_programado(self):
+        # Retorna true si el contenido esta programado para publicarse en una fecha posterior
+        return self.fecha_publicacion > datetime.now()
+    
+    @property
+    def moderado(self):
+        # Retorna true si el contenido esta en una categoria moderada
+        return self.categoria.moderada
+
     
 
 
@@ -70,7 +90,7 @@ class Calificacion(models.Model):
 
 class HistorialContenido(models.Model):
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
-    cambio = models.CharField(max_length=255)
+    cambio = models.CharField()
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -120,3 +140,22 @@ class Likes(models.Model):
 
     def user_dislikes_count(self):
         return self.user_dislikes.all().count()
+    
+class Favorito(models.Model):
+    """
+    Guarda que usuarios indicaron como favorito una categoria
+    """
+    categoria= models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='categoria')
+    user_sub = models.ManyToManyField(UsuarioRol, related_name='user_sub')
+
+    def str(self):
+        return f'Numero de sub:en {self.categoria.nombre}: {self.user_subs_count}'
+    
+    def user_subs_count(self):
+        return self.user_sub.all().count()
+
+class Reporte(models.Model):
+    contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(UsuarioRol, on_delete=models.CASCADE)
+    texto = models.TextField(verbose_name="Razon de reporte")
+    fecha_creacion = models.DateTimeField(auto_now_add=True)

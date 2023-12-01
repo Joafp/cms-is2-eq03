@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar usuarios</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #FFFFFF;
+        }
+
+        .volver-button {
+            float: right;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: 1rem;
+        }
+
+        li {
+            padding: 0 1rem;
+            list-style-type: none;
+            border-bottom: 1px solid #333;
+        }
+
+        ul {
+            padding: 0;
+            border: 1px solid #333;
+        }
+
+        .label {
+            font-weight: 600;
+            text-decoration: solid underline;
+        }
+
+        .button{
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .pagination{
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="{% url 'vista_autor' %}" class="volver-button">Volver</a>
+    </header>
+
+
+
+    <div class="content">
+        <h1>Reportes recibidos</h1>
+        <div class="wrapper-busqueda">
+            <form>
+                <label for="filtro_id">Filtrar por id de contenido</label>
+                <input type="number" min=1 name="filtro_id" value="{{ filtro_id }}">
+                <button type="submit">Filtrar</button>
+            </form>
+        </div>
+        <ul class="wrapper">
+            {% for reporte in object_list %}
+            <li class="list-row">
+                <p><span class="label">Contenido:</span> {{reporte.contenido.pk}} </p>
+                <p><span class="label">Titulo Contenido:</span> {{reporte.contenido.titulo | safe}} </p>
+                <p><span class="label">Usuario:</span> {{ reporte.usuario }}</p>
+                <p><span class="label">Fecha:</span> {{ reporte.fecha_creacion }}</p>
+                <p><span class="label">Razon:</span> {{ reporte.texto }}</p>
+            </li>
+            {% empty %}
+            <li class="list-row">No hay reportes que mostrar</li>
+            {% endfor %}
+        </ul>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a class="button prev" href="?page=1"><button class="button">&laquo;</button></a>
+                <a class="button prev" href="?page={{ page_obj.previous_page_number }}"><button
+                        class="button">&lt</button></a>
+                {% endif %}
+
+                <span class="current">
+                    Pagina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                <a class="button" href="?page={{ page_obj.next_page_number }}&filtro_id={{filtro_id}}"> <button
+                        class="button">&gt</button></a>
+                <a class="button" href="?page={{ page_obj.paginator.num_pages}}&filtro_id={{filtro_id}}"><button
+                        class="button">&raquo;</button></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+</body>
+
+</html>

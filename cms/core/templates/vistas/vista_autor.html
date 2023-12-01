@@ -172,31 +172,32 @@
     <!-- Barra de herramientas -->
     <div id="barra-de-herramientas">
         <ul class="nav">
-           <li>
-                <a href="{% url 'ContenidosBorrador' %}">
-                    Mis Contenidos en borrador
-                </a>
-            </li> 
             <li>
                 <a href="{% url 'ContenidosRechazados' %}">
                     Mis Contenidos Rechazados
                 </a>
             </li>
             <li>
-                <a href="{% url 'ContenidosPublicados' %}">
-                    Mis Contenidos Publicados
+                <a href="{% url 'estadistica_autor' %}">
+                    Mis Contenidos Publicados/Estadisticas
                 </a>
             </li>
             <li>
                 <a href="{% url 'crear_contenido' %}">
                     Crear Contenido
                 </a>
-            </li> 
+            </li>
+            <li>
+                <a href="{% url 'contenidos_reportados' %}">
+                    Reportes
+                </a>
+            </li>  
             <li>
                 <a href="{% url 'maintrabajador' %}">
                     Volver Menu Desarrollador
                 </a>
             </li> 
+            
                     
         </ul>
     </div>
@@ -344,6 +345,7 @@
                 {% if  contenido.autor.username == request.user.username %}
                     <div class="kanban-card">
                         <h3>{{ contenido.titulo| safe  }}</h3>
+                        <p>Codigo: {{contenido.pk}}</p>
                         <p>Autor: {{ contenido.autor }}</p>
                         {% if contenido.editor %}
                             <p>Editor: {{ contenido.editor }}</p>
@@ -392,6 +394,7 @@
                         {% if contenido.publicador %}
                             <p>Publicador: {{ contenido.publicador }}</p>
                         {% endif %}
+                        <a href="{% url 'pasar_a_borrador_contenido' contenido_id=contenido.id %}" class="my-button editar">Pasar a Borrador</a>
                     </div>
                 {% endif%}
             {% endfor %}

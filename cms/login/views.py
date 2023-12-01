@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login,logout
 from django.shortcuts import render,redirect
@@ -141,6 +142,9 @@ def buscar_contenido(request):
 
     # Inicializar el queryset con todos los contenidos
     contenidos = Contenido.objects.all()
+
+    #ocultar no publicados
+    contenidos = contenidos.filter(estado='P', fecha_publicacion__lte=timezone.datetime.now())
 
     # Si hay un término de búsqueda, filtrar por el campo correspondiente
     if q:

@@ -92,6 +92,41 @@
         .list-row>button {
             border: 0;
         }
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            color: #fff;
+            font-size: 18px;
+            /* Otros estilos de interacción al pasar el cursor por encima */
+        }
+        .volver-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            margin-left: 10px; /* Agrega espacio entre los botones */
+        }
+        .volver-btn:hover{
+            background-color: #0056b3;
+            color: #fff;
+            font-size: 18px;
+        }
+
+
     </style>
 </head>
 
@@ -99,10 +134,12 @@
     <div class="header">
         <div class="buttons">
             <div class="cabecera">
-                <button class="button rightmost"><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></button>
+                <button class="button"><a href="{% url 'CerrarSesion' %}">Cerrar Sesión</a></button>
+                <button  class="volver-btn"><a href="javascript:history.back();">Volver</a></button>
             </div>
         </div>
     </div>
+    
 
     <div class="content">
         <h1>Usuarios registrados</h1>

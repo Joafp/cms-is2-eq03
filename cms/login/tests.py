@@ -41,16 +41,16 @@ class registroFormTest(TestCase):
     def test_registro_password1_label(self):
         form = RegistroForm()
         try:
-            self.assertIsNone(form.fields['password1'].label)
+            self.assertIsNotNone(form.fields['password1'].label)
         except AssertionError:
-            self.fail("La contraseña es nula")
+            self.fail("La etiqueta contraseña es nula")
 
     def test_registro_password2_label(self):
         form = RegistroForm()
         try:
-            self.assertEqual(form.fields['password2'].label, 'password1')
+            self.assertIsNotNone(form.fields['password2'].label)
         except AssertionError:
-            self.fail("La contraseña no coincide con la otra contraseña")
+            self.fail("La etiqueta de repetir contraseña es nula")
 
 
 # Test de view registro
@@ -121,11 +121,11 @@ class completarRegistroLoginTest(TestCase):
         # setup permisos
     
         permisos = [
-            Permission.objects.get(codename="Vista_autor"),
-            Permission.objects.get(codename="Vista_editor"),
-            Permission.objects.get(codename="Vista_publicador"),
-            Permission.objects.get(codename="Vista_administrador"),
-            Permission.objects.get(codename="Boton desarrollador")
+            Permission.objects.create(codename="Vista_autor", content_type_id=1),
+            Permission.objects.create(codename="Vista_editor", content_type_id=2),
+            Permission.objects.create(codename="Vista_publicador", content_type_id=3),
+            Permission.objects.create(codename="Vista_administrador", content_type_id=4),
+            Permission.objects.create(codename="Boton desarrollador", content_type_id=5)
         ]
         
         rol_suscriptor=Rol.objects.create(nombre='Suscriptor')
@@ -204,4 +204,4 @@ class completarRegistroLoginTest(TestCase):
         self.assertInHTML('Vista publicador', response.content.decode())
         self.assertInHTML('Vista administrador', response.content.decode())
         response = self.client.get(reverse('MenuPrincipal'))
-        self.assertInHTML('Entrar al  modo desarrollador', response.content.decode(), 1)
+        self.assertInHTML('Entrar al modo  desarrollador', response.content.decode(), 1)

@@ -3,22 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionar Rol</title>
+    <title>Reportar contenido</title>
     <style>
         body {
             background-color: #121212;
             color: white;
-        }
-
-        form p input, select{
-            all: unset;
-            background-color: #333;
-            color: #FFFFFF;
-            border-radius: 0.25em;
-            border: 1px solid gray;
-            padding: 0 1em;
-            width: 100%;
-            min-height: 1.5em;
         }
 
         .volver-button {
@@ -38,7 +27,7 @@
             margin: 0 auto;
         }
 
-        input.button {
+        input {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -51,7 +40,7 @@
             align-self: center;
         }
 
-        input.button:hover{
+        input:hover{
             background-color: #005ec2;
             
         }
@@ -79,33 +68,10 @@
             font-weight: 600;
         }
 
-        textarea, select, input{
+        textarea{
             width: 100%;
         }
 
-        select{
-            max-height: fit-content;
-            height: 20rem;
-            overflow-y: auto;
-        }
-
-        span.nombre_rol{
-            display: flex;
-            font-weight: 600;
-            border: 0.15em none #333;
-            border-radius: 0.15em;
-            padding: 0.5em;
-            background-color: #333;
-            flex-grow: 1;
-            margin-left: 0.5em;
-        }
-
-        p.container{
-            display: flex;
-            align-items: center;
-        }
-
-        
 
     </style>
 </head>
@@ -117,18 +83,17 @@
     </header>
 
     <main>
-        <h1>{{titulo}}</h1>
-        {% if mensaje_eliminacion %}
-            <p class="container">Esta seguro que desea desactivar el rol: <span class="nombre_rol">{{object.nombre}}</span></p>
-        {% endif %}
+        <h1>Reportar contenido</h1>
+        <p><span class="label">Titulo del contenido: </span><span class="flabel">{{ titulo|safe }}</span></p>
+        <p><span class="label">Autor del contenido: </span> <span class="flabelx">{{autor}}</span></p>
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <input class="button" type="submit" value="{{submitbutton}}" name="crear_rol" id="crear_rol">
+            <input type="submit" value="Enviar Reporte" name="enviar_reporte" id="enviar_reporte">
         </form>
     </main>
 
     {% endblock %}
 </body>
 
-</html>z
+</html>
